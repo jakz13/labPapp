@@ -10,6 +10,11 @@ public abstract class Usuario {
         this.nombre = nombre;
         this.email = email;
     }
+    public Usuario() {
+        this.nickname = "";
+        this.nombre = "";
+        this.email = "";
+    }
     public String getNickname() { return nickname; }
     public String getNombre() { return nombre; }
     public String getEmail() { return email; }
