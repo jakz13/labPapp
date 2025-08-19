@@ -3,7 +3,7 @@ public class Paquete {
     private String descripcion;
     private double costo;
 
-    public Paquete(String nombre, String descripcion, double costo) {
+    public Paquete(String nombre, String descripcion, double costo, double descuento) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costo = costo;
