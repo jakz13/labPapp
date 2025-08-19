@@ -14,6 +14,16 @@ public class Ciudad {
         this.sitioWeb = sitioWeb;
         this.fechaAlta = fechaAlta;
     }
+
+    public Ciudad(String nombre, String pais) {
+        this.nombre = nombre;
+        this.pais = pais;
+        this.aeropuerto = "";
+        this.descripcion = "";
+        this.sitioWeb = "";
+        this.fechaAlta = "";
+    }
+
     public String getNombre() { return nombre; }
     public String getPais() { return pais; }
     public String getAeropuerto() { return aeropuerto; }

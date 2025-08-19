@@ -21,4 +21,36 @@ public class Cliente extends Usuario {
         this.reservas = new ArrayList<>();
         this.paquetesComprados = new ArrayList<>();
     }
+
+    public Cliente(String nickname, String nombre, String apellido, String correo) {
+        super();
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public String getNacionalidad() {
+        return nacionalidad;
+    }
+
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
+
+    public String getNumeroDocumento() {
+        return numeroDocumento;
+    }
+
+    public List<Object> getReservas() {
+        return reservas;
+    }
+
+    public List<Object> getPaquetesComprados() {
+        return paquetesComprados;
+    }
 }

@@ -2,7 +2,7 @@ public class Aerolinea extends Usuario {
     private String descripcion;
     private String sitioWeb;
 
-    public Aerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb) {
+    public Aerolinea(String nickname, String nombre, String email, String descripcion) {
         super(nickname, nombre, email);
         this.descripcion = descripcion;
         this.sitioWeb = sitioWeb;

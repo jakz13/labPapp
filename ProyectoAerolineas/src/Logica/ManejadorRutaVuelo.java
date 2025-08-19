@@ -16,4 +16,8 @@ public class ManejadorRutaVuelo {
         public int getCantidad() { return cantidad; }
         public String getTipoAsiento() { return tipoAsiento; }
     }
+
+    public void agregarRuta(RutaVuelo r) {
+
+    }
 }
