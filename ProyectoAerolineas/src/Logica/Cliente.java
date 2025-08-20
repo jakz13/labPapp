@@ -8,8 +8,8 @@ public class Cliente extends Usuario {
     private String nacionalidad;
     private String tipoDocumento;
     private String numeroDocumento;
-    private List<Object> reservas;
-    private List<Object> paquetesComprados;
+    private List<Reserva> reservas;
+    private List<Paquete> paquetesComprados;
 
     public Cliente(String nickname, String nombre, String email, String apellido, LocalDate fechaNac, String nacionalidad, String tipoDoc, String numDoc) {
         super(nickname, nombre, email);
@@ -23,7 +23,14 @@ public class Cliente extends Usuario {
     }
 
     public Cliente(String nickname, String nombre, String apellido, String correo) {
-        super();
+        super(nickname, nombre, correo);
+        this.apellido = apellido;
+        this.fechaNacimiento = LocalDate.now(); // Default to today if not provided
+        this.nacionalidad = "Desconocida"; // Default value
+        this.tipoDocumento = "Desconocido"; // Default value
+        this.numeroDocumento = "00000000"; // Default value
+        this.reservas = new ArrayList<>();
+        this.paquetesComprados = new ArrayList<>();
     }
 
     public String getApellido() {
@@ -46,7 +53,7 @@ public class Cliente extends Usuario {
         return numeroDocumento;
     }
 
-    public List<Object> getReservas() {
+    public List<Reserva> getReservas() {
         return reservas;
     }
 

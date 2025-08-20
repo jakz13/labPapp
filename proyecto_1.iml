@@ -8,5 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jcalendar-0.8.2" level="project" />
+    <orderEntry type="library" name="jcalendar-0.8.1" level="application" />
   </component>
 </module>

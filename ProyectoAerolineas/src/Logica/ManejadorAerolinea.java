@@ -1,14 +1,31 @@
 // Manejador de aerolíneas
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ManejadorAerolinea {
 
     private Map<String, Aerolinea> aerolineas;
-    public ManejadorAerolinea() {
-        aerolineas = new java.util.HashMap<>();
+    public static ManejadorAerolinea instancia = null;
+
+    private ManejadorAerolinea() {
+        aerolineas = new HashMap<String, Aerolinea>();
     }
+
+    public static ManejadorAerolinea getInstance() {
+        if (instancia == null) {
+            instancia = new ManejadorAerolinea();
+        }
+        return instancia;
+    }
+
+
+    public Aerolinea obtenerAerolinea(String nickname) {
+        return ((Aerolinea) aerolineas.get(nickname));
+    }
+
+
 
     public void agregarAerolinea(Aerolinea aerolinea) {
         aerolineas.put(aerolinea.getNickname(), aerolinea);

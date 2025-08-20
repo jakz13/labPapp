@@ -1,5 +1,6 @@
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,11 +8,14 @@ public class inter {
 
     public static void main(String[] args) {
 
-        ISistema sistema = Fabrica.getInstance().getISistema();
+        Fabrica fabrica = Fabrica.getInstance();
+        ISistema sistema = fabrica.getISistema();
         Scanner sc = new Scanner(System.in);
 
         int opcion = 0;
         do {
+
+        try {
             System.out.println("===== MENÚ PRINCIPAL =====");
             System.out.println("1. Alta Cliente");
             System.out.println("2. Alta Aerolinea");
@@ -53,7 +57,7 @@ public class inter {
                     }
                 }
                 case 4 -> {
-                    List<Aerolinea> aerolineas = sistema.listarAerolineas();
+                   List<Aerolinea> aerolineas = sistema.listarAerolineas();
                     System.out.println("=== Aerolíneas ===");
                     for (Aerolinea a : aerolineas) {
                         System.out.println(a.getNickname() + " - " + a.getNombre());
@@ -61,8 +65,14 @@ public class inter {
                 }
             }
 
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            continue;
+        }
         } while (opcion != 0);
+
 
         System.out.println("¡Hasta luego!");
     }
 }
+

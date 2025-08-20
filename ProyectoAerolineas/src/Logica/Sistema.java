@@ -13,25 +13,23 @@ public class Sistema implements ISistema {
     private ManejadorPaquete manejadorPaquete;
 
     public Sistema() {
-        this.manejadorCliente = new ManejadorCliente();
-        this.manejadorAerolinea = new ManejadorAerolinea();
+        this.manejadorCliente = ManejadorCliente.getInstance();
+        this.manejadorPaquete = ManejadorPaquete.getInstance();
+        this.manejadorAerolinea = ManejadorAerolinea.getInstance();
+
+
         this.manejadorCiudad = new ManejadorCiudad();
         this.manejadorRutaVuelo = new ManejadorRutaVuelo();
         this.manejadorVuelo = new ManejadorVuelo();
-        this.manejadorPaquete = new ManejadorPaquete();
     }
 
     // --- USUARIOS ---
     @Override
     public void altaCliente(String nickname, String nombre, String apellido, String correo) {
-        Cliente c = new Cliente(nickname, nombre, apellido, correo);
-        manejadorCliente.agregarCliente(c);
-    }
-
-    @Override
-    public void altaAerolinea(String nickname, String nombre, String descripcion, String correo) {
-        Aerolinea a = new Aerolinea(nickname, nombre, descripcion, correo);
-        manejadorAerolinea.agregarAerolinea(a);
+        if (manejadorAerolinea.obtenerAerolinea(nickname)==null && manejadorCliente.obtenerCliente(nickname)==null) {
+            Cliente c = new Cliente(nickname, nombre, apellido, correo);
+            manejadorCliente.agregarCliente(c);
+        }
     }
 
     @Override
@@ -39,10 +37,40 @@ public class Sistema implements ISistema {
         return manejadorCliente.getClientes();
     }
 
+
+    @Override
+    public Cliente verInfoCliente(String nickname) {
+        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+        if (cliente != null) {
+            return cliente;
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+    }
+
+
+    @Override
+    public void altaAerolinea(String nickname, String nombre, String descripcion, String correo) {
+        if (manejadorAerolinea.obtenerAerolinea(nickname)==null && manejadorCliente.obtenerCliente(nickname)==null) {
+            Aerolinea a = new Aerolinea(nickname, nombre, descripcion, correo);
+            manejadorAerolinea.agregarAerolinea(a);
+        }
+    }
+    @Override
+    public Aerolinea verInfoAerolinea(String nickname) {
+        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);
+        if (aerolinea != null) {
+            return aerolinea;
+        } else {
+            throw new IllegalArgumentException("Aerolínea no encontrada");
+        }
+    }
+
     @Override
     public List<Aerolinea> listarAerolineas() {
         return manejadorAerolinea.getAerolineas();
     }
+
 
     // --- CIUDADES ---
     @Override
@@ -66,8 +94,8 @@ public class Sistema implements ISistema {
 
     // --- PAQUETES ---
     @Override
-    public void crearPaquete(String nombre, String descripcion, int validezDias, double descuento) {
-        Paquete p = new Paquete(nombre, descripcion, validezDias, descuento);
+    public void altaPaquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc, int periodoValidezDias) {
+        Paquete p = new Paquete(nombre, descripcion, costo, fechaAlta, descuentoPorc, periodoValidezDias);
         manejadorPaquete.agregarPaquete(p);
     }
 }

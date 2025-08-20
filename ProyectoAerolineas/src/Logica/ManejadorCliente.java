@@ -2,19 +2,36 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 // Manejador de clientes
 public class ManejadorCliente {
     // Métodos de manejo
 
     private Map<String, Cliente> clientes;
+    public static ManejadorCliente instancia=null;
 
-    public ManejadorCliente() {
-        this.clientes = new java.util.HashMap<>();
+    private ManejadorCliente() {
+        clientes = new HashMap<String, Cliente>();
     }
 
+    public static ManejadorCliente getInstance() {
+        if (instancia == null) {
+            instancia = new ManejadorCliente();
+        }
+        return instancia;
+    }
     public void agregarCliente(Cliente c) {
-        clientes.put(c.getNickname(), c);
+        String nickname = c.getNickname();
+        if (this.obtenerCliente(nickname) == null) {
+            clientes.put(nickname, c);
+        }else {
+            throw new IllegalArgumentException("El cliente con el nickname " + nickname + " ya existe.");
+        }
+    }
+
+    public Cliente obtenerCliente(String nickname) {
+        return ((Cliente) clientes.get(nickname));
     }
 
     public List<Cliente> getClientes() {
