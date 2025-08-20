@@ -28,4 +28,20 @@ public class Paquete {
     public int getDescuentoPorc() { return descuentoPorc; }
     public int getPeriodoValidezDias() { return periodoValidezDias; }
     public List<ItemPaquete> getItemPaquetes() { return ItemPaquetes; }
+
+    public String getDescuento() {
+        if (descuentoPorc > 0) {
+            return "Descuento: " + descuentoPorc + "%";
+        } else {
+            return "Sin descuento";
+        }
+    }
+
+    public String getPeriodoValidez() {
+        if (periodoValidezDias > 0) {
+            return "Periodo de validez: " + periodoValidezDias + " días";
+        } else {
+            return "Sin periodo de validez";
+        }
+    }
 }

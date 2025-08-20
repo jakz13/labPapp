@@ -1,24 +1,30 @@
+// ProyectoAerolineas/src/Logica/Vuelo.java
 import java.time.LocalDate;
 
 public class Vuelo {
     private String nombre;
+    private String nombreRuta;
     private LocalDate fecha;
     private int duracion;
+    private int asientosTurista;
+    private int asientosEjecutivo;
+    private LocalDate fechaAlta;
 
-    public Vuelo(String nombre, LocalDate fecha, int duracion) {
+    public Vuelo(String nombre, String nombreRuta, String fecha, int duracion, int asientosTurista, int asientosEjecutivo) {
         this.nombre = nombre;
-        this.fecha = fecha;
+        this.nombreRuta = nombreRuta;
+        this.fecha = LocalDate.parse(fecha);//"2025-08-20"
         this.duracion = duracion;
-    }
-
-    public Vuelo(String nombreVuelo, String nombreRuta, String fecha, int asientosTurista, int asientosEjecutivo) {
-
-        this.nombre = nombreVuelo;
-        this.fecha = LocalDate.parse(fecha);
-
+        this.asientosTurista = asientosTurista;
+        this.asientosEjecutivo = asientosEjecutivo;
+        this.fechaAlta = LocalDate.now();
     }
 
     public String getNombre() { return nombre; }
+    public String getNombreRuta() { return nombreRuta; }
     public LocalDate getFecha() { return fecha; }
     public int getDuracion() { return duracion; }
+    public int getAsientosTurista() { return asientosTurista; }
+    public int getAsientosEjecutivo() { return asientosEjecutivo; }
+    public LocalDate getFechaAlta() { return fechaAlta; }
 }

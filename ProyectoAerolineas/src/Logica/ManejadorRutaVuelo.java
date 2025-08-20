@@ -1,18 +1,30 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ManejadorRutaVuelo {
     private Map<String, RutaVuelo> rutasVuelo;
+    public static ManejadorRutaVuelo instancia = null;
+
+    public static ManejadorRutaVuelo getInstance() {
+        if (instancia == null) {
+            instancia = new ManejadorRutaVuelo();
+        }
+        return instancia;
+    }
 
     public ManejadorRutaVuelo() {
         rutasVuelo = new HashMap<>();
     }
 
+
+
     public void agregarRutaVuelo(RutaVuelo ruta) {
         rutasVuelo.put(ruta.getNombre(), ruta);
     }
 
-    public RutaVuelo getRutaVuelo(String nombre) {
+    public RutaVuelo getRuta(String nombre) {
         return rutasVuelo.get(nombre);
     }
 
@@ -37,7 +49,13 @@ public class ManejadorRutaVuelo {
         return null;
     }
 
-    public void agregarRuta(RutaVuelo r) {
-
+    public List<RutaVuelo> getRutasPorAerolinea(String nombreAerolinea) {
+        List<RutaVuelo> rutas = new ArrayList<>();
+        for (RutaVuelo ruta : rutasVuelo.values()) {
+            if (ruta.getAerolinea().equals(nombreAerolinea)) {
+                rutas.add(ruta);
+            }
+        }
+        return rutas;
     }
 }

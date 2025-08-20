@@ -1,7 +1,8 @@
 
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Sistema implements ISistema {
 
@@ -16,11 +17,26 @@ public class Sistema implements ISistema {
         this.manejadorCliente = ManejadorCliente.getInstance();
         this.manejadorPaquete = ManejadorPaquete.getInstance();
         this.manejadorAerolinea = ManejadorAerolinea.getInstance();
+        this.manejadorRutaVuelo = ManejadorRutaVuelo.getInstance();
+        this.manejadorVuelo = ManejadorVuelo.getInstance();
+        this.manejadorCiudad = ManejadorCiudad.getInstance();
+    }
 
+    public void cargarDatosEjemplo() {
+        // Alta de aerolínea
+        String nickAerolinea = "flyuy";
+        String nombreAerolinea = "Fly Uruguay";
+        String descripcionAerolinea = "Aerolínea uruguaya de calidad";
+        String correoAerolinea = "info@flyuy.com";
+        altaAerolinea(nickAerolinea, nombreAerolinea, descripcionAerolinea, correoAerolinea);
 
-        this.manejadorCiudad = new ManejadorCiudad();
-        this.manejadorRutaVuelo = new ManejadorRutaVuelo();
-        this.manejadorVuelo = new ManejadorVuelo();
+        // Alta de ruta de vuelo asociada
+        String nombreRuta = "UY-MVD-BUE";
+        String ciudadOrigen = "Montevideo";
+        String ciudadDestino = "Buenos Aires";
+        double costoTurista = 120.0;
+        double costoEjecutivo = 250.0;
+        altaRutaVuelo(nombreRuta, nickAerolinea, ciudadOrigen, ciudadDestino, costoTurista, costoEjecutivo);
     }
 
     // --- USUARIOS ---
@@ -29,9 +45,10 @@ public class Sistema implements ISistema {
         if (manejadorAerolinea.obtenerAerolinea(nickname)==null && manejadorCliente.obtenerCliente(nickname)==null) {
             Cliente c = new Cliente(nickname, nombre, apellido, correo);
             manejadorCliente.agregarCliente(c);
+        }else  {
+            throw new IllegalArgumentException("Ya existe con ese nickname");
         }
     }
-
     @Override
     public List<Cliente> listarClientes() {
         return manejadorCliente.getClientes();
@@ -54,6 +71,8 @@ public class Sistema implements ISistema {
         if (manejadorAerolinea.obtenerAerolinea(nickname)==null && manejadorCliente.obtenerCliente(nickname)==null) {
             Aerolinea a = new Aerolinea(nickname, nombre, descripcion, correo);
             manejadorAerolinea.agregarAerolinea(a);
+        }else  {
+            throw new IllegalArgumentException("Ya existe con ese nickname");
         }
     }
     @Override
@@ -64,6 +83,15 @@ public class Sistema implements ISistema {
         } else {
             throw new IllegalArgumentException("Aerolínea no encontrada");
         }
+    }
+
+    @Override
+    public Aerolinea obtenerAerolinea(String nickname) {
+        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);
+        if (aerolinea == null) {
+            throw new IllegalArgumentException("Aerolínea no encontrada");
+        }
+        return aerolinea;
     }
 
     @Override
@@ -79,17 +107,68 @@ public class Sistema implements ISistema {
         manejadorCiudad.agregarCiudad(c);
     }
 
-    // --- RUTAS DE VUELO ---
     @Override
     public void altaRutaVuelo(String nombre, String aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo) {
-        RutaVuelo r = new RutaVuelo(nombre, aerolinea, origen, destino, costoTurista, costoEjecutivo);
-        manejadorRutaVuelo.agregarRuta(r);
+        Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea);
+        if (aero != null) {
+            RutaVuelo r = new RutaVuelo(nombre, aero, origen, destino, costoTurista, costoEjecutivo);
+            manejadorRutaVuelo.agregarRutaVuelo(r);
+            manejadorAerolinea.agregarRutaVueloAAerolinea(aerolinea, r);
+        } else {
+            throw new IllegalArgumentException("No existe Aerolinea con ese nickname");
+        }
+    }
+
+    public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
+        return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);
+    }
+
+    // --- VUELO ---
+    // ProyectoAerolineas/src/Logica/Sistema.java
+
+    public String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion, int asientosTurista, int asientosEjecutivo) {
+        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nombreAerolinea);
+        if (aerolinea == null) {
+            return "La aerolínea no existe.";
+        }
+        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
+        if (ruta == null || !ruta.getAerolinea().equals(nombreAerolinea)) {
+            return "La ruta no existe para la aerolínea seleccionada.";
+        }
+        if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
+            return "Ya existe un vuelo con ese nombre.";
+        }
+        Vuelo vuelo = new Vuelo(nombreVuelo, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
+        manejadorVuelo.agregarVuelo(vuelo);
+        manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
+        return "Vuelo dado de alta correctamente.";
     }
 
     @Override
-    public void altaVuelo(String nombreRuta, String nombreVuelo, String fecha, int asientosTurista, int asientosEjecutivo) {
-        Vuelo v = new Vuelo(nombreVuelo, nombreRuta, fecha, asientosTurista, asientosEjecutivo);
-        manejadorVuelo.agregarVuelo(v);
+    public boolean altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista, int asientosEjecutivo) {
+        if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
+            return false;
+        }
+        Vuelo vuelo = new Vuelo(nombreVuelo, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
+        manejadorVuelo.agregarVuelo(vuelo);
+        manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
+        return true;
+    }
+
+    public List<Vuelo> listarVuelosPorRuta(String nombreRuta) {
+        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
+        if (ruta == null) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(ruta.getVuelos().values());
+    }
+
+    public Vuelo verInfoVuelo(String nombreVuelo) {
+        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+        if (vuelo == null) {
+            throw new IllegalArgumentException("Vuelo no encontrado");
+        }
+        return vuelo; // Asumiendo que Vuelo tiene métodos para obtener reservas y datos
     }
 
     // --- PAQUETES ---
@@ -98,4 +177,10 @@ public class Sistema implements ISistema {
         Paquete p = new Paquete(nombre, descripcion, costo, fechaAlta, descuentoPorc, periodoValidezDias);
         manejadorPaquete.agregarPaquete(p);
     }
+
+    @Override
+    public List<Paquete> listarPaquetes() {
+        return manejadorPaquete.getPaquetes();
+    }
+
 }

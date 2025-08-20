@@ -50,8 +50,8 @@ public class ManejadorAerolinea {
         return aerolineas.size();
     }
 
-    public void agregarRutaVueloAAerolinea(String nombreAerolinea, RutaVuelo ruta) {
-        Aerolinea aerolinea = buscarAerolinea(nombreAerolinea);
+    public void agregarRutaVueloAAerolinea(String nicknameAerolinea, RutaVuelo ruta) {
+        Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);
         if (aerolinea != null) {
             aerolinea.agregarRutaVuelo(ruta);
         } else {
@@ -59,13 +59,14 @@ public class ManejadorAerolinea {
         }
     }
 
-    public RutaVuelo obtenerRutaVueloDeAerolinea(String nombreAerolinea, String nombreRuta) {
-        Aerolinea aerolinea = buscarAerolinea(nombreAerolinea);
+    public List<RutaVuelo> obtenerRutaVueloDeAerolinea(String nicknameAerolinea) {
+        Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);
         if (aerolinea != null) {
-            return aerolinea.getRutaVuelo(nombreRuta);
+            return new ArrayList<>(aerolinea.getRutasVuelo());
         }
-        return null;
+        return new ArrayList<>();
     }
+
 
     public List<Aerolinea> getAerolineas() {
         return new ArrayList<>(aerolineas.values());

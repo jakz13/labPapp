@@ -1,6 +1,7 @@
 
 
 public class ItemPaquete {
+    private final int cantidad;
     private RutaVuelo rutaVuelo;
     private int cantAsientos;
     private String tipoAsiento;

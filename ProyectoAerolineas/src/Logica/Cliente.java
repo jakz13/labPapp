@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Cliente extends Usuario {
@@ -58,6 +59,6 @@ public class Cliente extends Usuario {
     }
 
     public List<Object> getPaquetesComprados() {
-        return paquetesComprados;
+        return Collections.singletonList(paquetesComprados);
     }
 }

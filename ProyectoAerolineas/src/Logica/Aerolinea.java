@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Aerolinea extends Usuario {
@@ -20,11 +22,8 @@ public class Aerolinea extends Usuario {
         rutasVuelo.put(ruta.getNombre(), ruta);
     }
 
-    public RutaVuelo getRutaVuelo(String nombre) {
-        return rutasVuelo.get(nombre);
-    }
 
-    public Map<String, RutaVuelo> getRutasVuelo() {
-        return rutasVuelo;
+    public List<RutaVuelo> getRutasVuelo() {
+        return new ArrayList<>(rutasVuelo.values());
     }
 }
