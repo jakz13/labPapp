@@ -1,13 +1,15 @@
 
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Scanner;
+import Logica.Fabrica;
+import Logica.ISistema;
 import gui.IntentoDiseño;
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
+        Fabrica fabrica = Fabrica.getInstance();
+        ISistema sistema = fabrica.getISistema();
+
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Ventana Principal");
             IntentoDiseño ventanaPrincipal = new IntentoDiseño(frame);
@@ -16,6 +18,7 @@ public class Main {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+
         });
     }
 }

@@ -1,3 +1,5 @@
+package Logica;
+
 public class Ciudad {
     private String nombre;
     private String pais;

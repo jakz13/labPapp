@@ -1,3 +1,5 @@
+package Logica;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +36,7 @@ public class ManejadorPaquete {
         return ((Paquete) paquetes.get(nombre));
     }
 
-
+/*
     public void comprarPaquete(CompraPaquete compra) {
         // Lógica para procesar la compra de un paquete
     }
@@ -42,7 +44,7 @@ public class ManejadorPaquete {
     public void comprarVuelo(CompraVuelo compra) {
         // Lógica para procesar la compra de un vuelo
     }
-
+*/
     public void agregarPaquete(Paquete p) {
 
     }

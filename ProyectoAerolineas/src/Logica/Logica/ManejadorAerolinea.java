@@ -1,4 +1,4 @@
-// Manejador de aerolíneas
+package Logica;// Manejador de aerolíneas
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
