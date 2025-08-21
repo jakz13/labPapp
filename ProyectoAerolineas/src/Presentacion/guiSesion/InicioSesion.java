@@ -1,6 +1,7 @@
 // InicioSesion.java
 package guiSesion;
 
+
 import Logica.Fabrica;
 import Logica.ISistema;
 
@@ -11,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
 
 public class InicioSesion {
     private JPanel PanelDeSesion;
@@ -32,6 +34,7 @@ public class InicioSesion {
 
     public InicioSesion() {
         // Agrupa los JRadioButton para que solo uno pueda estar seleccionado
+        ISistema sistema = Fabrica.getInstance().getISistema();
         ButtonGroup grupoDocumento = new ButtonGroup();
         grupoDocumento.add(PasaporteRadioButton);
         grupoDocumento.add(CiRadioButton);
@@ -50,6 +53,7 @@ public class InicioSesion {
                 String nombreCliente = NombreCliente.getText();
                 String email = EmailUsuario.getText();
                 String documento = Documento.getText();
+
 
                 if (CiRadioButton.isSelected()) {
                     // Validar formato de CI (ejemplo: solo números, 7 u 8 dígitos)
