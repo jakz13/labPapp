@@ -15,7 +15,7 @@ public class RutaVuelo {
     private double costoEquipajeExtra;
     private String[] categorias;
     private Map<String, Vuelo> vuelos;
-    public RutaVuelo(String nombre, Aerolinea aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo) { ... }
+   // public RutaVuelo(String nombre, Aerolinea aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo) { ... }
     public RutaVuelo(String nombre, String descripcion, Aerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias) {
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -29,6 +29,9 @@ public class RutaVuelo {
         this.costoEquipajeExtra = costoEquipajeExtra;
         this.categorias = categorias;
         this.vuelos = new HashMap<>();
+    }
+
+    public RutaVuelo(String nombre, Aerolinea aero, String origen, String destino, double costoTurista, double costoEjecutivo) {
     }
 
 
