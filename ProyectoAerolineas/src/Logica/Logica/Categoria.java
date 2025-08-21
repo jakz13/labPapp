@@ -1,3 +1,5 @@
+package Logica;
+
 public class Categoria {
     private String nombre;
 

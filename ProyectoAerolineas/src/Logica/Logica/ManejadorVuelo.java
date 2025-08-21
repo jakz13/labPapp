@@ -1,4 +1,4 @@
-// ManejadorVuelo.java
+package Logica;// Logica.ManejadorVuelo.java
 import java.util.HashMap;
 import java.util.Map;
 

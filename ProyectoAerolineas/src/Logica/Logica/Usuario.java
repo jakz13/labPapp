@@ -1,4 +1,4 @@
-
+package Logica;
 
 public abstract class Usuario {
     private String nickname;

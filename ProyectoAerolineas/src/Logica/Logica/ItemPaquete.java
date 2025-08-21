@@ -1,4 +1,4 @@
-
+package Logica;
 
 public class ItemPaquete {
     private final int cantidad;

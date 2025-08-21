@@ -1,5 +1,6 @@
 package gui;
-
+import Logica.Fabrica;
+import guiSesion.DesplegarUsuarios;
 import guiSesion.InicioSesion;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class IntentoDiseño {
     public JLabel label1;
     public JPanel PanelInferiorizq;
     public JButton INICIASESIONAQUIButton;
+    private JButton MOSTRARUSUARIOSbutton;
 
     public IntentoDiseño(JFrame framePrincipal) {
         INICIASESIONAQUIButton.addActionListener(new ActionListener() {
@@ -37,6 +39,27 @@ public class IntentoDiseño {
                 });
 
                 frameSesion.setVisible(true);
+            }
+        });
+        MOSTRARUSUARIOSbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    framePrincipal.setVisible(false);
+
+                    DesplegarUsuarios DS = new DesplegarUsuarios(Fabrica.getInstance().getISistema().listarClientes());
+                    JFrame frameSesion = new JFrame("Inicio de Sesión");
+                    frameSesion.setContentPane(DS.getPanelUsuarios());
+                    frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frameSesion.setBounds(framePrincipal.getBounds());
+
+                    frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                        @Override
+                        public void windowClosed(java.awt.event.WindowEvent e) {
+                            framePrincipal.setVisible(true);
+                        }
+                    });
+
+                    frameSesion.setVisible(true);
             }
         });
     }

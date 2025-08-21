@@ -1,3 +1,5 @@
+package Logica;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +17,7 @@ public class RutaVuelo {
     private double costoEquipajeExtra;
     private String[] categorias;
     private Map<String, Vuelo> vuelos;
-   // public RutaVuelo(String nombre, Aerolinea aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo) { ... }
+   // public Logica.RutaVuelo(String nombre, Logica.Aerolinea aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo) { ... }
     public RutaVuelo(String nombre, String descripcion, Aerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias) {
         this.nombre = nombre;
         this.descripcion = descripcion;

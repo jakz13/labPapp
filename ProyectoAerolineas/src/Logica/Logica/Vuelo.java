@@ -1,4 +1,4 @@
-// ProyectoAerolineas/src/Logica/Vuelo.java
+package Logica;// ProyectoAerolineas/src/Logica/Logica.Vuelo.java
 import java.time.LocalDate;
 
 public class Vuelo {

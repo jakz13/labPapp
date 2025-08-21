@@ -1,7 +1,11 @@
 // InicioSesion.java
 package guiSesion;
 
+import Logica.Fabrica;
+import Logica.ISistema;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +22,6 @@ public class InicioSesion {
     private JButton crearButton;
     private JButton cancelarButton;
     private JTextField EmailUsuario;
-    private JComboBox CiPasaporte;
     private JTextField Documento;
     private JRadioButton PasaporteRadioButton;
     private JRadioButton CiRadioButton;
@@ -69,7 +72,14 @@ public class InicioSesion {
                             "Debe seleccionar CI o Pasaporte.",
                             "Error", JOptionPane.WARNING_MESSAGE);
                     return;
+
                 }
+                sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email);
+                DesplegarUsuarios ventanaUsuarios = new DesplegarUsuarios(sistema.listarClientes());
+                DefaultTableModel modelo = (DefaultTableModel) ventanaUsuarios.TablaUsuarios.getModel();
+                modelo.addRow(new Object[]{NombreUsuario, Apellido, Documento});
+
+                // DesplegarUsuarios.addRow(new Object[]{NombreUsuario, Apellido, Documento});
             }
         });
     }

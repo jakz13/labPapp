@@ -1,4 +1,4 @@
-// ProyectoAerolineas/src/Logica/ManejadorCiudad.java
+package Logica;// ProyectoAerolineas/src/Logica/Logica.ManejadorCiudad.java
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;

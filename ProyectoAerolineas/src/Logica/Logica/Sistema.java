@@ -1,4 +1,4 @@
-
+package Logica;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -61,7 +61,7 @@ public class Sistema implements ISistema {
         if (cliente != null) {
             return cliente;
         } else {
-            throw new IllegalArgumentException("Cliente no encontrado");
+            throw new IllegalArgumentException("Logica.Cliente no encontrado");
         }
     }
 
@@ -115,7 +115,7 @@ public class Sistema implements ISistema {
             manejadorRutaVuelo.agregarRutaVuelo(r);
             manejadorAerolinea.agregarRutaVueloAAerolinea(aerolinea, r);
         } else {
-            throw new IllegalArgumentException("No existe Aerolinea con ese nickname");
+            throw new IllegalArgumentException("No existe Logica.Aerolinea con ese nickname");
         }
     }
 
@@ -124,7 +124,7 @@ public class Sistema implements ISistema {
     }
 
     // --- VUELO ---
-    // ProyectoAerolineas/src/Logica/Sistema.java
+    // ProyectoAerolineas/src/Logica/Logica.Sistema.java
 
     public String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion, int asientosTurista, int asientosEjecutivo) {
         Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nombreAerolinea);
@@ -141,7 +141,7 @@ public class Sistema implements ISistema {
         Vuelo vuelo = new Vuelo(nombreVuelo, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
         manejadorVuelo.agregarVuelo(vuelo);
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
-        return "Vuelo dado de alta correctamente.";
+        return "Logica.Vuelo dado de alta correctamente.";
     }
 
     @Override
@@ -166,9 +166,9 @@ public class Sistema implements ISistema {
     public Vuelo verInfoVuelo(String nombreVuelo) {
         Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
         if (vuelo == null) {
-            throw new IllegalArgumentException("Vuelo no encontrado");
+            throw new IllegalArgumentException("Logica.Vuelo no encontrado");
         }
-        return vuelo; // Asumiendo que Vuelo tiene métodos para obtener reservas y datos
+        return vuelo; // Asumiendo que Logica.Vuelo tiene métodos para obtener reservas y datos
     }
 
     // --- PAQUETES ---
