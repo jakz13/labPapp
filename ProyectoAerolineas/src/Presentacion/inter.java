@@ -186,6 +186,7 @@ public class inter {
                         System.out.println("-------------------------");
                     }
                 }
+                // En el case 9 del menú
                 case 9 -> {  // Alta de Ruta de Vuelo
                     List<Aerolinea> aerolineas = sistema.listarAerolineas();
                     System.out.println("=== Aerolíneas ===");
@@ -194,15 +195,14 @@ public class inter {
                     }
                     System.out.print("Ingrese el nickname de la aerolínea: ");
                     String nombreAerolinea = sc.nextLine();
-                    // Verificar si la aerolínea existe
                     Aerolinea aerolinea = sistema.obtenerAerolinea(nombreAerolinea);
                     if (aerolinea == null) {
                         System.out.println("Aerolínea no encontrada");
+                        break;
                     }
                     System.out.print("Nombre de la ruta (único): ");
                     String nombreRuta = sc.nextLine();
 
-                    // Verificar si ya existe la ruta
                     List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
                     boolean existe = rutas.stream().anyMatch(r -> r.getNombre().equals(nombreRuta));
                     if (existe) {
@@ -216,6 +216,9 @@ public class inter {
                     String descripcion = sc.nextLine();
                     System.out.print("Hora (HH:mm): ");
                     String hora = sc.nextLine();
+                    System.out.print("Fecha de alta (YYYY-MM-DD): ");
+                    String fechaStr = sc.nextLine();
+                    LocalDate fechaAlta = LocalDate.parse(fechaStr);
                     System.out.print("Costo turista: ");
                     double costoTurista = sc.nextDouble();
                     System.out.print("Costo ejecutivo: ");
@@ -224,17 +227,29 @@ public class inter {
                     double costoEquipaje = sc.nextDouble();
                     sc.nextLine();
 
-
-
                     System.out.print("Ciudad origen: ");
                     String ciudadOrigen = sc.nextLine();
                     System.out.print("Ciudad destino: ");
                     String ciudadDestino = sc.nextLine();
 
-                    // Aquí podrías listar y seleccionar categorías si tienes esa funcionalidad
+                    // Pedir categorías (ejemplo: separadas por coma)
+                    System.out.print("Categorías (separadas por coma): ");
+                    String categoriasStr = sc.nextLine();
+                    String[] categorias = categoriasStr.split(",");
 
-                    // Alta de la ruta
-                    sistema.altaRutaVuelo(nombreRuta, nombreAerolinea, ciudadOrigen, ciudadDestino, costoTurista, costoEjecutivo);
+                    sistema.altaRutaVuelo(
+                            nombreRuta,
+                            descripcion,
+                            nombreAerolinea,
+                            ciudadOrigen,
+                            ciudadDestino,
+                            hora,
+                            fechaAlta,
+                            costoTurista,
+                            costoEjecutivo,
+                            costoEquipaje,
+                            categorias
+                    );
                     System.out.println("✅ Ruta de vuelo dada de alta con éxito.");
                 }
                 case 10 -> {

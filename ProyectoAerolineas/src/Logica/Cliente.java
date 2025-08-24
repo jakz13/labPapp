@@ -1,7 +1,8 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Cliente extends Usuario {
     private String apellido;
@@ -9,7 +10,7 @@ public class Cliente extends Usuario {
     private String nacionalidad;
     private String tipoDocumento;
     private String numeroDocumento;
-    private List<Reserva> reservas;
+    private Map<String, Reserva> reservas;
     private List<Paquete> paquetesComprados;
 
     public Cliente(String nickname, String nombre, String email, String apellido, LocalDate fechaNac, String nacionalidad, String tipoDoc, String numDoc) {
@@ -19,46 +20,30 @@ public class Cliente extends Usuario {
         this.nacionalidad = nacionalidad;
         this.tipoDocumento = tipoDoc;
         this.numeroDocumento = numDoc;
-        this.reservas = new ArrayList<>();
-        this.paquetesComprados = new ArrayList<>();
+        this.reservas = new HashMap<>();
+        this.paquetesComprados = new java.util.ArrayList<>();
     }
 
     public Cliente(String nickname, String nombre, String apellido, String correo) {
         super(nickname, nombre, correo);
         this.apellido = apellido;
-        this.fechaNacimiento = LocalDate.now(); // Default to today if not provided
-        this.nacionalidad = "Desconocida"; // Default value
-        this.tipoDocumento = "Desconocido"; // Default value
-        this.numeroDocumento = "00000000"; // Default value
-        this.reservas = new ArrayList<>();
-        this.paquetesComprados = new ArrayList<>();
+        this.fechaNacimiento = LocalDate.now();
+        this.nacionalidad = "Desconocida";
+        this.tipoDocumento = "Desconocido";
+        this.numeroDocumento = "00000000";
+        this.reservas = new HashMap<>();
+        this.paquetesComprados = new java.util.ArrayList<>();
     }
 
-    public String getApellido() {
-        return apellido;
-    }
+    public String getApellido() { return apellido; }
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public String getNacionalidad() { return nacionalidad; }
+    public String getTipoDocumento() { return tipoDocumento; }
+    public String getNumeroDocumento() { return numeroDocumento; }
+    public Map<String, Reserva> getReservas() { return reservas; }
+    public List<Object> getPaquetesComprados() { return Collections.singletonList(paquetesComprados); }
 
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public String getNacionalidad() {
-        return nacionalidad;
-    }
-
-    public String getTipoDocumento() {
-        return tipoDocumento;
-    }
-
-    public String getNumeroDocumento() {
-        return numeroDocumento;
-    }
-
-    public List<Reserva> getReservas() {
-        return reservas;
-    }
-
-    public List<Object> getPaquetesComprados() {
-        return Collections.singletonList(paquetesComprados);
+    public void agregarReserva(String idReserva, Reserva reserva) {
+        reservas.put(idReserva, reserva);
     }
 }

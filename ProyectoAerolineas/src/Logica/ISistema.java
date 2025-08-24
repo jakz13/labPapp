@@ -16,7 +16,7 @@ public interface ISistema {
     public void cargarDatosEjemplo();
 
     void altaCiudad(String nombre, String pais);
-    void altaRutaVuelo(String nombre, String aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo);
+    public void altaRutaVuelo(String nombre, String codigo, String aerolinea, String origen, String destino, String tipo, LocalDate fecha, double costoTurista, double costoEjecutivo, double otroCosto, String[] servicios);
     public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
     Vuelo verInfoVuelo(String nombreVuelo);
