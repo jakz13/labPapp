@@ -1,5 +1,6 @@
 package gui;
 import Logica.Fabrica;
+import guiSesion.AltaAereolinea;
 import guiSesion.DesplegarUsuarios;
 import guiSesion.InicioSesion;
 
@@ -17,6 +18,8 @@ public class IntentoDiseño {
     public JPanel PanelInferiorizq;
     public JButton INICIASESIONAQUIButton;
     private JButton MOSTRARUSUARIOSbutton;
+    private JPanel PanelUsuarios;
+    private JButton AltaAereolinea;
 
     public IntentoDiseño(JFrame framePrincipal) {
         INICIASESIONAQUIButton.addActionListener(new ActionListener() {
@@ -60,6 +63,28 @@ public class IntentoDiseño {
                     });
 
                     frameSesion.setVisible(true);
+            }
+        });
+        AltaAereolinea.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                AltaAereolinea AA = new AltaAereolinea();
+                JFrame frameSesion = new JFrame("Alta Aereolinea");
+                frameSesion.setContentPane(AA.getPanelDeSesion());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                // Escucha el cierre de la ventana de inicio de sesión
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
             }
         });
     }

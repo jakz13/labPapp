@@ -12,23 +12,29 @@ import java.util.List;
 public class DesplegarUsuarios {
     private JPanel PanelUsuarios;
     public JTable TablaUsuarios;
+    private JPanel PanelTablas;
 
     public DesplegarUsuarios(List<Cliente> clientes) {
-        PanelUsuarios = new JPanel(new BorderLayout());
+        // Creamos un modelo no editable
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // 🔒 ninguna celda editable
+            }
+        };
 
-        DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido");
+        modelo.addColumn("Documento"); // 👈 si querés mostrar también el documento
 
+        // Cargar los datos desde la lista
         for (Cliente c : clientes) {
-            modelo.addRow(new Object[]{c.getNombre(), c.getApellido()});
+            modelo.addRow(new Object[]{c.getNombre(), c.getApellido(), c.getNumeroDocumento()});
         }
 
-        TablaUsuarios = new JTable(modelo);
-        TablaUsuarios.setAutoCreateRowSorter(true);
-
-        JScrollPane scrollPane = new JScrollPane(TablaUsuarios);
-        PanelUsuarios.add(scrollPane, BorderLayout.CENTER);
+        // Asignamos el modelo a la tabla del form
+        TablaUsuarios.setModel(modelo);
+        TablaUsuarios.setAutoCreateRowSorter(true); // permite ordenar columnas
     }
 
     public Container getPanelUsuarios() {

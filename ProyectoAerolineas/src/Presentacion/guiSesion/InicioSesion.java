@@ -54,6 +54,19 @@ public class InicioSesion {
                 String email = EmailUsuario.getText();
                 String documento = Documento.getText();
 
+                if (nombreUsuario.isEmpty() || nombreCliente.isEmpty() || email.isEmpty() || documento.isEmpty() || apellido.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Debe completar todos los campos.",
+                            "Error de salame", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                    JOptionPane.showMessageDialog(null,
+                            "Correo electrónico no válido.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 if (CiRadioButton.isSelected()) {
                     // Validar formato de CI (ejemplo: solo números, 7 u 8 dígitos)
@@ -84,6 +97,15 @@ public class InicioSesion {
                 modelo.addRow(new Object[]{NombreUsuario, Apellido, Documento});
 
                 // DesplegarUsuarios.addRow(new Object[]{NombreUsuario, Apellido, Documento});
+            }
+        });
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Window window = SwingUtilities.getWindowAncestor(PanelDeSesion);
+                if (window != null) {
+                    window.dispose();
+                }
             }
         });
     }
