@@ -25,14 +25,14 @@ public class DesplegarUsuarios {
 
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido");
-        modelo.addColumn("Documento"); // 👈 si querés mostrar también el documento
+        modelo.addColumn("Documento");
 
         // Cargar los datos desde la lista
         for (Cliente c : clientes) {
             modelo.addRow(new Object[]{c.getNombre(), c.getApellido(), c.getNumeroDocumento()});
         }
 
-        // Asignamos el modelo a la tabla del form
+        // Se Asigna el modelo a la tabla del form
         TablaUsuarios.setModel(modelo);
         TablaUsuarios.setAutoCreateRowSorter(true); // permite ordenar columnas
     }
