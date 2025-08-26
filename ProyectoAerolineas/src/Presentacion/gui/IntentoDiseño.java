@@ -1,9 +1,6 @@
 package gui;
 import Logica.Fabrica;
-import guiSesion.AltaAereolinea;
-import guiSesion.AltaCiudad;
-import guiSesion.DesplegarUsuarios;
-import guiSesion.InicioSesion;
+import guiSesion.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +19,7 @@ public class IntentoDiseño {
     private JPanel PanelUsuarios;
     private JButton AltaAereolinea;
     private JButton ALTACIUDADButton;
+    private JButton AltaRutaVuelo;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -96,6 +94,27 @@ public class IntentoDiseño {
                 AltaCiudad AC = new AltaCiudad();
                 JFrame frameSesion = new JFrame("Alta Aereolinea");
                 frameSesion.setContentPane(AC.getPanelDeCiudad());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        AltaRutaVuelo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                NuevaRutaVuelo NR = new NuevaRutaVuelo();
+                JFrame frameSesion = new JFrame("Alta Ruta Vuelo");
+                frameSesion.setContentPane(NR.getPanelAltaRuta());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 

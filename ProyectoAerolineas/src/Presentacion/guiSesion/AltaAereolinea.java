@@ -45,7 +45,10 @@ public class AltaAereolinea {
 
                 try {
                     sistema.altaAerolinea(nickname, nombre, descripcion, correo);
-
+                    JOptionPane.showMessageDialog(null,
+                            "Aereolinea creada correctamente.",
+                            "Éxito",
+                            JOptionPane.INFORMATION_MESSAGE);
                     // Mostrar ventana con las aerolíneas registradas
                     /* DesplegarAerolineas ventana = new DesplegarAerolineas(sistema.listarAerolineas());
                     DefaultTableModel modelo = (DefaultTableModel) ventana.TablaAerolineas.getModel();
