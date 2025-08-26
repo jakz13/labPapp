@@ -61,7 +61,7 @@ public class Sistema implements ISistema {
         if (cliente != null) {
             return cliente;
         } else {
-            throw new IllegalArgumentException("Logica.Cliente no encontrado");
+            throw new IllegalArgumentException("Cliente no encontrado");
         }
     }
 
@@ -115,7 +115,7 @@ public class Sistema implements ISistema {
             manejadorRutaVuelo.agregarRutaVuelo(r);
             manejadorAerolinea.agregarRutaVueloAAerolinea(aerolinea, r);
         } else {
-            throw new IllegalArgumentException("No existe Logica.Aerolinea con ese nickname");
+            throw new IllegalArgumentException("No existe Aerolinea con ese nickname");
         }
     }
 

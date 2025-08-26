@@ -39,7 +39,7 @@
                     <properties>
                       <background color="-11268884"/>
                       <font name="Segoe UI Black"/>
-                      <text value="                                         INGRESO DE AEREOLINEA"/>
+                      <text value="                                         INGRESO DE UNA NUEVA AEREOLINEA"/>
                     </properties>
                   </component>
                 </children>
@@ -87,7 +87,7 @@
                         </constraints>
                         <properties>
                           <font name="Segoe UI Black"/>
-                          <text value="Nombre de cliente:"/>
+                          <text value="Nombre de la Aereolinea:"/>
                         </properties>
                       </component>
                       <component id="41107" class="javax.swing.JTextField" binding="NombreAereolinea">

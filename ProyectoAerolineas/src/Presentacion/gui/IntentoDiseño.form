@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.IntentoDiseño">
   <grid id="27dc6" binding="Ventana" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="799" height="569"/>
+      <xy x="20" y="20" width="887" height="569"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -123,11 +123,20 @@
                   <text value="AÑADIR UNA CIUDAD"/>
                 </properties>
               </component>
-              <vspacer id="231c4">
+              <component id="f731e" class="javax.swing.JButton" binding="AltaRutaVuelo">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-              </vspacer>
+                <properties>
+                  <background color="-2700033"/>
+                  <enabled value="true"/>
+                  <font name="Segoe UI Black"/>
+                  <foreground color="-13421773"/>
+                  <hideActionText value="false"/>
+                  <horizontalTextPosition value="0"/>
+                  <text value="AÑADIR RUTA VUELO"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="eb52c" binding="PanelUsuarios" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
