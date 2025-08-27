@@ -9,7 +9,7 @@ public class ManejadorCliente {
     // Métodos de manejo
 
     private Map<String, Cliente> clientes;
-    public static ManejadorCliente instancia=null;
+    public static ManejadorCliente instancia = null;
 
     private ManejadorCliente() {
         clientes = new HashMap<String, Cliente>();
@@ -21,11 +21,12 @@ public class ManejadorCliente {
         }
         return instancia;
     }
+
     public void agregarCliente(Cliente c) {
         String nickname = c.getNickname();
         if (this.obtenerCliente(nickname) == null) {
             clientes.put(nickname, c);
-        }else {
+        } else {
             throw new IllegalArgumentException("El cliente con el nickname " + nickname + " ya existe.");
         }
     }
@@ -36,5 +37,14 @@ public class ManejadorCliente {
 
     public List<Cliente> getClientes() {
         return new ArrayList<>(clientes.values());
+    }
+
+    public void agregarReserva(Reserva reserva, String nicknameCliente, String idReserva) {
+        Cliente cliente = this.obtenerCliente(nicknameCliente);
+        if (cliente != null) {
+            cliente.agregarReserva(idReserva, reserva);
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
     }
 }

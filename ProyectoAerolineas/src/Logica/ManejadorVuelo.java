@@ -1,3 +1,4 @@
+
 // ManejadorVuelo.java
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,6 @@ public class ManejadorVuelo {
         return instancia;
     }
 
-
     public ManejadorVuelo() {
         vuelos = new HashMap<>();
     }
@@ -25,7 +25,12 @@ public class ManejadorVuelo {
     public Vuelo getVuelo(String nombre) {
         return vuelos.get(nombre);
     }
+
     public Map<String, Vuelo> getVuelos() {
         return vuelos;
+    }
+
+    public boolean tieneReservaDeCliente(String nicknameCliente, Vuelo vuelo) {
+        return vuelo.getReservas().containsKey(nicknameCliente);
     }
 }
