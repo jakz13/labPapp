@@ -1,3 +1,4 @@
+
 // ProyectoAerolineas/src/Logica/Vuelo.java
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -13,7 +14,8 @@ public class Vuelo {
     private LocalDate fechaAlta;
     private Map<String, Reserva> reservas; // Mapa de reservas
 
-    public Vuelo(String nombre, String nombreRuta, String fecha, int duracion, int asientosTurista, int asientosEjecutivo) {
+    public Vuelo(String nombre, String nombreRuta, String fecha, int duracion, int asientosTurista,
+            int asientosEjecutivo) {
         this.nombre = nombre;
         this.nombreRuta = nombreRuta;
         this.fecha = LocalDate.parse(fecha);
@@ -24,14 +26,37 @@ public class Vuelo {
         this.reservas = new HashMap<>();
     }
 
-    public String getNombre() { return nombre; }
-    public String getNombreRuta() { return nombreRuta; }
-    public LocalDate getFecha() { return fecha; }
-    public int getDuracion() { return duracion; }
-    public int getAsientosTurista() { return asientosTurista; }
-    public int getAsientosEjecutivo() { return asientosEjecutivo; }
-    public LocalDate getFechaAlta() { return fechaAlta; }
-    public Map<String, Reserva> getReservas() { return reservas; }
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getNombreRuta() {
+        return nombreRuta;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public int getDuracion() {
+        return duracion;
+    }
+
+    public int getAsientosTurista() {
+        return asientosTurista;
+    }
+
+    public int getAsientosEjecutivo() {
+        return asientosEjecutivo;
+    }
+
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
+    }
+
+    public Map<String, Reserva> getReservas() {
+        return reservas;
+    }
 
     public void agregarReserva(String idReserva, Reserva reserva) {
         reservas.put(idReserva, reserva);

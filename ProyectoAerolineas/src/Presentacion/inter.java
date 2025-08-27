@@ -1,6 +1,6 @@
 
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,261 +16,418 @@ public class inter {
         int opcion = 0;
         do {
 
-        try {
-            System.out.println("===== MENÚ PRINCIPAL =====");
-            System.out.println("1. Alta Cliente");
-            System.out.println("2. Alta Aerolinea");
-            System.out.println("3. Listar Clientes");
-            System.out.println("4. Listar Aerolineas");
-            System.out.println("5. Alta Vuelo");
-            System.out.println("6. Consulta Vuelo");
-            System.out.println("7. Alta Paquete");
-            System.out.println("8. Listar Paquetes");
-            System.out.println("9. Alta Ruta de Vuelo");
-            System.out.println("10. Alta Ciudad");
-            System.out.println("0. Salir");
-            System.out.print("Opción: ");
-            opcion = sc.nextInt();
-            sc.nextLine(); // limpiar buffer
+            try {
+                System.out.println("===== MENÚ PRINCIPAL =====");
+                System.out.println("1. Alta Cliente");
+                System.out.println("2. Alta Aerolinea");
+                System.out.println("3. Listar Clientes");
+                System.out.println("4. Listar Aerolineas");
+                System.out.println("5. Alta Vuelo");
+                System.out.println("6. Consulta Vuelo");
+                System.out.println("7. Alta Paquete");
+                System.out.println("8. Listar Paquetes");
+                System.out.println("9. Alta Ruta de Vuelo");
+                System.out.println("10. Alta Ciudad");
+                System.out.println("11. Reserva Vuelo");
+                System.out.println("0. Salir");
+                System.out.print("Opción: ");
+                opcion = sc.nextInt();
+                sc.nextLine(); // limpiar buffer
 
-            switch (opcion) {
-                case 1 -> {
-                    System.out.print("Nickname: ");
-                    String nick = sc.nextLine();
-                    System.out.print("Nombre: ");
-                    String nombre = sc.nextLine();
-                    System.out.print("Apellido: ");
-                    String apellido = sc.nextLine();
-                    System.out.print("Correo: ");
-                    String correo = sc.nextLine();
-                    sistema.altaCliente(nick, nombre, apellido, correo);
-                }
-                case 2 -> {
-                    System.out.print("Nickname: ");
-                    String nick = sc.nextLine();
-                    System.out.print("Nombre: ");
-                    String nombre = sc.nextLine();
-                    System.out.print("Descripcion: ");
-                    String desc = sc.nextLine();
-                    System.out.print("Correo: ");
-                    String correo = sc.nextLine();
-                    sistema.altaAerolinea(nick, nombre, desc, correo);
-                }
-                // Listar CLIENTES
-                case 3 -> {
-                    List<Cliente> clientes = sistema.listarClientes();
-                    System.out.println("=== Clientes ===");
-                    for (Cliente c : clientes) {
-                        System.out.println(c.getNickname() + " - " + c.getNombre() + " " + c.getApellido());
+                switch (opcion) {
+                    case 1 -> {
+                        System.out.print("Nickname: ");
+                        String nick = sc.nextLine();
+                        System.out.print("Nombre: ");
+                        String nombre = sc.nextLine();
+                        System.out.print("Apellido: ");
+                        String apellido = sc.nextLine();
+                        System.out.print("Correo: ");
+                        String correo = sc.nextLine();
+                        sistema.altaCliente(nick, nombre, apellido, correo);
+                    }
+                    case 2 -> {
+                        System.out.print("Nickname: ");
+                        String nick = sc.nextLine();
+                        System.out.print("Nombre: ");
+                        String nombre = sc.nextLine();
+                        System.out.print("Descripcion: ");
+                        String desc = sc.nextLine();
+                        System.out.print("Correo: ");
+                        String correo = sc.nextLine();
+                        System.out.print("Sitio web: ");
+                        String sitioweb = sc.nextLine();
+                        sistema.altaAerolinea(nick, nombre, desc, correo, sitioweb);
+                    }
+                    // Listar CLIENTES
+                    case 3 -> {
+                        List<Cliente> clientes = sistema.listarClientes();
+                        System.out.println("=== Clientes ===");
+                        for (Cliente c : clientes) {
+                            System.out.println(c.getNickname() + " - " + c.getNombre() + " " + c.getApellido());
+                        }
+                    }
+                    // Listar AEROLINEAS
+                    case 4 -> {
+                        List<Aerolinea> aerolineas = sistema.listarAerolineas();
+                        System.out.println("=== Aerolíneas ===");
+                        for (Aerolinea a : aerolineas) {
+                            System.out.println(a.getNickname() + " - " + a.getNombre());
+                        }
+                    }
+                    // ALTA VUELO
+                    case 5 -> {
+                        List<Aerolinea> aerolineas = sistema.listarAerolineas();
+                        System.out.println("=== Aerolíneas ===");
+                        for (Aerolinea a : aerolineas) {
+                            System.out.println(a.getNickname() + " - " + a.getNombre());
+                        }
+                        System.out.print("Ingrese el nickname de la aerolínea: ");
+                        String nombreAerolinea = sc.nextLine();
+
+                        // Listar rutas de vuelo de la aerolínea seleccionada
+                        List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
+
+                        System.out.println("=== Rutas de Vuelo ===");
+                        for (RutaVuelo r : rutas) {
+                            System.out.println(r.getNombre());
+                        }
+                        System.out.print("Ingrese el nombre de la ruta: ");
+                        String nombreRuta = sc.nextLine();
+
+                        // Pedir datos del vuelo
+                        System.out.print("Nombre del vuelo: ");
+                        String nombreVuelo = sc.nextLine();
+                        System.out.print("Fecha (YYYY-MM-DD): ");
+                        String fecha = sc.nextLine();
+                        System.out.print("Duración (minutos): ");
+                        int duracion = sc.nextInt();
+                        System.out.print("Cantidad máxima de asientos turista: ");
+                        int asientosTurista = sc.nextInt();
+                        System.out.print("Cantidad máxima de asientos ejecutivo: ");
+                        int asientosEjecutivo = sc.nextInt();
+                        sc.nextLine();
+
+                        String resultado = sistema.altaVueloAux(nombreAerolinea, nombreRuta, nombreVuelo, fecha,
+                                duracion, asientosTurista, asientosEjecutivo);
+                        System.out.println(resultado);
+                    }
+                    // CONSULTA VUELO
+                    case 6 -> {
+                        List<Aerolinea> aerolineas = sistema.listarAerolineas();
+                        System.out.println("=== Aerolíneas ===");
+                        for (Aerolinea a : aerolineas) {
+                            System.out.println(a.getNickname() + " - " + a.getNombre());
+                        }
+                        System.out.print("Ingrese el nickname de la aerolínea: ");
+                        String nombreAerolinea = sc.nextLine();
+
+                        // Listar rutas de vuelo de la aerolínea seleccionada
+                        List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
+                        System.out.println("=== Rutas de Vuelo ===");
+                        for (RutaVuelo r : rutas) {
+                            System.out.println(r.getNombre());
+                        }
+                        System.out.print("Ingrese el nombre de la ruta: ");
+                        String nombreRuta = sc.nextLine();
+
+                        // Listar vuelos de la ruta seleccionada
+                        List<Vuelo> vuelos = sistema.listarVuelosPorRuta(nombreRuta);
+                        System.out.println("=== Vuelos ===");
+                        for (Vuelo v : vuelos) {
+                            System.out.println(v.getNombre());
+                        }
+                        System.out.print("Ingrese el nombre del vuelo: ");
+                        String nombreVuelo = sc.nextLine();
+
+                        // Mostrar información del vuelo
+                        try {
+                            Vuelo vuelo = sistema.verInfoVuelo(nombreVuelo);
+                            System.out.println("Datos del vuelo:");
+                            System.out.println("Nombre: " + vuelo.getNombre());
+                            System.out.println("Fecha: " + vuelo.getFecha());
+                            System.out.println("Duración: " + vuelo.getDuracion());
+                            System.out.println("Asientos turista: " + vuelo.getAsientosTurista());
+                            System.out.println("Asientos ejecutivo: " + vuelo.getAsientosEjecutivo());
+                            System.out.println("Reservas:");
+                        } catch (Exception e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                    }
+                    // ALTA PAQUETE
+                    case 7 -> {
+                        System.out.print("Nombre del paquete: ");
+                        String nombre = sc.nextLine();
+                        System.out.print("Descripción: ");
+                        String desc = sc.nextLine();
+                        System.out.print("Costo: ");
+                        double costo = sc.nextDouble();
+                        sc.nextLine();
+                        System.out.print("Fecha de alta (YYYY-MM-DD): ");
+                        String fechaStr = sc.nextLine();
+                        LocalDate fecha = LocalDate.parse(fechaStr);
+                        System.out.print("Descuento (%): ");
+                        int descuento = sc.nextInt();
+                        System.out.print("Periodo de validez (días): ");
+                        int periodo = sc.nextInt();
+                        sc.nextLine();
+
+                        sistema.altaPaquete(nombre, desc, costo, fecha, descuento, periodo);
+                        System.out.println("Paquete dado de alta con éxito.");
+                    }
+                    // Listar PAQUETES
+                    case 8 -> {
+                        List<Paquete> paquetes = sistema.listarPaquetes();
+                        System.out.println("=== Paquetes ===");
+                        for (Paquete p : paquetes) {
+                            System.out.println("Nombre: " + p.getNombre());
+                            System.out.println("Descripción: " + p.getDescripcion());
+                            System.out.println("Costo: " + p.getCosto());
+                            System.out.println("Fecha de alta: " + p.getFechaAlta());
+                            System.out.println("Descuento: " + p.getDescuento() + "%");
+                            System.out.println("Periodo de validez: " + p.getPeriodoValidez() + " días");
+                            System.out.println("-------------------------");
+                        }
+                    }
+                    // En el case 9 del menú
+                    case 9 -> { // Alta de Ruta de Vuelo
+                        List<Aerolinea> aerolineas = sistema.listarAerolineas();
+                        System.out.println("=== Aerolíneas ===");
+                        for (Aerolinea a : aerolineas) {
+                            System.out.println(a.getNickname() + " - " + a.getNombre());
+                        }
+                        System.out.print("Ingrese el nickname de la aerolínea: ");
+                        String nombreAerolinea = sc.nextLine();
+                        Aerolinea aerolinea = sistema.obtenerAerolinea(nombreAerolinea);
+                        if (aerolinea == null) {
+                            System.out.println("Aerolínea no encontrada");
+                            break;
+                        }
+                        System.out.print("Nombre de la ruta (único): ");
+                        String nombreRuta = sc.nextLine();
+
+                        List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
+                        boolean existe = rutas.stream().anyMatch(r -> r.getNombre().equals(nombreRuta));
+                        if (existe) {
+                            System.out.println("Ya existe una ruta con ese nombre. ¿Desea reingresar los datos? (s/n)");
+                            String resp = sc.nextLine();
+                            if (resp.equalsIgnoreCase("s"))
+                                continue;
+                            else
+                                break;
+                        }
+
+                        System.out.print("Descripción: ");
+                        String descripcion = sc.nextLine();
+                        System.out.print("Hora (HH:mm): ");
+                        String hora = sc.nextLine();
+                        System.out.print("Fecha de alta (YYYY-MM-DD): ");
+                        String fechaStr = sc.nextLine();
+                        LocalDate fechaAlta = LocalDate.parse(fechaStr);
+                        System.out.print("Costo turista: ");
+                        double costoTurista = sc.nextDouble();
+                        System.out.print("Costo ejecutivo: ");
+                        double costoEjecutivo = sc.nextDouble();
+                        System.out.print("Costo unidad equipaje extra: ");
+                        double costoEquipaje = sc.nextDouble();
+                        sc.nextLine();
+
+                        System.out.print("Ciudad origen: ");
+                        String ciudadOrigen = sc.nextLine();
+                        System.out.print("Ciudad destino: ");
+                        String ciudadDestino = sc.nextLine();
+
+                        // Pedir categorías (ejemplo: separadas por coma)
+                        System.out.print("Categorías (separadas por coma): ");
+                        String categoriasStr = sc.nextLine();
+                        String[] categorias = categoriasStr.split(",");
+
+                        sistema.altaRutaVuelo(
+                                nombreRuta,
+                                descripcion,
+                                nombreAerolinea,
+                                ciudadOrigen,
+                                ciudadDestino,
+                                hora,
+                                fechaAlta,
+                                costoTurista,
+                                costoEjecutivo,
+                                costoEquipaje,
+                                categorias);
+                        System.out.println("✅ Ruta de vuelo dada de alta con éxito.");
+                    }
+                    case 10 -> {
+                        System.out.print("Nombre de la ciudad: ");
+                        String nombreCiudad = sc.nextLine();
+                        System.out.print("País: ");
+                        String pais = sc.nextLine();
+                        sistema.altaCiudad(nombreCiudad, pais);
+                        System.out.println("Ciudad agregada correctamente.");
+                    }
+                    case 11 -> {
+                        boolean reservaExitosa = false;
+                        while (!reservaExitosa) {
+                            // Listar aerolíneas
+                            List<Aerolinea> aerolineas = sistema.listarAerolineas();
+                            System.out.println("=== Aerolíneas ===");
+                            for (Aerolinea a : aerolineas) {
+                                System.out.println(a.getNickname() + " - " + a.getNombre());
+                            }
+                            System.out.print("Ingrese el nickname de la aerolínea: ");
+                            String nombreAerolinea = sc.nextLine();
+
+                            // Listar rutas de vuelo
+                            List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
+                            if (rutas.isEmpty()) {
+                                System.out.println("No hay rutas para esta aerolínea.");
+                                break;
+                            }
+                            System.out.println("=== Rutas de Vuelo ===");
+                            for (RutaVuelo r : rutas) {
+                                System.out.println(r.getNombre());
+                            }
+                            System.out.print("Ingrese el nombre de la ruta: ");
+                            String nombreRuta = sc.nextLine();
+
+                            // Listar vuelos
+                            List<Vuelo> vuelos = sistema.listarVuelosPorRuta(nombreRuta);
+                            if (vuelos.isEmpty()) {
+                                System.out.println("No hay vuelos para esta ruta.");
+                                break;
+                            }
+                            System.out.println("=== Vuelos ===");
+                            for (Vuelo v : vuelos) {
+                                System.out.println(v.getNombre());
+                            }
+                            System.out.print("Ingrese el nombre del vuelo: ");
+                            String nombreVuelo = sc.nextLine();
+
+                            // Mostrar datos del vuelo
+                            try {
+                                Vuelo vuelo = sistema.verInfoVuelo(nombreVuelo);
+                                System.out.println("Datos del vuelo:");
+                                System.out.println("Nombre: " + vuelo.getNombre());
+                                System.out.println("Fecha: " + vuelo.getFecha());
+                                System.out.println("Duración: " + vuelo.getDuracion());
+                                System.out.println("Asientos turista: " + vuelo.getAsientosTurista());
+                                System.out.println("Asientos ejecutivo: " + vuelo.getAsientosEjecutivo());
+                            } catch (Exception e) {
+                                System.out.println("Error: " + e.getMessage());
+                                break;
+                            }
+
+                            // Listar clientes
+                            List<Cliente> clientes = sistema.listarClientes();
+                            if (clientes.isEmpty()) {
+                                System.out.println("No hay clientes registrados.");
+                                break;
+                            }
+                            System.out.println("=== Clientes ===");
+                            for (Cliente c : clientes) {
+                                System.out.println(c.getNickname() + " - " + c.getNombre() + " " + c.getApellido());
+                            }
+                            System.out.print("Ingrese el nickname del cliente: ");
+                            String nicknameCliente = sc.nextLine();
+
+                            // Tipo de asiento
+                            System.out.print("Tipo de asiento (TURISTA/EJECUTIVO): ");
+                            String tipoAsientoStr = sc.nextLine().toUpperCase();
+                            TipoAsiento tipoAsiento = tipoAsientoStr.equals("EJECUTIVO") ? TipoAsiento.EJECUTIVO
+                                    : TipoAsiento.TURISTA;
+
+                            // Cantidad de pasajes
+                            System.out.print("Cantidad de pasajes: ");
+                            int cantidadPasajes = sc.nextInt();
+                            sc.nextLine();
+
+                            // Unidades de equipaje extra
+                            System.out.print("Unidades de equipaje extra: ");
+                            int unidadesEquipajeExtra = sc.nextInt();
+                            sc.nextLine();
+
+                            // Nombres y apellidos de los pasajeros
+                            List<Pasajero> pasajeros = new ArrayList<>();
+                            for (int i = 1; i <= cantidadPasajes; i++) {
+                                System.out.print("Nombre del pasajero " + i + ": ");
+                                String nombrePasajero = sc.nextLine();
+                                System.out.print("Apellido del pasajero " + i + ": ");
+                                String apellidoPasajero = sc.nextLine();
+                                pasajeros.add(new Pasajero(nombrePasajero, apellidoPasajero));
+                            }
+
+                            // Fecha de la reserva
+                            System.out.print("Fecha de la reserva (YYYY-MM-DD): ");
+                            String fechaReservaStr = sc.nextLine();
+                            LocalDate fechaReserva = LocalDate.parse(fechaReservaStr);
+
+                            // Calcular costo (ajusta según tu lógica)
+                            double costo = 0;
+                            RutaVuelo ruta = rutas.stream().filter(r -> r.getNombre().equals(nombreRuta)).findFirst()
+                                    .orElse(null);
+                            if (ruta != null) {
+                                if (tipoAsiento == TipoAsiento.TURISTA) {
+                                    costo = ruta.getCostoTurista() * cantidadPasajes
+                                            + ruta.getCostoEquipajeExtra() * unidadesEquipajeExtra;
+                                } else {
+                                    costo = ruta.getCostoEjecutivo() * cantidadPasajes
+                                            + ruta.getCostoEquipajeExtra() * unidadesEquipajeExtra;
+                                }
+                            }
+
+                            // Registrar reserva usando la función auxiliar
+                            String resultado = sistema.crearYRegistrarReserva(
+                                    nicknameCliente,
+                                    nombreVuelo,
+                                    fechaReserva,
+                                    costo,
+                                    tipoAsiento,
+                                    cantidadPasajes,
+                                    unidadesEquipajeExtra,
+                                    pasajeros);
+                            System.out.println(resultado);
+
+                            // Si ya existe una reserva, ofrecer opciones
+                            if (resultado.toLowerCase().contains("ya tiene una reserva")) {
+                                System.out.println("¿Qué desea hacer?");
+                                System.out.println("1. Cambiar aerolínea");
+                                System.out.println("2. Cambiar ruta de vuelo");
+                                System.out.println("3. Cambiar vuelo");
+                                System.out.println("4. Cambiar cliente");
+                                System.out.println("5. Cancelar");
+                                System.out.print("Opción: ");
+                                int opcionCambio = sc.nextInt();
+                                sc.nextLine();
+                                switch (opcionCambio) {
+                                    case 1:
+                                        continue; // Volver a elegir aerolínea
+                                    case 2:
+                                        continue; // Volver a elegir ruta
+                                    case 3:
+                                        continue; // Volver a elegir vuelo
+                                    case 4:
+                                        continue; // Volver a elegir cliente
+                                    case 5:
+                                        System.out.println("Reserva cancelada.");
+                                        break;
+                                    default:
+                                        System.out.println("Opción inválida. Reserva cancelada.");
+                                        break;
+                                }
+                                if (opcionCambio == 5)
+                                    break;
+                            } else {
+                                reservaExitosa = true;
+                            }
+                        }
                     }
                 }
-                // Listar AEROLINEAS
-                case 4 -> {
-                    List<Aerolinea> aerolineas = sistema.listarAerolineas();
-                    System.out.println("=== Aerolíneas ===");
-                    for (Aerolinea a : aerolineas) {
-                        System.out.println(a.getNickname() + " - " + a.getNombre());
-                    }
-                }
-                // ALTA VUELO
-                case 5 -> {
-                    List<Aerolinea> aerolineas = sistema.listarAerolineas();
-                    System.out.println("=== Aerolíneas ===");
-                    for (Aerolinea a : aerolineas) {
-                        System.out.println(a.getNickname() + " - " + a.getNombre());
-                    }
-                    System.out.print("Ingrese el nickname de la aerolínea: ");
-                    String nombreAerolinea = sc.nextLine();
 
-                    // Listar rutas de vuelo de la aerolínea seleccionada
-                    List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
-
-
-                    System.out.println("=== Rutas de Vuelo ===");
-                    for (RutaVuelo r : rutas) {
-                        System.out.println(r.getNombre());
-                    }
-                    System.out.print("Ingrese el nombre de la ruta: ");
-                    String nombreRuta = sc.nextLine();
-
-                    // Pedir datos del vuelo
-                    System.out.print("Nombre del vuelo: ");
-                    String nombreVuelo = sc.nextLine();
-                    System.out.print("Fecha (YYYY-MM-DD): ");
-                    String fecha = sc.nextLine();
-                    System.out.print("Duración (minutos): ");
-                    int duracion = sc.nextInt();
-                    System.out.print("Cantidad máxima de asientos turista: ");
-                    int asientosTurista = sc.nextInt();
-                    System.out.print("Cantidad máxima de asientos ejecutivo: ");
-                    int asientosEjecutivo = sc.nextInt();
-                    sc.nextLine();
-
-                    String resultado = sistema.altaVueloAux(nombreAerolinea, nombreRuta, nombreVuelo, fecha, duracion, asientosTurista, asientosEjecutivo);
-                    System.out.println(resultado);
-                }
-                // CONSULTA VUELO
-                case 6 -> {
-                    List<Aerolinea> aerolineas = sistema.listarAerolineas();
-                    System.out.println("=== Aerolíneas ===");
-                    for (Aerolinea a : aerolineas) {
-                        System.out.println(a.getNickname() + " - " + a.getNombre());
-                    }
-                    System.out.print("Ingrese el nickname de la aerolínea: ");
-                    String nombreAerolinea = sc.nextLine();
-
-                    // Listar rutas de vuelo de la aerolínea seleccionada
-                    List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
-                    System.out.println("=== Rutas de Vuelo ===");
-                    for (RutaVuelo r : rutas) {
-                        System.out.println(r.getNombre());
-                    }
-                    System.out.print("Ingrese el nombre de la ruta: ");
-                    String nombreRuta = sc.nextLine();
-
-                    // Listar vuelos de la ruta seleccionada
-                    List<Vuelo> vuelos = sistema.listarVuelosPorRuta(nombreRuta);
-                    System.out.println("=== Vuelos ===");
-                    for (Vuelo v : vuelos) {
-                        System.out.println(v.getNombre());
-                    }
-                    System.out.print("Ingrese el nombre del vuelo: ");
-                    String nombreVuelo = sc.nextLine();
-
-                    // Mostrar información del vuelo
-                    try {
-                        Vuelo vuelo = sistema.verInfoVuelo(nombreVuelo);
-                        System.out.println("Datos del vuelo:");
-                        System.out.println("Nombre: " + vuelo.getNombre());
-                        System.out.println("Fecha: " + vuelo.getFecha());
-                        System.out.println("Duración: " + vuelo.getDuracion());
-                        System.out.println("Asientos turista: " + vuelo.getAsientosTurista());
-                        System.out.println("Asientos ejecutivo: " + vuelo.getAsientosEjecutivo());
-                        System.out.println("Reservas:");
-                    } catch (Exception e) {
-                        System.out.println("Error: " + e.getMessage());
-                    }
-                }
-                // ALTA PAQUETE
-                case 7 -> {
-                    System.out.print("Nombre del paquete: ");
-                    String nombre = sc.nextLine();
-                    System.out.print("Descripción: ");
-                    String desc = sc.nextLine();
-                    System.out.print("Costo: ");
-                    double costo = sc.nextDouble();
-                    sc.nextLine();
-                    System.out.print("Fecha de alta (YYYY-MM-DD): ");
-                    String fechaStr = sc.nextLine();
-                    LocalDate fecha = LocalDate.parse(fechaStr);
-                    System.out.print("Descuento (%): ");
-                    int descuento = sc.nextInt();
-                    System.out.print("Periodo de validez (días): ");
-                    int periodo = sc.nextInt();
-                    sc.nextLine();
-
-                    sistema.altaPaquete(nombre, desc, costo, fecha, descuento, periodo);
-                    System.out.println("Paquete dado de alta con éxito.");
-                }
-                // Listar PAQUETES
-                case 8 -> {
-                    List<Paquete> paquetes = sistema.listarPaquetes();
-                    System.out.println("=== Paquetes ===");
-                    for (Paquete p : paquetes) {
-                        System.out.println("Nombre: " + p.getNombre());
-                        System.out.println("Descripción: " + p.getDescripcion());
-                        System.out.println("Costo: " + p.getCosto());
-                        System.out.println("Fecha de alta: " + p.getFechaAlta());
-                        System.out.println("Descuento: " + p.getDescuento() + "%");
-                        System.out.println("Periodo de validez: " + p.getPeriodoValidez() + " días");
-                        System.out.println("-------------------------");
-                    }
-                }
-                // En el case 9 del menú
-                case 9 -> {  // Alta de Ruta de Vuelo
-                    List<Aerolinea> aerolineas = sistema.listarAerolineas();
-                    System.out.println("=== Aerolíneas ===");
-                    for (Aerolinea a : aerolineas) {
-                        System.out.println(a.getNickname() + " - " + a.getNombre());
-                    }
-                    System.out.print("Ingrese el nickname de la aerolínea: ");
-                    String nombreAerolinea = sc.nextLine();
-                    Aerolinea aerolinea = sistema.obtenerAerolinea(nombreAerolinea);
-                    if (aerolinea == null) {
-                        System.out.println("Aerolínea no encontrada");
-                        break;
-                    }
-                    System.out.print("Nombre de la ruta (único): ");
-                    String nombreRuta = sc.nextLine();
-
-                    List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
-                    boolean existe = rutas.stream().anyMatch(r -> r.getNombre().equals(nombreRuta));
-                    if (existe) {
-                        System.out.println("Ya existe una ruta con ese nombre. ¿Desea reingresar los datos? (s/n)");
-                        String resp = sc.nextLine();
-                        if (resp.equalsIgnoreCase("s")) continue;
-                        else break;
-                    }
-
-                    System.out.print("Descripción: ");
-                    String descripcion = sc.nextLine();
-                    System.out.print("Hora (HH:mm): ");
-                    String hora = sc.nextLine();
-                    System.out.print("Fecha de alta (YYYY-MM-DD): ");
-                    String fechaStr = sc.nextLine();
-                    LocalDate fechaAlta = LocalDate.parse(fechaStr);
-                    System.out.print("Costo turista: ");
-                    double costoTurista = sc.nextDouble();
-                    System.out.print("Costo ejecutivo: ");
-                    double costoEjecutivo = sc.nextDouble();
-                    System.out.print("Costo unidad equipaje extra: ");
-                    double costoEquipaje = sc.nextDouble();
-                    sc.nextLine();
-
-                    System.out.print("Ciudad origen: ");
-                    String ciudadOrigen = sc.nextLine();
-                    System.out.print("Ciudad destino: ");
-                    String ciudadDestino = sc.nextLine();
-
-                    // Pedir categorías (ejemplo: separadas por coma)
-                    System.out.print("Categorías (separadas por coma): ");
-                    String categoriasStr = sc.nextLine();
-                    String[] categorias = categoriasStr.split(",");
-
-                    sistema.altaRutaVuelo(
-                            nombreRuta,
-                            descripcion,
-                            nombreAerolinea,
-                            ciudadOrigen,
-                            ciudadDestino,
-                            hora,
-                            fechaAlta,
-                            costoTurista,
-                            costoEjecutivo,
-                            costoEquipaje,
-                            categorias
-                    );
-                    System.out.println("✅ Ruta de vuelo dada de alta con éxito.");
-                }
-                case 10 -> {
-                    System.out.print("Nombre de la ciudad: ");
-                    String nombreCiudad = sc.nextLine();
-                    System.out.print("País: ");
-                    String pais = sc.nextLine();
-                    sistema.altaCiudad(nombreCiudad, pais);
-                    System.out.println("Ciudad agregada correctamente.");
-                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                continue;
             }
-
-
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            continue;
-        }
         } while (opcion != 0);
-
 
         System.out.println("¡Hasta luego!");
     }
 }
-
