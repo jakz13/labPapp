@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class NuevaRutaVuelo {
     private JPanel PanelAltaRuta;
@@ -18,6 +19,7 @@ public class NuevaRutaVuelo {
     private JTextField CostoEjecutivo;
     private JButton crear;
     private JButton cancelarButton;
+    private JTextField Equipaje;
 
     public NuevaRutaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
@@ -31,15 +33,16 @@ public class NuevaRutaVuelo {
                     double costoTurista = Double.parseDouble(CostoTurista.getText().trim());
                     double costoEjecutivo = Double.parseDouble(CostoEjecutivo.getText().trim());
                     String Aereolinea = AereolineaEncargada.getText().trim();
-
-                    if (nombreRuta.isEmpty() || origen.isEmpty() || destino.isEmpty() || costoTurista < 0 || costoEjecutivo < 0 || Aereolinea.isEmpty()) {
+                    double equipaje = Double.parseDouble(Equipaje.getText().trim());
+                    LocalDate fecha = LocalDate.now();
+                    if (nombreRuta.isEmpty() || origen.isEmpty() || destino.isEmpty() || costoTurista < 0 || costoEjecutivo < 0 || Aereolinea.isEmpty() || equipaje < 0) {
                         JOptionPane.showMessageDialog(null,
                                 "Debe completar todos los campos.",
                                 "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                     try {
-                        sistema.altaRutaVuelo(nombreRuta, Aereolinea, origen, destino, costoTurista, costoEjecutivo);
+                        sistema.altaRutaVuelo(nombreRuta, Aereolinea, origen, destino, costoTurista, costoEjecutivo, equipaje, fecha);
                         JOptionPane.showMessageDialog(null,
                                 "Ruta creada correctamente.",
                                 "Éxito",
