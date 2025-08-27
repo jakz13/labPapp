@@ -38,4 +38,12 @@ public class ManejadorCliente {
     public List<Cliente> getClientes() {
         return new ArrayList<>(clientes.values());
     }
+    public void agregarReserva(Reserva reserva, String nicknameCliente, String idReserva) {
+        Cliente cliente = this.obtenerCliente(nicknameCliente);
+        if (cliente != null) {
+            cliente.agregarReserva(idReserva, reserva);
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+    }
 }

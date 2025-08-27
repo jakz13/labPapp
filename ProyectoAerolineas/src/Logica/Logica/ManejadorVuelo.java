@@ -28,4 +28,6 @@ public class ManejadorVuelo {
     public Map<String, Vuelo> getVuelos() {
         return vuelos;
     }
+    public boolean tieneReservaDeCliente(String nicknameCliente, Vuelo vuelo) {
+        return vuelo.getReservas().containsKey(nicknameCliente); }
 }

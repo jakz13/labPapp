@@ -12,6 +12,7 @@ public class Sistema implements ISistema {
     private ManejadorRutaVuelo manejadorRutaVuelo;
     private ManejadorVuelo manejadorVuelo;
     private ManejadorPaquete manejadorPaquete;
+    private static int idReservaCounter = 0;
 
     public Sistema() {
         this.manejadorCliente = ManejadorCliente.getInstance();

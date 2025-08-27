@@ -22,7 +22,7 @@ public class Cliente extends Usuario {
         this.tipoDocumento = tipoDoc;
         this.numeroDocumento = numDoc;
         this.reservas = new ArrayList<>();
-        this.paquetesComprados = new ArrayList<>();
+        this.paquetesComprados = new java.util.ArrayList<>();
     }
 
     public Cliente(String nickname, String nombre, String apellido, String correo) {
@@ -62,5 +62,9 @@ public class Cliente extends Usuario {
 
     public List<Object> getPaquetesComprados() {
         return Collections.singletonList(paquetesComprados);
+    }
+
+    public void agregarReserva(String idReserva, Reserva reserva) {
+        reservas.put(idReserva, reserva);
     }
 }
