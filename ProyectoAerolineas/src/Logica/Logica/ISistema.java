@@ -13,11 +13,15 @@ public interface ISistema {
     public abstract void altaAerolinea(String nickname, String nombre, String descripcion, String correo);
     public abstract Aerolinea verInfoAerolinea(String nickname);
     public abstract List<Aerolinea> listarAerolineas();
-    // Vuelos y rutas
-    public void cargarDatosEjemplo();
-
+    // VUELOS y RUTAS
+    // public void cargarDatosEjemplo();
     void altaCiudad(String nombre, String pais);
-    void altaRutaVuelo(String nombre, String aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo);
+    void altaRutaVuelo(String nombre, String aerolinea, String origen, String destino, double costoTurista, double costoEjecutivo, double otroCosto, LocalDate fecha
+                       );
+    public String crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
+                                         double costo,
+                                         TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros);
+
     public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
     Vuelo verInfoVuelo(String nombreVuelo);

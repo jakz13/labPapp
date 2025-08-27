@@ -33,7 +33,7 @@ public class RutaVuelo {
         this.vuelos = new HashMap<>();
     }
 
-    public RutaVuelo(String nombre, Aerolinea aero, String origen, String destino, double costoTurista, double costoEjecutivo) {
+    public RutaVuelo(String nombre, Aerolinea aero, String origen, String destino, double turista, double costoTurista, double costoEjecutivo, LocalDate fecha) {
     }
 
 

@@ -1,5 +1,7 @@
 package Logica;// ProyectoAerolineas/src/Logica/Logica.Vuelo.java
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Vuelo {
     private String nombre;
@@ -9,6 +11,7 @@ public class Vuelo {
     private int asientosTurista;
     private int asientosEjecutivo;
     private LocalDate fechaAlta;
+    private Map<String, Reserva> reservas;
 
     public Vuelo(String nombre, String nombreRuta, String fecha, int duracion, int asientosTurista, int asientosEjecutivo) {
         this.nombre = nombre;
@@ -18,6 +21,7 @@ public class Vuelo {
         this.asientosTurista = asientosTurista;
         this.asientosEjecutivo = asientosEjecutivo;
         this.fechaAlta = LocalDate.now();
+        this.reservas = new HashMap<>();
     }
 
     public String getNombre() { return nombre; }
@@ -27,4 +31,10 @@ public class Vuelo {
     public int getAsientosTurista() { return asientosTurista; }
     public int getAsientosEjecutivo() { return asientosEjecutivo; }
     public LocalDate getFechaAlta() { return fechaAlta; }
+    public Map<String, Reserva> getReservas() {
+        return reservas;
+    }
+    public void agregarReserva(String idReserva, Reserva reserva) {
+        reservas.put(idReserva, reserva);
+    }
 }
