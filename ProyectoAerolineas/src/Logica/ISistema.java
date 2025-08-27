@@ -26,5 +26,9 @@ public interface ISistema {
     void altaPaquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc, int periodoValidezDias);
     public List<Paquete> listarPaquetes();
 
+    public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
+    public List<Paquete> listarPaquetesDisp();
+
+
     public abstract Aerolinea obtenerAerolinea(String nombreAerolinea);
 }

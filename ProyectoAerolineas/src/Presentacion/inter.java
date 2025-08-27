@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+
+
 public class inter {
 
     public static void main(String[] args) {
-
         Fabrica fabrica = Fabrica.getInstance();
         ISistema sistema = fabrica.getISistema();
         Scanner sc = new Scanner(System.in);
@@ -25,9 +26,10 @@ public class inter {
             System.out.println("5. Alta Vuelo");
             System.out.println("6. Consulta Vuelo");
             System.out.println("7. Alta Paquete");
-            System.out.println("8. Listar Paquetes");
+            System.out.println("8. Consulta de Paquetes de Ruta de Vuelo");
             System.out.println("9. Alta Ruta de Vuelo");
             System.out.println("10. Alta Ciudad");
+            System.out.println("11. Agregar Ruta de Vuelo a Paquete");
             System.out.println("0. Salir");
             System.out.print("Opción: ");
             opcion = sc.nextInt();
@@ -160,30 +162,86 @@ public class inter {
                     System.out.print("Costo: ");
                     double costo = sc.nextDouble();
                     sc.nextLine();
-                    System.out.print("Fecha de alta (YYYY-MM-DD): ");
+                    /*System.out.print("Fecha de alta (YYYY-MM-DD): ");
                     String fechaStr = sc.nextLine();
-                    LocalDate fecha = LocalDate.parse(fechaStr);
+                    LocalDate fecha = LocalDate.parse(fechaStr);*/
                     System.out.print("Descuento (%): ");
                     int descuento = sc.nextInt();
                     System.out.print("Periodo de validez (días): ");
                     int periodo = sc.nextInt();
                     sc.nextLine();
 
-                    sistema.altaPaquete(nombre, desc, costo, fecha, descuento, periodo);
+                    sistema.altaPaquete(nombre, desc, costo, LocalDate.now(), descuento, periodo);
                     System.out.println("Paquete dado de alta con éxito.");
                 }
-                // Listar PAQUETES
+                // CONSULTA DE PAQUETE DE RUTAS DE VUELO
                 case 8 -> {
                     List<Paquete> paquetes = sistema.listarPaquetes();
-                    System.out.println("=== Paquetes ===");
+                    if (paquetes.isEmpty()) {
+                        System.out.println("No hay paquetes registrados.");
+                        break;
+                    }
+                    mostrarPaquetes(paquetes);
+                    System.out.print("Ingrese el nombre del paquete que desea consultar: ");
+                    String nomPaquete = sc.nextLine();
+
+
+                    Paquete paquete = null;
                     for (Paquete p : paquetes) {
-                        System.out.println("Nombre: " + p.getNombre());
-                        System.out.println("Descripción: " + p.getDescripcion());
-                        System.out.println("Costo: " + p.getCosto());
-                        System.out.println("Fecha de alta: " + p.getFechaAlta());
-                        System.out.println("Descuento: " + p.getDescuento() + "%");
-                        System.out.println("Periodo de validez: " + p.getPeriodoValidez() + " días");
-                        System.out.println("-------------------------");
+                        if (p.getNombre().equalsIgnoreCase(nomPaquete)) {
+                            paquete = p;
+                            break;
+                        }
+                    }
+                    if (paquete == null) {
+                        System.out.println("No se encontró el paquete.");
+                        break;
+                    }
+
+                    // Mostrar información general del paquete
+                    System.out.println("=== Detalles del Paquete ===");
+                    System.out.println("Nombre: " + paquete.getNombre());
+                    System.out.println("Descripción: " + paquete.getDescripcion());
+                    System.out.println("Costo: $" + paquete.getCosto());
+                    System.out.println("Descuento: " + (paquete.getDescuentoPorc() > 0 ? paquete.getDescuentoPorc() + "%" : "No tiene"));
+                    System.out.println("Periodo de validez: " + (paquete.getPeriodoValidezDias() > 0 ? paquete.getPeriodoValidezDias() + " días" : "Sin periodo"));
+                    System.out.println("Rutas incluidas:");
+                    List<ItemPaquete> items = paquete.getItemPaquetes();
+                    if (items.isEmpty()) {
+                        System.out.println(" No hay rutas de vuelo agregadas a este paquete.");
+                    } else {
+                        for (ItemPaquete item : items) {
+                            System.out.println("  Ruta: " + item.getRutaVuelo().getNombre() + " | Cantidad de asientos: " + item.getCantAsientos() +
+                                    " | Tipo de asiento: " + item.getTipoAsiento());
+                        }
+
+                        System.out.print("Desea consultar una ruta específica de este paquete? (s/n): ");
+                        String resp = sc.nextLine();
+                        if (resp.equalsIgnoreCase("s")) {
+                            System.out.print("Ingrese el nombre de la ruta: ");
+                            String nomRuta = sc.nextLine();
+
+                            RutaVuelo rutaSeleccionada = null;
+                            for (ItemPaquete item : items) {
+                                if (item.getRutaVuelo().getNombre().equalsIgnoreCase(nomRuta)) {
+                                    rutaSeleccionada = item.getRutaVuelo();
+                                    break;
+                                }
+                            }
+                            if (rutaSeleccionada != null) {
+                                System.out.println("=== Detalle de la Ruta ===");
+                                System.out.println("Nombre: " + rutaSeleccionada.getNombre());
+                                System.out.println("Descripción: " + rutaSeleccionada.getDescripcion());
+                                System.out.println("Origen: " + rutaSeleccionada.getCiudadOrigen());
+                                System.out.println("Destino: " + rutaSeleccionada.getCiudadDestino());
+                                System.out.println("Hora: " + rutaSeleccionada.getHora());
+                                System.out.println("Costo Turista: $" + rutaSeleccionada.getCostoTurista());
+                                System.out.println("Costo Ejecutivo: $" + rutaSeleccionada.getCostoEjecutivo());
+                                System.out.println("Costo equipaje extra: $" + rutaSeleccionada.getCostoEquipajeExtra());
+                            } else {
+                                System.out.println("No se encontró la ruta en el paquete.");
+                            }
+                        }
                     }
                 }
                 // En el case 9 del menú
@@ -250,7 +308,7 @@ public class inter {
                             costoEquipaje,
                             categorias
                     );
-                    System.out.println("✅ Ruta de vuelo dada de alta con éxito.");
+                    System.out.println("Ruta de vuelo dada de alta con éxito.");
                 }
                 case 10 -> {
                     System.out.print("Nombre de la ciudad: ");
@@ -260,17 +318,60 @@ public class inter {
                     sistema.altaCiudad(nombreCiudad, pais);
                     System.out.println("Ciudad agregada correctamente.");
                 }
+                // AGREGAR RUTA DE VUELO A UN PAQUETE
+                case 11 -> {
+                    List<Paquete> disponibles = sistema.listarPaquetesDisp();
+                    mostrarPaquetes(disponibles);
+                    System.out.print("Seleccione el paquete al que desea agregar una ruta: ");
+                    String nomPaquete = sc.nextLine();
+                    List<Aerolinea> aerolineas = sistema.listarAerolineas();
+                    System.out.println("=== Aerolíneas ===");
+                    for (Aerolinea a : aerolineas) {
+                        System.out.println(a.getNickname() + " - " + a.getNombre());
+                    }
+                    System.out.print("Ingrese el nickname de la aerolínea que desea agregar una ruta: ");
+                    String nombreAerolinea = sc.nextLine();
+                    // Listar rutas de vuelo de la aerolínea seleccionada
+                    List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nombreAerolinea);
+                    System.out.println("=== Rutas de Vuelo de dicha Aerolinea ===");
+                    for (RutaVuelo r : rutas) {
+                        System.out.println(r.getNombre());
+                    }
+                    System.out.print("Ingrese el nombre de la ruta que desea agregar: ");
+                    String nombreRuta = sc.nextLine();
+                    System.out.print("Ingrese la cantidad de asientos de la ruta " + nombreRuta + " que desee agregar al paquete " + nomPaquete + ": ");
+                    int cantAsi = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Ingrese el tipo de asiento (TURISTA/EJECUTIVO) de la ruta " + nombreRuta + " que desea agregar al paquete " + nomPaquete + ": ");
+                    String tipoStr = sc.nextLine().toUpperCase();
+                    TipoAsiento tipoA = TipoAsiento.valueOf(tipoStr);
+                    sistema.altaRutaPaquete(nomPaquete, nombreRuta, cantAsi, tipoA);
+                }
+
             }
 
 
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-            continue;
         }
         } while (opcion != 0);
 
 
         System.out.println("¡Hasta luego!");
+    }
+
+
+    public static void mostrarPaquetes(List<Paquete> paquetes) {
+        System.out.println("=== Paquetes ===");
+        for (Paquete p : paquetes) {
+            System.out.println("Nombre: " + p.getNombre());
+            System.out.println("Descripción: " + p.getDescripcion());
+            System.out.println("Costo: $" + p.getCosto());
+            System.out.println("Fecha de alta: " + p.getFechaAlta());
+            System.out.println("Descuento: " + (p.getDescuentoPorc() > 0 ? p.getDescuentoPorc() + "%" : "No tiene."));
+            System.out.println("Periodo de validez: " + (p.getPeriodoValidezDias() > 0 ? p.getPeriodoValidezDias() + " días" : "Sin periodo."));
+            System.out.println("-------------------------");
+        }
     }
 }
 

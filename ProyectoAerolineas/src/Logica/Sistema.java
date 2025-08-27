@@ -194,7 +194,7 @@ public class Sistema implements ISistema {
     @Override
     public void altaPaquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc, int periodoValidezDias) {
         Paquete p = new Paquete(nombre, descripcion, costo, fechaAlta, descuentoPorc, periodoValidezDias);
-        manejadorPaquete.agregarPaquete(p);
+        manejadorPaquete.crearPaquete(p);
     }
 
     @Override
@@ -202,4 +202,39 @@ public class Sistema implements ISistema {
         return manejadorPaquete.getPaquetes();
     }
 
+    @Override
+    public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento) {
+        Paquete p = manejadorPaquete.buscarPaquete(nombrePaquete);
+        if (p == null) {
+            throw new IllegalArgumentException("Paquete no encontrado");
+        }
+
+        RutaVuelo ruta = null;
+        for (Aerolinea a : listarAerolineas()) {
+            for (RutaVuelo r : listarRutasPorAerolinea(a.getNickname())) {
+                if (r.getNombre().equals(nomRuta)) {
+                    ruta = r;
+                    break;
+                }
+            }
+            if (ruta != null) break;
+        }
+
+        if (ruta == null) {
+            System.out.println("No se encontró la ruta con ese nombre.");
+            return;
+        }
+
+        try {
+            manejadorPaquete.agregarRutaPaquete(p, ruta, cantidadAsientos, tipoAsiento);
+            System.out.println("Ruta agregada al paquete correctamente.");
+        } catch (IllegalStateException e) {
+            System.out.println("ERROR.");
+        }
+    }
+
+    @Override
+    public List<Paquete> listarPaquetesDisp() {
+        return manejadorPaquete.getPaquetesDisp();
+    }
 }

@@ -9,16 +9,19 @@ public class Paquete {
     private LocalDate fechaAlta;
     private int descuentoPorc;
     private int periodoValidezDias;
-    private List<ItemPaquete> ItemPaquetes;
+    private List<ItemPaquete> ItemP;
+    private List<CompraPaqLogica> Compras;
 
     public Paquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc, int periodoValidezDias){
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costo = costo;
-        this.fechaAlta = LocalDate.now();
+        //this.fechaAlta = LocalDate.now();
+        this.fechaAlta = fechaAlta;
         this.descuentoPorc = descuentoPorc;
         this.periodoValidezDias = periodoValidezDias;
-        this.ItemPaquetes = new ArrayList<>();
+        this.ItemP = new ArrayList<>();
+        this.Compras = new ArrayList<>();
     }
 
     public String getNombre(){ return nombre; }
@@ -27,21 +30,14 @@ public class Paquete {
     public LocalDate getFechaAlta() { return fechaAlta; }
     public int getDescuentoPorc() { return descuentoPorc; }
     public int getPeriodoValidezDias() { return periodoValidezDias; }
-    public List<ItemPaquete> getItemPaquetes() { return ItemPaquetes; }
+    public List<ItemPaquete> getItemPaquetes() { return ItemP; }
+    public List<CompraPaqLogica> getCompras() { return Compras; }
 
-    public String getDescuento() {
-        if (descuentoPorc > 0) {
-            return "Descuento: " + descuentoPorc + "%";
-        } else {
-            return "Sin descuento";
-        }
+    public boolean estaComprado() {
+        return !Compras.isEmpty();
     }
 
-    public String getPeriodoValidez() {
-        if (periodoValidezDias > 0) {
-            return "Periodo de validez: " + periodoValidezDias + " días";
-        } else {
-            return "Sin periodo de validez";
-        }
+    public void registrarCompra(CompraPaqLogica compra) {
+        this.Compras.add(compra);
     }
 }

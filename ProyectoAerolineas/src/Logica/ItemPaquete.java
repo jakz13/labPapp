@@ -1,17 +1,20 @@
 
 
 public class ItemPaquete {
-    private final int cantidad;
     private RutaVuelo rutaVuelo;
     private int cantAsientos;
-    private String tipoAsiento;
+    private TipoAsiento tipoAsiento;
 
-    public ItemPaquete(RutaVuelo rutaVuelo, int cantidad, String tipoAsiento) {
+    public ItemPaquete(RutaVuelo rutaVuelo, int cantidad, TipoAsiento tipoAsiento) {
         this.rutaVuelo = rutaVuelo;
-        this.cantidad = cantidad;
+        this.cantAsientos= cantidad;
         this.tipoAsiento = tipoAsiento;
     }
     public RutaVuelo getRutaVuelo() { return rutaVuelo; }
     public int getCantAsientos() { return cantAsientos; }
-    public String getTipoAsiento() { return tipoAsiento; }
+    public TipoAsiento getTipoAsiento() { return tipoAsiento; }
+
+    public void incrementarCantidad(int cantidad) {
+        this.cantAsientos += cantidad;
+    }
 }
