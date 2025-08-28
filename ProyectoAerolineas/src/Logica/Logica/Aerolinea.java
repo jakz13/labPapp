@@ -26,6 +26,7 @@ public class Aerolinea extends Usuario {
 
 
     public List<RutaVuelo> getRutasVuelo() {
+        System.out.println("Entre a Rutas Vuelo");
         return new ArrayList<>(rutasVuelo.values());
     }
 }

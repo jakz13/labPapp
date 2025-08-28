@@ -1,5 +1,6 @@
 package guiSesion;
 
+import Logica.Aerolinea;
 import Logica.Fabrica;
 import Logica.ISistema;
 
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 public class NuevaRutaVuelo {
+    private String aerolineaSeleccionada;
     private JPanel PanelAltaRuta;
     private JTextField NombreRuta;
     private JTextField AereolineaEncargada;
@@ -20,29 +22,49 @@ public class NuevaRutaVuelo {
     private JButton crear;
     private JButton cancelarButton;
     private JTextField Equipaje;
+    private JList ListaAereolinea;
+    private JTextArea descripcion;
+    private JTextField Categoria;
 
     public NuevaRutaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
+        DefaultListModel<String> modeloAerolineas = new DefaultListModel<>();
+        for (Aerolinea a : sistema.listarAerolineas()) {
+            String item = a.getNickname() + " (" + a.getNombre() + ")";
+            modeloAerolineas.addElement(item);
+        }
+        ListaAereolinea.setModel(modeloAerolineas);
+        ListaAereolinea.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                String seleccionado = (String) ListaAereolinea.getSelectedValue();
+                if (seleccionado != null) {
+                    aerolineaSeleccionada = seleccionado.split(" ")[0];
+                }
+            }
+        });
+
         crear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 {
                     String nombreRuta = NombreRuta.getText().trim();
+                    String Descripcion = descripcion.getText().trim();
                     String origen = Origen.getText().trim();
                     String destino = Destino.getText().trim();
+                    String[] categoria = new String[]{Categoria.getText().trim()};
+                    String hora = "00:00";
                     double costoTurista = Double.parseDouble(CostoTurista.getText().trim());
                     double costoEjecutivo = Double.parseDouble(CostoEjecutivo.getText().trim());
-                    String Aereolinea = AereolineaEncargada.getText().trim();
                     double equipaje = Double.parseDouble(Equipaje.getText().trim());
                     LocalDate fecha = LocalDate.now();
-                    if (nombreRuta.isEmpty() || origen.isEmpty() || destino.isEmpty() || costoTurista < 0 || costoEjecutivo < 0 || Aereolinea.isEmpty() || equipaje < 0) {
+                    if (nombreRuta.isEmpty() || origen.isEmpty() || destino.isEmpty() || costoTurista < 0 || costoEjecutivo < 0 || aerolineaSeleccionada == null || aerolineaSeleccionada.isEmpty() || equipaje < 0) {
                         JOptionPane.showMessageDialog(null,
                                 "Debe completar todos los campos.",
                                 "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                     try {
-                        sistema.altaRutaVuelo(nombreRuta, Aereolinea, origen, destino, costoTurista, costoEjecutivo, equipaje, fecha);
+                        sistema.altaRutaVuelo(nombreRuta, Descripcion, aerolinea, origen, destino, hora,fecha, costoTurista, costoEjecutivo, equipaje, categoria);
                         JOptionPane.showMessageDialog(null,
                                 "Ruta creada correctamente.",
                                 "Éxito",
