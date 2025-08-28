@@ -60,6 +60,7 @@ public class ManejadorAerolinea {
     }
 
     public List<RutaVuelo> obtenerRutaVueloDeAerolinea(String nicknameAerolinea) {
+        System.out.println("Entre a Rutas Vuelo De Aereolinea");
         Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);
         if (aerolinea != null) {
             return new ArrayList<>(aerolinea.getRutasVuelo());

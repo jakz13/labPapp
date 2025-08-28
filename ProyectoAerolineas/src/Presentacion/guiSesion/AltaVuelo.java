@@ -1,6 +1,7 @@
 package guiSesion;
 
 import Logica.*;
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,22 +31,27 @@ public class AltaVuelo {
         ISistema sistema = Fabrica.getInstance().getISistema();
         DefaultListModel<String> modeloAerolineas = new DefaultListModel<>();
         for (Aerolinea a : sistema.listarAerolineas()) {
-            modeloAerolineas.addElement(a.getNombre()); // o getNickname()
+            String item = a.getNickname() + " (" + a.getNombre() + ")";
+            modeloAerolineas.addElement(item);
         }
         ListaAereolineas.setModel(modeloAerolineas);
 
         ListaAereolineas.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                String aerolineaSeleccionada = (String) ListaAereolineas.getSelectedValue();
-                if (aerolineaSeleccionada != null) {
+                String item = (String) ListaAereolineas.getSelectedValue();
+                if (item != null) {
+                    String nickname = item.split(" ")[0];
+
+                    List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
                     DefaultListModel<String> modeloRutas = new DefaultListModel<>();
-                    for (RutaVuelo r : sistema.listarRutasPorAerolinea(aerolineaSeleccionada)) {
+                    for (RutaVuelo r : rutas) {
                         modeloRutas.addElement(r.getNombre());
                     }
                     ListaRutasDeVuelo.setModel(modeloRutas);
                 }
             }
         });
+
         crearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
