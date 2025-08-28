@@ -12,8 +12,6 @@ import java.time.LocalDate;
 public class AltaVuelo {
     private JPanel panelDeVuelo;
     private JTextField campoAereolinea;
-    private JLabel Aereolinea;
-    private JLabel Ruta;
     private JTextField campoRuta;
     private JButton crearButton;
     private JButton cancelarButton;
@@ -41,6 +39,9 @@ public class AltaVuelo {
                 String item = (String) ListaAereolineas.getSelectedValue();
                 if (item != null) {
                     String nickname = item.split(" ")[0];
+                    String nombre = item.substring(item.indexOf("(") + 1, item.indexOf(")"));
+
+                    campoAereolinea.setText(nombre);
 
                     List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
                     DefaultListModel<String> modeloRutas = new DefaultListModel<>();
@@ -48,6 +49,15 @@ public class AltaVuelo {
                         modeloRutas.addElement(r.getNombre());
                     }
                     ListaRutasDeVuelo.setModel(modeloRutas);
+                }
+            }
+        });
+
+        ListaRutasDeVuelo.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                String rutaSeleccionada = (String) ListaRutasDeVuelo.getSelectedValue();
+                if (rutaSeleccionada != null) {
+                    campoRuta.setText(rutaSeleccionada);
                 }
             }
         });
@@ -81,25 +91,7 @@ public class AltaVuelo {
                             "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                boolean existeAerolinea = sistema.listarAerolineas()
-                        .stream().anyMatch(a -> a.getNombre().equalsIgnoreCase(aereolinea));
 
-                if (!existeAerolinea) {
-                    JOptionPane.showMessageDialog(null,
-                            "La aerolínea ingresada no existe.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                boolean existeRuta = sistema.listarRutasPorAerolinea(aereolinea)
-                        .stream().anyMatch(r -> r.getNombre().equalsIgnoreCase(ruta));
-
-                if (!existeRuta) {
-                    JOptionPane.showMessageDialog(null,
-                            "La ruta ingresada no existe para esa aerolínea.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
                 int dia = Integer.parseInt(diaStr);
                 int mes = Integer.parseInt(mesStr);
                 int anio = Integer.parseInt(anioStr);
