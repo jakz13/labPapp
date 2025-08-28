@@ -15,11 +15,10 @@ public class DesplegarUsuarios {
     private JPanel PanelTablas;
 
     public DesplegarUsuarios(List<Cliente> clientes) {
-        // Creamos un modelo no editable
         DefaultTableModel modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // 🔒 ninguna celda editable
+                return false;
             }
         };
 

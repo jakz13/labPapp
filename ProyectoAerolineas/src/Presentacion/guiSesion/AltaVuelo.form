@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="guiSesion.AltaVuelo">
   <grid id="27dc6" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="890" height="459"/>
+      <xy x="20" y="20" width="1350" height="459"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -12,7 +12,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="ab0af" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="ab0af" layout-manager="GridLayoutManager" row-count="2" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints border-constraint="Center"/>
             <properties>
@@ -23,7 +23,7 @@
               <grid id="c5934" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-18751"/>
@@ -44,7 +44,7 @@
                   </component>
                 </children>
               </grid>
-              <grid id="6f287" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="6f287" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -54,7 +54,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="39576" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="39576" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -64,54 +64,75 @@
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="acfc0" class="javax.swing.JLabel" binding="Ruta">
+                      <component id="18e1b" class="javax.swing.JList" binding="ListaAereolineas">
                         <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font name="Segoe UI Black"/>
-                          <text value="Ruta de vuelo a la que pertenece:"/>
-                        </properties>
-                      </component>
-                      <component id="6d7a3" class="javax.swing.JTextField" binding="campoRuta">
-                        <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="-1"/>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="50"/>
                           </grid>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <font name="JetBrains Mono Medium"/>
+                          <model/>
+                        </properties>
                       </component>
-                      <component id="d6d" class="javax.swing.JLabel" binding="Aereolinea">
+                      <component id="c76cf" class="javax.swing.JList" binding="ListaRutasDeVuelo">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="50"/>
+                          </grid>
                         </constraints>
                         <properties>
-                          <font name="Segoe UI Black"/>
-                          <horizontalAlignment value="2"/>
-                          <text value="Aereolinea asociada al vuelo:"/>
+                          <font name="JetBrains Mono Medium"/>
                         </properties>
                       </component>
                       <component id="54003" class="javax.swing.JTextField" binding="campoAereolinea">
                         <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
                           </grid>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <editable value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <text value="Aereolinea que brinda el vuelo"/>
+                        </properties>
+                      </component>
+                      <component id="6d7a3" class="javax.swing.JTextField" binding="campoRuta">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="-1"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <editable value="false"/>
+                          <horizontalAlignment value="0"/>
+                          <text value="Ruta a la que pertenece el vuelo"/>
+                          <toolTipText value=""/>
+                        </properties>
                       </component>
                     </children>
                   </grid>
-                  <grid id="a5be8" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                </children>
+              </grid>
+              <grid id="2a78d" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <grid id="dc6fe" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <background color="-18751"/>
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="9acca" class="javax.swing.JTextField" binding="NOmVuelo">
+                      <component id="4c58c" class="javax.swing.JTextField" binding="NOmVuelo">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -119,7 +140,7 @@
                         </constraints>
                         <properties/>
                       </component>
-                      <component id="a32f6" class="javax.swing.JLabel">
+                      <component id="1dad2" class="javax.swing.JLabel">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
                         </constraints>
@@ -128,7 +149,7 @@
                           <text value="Nombre del Vuelo:"/>
                         </properties>
                       </component>
-                      <component id="cadfd" class="javax.swing.JTextField" binding="Duracion">
+                      <component id="84c1e" class="javax.swing.JTextField" binding="Duracion">
                         <constraints>
                           <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -136,7 +157,7 @@
                         </constraints>
                         <properties/>
                       </component>
-                      <component id="df694" class="javax.swing.JLabel">
+                      <component id="b1fa9" class="javax.swing.JLabel">
                         <constraints>
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
                         </constraints>
@@ -145,7 +166,7 @@
                           <text value="Cantidad de asientos para turistas:"/>
                         </properties>
                       </component>
-                      <component id="8396b" class="javax.swing.JLabel">
+                      <component id="626d7" class="javax.swing.JLabel">
                         <constraints>
                           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
                         </constraints>
@@ -154,7 +175,7 @@
                           <text value="Cantidad de asientos para ejecutivos:"/>
                         </properties>
                       </component>
-                      <component id="126a8" class="javax.swing.JLabel">
+                      <component id="a731b" class="javax.swing.JLabel">
                         <constraints>
                           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
                         </constraints>
@@ -163,7 +184,7 @@
                           <text value="Fecha del vuelo:"/>
                         </properties>
                       </component>
-                      <component id="1ea31" class="javax.swing.JLabel">
+                      <component id="75693" class="javax.swing.JLabel">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
                         </constraints>
@@ -172,7 +193,7 @@
                           <text value="Duracion del vuelo:"/>
                         </properties>
                       </component>
-                      <component id="b96fb" class="javax.swing.JTextField" binding="CantTuristas">
+                      <component id="6b062" class="javax.swing.JTextField" binding="CantTuristas">
                         <constraints>
                           <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -180,7 +201,7 @@
                         </constraints>
                         <properties/>
                       </component>
-                      <component id="df18e" class="javax.swing.JTextField" binding="CantEjecutivo">
+                      <component id="48d64" class="javax.swing.JTextField" binding="CantEjecutivo">
                         <constraints>
                           <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="-1"/>
@@ -188,7 +209,7 @@
                         </constraints>
                         <properties/>
                       </component>
-                      <component id="d4d98" class="javax.swing.JComboBox" binding="Dia">
+                      <component id="7f42d" class="javax.swing.JComboBox" binding="Dia">
                         <constraints>
                           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -229,7 +250,7 @@
                           </model>
                         </properties>
                       </component>
-                      <component id="a1a44" class="javax.swing.JComboBox" binding="Ano">
+                      <component id="9e854" class="javax.swing.JComboBox" binding="Ano">
                         <constraints>
                           <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -245,7 +266,7 @@
                           </model>
                         </properties>
                       </component>
-                      <component id="ded9f" class="javax.swing.JComboBox" binding="Mes">
+                      <component id="70b91" class="javax.swing.JComboBox" binding="Mes">
                         <constraints>
                           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -271,27 +292,6 @@
                   </grid>
                 </children>
               </grid>
-              <component id="db5c1" class="javax.swing.JList" binding="ListaAereolineas">
-                <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <font name="JetBrains Mono Medium"/>
-                  <model/>
-                </properties>
-              </component>
-              <component id="fa19e" class="javax.swing.JList" binding="ListaRutasDeVuelo">
-                <constraints>
-                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="50"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <font name="JetBrains Mono Medium"/>
-                </properties>
-              </component>
             </children>
           </grid>
           <grid id="f3e33" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

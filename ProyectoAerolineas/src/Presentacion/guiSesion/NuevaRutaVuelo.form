@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="guiSesion.NuevaRutaVuelo">
   <grid id="27dc6" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="791" height="481"/>
+      <xy x="20" y="20" width="791" height="511"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -44,7 +44,7 @@
                   </component>
                 </children>
               </grid>
-              <grid id="43cc9" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="43cc9" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -54,33 +54,16 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="e2ff8" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="e2ff8" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <background color="-6887681"/>
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="468f3" class="javax.swing.JTextField" binding="NombreRuta">
-                        <constraints>
-                          <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="-1"/>
-                          </grid>
-                        </constraints>
-                        <properties/>
-                      </component>
-                      <component id="1b1d1" class="javax.swing.JLabel">
-                        <constraints>
-                          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <font name="Segoe UI Black"/>
-                          <text value="Nombre de la ruta:"/>
-                        </properties>
-                      </component>
                       <component id="a58d0" class="javax.swing.JList" binding="ListaAereolinea">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -91,7 +74,7 @@
                       </component>
                       <component id="8a02e" class="javax.swing.JTextArea" binding="descripcion">
                         <constraints>
-                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                             <preferred-size width="150" height="50"/>
                           </grid>
                         </constraints>
@@ -99,7 +82,7 @@
                       </component>
                       <component id="a8d8e" class="javax.swing.JLabel">
                         <constraints>
-                          <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <font name="Segoe UI Black"/>
@@ -108,6 +91,32 @@
                       </component>
                     </children>
                   </grid>
+                  <component id="a4608" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Segoe UI Black"/>
+                      <text value="Seleccione la aerolinea que hara el recorrido:"/>
+                    </properties>
+                  </component>
+                  <component id="1b1d1" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Segoe UI Black"/>
+                      <text value="Nombre de la ruta:"/>
+                    </properties>
+                  </component>
+                  <component id="468f3" class="javax.swing.JTextField" binding="NombreRuta">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
                 </children>
               </grid>
               <component id="df671" class="javax.swing.JLabel">
@@ -184,7 +193,7 @@
                 </constraints>
                 <properties>
                   <font name="Segoe UI Black"/>
-                  <text value="Costo por equipaje extra:"/>
+                  <text value="Costo del equipaje extra:"/>
                 </properties>
               </component>
               <component id="ae451" class="javax.swing.JTextField" binding="Equipaje">
@@ -254,11 +263,11 @@
                       </component>
                       <component id="5820" class="javax.swing.JLabel">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <font name="Segoe UI Black"/>
-                          <text value="Categoria:"/>
+                          <text value="Categoria que tendra la ruta:"/>
                         </properties>
                       </component>
                     </children>
