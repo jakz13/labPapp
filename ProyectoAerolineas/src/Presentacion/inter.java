@@ -11,7 +11,7 @@ public class inter {
         Fabrica fabrica = Fabrica.getInstance();
         ISistema sistema = fabrica.getISistema();
         Scanner sc = new Scanner(System.in);
-        sistema.cargarDatosEjemplo();
+
 
         int opcion = 0;
         do {
@@ -44,7 +44,16 @@ public class inter {
                         String apellido = sc.nextLine();
                         System.out.print("Correo: ");
                         String correo = sc.nextLine();
-                        sistema.altaCliente(nick, nombre, apellido, correo);
+                        System.out.print("Fecha de Nacimiento (YYYY-MM-DD): ");
+                        String fechaStr = sc.nextLine();
+                        LocalDate fechaNac = LocalDate.parse(fechaStr);
+                        System.out.print("Nacionalidad: ");
+                        String nacionalidad = sc.nextLine();
+                        System.out.print("Tipo de Documento: ");
+                        String tipoDoc = sc.nextLine();
+                        System.out.print("Número de Documento: ");
+                        String numDoc = sc.nextLine();
+                        sistema.altaCliente(nick, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc);
                     }
                     case 2 -> {
                         System.out.print("Nickname: ");
@@ -57,7 +66,7 @@ public class inter {
                         String correo = sc.nextLine();
                         System.out.print("Sitio web: ");
                         String sitioweb = sc.nextLine();
-                        sistema.altaAerolinea(nick, nombre, desc, correo, sitioweb);
+                        sistema.altaAerolinea(nick, nombre, correo, desc, sitioweb);
                     }
                     // Listar CLIENTES
                     case 3 -> {
@@ -203,6 +212,7 @@ public class inter {
                             System.out.println("Aerolínea no encontrada");
                             break;
                         }
+
                         System.out.print("Nombre de la ruta (único): ");
                         String nombreRuta = sc.nextLine();
 
@@ -230,7 +240,7 @@ public class inter {
                         double costoEjecutivo = sc.nextDouble();
                         System.out.print("Costo unidad equipaje extra: ");
                         double costoEquipaje = sc.nextDouble();
-                        sc.nextLine();
+                        sc.nextLine(); // limpiar buffer
 
                         System.out.print("Ciudad origen: ");
                         String ciudadOrigen = sc.nextLine();
@@ -242,10 +252,11 @@ public class inter {
                         String categoriasStr = sc.nextLine();
                         String[] categorias = categoriasStr.split(",");
 
+                        // Ahora pasamos el objeto Aerolinea en lugar del nickname
                         sistema.altaRutaVuelo(
                                 nombreRuta,
                                 descripcion,
-                                nombreAerolinea,
+                                aerolinea,   // <-- objeto, no String
                                 ciudadOrigen,
                                 ciudadDestino,
                                 hora,
@@ -254,8 +265,10 @@ public class inter {
                                 costoEjecutivo,
                                 costoEquipaje,
                                 categorias);
+
                         System.out.println("✅ Ruta de vuelo dada de alta con éxito.");
                     }
+
                     case 10 -> {
                         System.out.print("Nombre de la ciudad: ");
                         String nombreCiudad = sc.nextLine();

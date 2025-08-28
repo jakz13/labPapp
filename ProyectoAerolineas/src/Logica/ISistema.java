@@ -4,29 +4,26 @@ import java.util.List;
 
 public interface ISistema {
     // Usuarios
-    public abstract void altaCliente(String nickname, String nombre, String apellido, String correo);
+    public abstract void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, String tipoDoc, String numDoc);
 
     public abstract Cliente verInfoCliente(String nickname);
 
     public abstract List<Cliente> listarClientes();
 
-    public abstract void altaAerolinea(String nickname, String nombre, String descripcion, String correo,
-            String sitioweb);
+    public abstract void altaAerolinea(String nickname, String nombre, String descripcion, String correo, String sitioweb);
 
     public abstract Aerolinea verInfoAerolinea(String nickname);
 
     public abstract List<Aerolinea> listarAerolineas();
 
     // Vuelos y rutas
-    public void cargarDatosEjemplo();
+   // public void cargarDatosEjemplo();
 
     void altaCiudad(String nombre, String pais);
 
-    public void altaRutaVuelo(String nombre, String codigo, String aerolinea, String origen, String destino,
-            String tipo, LocalDate fecha, double costoTurista, double costoEjecutivo, double otroCosto,
-            String[] servicios);
+    public void altaRutaVuelo(String nombre, String descripcion, Aerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias);
 
-    public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
+        public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
 
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
 

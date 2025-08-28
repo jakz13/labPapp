@@ -23,7 +23,7 @@ public class Sistema implements ISistema {
         this.manejadorCiudad = ManejadorCiudad.getInstance();
     }
 
-    public void cargarDatosEjemplo() {
+    /*public void cargarDatosEjemplo() {
         // Alta de aerolínea
         String nickAerolinea = "flyuy";
         String nombreAerolinea = "Fly Uruguay";
@@ -56,14 +56,14 @@ public class Sistema implements ISistema {
                 costoEjecutivo,
                 costoEquipajeExtra,
                 categorias);
-    }
+    }*/
 
     // --- USUARIOS ---
     @Override
-    public void altaCliente(String nickname, String nombre, String apellido, String correo) {
+    public void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, String tipoDoc, String numDoc) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
-            Cliente c = new Cliente(nickname, nombre, apellido, correo);
+            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc);
             manejadorCliente.agregarCliente(c);
         } else {
             throw new IllegalArgumentException("Ya existe con ese nickname");
@@ -86,10 +86,10 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void altaAerolinea(String nickname, String nombre, String descripcion, String correo, String sitioweb) {
+    public void altaAerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
-            Aerolinea a = new Aerolinea(nickname, nombre, descripcion, correo, sitioweb);
+            Aerolinea a = new Aerolinea(nickname, nombre, email, descripcion, sitioWeb);
             manejadorAerolinea.agregarAerolinea(a);
         } else {
             throw new IllegalArgumentException("Ya existe con ese nickname");
@@ -128,20 +128,21 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void altaRutaVuelo(String nombre, String codigo, String aerolinea, String origen, String destino,
-            String tipo, LocalDate fecha, double costoTurista, double costoEjecutivo, double otroCosto,
-            String[] servicios) {
-        Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea);
+    public void altaRutaVuelo(String nombre, String descripcion, Aerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias) {
+
+        Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());
         if (aero != null) {
-            RutaVuelo r = new RutaVuelo(nombre, codigo, aero, origen, destino, tipo, fecha, costoTurista,
-                    costoEjecutivo, otroCosto, servicios);
+            RutaVuelo r = new RutaVuelo(nombre, descripcion, aero, ciudadOrigen, ciudadDestino,
+                    hora, fechaAlta, costoTurista, costoEjecutivo,
+                    costoEquipajeExtra, categorias);
+
             manejadorRutaVuelo.agregarRutaVuelo(r);
-            manejadorAerolinea.agregarRutaVueloAAerolinea(aerolinea, r);
+            manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), r);
+
         } else {
             throw new IllegalArgumentException("No existe Aerolinea con ese nickname");
         }
     }
-
     public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
         return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);
     }
@@ -205,7 +206,7 @@ public class Sistema implements ISistema {
             Reserva reserva = new Reserva(idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra,
                     pasajeros);
             registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
-            return "✅ Reserva registrada con éxito.";
+            return "Reserva registrada con éxito.";
         } catch (Exception e) {
             return "Error al registrar la reserva: " + e.getMessage();
         }

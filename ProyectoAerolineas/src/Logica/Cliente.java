@@ -24,17 +24,6 @@ public class Cliente extends Usuario {
         this.paquetesComprados = new java.util.ArrayList<>();
     }
 
-    public Cliente(String nickname, String nombre, String apellido, String correo) {
-        super(nickname, nombre, correo);
-        this.apellido = apellido;
-        this.fechaNacimiento = LocalDate.now();
-        this.nacionalidad = "Desconocida";
-        this.tipoDocumento = "Desconocido";
-        this.numeroDocumento = "00000000";
-        this.reservas = new HashMap<>();
-        this.paquetesComprados = new java.util.ArrayList<>();
-    }
-
     public String getApellido() { return apellido; }
     public LocalDate getFechaNacimiento() { return fechaNacimiento; }
     public String getNacionalidad() { return nacionalidad; }
