@@ -158,7 +158,8 @@ public class Sistema implements ISistema {
     // --- VUELO ---
     // ProyectoAerolineas/src/Logica/Sistema.java
 
-    public String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha,
+    /*
+    public String altaVueloAux(String nombreAerolinea,String nombreAereolinea, String nombreRuta, String nombreVuelo, LocalDate fecha,
                                int duracion, int asientosTurista, int asientosEjecutivo) {
         Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nombreAerolinea);
         if (aerolinea == null) {
@@ -171,22 +172,21 @@ public class Sistema implements ISistema {
         if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
             return "Ya existe un vuelo con ese nombre.";
         }
-        Vuelo vuelo = new Vuelo(nombreVuelo, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
+        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
         manejadorVuelo.agregarVuelo(vuelo);
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
-        return "Vuelo dado de alta correctamente.";
     }
+    */
 
     @Override
-    public boolean altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista,
-                             int asientosEjecutivo) {
+    public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
+                          int asientosEjecutivo, LocalDate fechaAlta) {
         if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
-            return false;
+            return;
         }
-        Vuelo vuelo = new Vuelo(nombreVuelo, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
+        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo, fechaAlta);
         manejadorVuelo.agregarVuelo(vuelo);
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
-        return true;
     }
 
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta) {
