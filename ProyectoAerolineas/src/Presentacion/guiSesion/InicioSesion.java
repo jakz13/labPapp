@@ -4,6 +4,7 @@ package guiSesion;
 
 import Logica.Fabrica;
 import Logica.ISistema;
+import Logica.TipoDoc;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.time.LocalDate;
 
 
 public class InicioSesion {
@@ -53,13 +55,33 @@ public class InicioSesion {
                 String nombreCliente = NombreCliente.getText();
                 String email = EmailUsuario.getText();
                 String documento = Documento.getText();
+                String nacionalidad = NacionalidadCliente.getText();
 
-                if (nombreUsuario.isEmpty() || nombreCliente.isEmpty() || email.isEmpty() || documento.isEmpty() || apellido.isEmpty()) {
+                TipoDoc tipoDoc;
+
+                String diaStr = (String) DiaNacimiento.getSelectedItem();
+                String mesStr = (String) MesNacimiento.getSelectedItem();
+                String anioStr = (String) AnoNacimiento.getSelectedItem();
+
+
+                if (nombreUsuario.isEmpty() || nombreCliente.isEmpty() || email.isEmpty() || documento.isEmpty() || apellido.isEmpty() ||  (!CiRadioButton.isSelected() && !PasaporteRadioButton.isSelected())) {
                     JOptionPane.showMessageDialog(null,
                             "Debe completar todos los campos.",
                             "Error de salame", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                if (diaStr.equals("Día") || mesStr.equals("Mes") || anioStr.equals("Año")) {
+                    JOptionPane.showMessageDialog(null,
+                            "Debe seleccionar una fecha válida.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int dia = Integer.parseInt(diaStr);
+                int mes = Integer.parseInt(mesStr);
+                int anio = Integer.parseInt(anioStr);
+
+                LocalDate fecha = LocalDate.of(anio, mes, dia);
 
                 if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
                     JOptionPane.showMessageDialog(null,
@@ -76,6 +98,7 @@ public class InicioSesion {
                                 "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    tipoDoc = TipoDoc.CI;
                 } else if (PasaporteRadioButton.isSelected()) {
                     // Validar formato de pasaporte (ejemplo: 2 letras + 6 números)
                     if (!Documento.getText().matches("[A-Z]{2}\\d{6}")) {
@@ -84,6 +107,7 @@ public class InicioSesion {
                                 "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    tipoDoc = TipoDoc.PASAPORTE;
                 } else {
                     JOptionPane.showMessageDialog(null,
                             "Debe seleccionar CI o Pasaporte.",
@@ -91,7 +115,8 @@ public class InicioSesion {
                     return;
 
                 }
-                sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email);
+
+                sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email, fecha, nacionalidad, tipoDoc, documento);
                 DesplegarUsuarios ventanaUsuarios = new DesplegarUsuarios(sistema.listarClientes());
                 DefaultTableModel modelo = (DefaultTableModel) ventanaUsuarios.TablaUsuarios.getModel();
                 modelo.addRow(new Object[]{NombreUsuario, Apellido, Documento});
