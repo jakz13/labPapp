@@ -25,8 +25,8 @@ public interface ISistema {
     public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
     Vuelo verInfoVuelo(String nombreVuelo);
-    String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion, int asientosTurista, int asientosEjecutivo);
-    public boolean altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista, int asientosEjecutivo);
+    // String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo);
+    public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta);
     // --- PAQUETES ---
     void altaPaquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc, int periodoValidezDias);
     public List<Paquete> listarPaquetes();

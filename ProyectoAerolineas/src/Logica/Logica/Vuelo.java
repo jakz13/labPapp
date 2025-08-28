@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Vuelo {
     private String nombre;
+    private String NombreAereolinea;
     private String nombreRuta;
     private LocalDate fecha;
     private int duracion;
@@ -13,14 +14,15 @@ public class Vuelo {
     private LocalDate fechaAlta;
     private Map<String, Reserva> reservas;
 
-    public Vuelo(String nombre, String nombreRuta, String fecha, int duracion, int asientosTurista, int asientosEjecutivo) {
+    public Vuelo(String nombre, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta) {
         this.nombre = nombre;
+        this.NombreAereolinea = nombreAereolinea;
         this.nombreRuta = nombreRuta;
-        this.fecha = LocalDate.parse(fecha);//"2025-08-20"
+        this.fecha = fecha;
         this.duracion = duracion;
         this.asientosTurista = asientosTurista;
         this.asientosEjecutivo = asientosEjecutivo;
-        this.fechaAlta = LocalDate.now();
+        this.fechaAlta = fechaAlta;
         this.reservas = new HashMap<>();
     }
 

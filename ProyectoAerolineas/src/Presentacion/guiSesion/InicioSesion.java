@@ -91,7 +91,7 @@ public class InicioSesion {
                 }
 
                 if (CiRadioButton.isSelected()) {
-                    // Validar formato de CI (ejemplo: solo números, 7 u 8 dígitos)
+                    // Validar formato de CI (8 dígitos)
                     if (!Documento.getText().matches("\\d{8}")) {
                         JOptionPane.showMessageDialog(null,
                                 "La CI debe tener 8 números.",
@@ -100,7 +100,7 @@ public class InicioSesion {
                     }
                     tipoDoc = TipoDoc.CI;
                 } else if (PasaporteRadioButton.isSelected()) {
-                    // Validar formato de pasaporte (ejemplo: 2 letras + 6 números)
+                    // Validar formato de pasaporte (2 letras + 6 números)
                     if (!Documento.getText().matches("[A-Z]{2}\\d{6}")) {
                         JOptionPane.showMessageDialog(null,
                                 "El pasaporte debe tener el formato: 2 letras y 6 números (ej: AB123456).",
