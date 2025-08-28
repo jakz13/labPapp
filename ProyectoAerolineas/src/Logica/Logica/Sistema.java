@@ -68,14 +68,16 @@ public class Sistema implements ISistema {
 
 
     @Override
-    public void altaAerolinea(String nickname, String nombre, String descripcion, String correo) {
-        if (manejadorAerolinea.obtenerAerolinea(nickname)==null && manejadorCliente.obtenerCliente(nickname)==null) {
-            Aerolinea a = new Aerolinea(nickname, nombre, descripcion, correo);
+    public void altaAerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb) {
+        if (manejadorAerolinea.obtenerAerolinea(nickname) == null
+                && manejadorCliente.obtenerCliente(nickname) == null) {
+            Aerolinea a = new Aerolinea(nickname, nombre, email, descripcion, sitioWeb);
             manejadorAerolinea.agregarAerolinea(a);
-        }else  {
+        } else {
             throw new IllegalArgumentException("Ya existe con ese nickname");
         }
     }
+
     @Override
     public Aerolinea verInfoAerolinea(String nickname) {
         Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);

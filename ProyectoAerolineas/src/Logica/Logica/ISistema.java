@@ -10,7 +10,7 @@ public interface ISistema {
     public abstract List<Cliente> listarClientes();
 
 
-    public abstract void altaAerolinea(String nickname, String nombre, String descripcion, String correo);
+    public abstract void altaAerolinea(String nickname, String nombre, String descripcion, String correo, String sitioWeb);
     public abstract Aerolinea verInfoAerolinea(String nickname);
     public abstract List<Aerolinea> listarAerolineas();
     // VUELOS y RUTAS

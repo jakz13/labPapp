@@ -10,7 +10,7 @@ public class Aerolinea extends Usuario {
     private String sitioWeb;
     private Map<String, RutaVuelo> rutasVuelo;
 
-    public Aerolinea(String nickname, String nombre, String email, String descripcion) {
+    public Aerolinea(String nickname, String nombre, String email, String descripcion, String Sitioweb) {
         super(nickname, nombre, email);
         this.descripcion = descripcion;
         this.sitioWeb = sitioWeb;

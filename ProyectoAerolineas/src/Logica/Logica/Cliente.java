@@ -1,9 +1,7 @@
 package Logica;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Cliente extends Usuario {
     private String apellido;
@@ -11,7 +9,7 @@ public class Cliente extends Usuario {
     private String nacionalidad;
     private String tipoDocumento;
     private String numeroDocumento;
-    private List<Reserva> reservas;
+    private Map<String, Reserva> reservas;
     private List<Paquete> paquetesComprados;
 
     public Cliente(String nickname, String nombre, String email, String apellido, LocalDate fechaNac, String nacionalidad, String tipoDoc, String numDoc) {
@@ -21,7 +19,7 @@ public class Cliente extends Usuario {
         this.nacionalidad = nacionalidad;
         this.tipoDocumento = tipoDoc;
         this.numeroDocumento = numDoc;
-        this.reservas = new ArrayList<>();
+        this.reservas = new HashMap<>();
         this.paquetesComprados = new java.util.ArrayList<>();
     }
 
@@ -32,7 +30,7 @@ public class Cliente extends Usuario {
         this.nacionalidad = "Desconocida"; // Default value
         this.tipoDocumento = "Desconocido"; // Default value
         this.numeroDocumento = "00000000"; // Default value
-        this.reservas = new ArrayList<>();
+        this.reservas = new HashMap<>();
         this.paquetesComprados = new ArrayList<>();
     }
 
@@ -56,7 +54,7 @@ public class Cliente extends Usuario {
         return numeroDocumento;
     }
 
-    public List<Reserva> getReservas() {
+    public Map<String, Reserva>getReservas() {
         return reservas;
     }
 
