@@ -16,6 +16,7 @@ public class AltaAereolinea {
     private JTextField EmailUsuario;
     private JButton crearButton;
     private JButton cancelarButton;
+    private JTextField Link;
 
     public AltaAereolinea() {
         ISistema sistema = Fabrica.getInstance().getISistema();
@@ -27,6 +28,7 @@ public class AltaAereolinea {
                 String nombre     = NombreAereolinea.getText().trim();
                 String descripcion = Descripcion.getText().trim();
                 String correo     = EmailUsuario.getText().trim();
+                String sitioWeb = Link.getText().trim();
 
                 // Relleno los campos?
                 if (nickname.isEmpty() || nombre.isEmpty() || correo.isEmpty()) {
@@ -44,7 +46,7 @@ public class AltaAereolinea {
                 }
 
                 try {
-                    sistema.altaAerolinea(nickname, nombre, descripcion, correo);
+                    sistema.altaAerolinea(nickname, nombre, descripcion, correo, sitioWeb);
                     JOptionPane.showMessageDialog(null,
                             "Aereolinea creada correctamente.",
                             "Éxito",
