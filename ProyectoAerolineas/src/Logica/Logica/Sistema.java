@@ -42,14 +42,16 @@ public class Sistema implements ISistema {
 */
     // --- USUARIOS ---
     @Override
-    public void altaCliente(String nickname, String nombre, String apellido, String correo) {
-        if (manejadorAerolinea.obtenerAerolinea(nickname)==null && manejadorCliente.obtenerCliente(nickname)==null) {
-            Cliente c = new Cliente(nickname, nombre, apellido, correo);
+    public void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc) {
+        if (manejadorAerolinea.obtenerAerolinea(nickname) == null
+                && manejadorCliente.obtenerCliente(nickname) == null) {
+            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc);
             manejadorCliente.agregarCliente(c);
-        }else  {
+        } else {
             throw new IllegalArgumentException("Ya existe con ese nickname");
         }
     }
+
     @Override
     public List<Cliente> listarClientes() {
         return manejadorCliente.getClientes();

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ISistema {
     // Usuarios
-    public abstract void altaCliente(String nickname, String nombre, String apellido, String correo);
+    public abstract void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc);
     public abstract Cliente verInfoCliente(String nickname);
     public abstract List<Cliente> listarClientes();
 
