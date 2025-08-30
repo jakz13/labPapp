@@ -10,6 +10,11 @@ public abstract class Usuario {
         this.nombre = nombre;
         this.email = email;
     }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Usuario() {
         this.nickname = "";
         this.nombre = "";

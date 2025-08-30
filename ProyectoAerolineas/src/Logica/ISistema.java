@@ -23,6 +23,8 @@ public interface ISistema {
 
     public void altaRutaVuelo(String nombre, String descripcion, Aerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias);
 
+    public abstract RutaVuelo obtenerRuta(String nombreRuta);
+
         public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
 
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
@@ -48,4 +50,10 @@ public interface ISistema {
     public List<Paquete> listarPaquetes();
 
     public abstract Aerolinea obtenerAerolinea(String nombreAerolinea);
+
+    public abstract void modificarDatosDeCliente(Cliente cliente);
+
+    public abstract void modificarDatosAerolinea(Aerolinea aerolinea);
+
+
 }

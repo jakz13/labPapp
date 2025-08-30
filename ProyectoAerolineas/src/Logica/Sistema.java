@@ -86,7 +86,7 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void altaAerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb) {
+    public void altaAerolinea(String nickname, String nombre, String descripcion, String email, String sitioWeb) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
             Aerolinea a = new Aerolinea(nickname, nombre, email, descripcion, sitioWeb);
@@ -143,6 +143,14 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("No existe Aerolinea con ese nickname");
         }
     }
+
+    @Override
+    public RutaVuelo obtenerRuta(String nombreRuta) {
+        return manejadorRutaVuelo.getRuta(nombreRuta);
+    }
+
+
+
     public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
         return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);
     }
@@ -151,7 +159,7 @@ public class Sistema implements ISistema {
     // ProyectoAerolineas/src/Logica/Sistema.java
 
     public String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha,
-            int duracion, int asientosTurista, int asientosEjecutivo) {
+                               int duracion, int asientosTurista, int asientosEjecutivo) {
         Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nombreAerolinea);
         if (aerolinea == null) {
             return "La aerolínea no existe.";
@@ -171,7 +179,7 @@ public class Sistema implements ISistema {
 
     @Override
     public boolean altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista,
-            int asientosEjecutivo) {
+                             int asientosEjecutivo) {
         if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
             return false;
         }
@@ -198,8 +206,8 @@ public class Sistema implements ISistema {
     }
 
     public String crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
-            double costo,
-            TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
+                                         double costo,
+                                         TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
         try {
             // Generar un ID único para la reserva
             String idReserva = "RES" + (++idReservaCounter);
@@ -238,7 +246,7 @@ public class Sistema implements ISistema {
     // --- PAQUETES ---
     @Override
     public void altaPaquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc,
-            int periodoValidezDias) {
+                            int periodoValidezDias) {
         Paquete p = new Paquete(nombre, descripcion, costo, fechaAlta, descuentoPorc, periodoValidezDias);
         manejadorPaquete.agregarPaquete(p);
     }
@@ -247,5 +255,26 @@ public class Sistema implements ISistema {
     public List<Paquete> listarPaquetes() {
         return manejadorPaquete.getPaquetes();
     }
+
+    @Override
+    public void modificarDatosDeCliente(Cliente cliente) {
+        Cliente clienteTemporal = manejadorCliente.obtenerCliente(cliente.getNickname());
+        if (clienteTemporal != null) {
+            manejadorCliente.modificarDatosCliente(cliente);
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+    }
+
+    @Override
+    public void modificarDatosAerolinea(Aerolinea aerolinea) {
+        Aerolinea aerolineaTemporal = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());
+        if (aerolineaTemporal != null) {
+            manejadorAerolinea.modificarDatosAerolinea(aerolinea);
+        } else {
+            throw new IllegalArgumentException("Aerolínea no encontrada");
+        }
+    }
+
 
 }

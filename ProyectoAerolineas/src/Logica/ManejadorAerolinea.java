@@ -71,4 +71,28 @@ public class ManejadorAerolinea {
     public List<Aerolinea> getAerolineas() {
         return new ArrayList<>(aerolineas.values());
     }
+
+    // ProyectoAerolineas/src/Logica/ManejadorAerolinea.java
+    public void modificarDatosAerolinea(Aerolinea aerolineaTemporal) {
+        Aerolinea aerolineaOriginal = obtenerAerolinea(aerolineaTemporal.getNickname());
+        if (aerolineaOriginal == null) {
+            throw new IllegalArgumentException("Aerolínea no encontrada");
+        }
+
+        if (aerolineaTemporal.getNombre() != null && !aerolineaTemporal.getNombre().isEmpty()) {
+            aerolineaOriginal.setNombre(aerolineaTemporal.getNombre());
+        }
+        if (aerolineaTemporal.getDescripcion() != null && !aerolineaTemporal.getDescripcion().isEmpty()) {
+            aerolineaOriginal.setDescripcion(aerolineaTemporal.getDescripcion());
+        }
+        if (aerolineaTemporal.getSitioWeb() != null && !aerolineaTemporal.getSitioWeb().isEmpty()) {
+            aerolineaOriginal.setSitioWeb(aerolineaTemporal.getSitioWeb());
+        }
+
+        // No se modifica nickname ni email
+    }
+
+
+
+
 }

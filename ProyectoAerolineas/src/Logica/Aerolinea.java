@@ -30,4 +30,12 @@ public class Aerolinea extends Usuario {
     public List<RutaVuelo> getRutasVuelo() {
         return new ArrayList<>(rutasVuelo.values());
     }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setSitioWeb(String sitioWeb) {
+        this.sitioWeb = sitioWeb;
+    }
 }

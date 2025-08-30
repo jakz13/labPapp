@@ -13,6 +13,34 @@ public class Cliente extends Usuario {
     private Map<String, Reserva> reservas;
     private List<Paquete> paquetesComprados;
 
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setNacionalidad(String nacionalidad) {
+        this.nacionalidad = nacionalidad;
+    }
+
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
+
+    public void setReservas(Map<String, Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public void setPaquetesComprados(List<Paquete> paquetesComprados) {
+        this.paquetesComprados = paquetesComprados;
+    }
+
     public Cliente(String nickname, String nombre, String email, String apellido, LocalDate fechaNac, String nacionalidad, String tipoDoc, String numDoc) {
         super(nickname, nombre, email);
         this.apellido = apellido;
