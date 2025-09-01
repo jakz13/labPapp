@@ -160,7 +160,6 @@ public class Sistema implements ISistema {
     }
 
 
-
     public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
         return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);
     }
@@ -189,15 +188,17 @@ public class Sistema implements ISistema {
     */
 
     @Override
-    public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
-                          int asientosEjecutivo, LocalDate fechaAlta) {
+    public boolean altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista,
+                             int asientosEjecutivo) {
         if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
-            return;
+            return false;
         }
-        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo, fechaAlta);
+        Vuelo vuelo = new Vuelo(nombreVuelo, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
         manejadorVuelo.agregarVuelo(vuelo);
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
+        return true;
     }
+
 
     @Override
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta) {
