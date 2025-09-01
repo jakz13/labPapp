@@ -47,6 +47,7 @@ public class NuevaRutaVuelo {
             @Override
             public void actionPerformed(ActionEvent e) {
                 {
+                    Aerolinea aerolinea = sistema.obtenerAerolinea(aerolineaSeleccionada);
                     String nombreRuta = NombreRuta.getText().trim();
                     String Descripcion = descripcion.getText().trim();
                     String origen = Origen.getText().trim();
