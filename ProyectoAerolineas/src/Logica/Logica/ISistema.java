@@ -32,8 +32,8 @@ public interface ISistema {
 
     Vuelo verInfoVuelo(String nombreVuelo);
 
-    String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion,
-            int asientosTurista, int asientosEjecutivo);
+    //String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion,
+            //int asientosTurista, int asientosEjecutivo);
 
     public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
                           int asientosEjecutivo, LocalDate fechaAlta);

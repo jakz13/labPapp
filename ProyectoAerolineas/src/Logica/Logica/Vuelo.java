@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class Vuelo {
     private String nombre;
+    private String NombreAereolinea;
     private String nombreRuta;
     private LocalDate fecha;
     private int duracion;
@@ -14,51 +15,28 @@ public class Vuelo {
     private LocalDate fechaAlta;
     private Map<String, Reserva> reservas;
 
-    public Vuelo(String nombre,String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
-            int asientosEjecutivo, LocalDate fechaAlta) {
+    public Vuelo(String nombre, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta) {
         this.nombre = nombre;
+        this.NombreAereolinea = nombreAereolinea;
         this.nombreRuta = nombreRuta;
-        this.
-        this.fecha = LocalDate.parse(fecha);
+        this.fecha = fecha;
         this.duracion = duracion;
         this.asientosTurista = asientosTurista;
         this.asientosEjecutivo = asientosEjecutivo;
-        this.fechaAlta = LocalDate.now();
+        this.fechaAlta = fechaAlta;
         this.reservas = new HashMap<>();
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getNombreRuta() {
-        return nombreRuta;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public int getDuracion() {
-        return duracion;
-    }
-
-    public int getAsientosTurista() {
-        return asientosTurista;
-    }
-
-    public int getAsientosEjecutivo() {
-        return asientosEjecutivo;
-    }
-
-    public LocalDate getFechaAlta() {
-        return fechaAlta;
-    }
-
+    public String getNombre() { return nombre; }
+    public String getNombreRuta() { return nombreRuta; }
+    public LocalDate getFecha() { return fecha; }
+    public int getDuracion() { return duracion; }
+    public int getAsientosTurista() { return asientosTurista; }
+    public int getAsientosEjecutivo() { return asientosEjecutivo; }
+    public LocalDate getFechaAlta() { return fechaAlta; }
     public Map<String, Reserva> getReservas() {
         return reservas;
     }
-
     public void agregarReserva(String idReserva, Reserva reserva) {
         reservas.put(idReserva, reserva);
     }
