@@ -70,7 +70,7 @@ public class Sistema implements ISistema {
 
     // --- USUARIOS ---
     @Override
-    public void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, String tipoDoc, String numDoc) {
+    public void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
             Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc);

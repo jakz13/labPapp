@@ -2,5 +2,14 @@ package Logica;
 
 public enum TipoDoc {
         CI,
-        PASAPORTE
+        PASAPORTE;
+
+    public boolean isEmpty() {
+        if (this == null) {;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
