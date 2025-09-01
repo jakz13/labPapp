@@ -188,15 +188,14 @@ public class Sistema implements ISistema {
     */
 
     @Override
-    public boolean altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista,
-                             int asientosEjecutivo) {
+    public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
+                          int asientosEjecutivo, LocalDate fechaAlta) {
         if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
-            return false;
+            return;
         }
-        Vuelo vuelo = new Vuelo(nombreVuelo, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo);
+        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, nombreRuta, fecha, duracion, asientosTurista, asientosEjecutivo, fechaAlta);
         manejadorVuelo.agregarVuelo(vuelo);
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
-        return true;
     }
 
 

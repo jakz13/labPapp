@@ -12,12 +12,13 @@ public class Vuelo {
     private int asientosTurista;
     private int asientosEjecutivo;
     private LocalDate fechaAlta;
-    private Map<String, Reserva> reservas; // Mapa de reservas
+    private Map<String, Reserva> reservas;
 
-    public Vuelo(String nombre, String nombreRuta, String fecha, int duracion, int asientosTurista,
-            int asientosEjecutivo) {
+    public Vuelo(String nombre,String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
+            int asientosEjecutivo, LocalDate fechaAlta) {
         this.nombre = nombre;
         this.nombreRuta = nombreRuta;
+        this.
         this.fecha = LocalDate.parse(fecha);
         this.duracion = duracion;
         this.asientosTurista = asientosTurista;
