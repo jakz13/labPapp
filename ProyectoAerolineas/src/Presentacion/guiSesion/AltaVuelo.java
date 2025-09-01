@@ -78,7 +78,7 @@ public class AltaVuelo {
 
                 LocalDate fechaAlta = LocalDate.now();
 
-                if (aereolinea.isEmpty() || ruta.isEmpty() || duracion > 0 || turista > 0 || ejecutivo > 0 || Vuelo.isEmpty()) {
+                if (ruta.isEmpty() || duracion > 0 || turista > 0 || ejecutivo > 0 || Vuelo.isEmpty()) {
                     JOptionPane.showMessageDialog(null,
                             "Debe completar todos los campos.",
                             "Error de salame", JOptionPane.ERROR_MESSAGE);
