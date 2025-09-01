@@ -35,7 +35,7 @@ public interface ISistema {
     String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion,
             int asientosTurista, int asientosEjecutivo);
 
-    public boolean altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista,
+    public void altaVuelo(String nombreVuelo, String nombreRuta, String fecha, int duracion, int asientosTurista,
             int asientosEjecutivo);
 
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva);

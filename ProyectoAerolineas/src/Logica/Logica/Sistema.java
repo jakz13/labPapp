@@ -1,4 +1,14 @@
 
+package Logica;
+
+import Logica.ManejadorVuelo;
+import Logica.ManejadorPaquete;
+import Logica.RutaVuelo;
+import Logica.Vuelo;
+import Logica.Paquete;
+import Logica.Reserva;
+import Logica.TipoAsiento;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
@@ -189,6 +199,7 @@ public class Sistema implements ISistema {
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
     }
 
+    @Override
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta) {
         RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
         if (ruta == null) {
@@ -197,6 +208,7 @@ public class Sistema implements ISistema {
         return new ArrayList<>(ruta.getVuelos().values());
     }
 
+    @Override
     public Vuelo verInfoVuelo(String nombreVuelo) {
         Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
         if (vuelo == null) {
@@ -205,6 +217,8 @@ public class Sistema implements ISistema {
         return vuelo; // Asumiendo que Vuelo tiene métodos para obtener reservas y datos
     }
 
+    // --- RESERVA ---
+    @Override
     public String crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
                                          double costo,
                                          TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
@@ -220,6 +234,7 @@ public class Sistema implements ISistema {
         }
     }
 
+    @Override
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva) {
         // Verificar existencia de cliente y vuelo
         Cliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
