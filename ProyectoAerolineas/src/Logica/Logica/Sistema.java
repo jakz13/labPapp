@@ -272,9 +272,9 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void modificarDatosDeCliente(Cliente cliente) {
-        Cliente clienteTemporal = manejadorCliente.obtenerCliente(cliente.getNickname());
-        if (clienteTemporal != null) {
+    public void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento) {
+        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+        if (cliente != null) {
             manejadorCliente.modificarDatosCliente(cliente);
         } else {
             throw new IllegalArgumentException("Cliente no encontrado");
