@@ -45,7 +45,7 @@ public interface ISistema {
             TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros);
 
     // --- PAQUETES ---
-    void altaPaquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc,
+    void altaPaquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc,
             int periodoValidezDias);
 
     public List<Paquete> listarPaquetes();

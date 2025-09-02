@@ -83,6 +83,7 @@
                         </constraints>
                         <properties>
                           <font name="JetBrains Mono Medium"/>
+                          <model/>
                         </properties>
                       </component>
                       <component id="54003" class="javax.swing.JTextField" binding="campoAereolinea">

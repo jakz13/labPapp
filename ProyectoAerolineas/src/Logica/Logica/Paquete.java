@@ -12,8 +12,9 @@ public class Paquete {
     private int descuentoPorc;
     private int periodoValidezDias;
     private List<ItemPaquete> ItemPaquetes;
+    private List<CompraPaqLogica> Compras;
 
-    public Paquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc, int periodoValidezDias){
+    public Paquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc, int periodoValidezDias){
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costo = costo;
@@ -21,6 +22,7 @@ public class Paquete {
         this.descuentoPorc = descuentoPorc;
         this.periodoValidezDias = periodoValidezDias;
         this.ItemPaquetes = new ArrayList<>();
+        this.Compras = new ArrayList<>();
     }
 
     public String getNombre(){ return nombre; }
@@ -30,6 +32,7 @@ public class Paquete {
     public int getDescuentoPorc() { return descuentoPorc; }
     public int getPeriodoValidezDias() { return periodoValidezDias; }
     public List<ItemPaquete> getItemPaquetes() { return ItemPaquetes; }
+    public List<CompraPaqLogica> getCompras() { return Compras; }
 
     public String getDescuento() {
         if (descuentoPorc > 0) {
@@ -45,5 +48,8 @@ public class Paquete {
         } else {
             return "Sin periodo de validez";
         }
+    }
+    public boolean estaComprado() {
+        return !Compras.isEmpty();
     }
 }
