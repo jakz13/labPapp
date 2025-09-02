@@ -17,6 +17,8 @@ public class ItemPaquete {
         this.tipoAsiento = tipoAsiento;
     }
 
+
+
     public RutaVuelo getRutaVuelo() {
         return rutaVuelo;
     }

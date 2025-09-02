@@ -272,9 +272,15 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void modificarDatosDeCliente(Cliente cliente) {
-        Cliente clienteTemporal = manejadorCliente.obtenerCliente(cliente.getNickname());
-        if (clienteTemporal != null) {
+    public void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento) {
+        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+        if (cliente != null) {
+            cliente.setApellido(apellido);
+            cliente.setNombre(nombre);
+            cliente.setNacionalidad(nacionalidad);
+            cliente.setFechaNacimiento(fechaNacimiento);
+            cliente.setTipoDocumento(tipoDoc);
+            cliente.setNumeroDocumento(numeroDocumento);
             manejadorCliente.modificarDatosCliente(cliente);
         } else {
             throw new IllegalArgumentException("Cliente no encontrado");
@@ -282,9 +288,11 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void modificarDatosAerolinea(Aerolinea aerolinea) {
-        Aerolinea aerolineaTemporal = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());
-        if (aerolineaTemporal != null) {
+    public void modificarDatosAerolinea(String nickname, String Descripcion ,String URL) {
+        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);
+        if (aerolinea != null) {
+            aerolinea.setDescripcion(Descripcion);
+            aerolinea.setSitioWeb(URL);
             manejadorAerolinea.modificarDatosAerolinea(aerolinea);
         } else {
             throw new IllegalArgumentException("Aerolínea no encontrada");

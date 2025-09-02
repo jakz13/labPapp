@@ -21,6 +21,7 @@ public class IntentoDiseño {
     private JButton ALTACIUDADButton;
     private JButton AltaRutaVuelo;
     private JButton ALTAVUELO;
+    private JButton MODIFICARUSUARIOS;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -137,6 +138,27 @@ public class IntentoDiseño {
                 AltaVuelo AVU = new AltaVuelo();
                 JFrame frameSesion = new JFrame("Alta Vuelo");
                 frameSesion.setContentPane(AVU.getpanelDeVuelo());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        MODIFICARUSUARIOS.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                EligeUsuario EG = new EligeUsuario();
+                JFrame frameSesion = new JFrame("Modificar Usuario");
+                frameSesion.setContentPane(EG.getpanelModificar());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 

@@ -45,6 +45,24 @@ public class ManejadorPaquete {
         // Lógica para procesar la compra de un vuelo
     }
 */
+    public Paquete buscarPaquete(String nombre) {return ((Paquete) paquetes.get(nombre));}
+
+    public void agregarRutaPaquete(Paquete p, RutaVuelo ruta, int cantidadAsientos, TipoAsiento tipoAsiento) {
+        ItemPaquete existente = null;
+        for (ItemPaquete item : p.getItemPaquetes()){
+            if (item.getRutaVuelo().equals(ruta) && item.getTipoAsiento() == tipoAsiento) {
+                existente = item;
+                break;
+            }
+        }
+        if (existente != null) {
+            existente.incrementarCantidad(cantidadAsientos);
+        } else {
+            ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
+            p.getItemPaquetes().add(nuevo);
+        }
+    }
+
     public void agregarPaquete(Paquete p) {
 
     }
