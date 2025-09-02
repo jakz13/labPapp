@@ -52,4 +52,16 @@ public class ManejadorPaquete {
     public List<Paquete> getPaquetes() {
         return new ArrayList<Paquete>(paquetes.values());
     }
+
+    public List<Paquete> getPaquetesDisp() {
+        List<Paquete> disponibles = new ArrayList<>();
+        for (Paquete p : paquetes.values()) {
+            if (!p.estaComprado()) {
+                disponibles.add(p);
+            }
+        }
+        return disponibles;
+    }
+
 }
+
