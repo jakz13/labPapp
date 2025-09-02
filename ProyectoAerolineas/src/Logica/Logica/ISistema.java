@@ -56,5 +56,5 @@ public interface ISistema {
 
     public abstract void modificarDatosAerolinea(String nickname, String Descripcion ,String URL);
 
-
+    public abstract void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
 }

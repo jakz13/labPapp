@@ -18,7 +18,6 @@ public class ItemPaquete {
     }
 
 
-
     public RutaVuelo getRutaVuelo() {
         return rutaVuelo;
     }
@@ -31,7 +30,6 @@ public class ItemPaquete {
         return tipoAsiento;
     }
 
-    public int getCantidad() {
-        return cantidad;
-    }
+
+    public void incrementarCantidad(int cantidad) {this.cantAsientos += cantidad;}
 }
