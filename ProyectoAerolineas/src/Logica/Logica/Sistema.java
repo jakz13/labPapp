@@ -260,9 +260,9 @@ public class Sistema implements ISistema {
 
     // --- PAQUETES ---
     @Override
-    public void altaPaquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc,
+    public void altaPaquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc,
                             int periodoValidezDias) {
-        Paquete p = new Paquete(nombre, descripcion, costo, fechaAlta, descuentoPorc, periodoValidezDias);
+        Paquete p = new Paquete(nombre, descripcion, costo, /*fechaAlta,*/ descuentoPorc, periodoValidezDias);
         manejadorPaquete.agregarPaquete(p);
     }
 

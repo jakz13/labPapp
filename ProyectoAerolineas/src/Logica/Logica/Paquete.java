@@ -13,7 +13,7 @@ public class Paquete {
     private int periodoValidezDias;
     private List<ItemPaquete> ItemPaquetes;
 
-    public Paquete(String nombre, String descripcion, double costo, LocalDate fechaAlta, int descuentoPorc, int periodoValidezDias){
+    public Paquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc, int periodoValidezDias){
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.costo = costo;
