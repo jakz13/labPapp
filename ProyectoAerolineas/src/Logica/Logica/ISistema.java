@@ -54,7 +54,7 @@ public interface ISistema {
 
     public abstract void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento);
 
-    public abstract void modificarDatosAerolinea(Aerolinea aerolinea);
+    public abstract void modificarDatosAerolinea(String nickname, String Descripcion ,String URL);
 
 
 }

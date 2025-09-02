@@ -9,7 +9,7 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class ModificarDatosCliente {
-    private JPanel panelDeVuelo;
+    private JPanel panelDeModificacion;
     private JTextField NomNuevo;
     private JTextField Apellido;
     private JTextField Nacionalidad;
@@ -84,7 +84,7 @@ public class ModificarDatosCliente {
         });
 
         cancelarButton.addActionListener(e -> {
-            Window window = SwingUtilities.getWindowAncestor(panelDeVuelo);
+            Window window = SwingUtilities.getWindowAncestor(panelDeModificacion);
             if (window != null) {
                 window.dispose();
             }
@@ -92,6 +92,6 @@ public class ModificarDatosCliente {
     }
 
     public Container getPanelDeVuelo() {
-        return panelDeVuelo;
+        return panelDeModificacion;
     }
 }
