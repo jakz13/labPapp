@@ -3,6 +3,8 @@ package guiSesion;
 import Logica.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.Map;
 
 public class ConsultaVuelo {
     private JComboBox comboBoxAerolinea;
@@ -10,6 +12,7 @@ public class ConsultaVuelo {
     private JList listVuelo;
     private JTextArea textAreaDatosVuelo;
     private JButton cerrarButton;
+    private JPanel panelConsultaVeulo;
 
     public ConsultaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
@@ -26,21 +29,38 @@ public class ConsultaVuelo {
             if (!e.getValueIsAdjusting()) { // evita que se dispare dos veces
                 Vuelo seleccionada = (Vuelo) listVuelo.getSelectedValue();
                 if (seleccionada != null) {
-                    // Mostrar información en el JTextArea
-                    String info = "Nombre: " + seleccionada.getNombre() + "\n"
-                            + "Nombre de Ruta: " + seleccionada.getNombreRuta() + "\n"
-                            + "Duración: " + seleccionada.getDuracion() + "\n"
-                            + "Fecha: " + seleccionada.getFecha() + "\n"
-                            + "Asientos Ejecutivos: " + seleccionada.getAsientosEjecutivo() + "\n"
-                            + "Asientos Turista: " + seleccionada.getAsientosTurista() + "\n"
-                            + "Fecha de Alta: " + seleccionada.getFechaAlta() + "\n"
-                            + "Disponibilidad: " + seleccionada.getReservas();
-                    textAreaDatosVuelo.setText(info);
+                    StringBuilder info = new StringBuilder();
+                    info.append("Nombre: ").append(seleccionada.getNombre()).append("\n")
+                            .append("Nombre de Ruta: ").append(seleccionada.getNombreRuta()).append("\n")
+                            .append("Duración: ").append(seleccionada.getDuracion()).append(" Dias").append("\n")
+                            .append("Fecha: ").append(seleccionada.getFecha()).append("\n")
+                            .append("Asientos Ejecutivos: ").append(seleccionada.getAsientosEjecutivo()).append("\n")
+                            .append("Asientos Turista: ").append(seleccionada.getAsientosTurista()).append("\n")
+                            .append("Fecha de Alta: ").append(seleccionada.getFechaAlta()).append("\n")
+                            .append("Reservas:\n");
+
+                    // Recorrer el mapa de reservas
+                    Map<String, Reserva> reservas = seleccionada.getReservas();
+                    if (reservas.isEmpty()) {
+                        info.append("  Ninguna reserva\n");
+                    } else {
+                        for (Map.Entry<String, Reserva> entry : reservas.entrySet()) {
+                            Reserva r = entry.getValue();
+                            info.append("  ID: ").append(r.getId())
+                                    .append(", Costo: ").append(r.getCosto())
+                                    .append(", Tipo: ").append(r.getTipoAsiento())
+                                    .append(", Pasajes: ").append(r.getCantidadPasajes())
+                                    .append("\n");
+                        }
+                    }
+
+                    textAreaDatosVuelo.setText(info.toString());
                 } else {
                     textAreaDatosVuelo.setText(""); // limpiar si no hay selección
                 }
             }
         });
+
 
         // Acción del botón Cerrar
         cerrarButton.addActionListener(e -> {
@@ -75,13 +95,19 @@ public class ConsultaVuelo {
     }
 
     private void actualizarVuelos() {
-        Aerolinea seleccionada = (Aerolinea) listRutaVuelo.getSelectedValue();
-        DefaultListModel<RutaVuelo> modeloRutas = new DefaultListModel<>();
+        RutaVuelo seleccionada = (RutaVuelo) listRutaVuelo.getSelectedValue();
+        DefaultListModel<Vuelo> modeloVuelos = new DefaultListModel<>();
         if (seleccionada != null) {
-            for (RutaVuelo r : seleccionada.getRutasVuelo()) {
-                modeloRutas.addElement(r);
+            // Recorrer los valores del mapa
+            for (Vuelo v : seleccionada.getVuelos().values()) {
+                modeloVuelos.addElement(v);
             }
         }
-        listVuelo.setModel(modeloRutas);
+        listVuelo.setModel(modeloVuelos);
+    }
+
+
+    public Container getPanelConsultaVeulo() {
+        return panelConsultaVeulo;
     }
 }

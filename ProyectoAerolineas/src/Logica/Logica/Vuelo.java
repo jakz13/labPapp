@@ -40,4 +40,9 @@ public class Vuelo {
     public void agregarReserva(String idReserva, Reserva reserva) {
         reservas.put(idReserva, reserva);
     }
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 }

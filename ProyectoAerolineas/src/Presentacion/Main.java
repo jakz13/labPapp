@@ -65,6 +65,22 @@ public class Main {
                 e.printStackTrace();
             }
 
+            // --- Precarga de vuelos ---
+            sistema.altaVuelo("LATAM001-SCLMIA", "LATAM Airlines", "SCL-MIA",
+                    LocalDate.now(), 8, 150, 20, LocalDate.now());
+
+            sistema.altaVuelo("LATAM002-SCLEZE", "LATAM Airlines", "SCL-EZE",
+                    LocalDate.now(), 2, 100, 15, LocalDate.now());
+
+            sistema.altaVuelo("IBERIA001-MADLHR", "Iberia", "MAD-LHR",
+                    LocalDate.now(), 3, 120, 10, LocalDate.now());
+
+            sistema.altaVuelo("AA001-JFKLAX", "American Airlines", "JFK-LAX",
+                    LocalDate.now(), 6, 180, 25, LocalDate.now());
+
+            sistema.altaVuelo("AA002-JFKMIA", "American Airlines", "JFK-MIA",
+                    LocalDate.now(), 3, 160, 20, LocalDate.now());
+
             sistema.altaPaquete(
                     "Verano Caribeño",
                     "Paquete todo incluido con vuelos y hoteles en el Caribe.",
