@@ -23,4 +23,9 @@ public abstract class Usuario {
     public String getNickname() { return nickname; }
     public String getNombre() { return nombre; }
     public String getEmail() { return email; }
+
+    @Override
+    public String toString() {
+        return this.nickname;
+    }
 }

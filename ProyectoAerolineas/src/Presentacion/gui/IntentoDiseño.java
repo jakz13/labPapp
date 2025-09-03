@@ -22,6 +22,8 @@ public class IntentoDiseño {
     private JButton AltaRutaVuelo;
     private JButton ALTAVUELO;
     private JButton MODIFICARUSUARIOS;
+    private JButton agregarRutaVuelo;
+    private JButton crearPaquete;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -159,6 +161,50 @@ public class IntentoDiseño {
                 EligeUsuario EG = new EligeUsuario();
                 JFrame frameSesion = new JFrame("Modificar Usuario");
                 frameSesion.setContentPane(EG.getpanelModificar());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+
+        agregarRutaVuelo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                AgregarRutaVuelo ARV = new AgregarRutaVuelo();
+                JFrame frameSesion = new JFrame("Agregar Ruta Vuelo a Paquete");
+                frameSesion.setContentPane(ARV.getPanelDeSesion());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+
+        crearPaquete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                AltaPaquete APQ = new AltaPaquete();
+                JFrame frameSesion = new JFrame("Crear Paquete");
+                frameSesion.setContentPane(APQ.getPanel1());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 

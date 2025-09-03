@@ -52,4 +52,11 @@ public class Paquete {
     public boolean estaComprado() {
         return !Compras.isEmpty();
     }
+
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+
 }

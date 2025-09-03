@@ -4,6 +4,7 @@ import Logica.Fabrica;
 import Logica.ISistema;
 import gui.IntentoDiseño;
 import javax.swing.*;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,6 +34,56 @@ public class Main {
 
             sistema.altaAerolinea("flybondi005", "FlyBondi", "Low cost argentina con vuelos regionales",
                     "contacto@flybondi.com", "https://www.flybondi.com");
+
+            // --- Precarga de rutas de vuelo ---
+            try {
+                sistema.altaRutaVuelo("SCL-MIA", "Santiago a Miami",
+                        sistema.obtenerAerolinea("latam001"),
+                        "Santiago", "Miami", "08:00", LocalDate.now(),
+                        500.0, 900.0, 50.0, new String[]{"Turista", "Ejecutivo"});
+
+                sistema.altaRutaVuelo("SCL-EZE", "Santiago a Buenos Aires",
+                        sistema.obtenerAerolinea("latam001"),
+                        "Santiago", "Buenos Aires", "14:00", LocalDate.now(),
+                        200.0, 350.0, 30.0, new String[]{"Turista", "Ejecutivo"});
+
+                sistema.altaRutaVuelo("MAD-LHR", "Madrid a Londres",
+                        sistema.obtenerAerolinea("iberia002"),
+                        "Madrid", "Londres", "10:00", LocalDate.now(),
+                        150.0, 300.0, 20.0, new String[]{"Turista", "Ejecutivo"});
+
+                sistema.altaRutaVuelo("JFK-LAX", "Nueva York a Los Ángeles",
+                        sistema.obtenerAerolinea("aa003"),
+                        "Nueva York", "Los Ángeles", "09:30", LocalDate.now(),
+                        400.0, 700.0, 40.0, new String[]{"Turista", "Ejecutivo"});
+
+                sistema.altaRutaVuelo("JFK-MIA", "Nueva York a Miami",
+                        sistema.obtenerAerolinea("aa003"),
+                        "Nueva York", "Miami", "13:00", LocalDate.now(),
+                        300.0, 550.0, 35.0, new String[]{"Turista", "Ejecutivo"});
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            sistema.altaPaquete(
+                    "Verano Caribeño",
+                    "Paquete todo incluido con vuelos y hoteles en el Caribe.",
+                    1200.0,
+                    10,   // descuento 10%
+                    30    // válido por 30 días
+            );
+
+            // Paquete de aventura
+            sistema.altaPaquete(
+                    "Aventura Andina",
+                    "Incluye excursiones de trekking y escalada en la cordillera de los Andes.",
+                    850.0,
+                    15,   // descuento 15%
+                    45    // válido por 45 días
+            );
+
+
+
         } catch (Exception e) {
         }
 
