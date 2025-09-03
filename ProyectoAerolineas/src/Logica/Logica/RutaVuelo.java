@@ -56,4 +56,10 @@ public class RutaVuelo {
     public Map<String, Vuelo> getVuelos() {
         return vuelos;
     }
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+
 }

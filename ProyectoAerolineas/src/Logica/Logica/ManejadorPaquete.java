@@ -64,8 +64,15 @@ public class ManejadorPaquete {
     }
 
     public void agregarPaquete(Paquete p) {
-
+        String nombre = p.getNombre();
+        if (!paquetes.containsKey(nombre)) {
+            paquetes.put(nombre, p);
+            System.out.println("Paquete agregado: " + nombre);
+        } else {
+            throw new IllegalArgumentException("El paquete con el nombre " + nombre + " ya existe.");
+        }
     }
+
 
     public List<Paquete> getPaquetes() {
         return new ArrayList<Paquete>(paquetes.values());

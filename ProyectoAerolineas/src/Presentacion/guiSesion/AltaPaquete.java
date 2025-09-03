@@ -4,6 +4,7 @@ import Logica.Fabrica;
 import Logica.ISistema;
 import Logica.Sistema;
 import javax.swing.*;
+import java.awt.*;
 
 public class AltaPaquete {
     private JPanel panel1;
@@ -70,6 +71,10 @@ public class AltaPaquete {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel1);
             topFrame.dispose();
         });
+    }
+
+    public Container getPanel1() {
+        return panel1;
     }
 /*
     private void createUIComponents() {
