@@ -19,8 +19,21 @@ public class Main {
                     java.time.LocalDate.of(1985, 8, 22), "Argentina", Logica.TipoDoc.PASAPORTE, "A9876543");
             sistema.altaCliente("luis789", "Luis", "Martínez", "luis@mail.com",
                     java.time.LocalDate.of(1992, 12, 3), "Chileno", Logica.TipoDoc.CI, "87654321");
+            sistema.altaAerolinea("latam001", "LATAM Airlines", "Principal aerolínea de Latinoamérica",
+                    "contacto@latam.com", "https://www.latam.com");
+
+            sistema.altaAerolinea("iberia002", "Iberia", "Aerolínea española con vuelos internacionales",
+                    "info@iberia.com", "https://www.iberia.com");
+
+            sistema.altaAerolinea("aa003", "American Airlines", "Aerolínea estadounidense con gran cobertura global",
+                    "support@aa.com", "https://www.aa.com");
+
+            sistema.altaAerolinea("aeromex004", "AeroMéxico", "Aerolínea mexicana líder en vuelos internacionales",
+                    "clientes@aeromexico.com", "https://www.aeromexico.com");
+
+            sistema.altaAerolinea("flybondi005", "FlyBondi", "Low cost argentina con vuelos regionales",
+                    "contacto@flybondi.com", "https://www.flybondi.com");
         } catch (Exception e) {
-            // Ignorar si ya existen
         }
 
 

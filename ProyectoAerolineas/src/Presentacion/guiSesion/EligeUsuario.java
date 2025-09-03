@@ -1,9 +1,9 @@
 package guiSesion;
 
-import Logica.Aerolinea;
-import Logica.Cliente;
+import Logica.*;
 import Logica.Fabrica;
 import Logica.ISistema;
+import Logica.ManejadorCliente;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,20 +20,15 @@ public class EligeUsuario {
     public EligeUsuario() {
         ISistema sistema = Fabrica.getInstance().getISistema();
         DefaultListModel<String> modelo = new DefaultListModel<>();
-
-        if (sistema.listarClientes().size() > 0) {
             // --- Mostrar clientes ---
             for (Cliente c : sistema.listarClientes()) {
                 String item = c.getNickname() + " (" + c.getNombre() + ")";
                 modelo.addElement(item);
             }
-            esCliente = true;
-        } else {
             for (Aerolinea a : sistema.listarAerolineas()) {
                 String item = a.getNickname() + " (" + a.getNombre() + ")";
                 modelo.addElement(item);
             }
-            esCliente = false;
 
             ListaUsuarios.setModel(modelo);
 
@@ -57,7 +52,7 @@ public class EligeUsuario {
                 }
 
                 JFrame frame;
-                if (esCliente) {
+                if (sistema.obtenerCliente(nicknameSeleccionado) != null) {
                     // Abrir modificar cliente
                     frame = new JFrame("Modificar Cliente");
                     frame.setContentPane(new ModificarDatosCliente(nicknameSeleccionado).getPanelDeVuelo());
@@ -80,8 +75,9 @@ public class EligeUsuario {
                 topFrame.dispose();
             });
         }
-    }
     public Container getpanelModificar() {
         return JPanelModificar;
     }
-}
+    }
+
+

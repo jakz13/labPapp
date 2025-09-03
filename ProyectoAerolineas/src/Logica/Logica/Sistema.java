@@ -94,6 +94,11 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Cliente no encontrado");
         }
     }
+    @Override
+    public Cliente obtenerCliente(String nickname) {
+        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+        return cliente;
+    }
 
     @Override
     public void altaAerolinea(String nickname, String nombre, String descripcion, String email, String sitioWeb) {
@@ -286,6 +291,8 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Cliente no encontrado");
         }
     }
+
+
 
     @Override
     public void modificarDatosAerolinea(String nickname, String Descripcion ,String URL) {
