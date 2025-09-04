@@ -62,6 +62,7 @@ public class ManejadorPaquete {
             ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
             p.getItemPaquetes().add(nuevo);
         }
+
     }
 
     public void compraPaquete(Paquete p, Cliente c, int validezDias, LocalDate fechaC, double costo) {

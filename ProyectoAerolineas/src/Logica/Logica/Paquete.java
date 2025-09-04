@@ -14,10 +14,10 @@ public class Paquete {
     private List<ItemPaquete> ItemPaquetes;
     private List<CompraPaqLogica> Compras;
 
-    public Paquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc, int periodoValidezDias){
+    public Paquete(String nombre, String descripcion, /*LocalDate fechaAlta,*/ int descuentoPorc, int periodoValidezDias){
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.costo = costo;
+        this.costo = 0.0;
         this.fechaAlta = LocalDate.now();
         this.descuentoPorc = descuentoPorc;
         this.periodoValidezDias = periodoValidezDias;
