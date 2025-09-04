@@ -15,7 +15,6 @@ public class ManejadorCategoria {
         categorias = new HashMap<>();
     }
 
-
     public static ManejadorCategoria getInstance() {
         if (instancia == null) {
             instancia = new ManejadorCategoria();
