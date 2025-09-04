@@ -3,6 +3,8 @@ package Logica;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +71,12 @@ public class ManejadorPaquete {
         }
     }
 
+    public void compraPaquete(Paquete p, Cliente c, int validezDias, LocalDate fechaC, double costo) {
+        CompraPaq nuevaCompra = new CompraPaq(c, p, fechaC, validezDias, costo);
+        p.getCompras().add(nuevaCompra);
+        c.getPaquetesComprados().add(p);
+    }
+
     public List<Paquete> getPaquetes() {
         return new ArrayList<>(paquetes.values());
     }
@@ -83,15 +91,8 @@ public class ManejadorPaquete {
         return disponibles;
     }
 
-    public Paquete buscarPaquete(String nombrePaquete, EntityManager em) {
-        Paquete paquete = paquetes.get(nombrePaquete);
-        if (paquete == null) {
-            paquete = em.find(Paquete.class, nombrePaquete);
-            if (paquete != null) {
-                paquetes.put(nombrePaquete, paquete);
-            }
-        }
-        return paquete;
+    public Paquete buscarPaquete(String nombrePaquete) {
+        return paquetes.get(nombrePaquete);
     }
 }
 

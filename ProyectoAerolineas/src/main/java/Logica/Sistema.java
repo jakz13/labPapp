@@ -295,8 +295,6 @@ public class Sistema implements ISistema {
         }
     }
 
-
-
     @Override
     public void modificarDatosAerolinea(String nickname, String Descripcion ,String URL) {
         Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);
@@ -315,11 +313,10 @@ public class Sistema implements ISistema {
 
     @Override
     public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento) {
-        Paquete p = manejadorPaquete.buscarPaquete(nombrePaquete,em);
+        Paquete p = manejadorPaquete.buscarPaquete(nombrePaquete);
         if (p == null) {
             throw new IllegalArgumentException("Paquete no encontrado");
         }
-
 
         RutaVuelo ruta = null;
         for (Aerolinea a : listarAerolineas()) {
@@ -332,12 +329,10 @@ public class Sistema implements ISistema {
             if (ruta != null) break;
         }
 
-
         if (ruta == null) {
             System.out.println("No se encontró la ruta con ese nombre.");
             return;
         }
-
 
         try {
             manejadorPaquete.agregarRutaPaquete(p, ruta, cantidadAsientos, tipoAsiento);
@@ -347,8 +342,34 @@ public class Sistema implements ISistema {
         }
     }
 
+    @Override
+    public void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo) {
+        Paquete p = manejadorPaquete.buscarPaquete(nomPaquete);
+        if (p == null) {
+            throw new IllegalArgumentException("Paquete no encontrado");
+        }
 
+        Cliente c = manejadorCliente.obtenerCliente(nomCliente);
+        if (c == null) {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
 
+        // Revisa si el cliente ya compro ese paquete.
+        for (CompraPaq cp : p.getCompras()) {
+            if (cp.getCliente().equals(c)) {
+                throw new IllegalArgumentException("Error, el cliente " + c.getNombre() + " ya compró el paquete " + p.getNombre() + ". Elija otro o cancele.");
+                //Q aca de la opcion de elegir otro paquete o cancelar. no se donde va esta opcion
+            }
+        }
+
+        try {
+            manejadorPaquete.compraPaquete(p, c, validezDias, fechaC, costo);
+            System.out.println("Paquete comprado correctamente.");
+        } catch (IllegalStateException e) {
+            System.out.println("ERROR.");
+        }
+
+    }
 }
 
 

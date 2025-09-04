@@ -53,13 +53,15 @@ public interface ISistema {
 
     public List<Paquete> listarPaquetes();
 
+    public abstract void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
+
+    public void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaCompra, double costo);
+
     public abstract Aerolinea obtenerAerolinea(String nombreAerolinea);
 
     public abstract void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento);
 
     public abstract void modificarDatosAerolinea(String nickname, String Descripcion ,String URL);
-
-    public abstract void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
 
     public abstract Cliente obtenerCliente(String nickname);
 }
