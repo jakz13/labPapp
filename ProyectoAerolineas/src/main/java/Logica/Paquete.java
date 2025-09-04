@@ -30,8 +30,8 @@ public class Paquete {
     private List<ItemPaquete> itemPaquetes = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "paquete_nombre") // FK en CompraPaqLogica
-    private List<CompraPaqLogica> compras = new ArrayList<>();
+    @JoinColumn(name = "paquete_nombre") // FK en CompraPaq
+    private List<CompraPaq> compras = new ArrayList<>();
 
     public Paquete() {
         this.fechaAlta = LocalDate.now();
@@ -53,7 +53,7 @@ public class Paquete {
     public int getDescuentoPorc() { return descuentoPorc; }
     public int getPeriodoValidezDias() { return periodoValidezDias; }
     public List<ItemPaquete> getItemPaquetes() { return itemPaquetes; }
-    public List<CompraPaqLogica> getCompras() { return compras; }
+    public List<CompraPaq> getCompras() { return compras; }
 
     public String getDescuento() {
         return descuentoPorc > 0 ? "Descuento: " + descuentoPorc + "%" : "Sin descuento";
@@ -72,6 +72,6 @@ public class Paquete {
     public void setDescuentoPorc(int descuentoPorc) { this.descuentoPorc = descuentoPorc; }
     public void setPeriodoValidezDias(int periodoValidezDias) { this.periodoValidezDias = periodoValidezDias; }
     public void setItemPaquetes(List<ItemPaquete> itemPaquetes) { this.itemPaquetes = itemPaquetes; }
-    public void setCompras(List<CompraPaqLogica> compras) { this.compras = compras; }
+    public void setCompras(List<CompraPaq> compras) { this.compras = compras; }
 }
 

@@ -42,7 +42,6 @@ public class ManejadorCliente {
         }
     }
 
-
     public Cliente obtenerCliente(String nickname) {
         return clientes.get(nickname);
     }

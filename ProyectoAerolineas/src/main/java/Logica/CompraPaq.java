@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "compra_paquete")
-public class CompraPaqLogica {
+public class CompraPaq {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +28,9 @@ public class CompraPaqLogica {
     @Column(nullable = false)
     private double costo;
 
-    public CompraPaqLogica() {}
+    public CompraPaq() {}
 
-    public CompraPaqLogica(Cliente cliente, Paquete paquete, LocalDate fechaCompra, int validezDias, double costo) {
+    public CompraPaq(Cliente cliente, Paquete paquete, LocalDate fechaCompra, int validezDias, double costo) {
         this.cliente = cliente;
         this.paquete = paquete;
         this.fechaCompra = fechaCompra;
@@ -48,7 +48,7 @@ public class CompraPaqLogica {
     public void setCliente(Cliente cliente) { this.cliente = cliente; }
     public void setPaquete(Paquete paquete) { this.paquete = paquete; }
     public void setFechaCompra(LocalDate fechaCompra) { this.fechaCompra = fechaCompra; }
-    public void setFechaVenc(LocalDate fechaVenc) { this.fechaVenc = fechaVenc; }
+    public void setValidezDias(int validezDias) { this.fechaVenc = fechaCompra.plusDays(validezDias); }
     public void setCosto(double costo) { this.costo = costo; }
 }
 
