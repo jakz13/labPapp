@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ISistema {
+
+    // Inicializacion
+
+    void cargarDesdeBd();
+
     // Usuarios
     public abstract void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac,
                                             String nacionalidad, TipoDoc tipoDoc, String numDoc);

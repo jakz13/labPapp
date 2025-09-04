@@ -1,5 +1,6 @@
 package Presentacion.gui.guiSesion;
 
+import Logica.*;
 import java.util.List;
 
 import javax.swing.*;
@@ -7,12 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import Logica.ISistema;
-import Logica.Fabrica;
-import Logica.Aerolinea;
-import Logica.RutaVuelo;
-import Logica.Vuelo;
-
 
 public class AltaVuelo {
     private JPanel panelDeVuelo;
@@ -57,7 +52,6 @@ public class AltaVuelo {
                 }
             }
         });
-
         ListaRutasDeVuelo.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String rutaSeleccionada = (String) ListaRutasDeVuelo.getSelectedValue();
@@ -70,20 +64,19 @@ public class AltaVuelo {
         crearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String aereolinea = campoAereolinea.getText();
-                String ruta = campoRuta.getText();
+                String aereolinea = (String) ListaAereolineas.getSelectedValue();
                 int duracion = Integer.parseInt(Duracion.getText());
                 String Vuelo = NOmVuelo.getText();
                 int turista = Integer.parseInt(CantTuristas.getText());
                 int ejecutivo = Integer.parseInt(CantEjecutivo.getText());
-
+                String Ruta = (String) ListaRutasDeVuelo.getSelectedValue();
                 String diaStr = (String) Dia.getSelectedItem();
                 String mesStr = (String) Mes.getSelectedItem();
                 String anioStr = (String) Ano.getSelectedItem();
 
                 LocalDate fechaAlta = LocalDate.now();
 
-                if (ruta.isEmpty() || duracion > 0 || turista > 0 || ejecutivo > 0 || Vuelo.isEmpty()) {
+                if (duracion <= 0 || turista <= 0 || ejecutivo <= 0 || Vuelo.isEmpty()) {
                     JOptionPane.showMessageDialog(null,
                             "Debe completar todos los campos.",
                             "Error de salame", JOptionPane.ERROR_MESSAGE);
@@ -104,7 +97,7 @@ public class AltaVuelo {
                 LocalDate fecha = LocalDate.of(anio, mes, dia);
 
                 try {
-                    sistema.altaVuelo(Vuelo, aereolinea, ruta,fecha,  duracion, turista, ejecutivo, fechaAlta);
+                    sistema.altaVuelo(Vuelo, aereolinea, Ruta,fecha,  duracion, turista, ejecutivo, fechaAlta);
                     JOptionPane.showMessageDialog(null,
                             "Ruta creada correctamente.",
                             "Éxito",

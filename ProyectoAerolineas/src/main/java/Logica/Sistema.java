@@ -32,41 +32,15 @@ public class Sistema implements ISistema {
         this.manejadorVuelo = ManejadorVuelo.getInstance();
         this.manejadorCiudad = ManejadorCiudad.getInstance();
     }
-
-    /*public void cargarDatosEjemplo() {
-        // Alta de aerolínea
-        String nickAerolinea = "flyuy";
-        String nombreAerolinea = "Fly Uruguay";
-        String descripcionAerolinea = "Aerolínea uruguaya de calidad";
-        String correoAerolinea = "info@flyuy.com";
-        String sitioweb = "www.flyuy.com";
-        altaAerolinea(nickAerolinea, nombreAerolinea, descripcionAerolinea, correoAerolinea, sitioweb);
-
-        // Alta de ruta de vuelo asociada
-        String nombreRuta = "UY-MVD-BUE";
-        String descripcionRuta = "Ruta entre Montevideo y Buenos Aires";
-        String hora = "08:00";
-        LocalDate fechaAlta = LocalDate.now();
-        double costoTurista = 120.0;
-        double costoEjecutivo = 250.0;
-        double costoEquipajeExtra = 30.0;
-        String ciudadOrigen = "Montevideo";
-        String ciudadDestino = "Buenos Aires";
-        String[] categorias = { "Turista", "Ejecutivo" };
-
-        altaRutaVuelo(
-                nombreRuta,
-                descripcionRuta,
-                nickAerolinea,
-                ciudadOrigen,
-                ciudadDestino,
-                hora,
-                fechaAlta,
-                costoTurista,
-                costoEjecutivo,
-                costoEquipajeExtra,
-                categorias);
-    }*/
+    @Override
+    public void cargarDesdeBd() {
+        manejadorCliente.cargarClientesDesdeBD(em);
+        manejadorAerolinea.cargarAerolineasDesdeBD(em);
+        manejadorCiudad.cargarCiudadesDesdeBD(em);
+        manejadorRutaVuelo.cargarRutasDesdeBD(em);
+        manejadorVuelo.cargarVuelosDesdeBD(em);
+        manejadorPaquete.cargarPaquetesDesdeBD(em);
+    }
 
     // --- USUARIOS ---
     @Override

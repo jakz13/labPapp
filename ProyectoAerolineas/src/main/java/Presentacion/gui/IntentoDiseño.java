@@ -60,7 +60,7 @@ public class IntentoDiseño {
             public void actionPerformed(ActionEvent e) {
                     framePrincipal.setVisible(false);
 
-                    DesplegarUsuarios DS = new DesplegarUsuarios(Fabrica.getInstance().getISistema().listarClientes());
+                    DesplegarUsuarios DS = new DesplegarUsuarios();
                     JFrame frameSesion = new JFrame("Inicio de Sesión");
                     frameSesion.setContentPane(DS.getPanelUsuarios());
                     frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

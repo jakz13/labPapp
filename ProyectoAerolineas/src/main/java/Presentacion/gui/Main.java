@@ -10,6 +10,11 @@ public class Main {
         Fabrica fabrica = Fabrica.getInstance();
         ISistema sistema = fabrica.getISistema();
 
+        try {
+            sistema.cargarDesdeBd();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //        // Precarga de clientes de ejemplo
 //        try {

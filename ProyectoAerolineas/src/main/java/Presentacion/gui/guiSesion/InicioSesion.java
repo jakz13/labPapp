@@ -117,7 +117,7 @@ public class InicioSesion {
                 }
 
                 sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email, fecha, nacionalidad, tipoDoc, documento);
-                DesplegarUsuarios ventanaUsuarios = new DesplegarUsuarios(sistema.listarClientes());
+                DesplegarUsuarios ventanaUsuarios = new DesplegarUsuarios();
                 DefaultTableModel modelo = (DefaultTableModel) ventanaUsuarios.TablaUsuarios.getModel();
                 modelo.addRow(new Object[]{NombreUsuario, Apellido, Documento});
                 JOptionPane.showMessageDialog(null,

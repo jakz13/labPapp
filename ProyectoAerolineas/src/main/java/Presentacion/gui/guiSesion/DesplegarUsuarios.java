@@ -1,8 +1,9 @@
-// Supón que tienes una clase Cliente con los métodos getId(), getNombre(), getApellido(), getDocumento()
 package Presentacion.gui.guiSesion;
 
-
+import Logica.Aerolinea;
 import Logica.Cliente;
+import Logica.Fabrica;
+import Logica.ISistema;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,26 +15,34 @@ public class DesplegarUsuarios {
     public JTable TablaUsuarios;
     private JPanel PanelTablas;
 
-    public DesplegarUsuarios(List<Cliente> clientes) {
-        DefaultTableModel modelo = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+    private ISistema sistema;
 
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Apellido");
-        modelo.addColumn("Documento");
+    public DesplegarUsuarios() {
+        sistema = Fabrica.getInstance().getISistema();
+        cargarUsuarios();
+    }
 
-        // Cargar los datos desde la lista
-        for (Cliente c : clientes) {
-            modelo.addRow(new Object[]{c.getNombre(), c.getApellido(), c.getNumeroDocumento()});
+    private void cargarUsuarios() {
+        // Definimos las columnas
+        String[] columnas = {"Tipo", "Nickname", "Nombre"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
+
+        // 1. Obtener aerolíneas
+        List<Aerolinea> aerolineas = sistema.listarAerolineas(); // asumo que tenés este método
+        for (Aerolinea a : aerolineas) {
+            Object[] fila = {"Aerolínea", a.getNickname(), a.getNombre()};
+            modelo.addRow(fila);
         }
 
-        // Se Asigna el modelo a la tabla del form
+        // 2. Obtener clientes
+        List<Cliente> clientes = sistema.listarClientes(); // asumo que también existe
+        for (Cliente c : clientes) {
+            Object[] fila = {"Cliente", c.getNickname(), c.getNombre()};
+            modelo.addRow(fila);
+        }
+
+        // Asignamos el modelo a la tabla
         TablaUsuarios.setModel(modelo);
-        TablaUsuarios.setAutoCreateRowSorter(true); // permite ordenar columnas
     }
 
     public Container getPanelUsuarios() {
