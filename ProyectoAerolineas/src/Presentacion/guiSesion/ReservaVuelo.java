@@ -44,7 +44,6 @@ public class ReservaVuelo {
     private List<JTextField> listaNombres = new ArrayList<>();
     private List<JTextField> listaApellidos = new ArrayList<>();
 
-    // 🔑 Panel dinámico para manejar los pasajeros
     private JPanel dinamico;
     private JPanel panel1;
     private JScrollPane scrollPasajeros;
@@ -98,7 +97,6 @@ public class ReservaVuelo {
                     campoVuelo.setText(vueloSeleccionado);
                     NOmVuelo.setText(vueloSeleccionado);
 
-                    // Obtener vuelo desde el sistema
                     Vuelo vuelo = sistema.obtenerVuelo(vueloSeleccionado);
                     if (vuelo != null) {
                         Duracion.setText(String.valueOf(vuelo.getDuracion()));
@@ -116,22 +114,18 @@ public class ReservaVuelo {
             }
         });
 
-        // --- Clientes ---
         clienteElegido.removeAllItems();
         for (Cliente c : sistema.listarClientes()) {
             clienteElegido.addItem(c.getNickname() + " (" + c.getNombre() + ")");
         }
 
-        // --- Panel dinámico ---
         dinamico = new JPanel();
         dinamico.setLayout(new BoxLayout(dinamico, BoxLayout.Y_AXIS));
         pasajerosPanel.setLayout(new BorderLayout());
         pasajerosPanel.add(new JScrollPane(dinamico), BorderLayout.CENTER);
 
-        // --- Dinámicamente generar pasajeros ---
         CantPasaje.addActionListener(e -> generarCamposPasajeros());
 
-        // --- Botón cancelar ---
         cancelarButton.addActionListener(e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelReserva);
             topFrame.dispose();
