@@ -26,6 +26,8 @@ public class IntentoDiseño {
     private JButton crearPaquete;
     private JButton consultaVuelo;
     private JButton HacerReservaVuelo;
+    private JButton ANIADIRPAQUETE;
+    private JButton CONSULTARUTA;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -250,6 +252,48 @@ public class IntentoDiseño {
                 ReservaVuelo RV = new ReservaVuelo();
                 JFrame frameSesion = new JFrame("Consulta Vuelo");
                 frameSesion.setContentPane(RV.getPanelReserva());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        CONSULTARUTA.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                ConsultaRutaVuelo CRV = new ConsultaRutaVuelo();
+                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                frameSesion.setContentPane(CRV.getPanelConsultaRuta());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        ANIADIRPAQUETE.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                AltaPaquete APP = new AltaPaquete();
+                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                frameSesion.setContentPane(APP.getPanel1());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 
