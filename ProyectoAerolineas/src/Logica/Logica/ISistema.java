@@ -40,9 +40,11 @@ public interface ISistema {
 
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva);
 
-    public String crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
+    public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
             double costo,
             TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros);
+
+    public Vuelo obtenerVuelo(String nombreVuelo);
 
     // --- PAQUETES ---
     void altaPaquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc,
@@ -59,4 +61,9 @@ public interface ISistema {
     public abstract void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
 
     public abstract Cliente obtenerCliente(String nickname);
+
+    double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra);
+
+    Pasajero crearPasajero(String nombre, String apellido);
+
 }

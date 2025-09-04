@@ -25,6 +25,7 @@ public class IntentoDiseño {
     private JButton agregarRutaVuelo;
     private JButton crearPaquete;
     private JButton consultaVuelo;
+    private JButton HacerReservaVuelo;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -228,6 +229,27 @@ public class IntentoDiseño {
                 ConsultaVuelo CV = new ConsultaVuelo();
                 JFrame frameSesion = new JFrame("Consulta Vuelo");
                 frameSesion.setContentPane(CV.getPanelConsultaVeulo());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        HacerReservaVuelo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                framePrincipal.setVisible(false);
+
+                ReservaVuelo RV = new ReservaVuelo();
+                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                frameSesion.setContentPane(RV.getPanelReserva());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 

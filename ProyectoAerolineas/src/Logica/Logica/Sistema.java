@@ -203,6 +203,9 @@ public class Sistema implements ISistema {
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo);
     }
 
+    public Vuelo obtenerVuelo(String nombreVuelo) {
+        return manejadorVuelo.getVuelo(nombreVuelo);
+    }
 
     @Override
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta) {
@@ -224,7 +227,7 @@ public class Sistema implements ISistema {
 
     // --- RESERVA ---
     @Override
-    public String crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
+    public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
                                          double costo,
                                          TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
         try {
@@ -233,9 +236,8 @@ public class Sistema implements ISistema {
             Reserva reserva = new Reserva(idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra,
                     pasajeros);
             registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
-            return "Reserva registrada con éxito.";
         } catch (Exception e) {
-            return "Error al registrar la reserva: " + e.getMessage();
+            throw new IllegalArgumentException("Error al registrar la reserva: ");
         }
     }
 
@@ -342,6 +344,39 @@ public class Sistema implements ISistema {
         } catch (IllegalStateException e) {
             System.out.println("ERROR.");
         }
+    }
+
+    @Override
+    public double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra) {
+        ManejadorVuelo manejadorVuelo = ManejadorVuelo.getInstance();
+        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+
+        if (vuelo == null) {
+            throw new IllegalArgumentException("Vuelo no encontrado: " + nombreVuelo);
+        }
+
+        double costoBase;
+        if (tipoAsiento == TipoAsiento.TURISTA) {
+            costoBase = 100.0;
+        } else {
+            costoBase = 200.0;
+        }
+
+        double costoPasajes = costoBase * cantidadPasajes;
+        double costoEquipaje = 30.0 * unidadesEquipajeExtra;
+
+        return costoPasajes + costoEquipaje;
+    }
+
+    @Override
+    public Pasajero crearPasajero(String nombre, String apellido) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del pasajero no puede estar vacío.");
+        }
+        if (apellido == null || apellido.trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido del pasajero no puede estar vacío.");
+        }
+        return new Pasajero(nombre.trim(), apellido.trim());
     }
 
 
