@@ -2,7 +2,6 @@ package guiSesion;
 
 import Logica.*;
 import javax.swing.*;
-import java.awt.*;
 import java.util.Map;
 
 public class ConsultaRutaVuelo {
@@ -11,8 +10,9 @@ public class ConsultaRutaVuelo {
     private JComboBox<Aerolinea> comboBoxAerolinea;
     private JList<RutaVuelo> listRutas;
     private JList<Vuelo> listVuelosAsociados;
-    private JTextArea textAreaDatosVuelo;
+    private JTextArea textAreaDatosRuta;
     private JButton cerrarButton;
+    private JTextArea textAreaDatosVuelo;
 
     public ConsultaRutaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
@@ -33,9 +33,8 @@ public class ConsultaRutaVuelo {
                 }
             }
             listRutas.setModel(modeloRutas);
-            textAreaDatosVuelo.setText("");
+            textAreaDatosRuta.setText("");
         });
-
 
         listRutas.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -50,7 +49,7 @@ public class ConsultaRutaVuelo {
                             .append("Duración Estimada: ").append(seleccionada.getHora()).append(" horas\n")
                             .append("Vuelos Asociados: ").append(seleccionada.getVuelos().size()).append("\n");
 
-                    textAreaDatosVuelo.setText(infoRuta.toString());
+                    textAreaDatosRuta.setText(infoRuta.toString());
 
                     for (Vuelo v : seleccionada.getVuelos().values()) {
                         modeloVuelos.addElement(v);
