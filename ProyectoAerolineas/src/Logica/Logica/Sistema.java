@@ -3,6 +3,7 @@ package Logica;
 
 import Logica.ManejadorVuelo;
 import Logica.ManejadorPaquete;
+import Logica.ManejadorCategoria;
 import Logica.RutaVuelo;
 import Logica.Vuelo;
 import Logica.Paquete;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class Sistema implements ISistema {
 
     private ManejadorCliente manejadorCliente;
+    private ManejadorCategoria manejadorCategoria;
     private ManejadorAerolinea manejadorAerolinea;
     private ManejadorCiudad manejadorCiudad;
     private ManejadorRutaVuelo manejadorRutaVuelo;
@@ -31,6 +33,7 @@ public class Sistema implements ISistema {
         this.manejadorRutaVuelo = ManejadorRutaVuelo.getInstance();
         this.manejadorVuelo = ManejadorVuelo.getInstance();
         this.manejadorCiudad = ManejadorCiudad.getInstance();
+        this.manejadorCategoria = ManejadorCategoria.getInstance();
     }
 
     /*public void cargarDatosEjemplo() {
@@ -379,7 +382,49 @@ public class Sistema implements ISistema {
         return new Pasajero(nombre.trim(), apellido.trim());
     }
 
+    @Override
+    public void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo) {
+        Paquete p = manejadorPaquete.buscarPaquete(nomPaquete);
+        if (p == null) {
+            throw new IllegalArgumentException("Paquete no encontrado");
+        }
 
+        Cliente c = manejadorCliente.obtenerCliente(nomCliente);
+        if (c == null) {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+
+        for (CompraPaqLogica cp : p.getCompras()) {
+            if (cp.getCliente().equals(c)) {
+                throw new IllegalArgumentException("Error, el cliente " + c.getNombre() + " ya compró el paquete " + p.getNombre() + ". Elija otro o cancele.");
+            }
+        }
+
+        try {
+            manejadorPaquete.compraPaquete(p, c, validezDias, fechaC, costo);
+            System.out.println("Paquete comprado correctamente.");
+        } catch (IllegalStateException e) {
+            System.out.println("ERROR.");
+        }
+    }
+
+
+    @Override
+    public void altaCategoria(String nomCat){
+        Categoria cat = manejadorCategoria.buscarCategorias(nomCat);
+        if (cat != null) {
+            throw new IllegalArgumentException("Error, la categoria ya existe.");
+            //Q aca de la opcion de elegir otro paquete o cancelar. no se donde va esta opcion
+        }
+
+        try {
+            Categoria c = new Categoria(nomCat);
+            manejadorCategoria.agregarCategoria(c);
+            System.out.println("Paquete comprado correctamente.");
+        }catch (IllegalStateException e){
+            System.out.println("ERROR.");
+        }
+    }
 
 }
 

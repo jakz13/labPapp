@@ -1,5 +1,6 @@
 package Logica;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,12 @@ public class ManejadorPaquete {
             ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
             p.getItemPaquetes().add(nuevo);
         }
+    }
+
+    public void compraPaquete(Paquete p, Cliente c, int validezDias, LocalDate fechaC, double costo) {
+        CompraPaqLogica nuevaCompra = new CompraPaqLogica(c, p, fechaC, validezDias, costo);
+        p.getCompras().add(nuevaCompra);
+        c.getPaquetesComprados().add(p);
     }
 
     public void agregarPaquete(Paquete p) {

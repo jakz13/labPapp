@@ -66,4 +66,7 @@ public interface ISistema {
 
     Pasajero crearPasajero(String nombre, String apellido);
 
+    public void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo);
+
+    public void altaCategoria(String nomCat);
 }
