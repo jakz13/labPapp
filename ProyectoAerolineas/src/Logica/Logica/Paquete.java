@@ -25,6 +25,8 @@ public class Paquete {
         this.Compras = new ArrayList<>();
     }
 
+    public void setCosto(double costo) { this.costo = costo; }
+
     public String getNombre(){ return nombre; }
     public String getDescripcion() { return descripcion; }
     public double getCosto() { return costo; }
