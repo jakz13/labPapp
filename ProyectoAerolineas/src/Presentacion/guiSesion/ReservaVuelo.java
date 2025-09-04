@@ -45,6 +45,9 @@ public class ReservaVuelo {
     private List<JTextField> listaNombres = new ArrayList<>();
     private List<JTextField> listaApellidos = new ArrayList<>();
 
+    // 🔑 Panel dinámico para manejar los pasajeros
+    private JPanel dinamico;
+
     public ReservaVuelo() {
         sistema = Fabrica.getInstance().getISistema();
         ButtonGroup grupoTipo = new ButtonGroup();
@@ -112,12 +115,17 @@ public class ReservaVuelo {
             }
         });
 
-
         // --- Clientes ---
         clienteElegido.removeAllItems();
         for (Cliente c : sistema.listarClientes()) {
             clienteElegido.addItem(c.getNickname() + " (" + c.getNombre() + ")");
         }
+
+        // --- Panel dinámico ---
+        dinamico = new JPanel();
+        dinamico.setLayout(new BoxLayout(dinamico, BoxLayout.Y_AXIS));
+        pasajerosPanel.setLayout(new BorderLayout());
+        pasajerosPanel.add(new JScrollPane(dinamico), BorderLayout.CENTER);
 
         // --- Dinámicamente generar pasajeros ---
         CantPasaje.addActionListener(e -> generarCamposPasajeros());
@@ -127,15 +135,14 @@ public class ReservaVuelo {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelReserva);
             topFrame.dispose();
         });
-        ListaVuelos.addComponentListener(new ComponentAdapter() {
-        });
+
+        ListaVuelos.addComponentListener(new ComponentAdapter() {});
+
         CantPasaje.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) { generarCamposPasajeros(); }
-
             @Override
             public void removeUpdate(DocumentEvent e) { generarCamposPasajeros(); }
-
             @Override
             public void changedUpdate(DocumentEvent e) { generarCamposPasajeros(); }
         });
@@ -205,9 +212,13 @@ public class ReservaVuelo {
     private void generarCamposPasajeros() {
         listaNombres.clear();
         listaApellidos.clear();
-        pasajerosPanel.removeAll();
+        dinamico.removeAll();
+
         try {
-            int cantidad = Integer.parseInt(CantPasaje.getText());
+            String texto = CantPasaje.getText().trim();
+            if (texto.isEmpty()) return;
+
+            int cantidad = Integer.parseInt(texto);
             if (cantidad <= 0) return;
 
             for (int i = 0; i < cantidad; i++) {
@@ -221,15 +232,18 @@ public class ReservaVuelo {
                 fila.add(new JLabel("Apellido:"));
                 fila.add(apellidoField);
 
-                pasajerosPanel.add(fila);
+                dinamico.add(fila);
 
                 listaNombres.add(nombreField);
                 listaApellidos.add(apellidoField);
             }
-            pasajerosPanel.revalidate();
-            pasajerosPanel.repaint();
+
+            dinamico.revalidate();
+            dinamico.repaint();
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Ingrese un número válido de pasajes.");
+            dinamico.removeAll();
+            dinamico.revalidate();
+            dinamico.repaint();
         }
     }
 
