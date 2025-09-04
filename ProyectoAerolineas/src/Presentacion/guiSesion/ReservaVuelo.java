@@ -30,7 +30,6 @@ public class ReservaVuelo {
     private JButton cancelarButton;
     private JTextField Duracion;
     private JPanel pasajerosPanel;
-    private JScrollPane scrollPasajeros;
     private JComboBox Dia;
     private JComboBox Ano;
     private JComboBox Mes;
@@ -47,6 +46,8 @@ public class ReservaVuelo {
 
     // 🔑 Panel dinámico para manejar los pasajeros
     private JPanel dinamico;
+    private JPanel panel1;
+    private JScrollPane scrollPasajeros;
 
     public ReservaVuelo() {
         sistema = Fabrica.getInstance().getISistema();
