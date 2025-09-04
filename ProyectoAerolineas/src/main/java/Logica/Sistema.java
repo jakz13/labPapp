@@ -20,6 +20,7 @@ public class Sistema implements ISistema {
     private ManejadorRutaVuelo manejadorRutaVuelo;
     private ManejadorVuelo manejadorVuelo;
     private ManejadorPaquete manejadorPaquete;
+    private ManejadorCategoria manejadorCategoria;
     private static int idReservaCounter = 0; // Contador para generar IDs únicos de reserva
 
     public Sistema() {
@@ -343,6 +344,23 @@ public class Sistema implements ISistema {
             System.out.println("ERROR.");
         }
 
+    }
+
+    @Override
+    public void altaCategoria(String nomCat){
+        Categoria cat = manejadorCategoria.buscarCategorias(nomCat);
+        if (cat != null) {
+            throw new IllegalArgumentException("Error, la categoria ya existe.");
+            //Q aca de la opcion de elegir otro paquete o cancelar. no se donde va esta opcion
+        }
+
+        try {
+            Categoria c = new Categoria(nomCat);
+            manejadorCategoria.agregarCategoria(c, em);
+            System.out.println("Paquete comprado correctamente.");
+        }catch (IllegalStateException e){
+            System.out.println("ERROR.");
+        }
     }
 }
 
