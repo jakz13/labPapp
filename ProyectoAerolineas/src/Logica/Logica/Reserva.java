@@ -11,8 +11,9 @@ public class Reserva {
     private int cantidadPasajes;
     private int unidadesEquipajeExtra;
     private List<Pasajero> pasajeros;
+    private Vuelo vuelo;
 
-    public Reserva(String id, double costo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
+    public Reserva(String id, double costo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros, Vuelo vuelo) {
         this.id = id;
         this.fecha = LocalDate.now();
         this.costo = costo;
@@ -20,6 +21,7 @@ public class Reserva {
         this.cantidadPasajes = cantidadPasajes;
         this.unidadesEquipajeExtra = unidadesEquipajeExtra;
         this.pasajeros = pasajeros;
+        this.vuelo = vuelo;
     }
 
     public String getId() { return id; }
@@ -29,4 +31,5 @@ public class Reserva {
     public int getCantidadPasajes() { return cantidadPasajes; }
     public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }
     public List<Pasajero> getPasajeros() { return pasajeros; }
+    public Vuelo getVuelo() { return vuelo; };
 }

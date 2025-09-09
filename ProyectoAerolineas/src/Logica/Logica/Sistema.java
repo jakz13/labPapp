@@ -1,4 +1,3 @@
-
 package Logica;
 
 import Logica.ManejadorVuelo;
@@ -230,14 +229,14 @@ public class Sistema implements ISistema {
 
     // --- RESERVA ---
     @Override
-    public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
-                                         double costo,
-                                         TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
+    public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva, double costo,
+                                       TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
         try {
             // Generar un ID único para la reserva
+            Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
             String idReserva = "RES" + (++idReservaCounter);
             Reserva reserva = new Reserva(idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra,
-                    pasajeros);
+                    pasajeros, vuelo);
             registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error al registrar la reserva: ");
@@ -426,7 +425,25 @@ public class Sistema implements ISistema {
         }
     }
 
+    // --- DATOS ADICIONALES DE USUARIO ---
+    public List<Object> obtenerDatosAdicionalesUsuario(String nickname) {
+        List<Object> adicionales = new ArrayList<>();
+        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+        if (cliente != null) {
+            // Agregar reservas
+            adicionales.addAll(cliente.getReservas().values());
+            // Agregar paquetes comprados
+            adicionales.addAll(cliente.getPaquetesComprados());
+            return adicionales;
+        }
+        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);
+        if (aerolinea != null) {
+            // Agregar rutas de vuelo
+            adicionales.addAll(aerolinea.getRutasVuelo());
+            return adicionales;
+        }
+        // Si no es cliente ni aerolínea, retorna lista vacía
+        return adicionales;
+    }
+
 }
-
-
-

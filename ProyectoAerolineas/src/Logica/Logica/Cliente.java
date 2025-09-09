@@ -62,7 +62,7 @@ public class Cliente extends Usuario {
     public TipoDoc getTipoDocumento() { return tipoDocumento; }
     public String getNumeroDocumento() { return numeroDocumento; }
     public Map<String, Reserva> getReservas() { return reservas; }
-    public List<Object> getPaquetesComprados() { return Collections.singletonList(paquetesComprados); }
+    public List< Paquete > getPaquetesComprados() { return paquetesComprados; }
     public void agregarReserva(String idReserva, Reserva reserva) {
         reservas.put(idReserva, reserva);
     }
