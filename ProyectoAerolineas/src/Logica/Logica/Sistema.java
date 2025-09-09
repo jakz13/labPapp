@@ -430,20 +430,17 @@ public class Sistema implements ISistema {
         List<Object> adicionales = new ArrayList<>();
         Cliente cliente = manejadorCliente.obtenerCliente(nickname);
         if (cliente != null) {
-            // Agregar reservas
             adicionales.addAll(cliente.getReservas().values());
-            // Agregar paquetes comprados
             adicionales.addAll(cliente.getPaquetesComprados());
             return adicionales;
         }
         Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);
         if (aerolinea != null) {
-            // Agregar rutas de vuelo
             adicionales.addAll(aerolinea.getRutasVuelo());
             return adicionales;
         }
-        // Si no es cliente ni aerolínea, retorna lista vacía
         return adicionales;
     }
+
 
 }
