@@ -1,0 +1,38 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             version="2.2">
+    <persistence-unit name="LAB_PA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>Logica.Aerolinea</class>
+        <class>Logica.Categoria</class>
+        <class>Logica.Ciudad</class>
+        <class>Logica.Cliente</class>
+        <class>Logica.CompraPaqLogica</class>
+        <class>Logica.ItemPaquete</class>
+        <class>Logica.ManejadorAerolinea</class>
+        <class>Logica.ManejadorCategoria</class>
+        <class>Logica.ManejadorCiudad</class>
+        <class>Logica.ManejadorCliente</class>
+        <class>Logica.ManejadorPaquete</class>
+        <class>Logica.ManejadorVuelo</class>
+        <class>Logica.ManejadorRutaVuelo</class>
+        <class>Logica.Paquete</class>
+        <class>Logica.Pasajero</class>
+        <class>Logica.Reserva</class>
+        <class>Logica.RutaVuelo</class>
+        <class>Logica.Usuario</class>
+        <class>Logica.Vuelo</class>
+
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/LAB_PA"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="123"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
+
