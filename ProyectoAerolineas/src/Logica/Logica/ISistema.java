@@ -68,5 +68,7 @@ public interface ISistema {
 
     public void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo);
 
+    public List<Object> obtenerDatosAdicionalesUsuario(String nickname);
+
     public void altaCategoria(String nomCat);
 }
