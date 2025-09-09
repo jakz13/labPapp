@@ -315,7 +315,7 @@ public class IntentoDiseño {
 
                 VerUsuarios VU = new VerUsuarios();
                 JFrame frameSesion = new JFrame("Consulta Vuelo");
-                frameSesion.setContentPane(VU.getPanelConsultaRuta());
+                frameSesion.setContentPane(VU.getPanelConsulta());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 
