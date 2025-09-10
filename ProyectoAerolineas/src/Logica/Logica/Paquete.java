@@ -55,6 +55,29 @@ public class Paquete {
         return !Compras.isEmpty();
     }
 
+    public double calcularCostoReservaPaquete() {
+        double costoTotal = 0.0;
+
+        // Sumar el costo de cada item del paquete
+        for (ItemPaquete item : ItemPaquetes) {
+            costoTotal += item.calcularCostoItem();
+        }
+
+        // Aplicar descuento del paquete si corresponde
+        if (descuentoPorc > 0) {
+            double descuento = costoTotal * (descuentoPorc / 100.0);
+            costoTotal -= descuento;
+        }
+
+        // Aquí podrías sumar costos extras si los hubiera
+        // costoTotal += calcularCostosExtras();
+
+        this.costo = costoTotal; // actualizar atributo de la clase
+
+        return costoTotal;
+    }
+
+
 
     @Override
     public String toString() {

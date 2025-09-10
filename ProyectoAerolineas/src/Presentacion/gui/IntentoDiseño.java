@@ -270,9 +270,9 @@ public class IntentoDiseño {
             public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
 
-                AltaPaquete APP = new AltaPaquete();
-                JFrame frameSesion = new JFrame("Añadir Paquete a Cliente");
-                frameSesion.setContentPane(APP.getPanel1());
+                CompraPaquete CPQ = new CompraPaquete();
+                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                frameSesion.setContentPane(CPQ.getPanelDeSesion());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 
@@ -286,6 +286,7 @@ public class IntentoDiseño {
                 frameSesion.setVisible(true);
             }
         });
+
         USUARIOS.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

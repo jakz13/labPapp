@@ -47,7 +47,7 @@ public interface ISistema {
     public Vuelo obtenerVuelo(String nombreVuelo);
 
     // --- PAQUETES ---
-    void altaPaquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc,
+    void altaPaquete(String nombre, String descripcion, /*double costo,*/ /*LocalDate fechaAlta,*/ int descuentoPorc,
             int periodoValidezDias);
 
     public List<Paquete> listarPaquetes();
