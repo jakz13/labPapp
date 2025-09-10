@@ -11,7 +11,7 @@ public class Main {
         Fabrica fabrica = Fabrica.getInstance();
         ISistema sistema = fabrica.getISistema();
 
-/*
+
         // Precarga de clientes de ejemplo
         try {
             sistema.altaCliente("juan123", "Juan", "Callero", "juan@mail.com",
@@ -84,7 +84,6 @@ public class Main {
             sistema.altaPaquete(
                     "Verano Caribeño",
                     "Paquete todo incluido con vuelos y hoteles en el Caribe.",
-                    1200.0,
                     10,   // descuento 10%
                     30    // válido por 30 días
             );
@@ -93,7 +92,6 @@ public class Main {
             sistema.altaPaquete(
                     "Aventura Andina",
                     "Incluye excursiones de trekking y escalada en la cordillera de los Andes.",
-                    850.0,
                     15,   // descuento 15%
                     45    // válido por 45 días
             );
@@ -102,7 +100,35 @@ public class Main {
 
         } catch (Exception e) {
         }
-*/
+
+// Reservas de prueba para Ana y Juan
+        try {
+            // Reserva para Ana en el vuelo LATAM001-SCLMIA
+            sistema.crearYRegistrarReserva(
+                    "ana456",
+                    "LATAM001-SCLMIA",
+                    LocalDate.now(),
+                    sistema.calcularCostoReserva("LATAM001-SCLMIA", Logica.TipoAsiento.TURISTA, 1, 0),
+                    Logica.TipoAsiento.TURISTA,
+                    1,
+                    0,
+                    java.util.Arrays.asList(sistema.crearPasajero("Aglae", "Locher"))
+            );
+
+            // Reserva para Juan en el vuelo AA001-JFKLAX
+            sistema.crearYRegistrarReserva(
+                    "juan123",
+                    "AA001-JFKLAX",
+                    LocalDate.now(),
+                    sistema.calcularCostoReserva("AA001-JFKLAX", Logica.TipoAsiento.EJECUTIVO, 2, 1),
+                    Logica.TipoAsiento.EJECUTIVO,
+                    2,
+                    1,
+                    java.util.Arrays.asList(sistema.crearPasajero("Juan", "Callero"))
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Ventana Principal");

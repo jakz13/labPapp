@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ISistema {
-    public abstract void cargarDesdeBd();
-
     // Usuarios
-
     public abstract void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc);
 
     public abstract Cliente verInfoCliente(String nickname);
@@ -21,7 +18,7 @@ public interface ISistema {
     public abstract List<Aerolinea> listarAerolineas();
 
     // Vuelos y rutas
-   // public void cargarDatosEjemplo();
+    // public void cargarDatosEjemplo();
 
     void altaCiudad(String nombre, String pais);
 
@@ -29,14 +26,14 @@ public interface ISistema {
 
     public abstract RutaVuelo obtenerRuta(String nombreRuta);
 
-        public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
+    public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
 
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
 
     Vuelo verInfoVuelo(String nombreVuelo);
 
     //String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion,
-            //int asientosTurista, int asientosEjecutivo);
+    //int asientosTurista, int asientosEjecutivo);
 
     public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
                           int asientosEjecutivo, LocalDate fechaAlta);
@@ -44,14 +41,14 @@ public interface ISistema {
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva);
 
     public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
-            double costo,
-            TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros);
+                                       double costo,
+                                       TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros);
 
     public Vuelo obtenerVuelo(String nombreVuelo);
 
     // --- PAQUETES ---
-    void altaPaquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc,
-            int periodoValidezDias);
+    void altaPaquete(String nombre, String descripcion, /*double costo,*/ /*LocalDate fechaAlta,*/ int descuentoPorc,
+                     int periodoValidezDias);
 
     public List<Paquete> listarPaquetes();
 

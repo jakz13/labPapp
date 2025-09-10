@@ -74,4 +74,8 @@ public class Cliente extends Usuario {
     public void agregarReserva(Reserva reserva) {
         reservas.add(reserva);
     }
+    @Override
+    public String toString() {
+        return this.getNombre();
+    }
 }

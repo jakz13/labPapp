@@ -3,7 +3,7 @@ package Logica;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "items_paquete")
+@Table(name = "item_paquete")
 public class ItemPaquete {
 
     @Id
@@ -11,46 +11,53 @@ public class ItemPaquete {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "paquete_id")
-    private Paquete paquete;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ruta_vuelo_id")
+    @JoinColumn(name = "ruta_vuelo_id", nullable = false)
     private RutaVuelo rutaVuelo;
 
+    @Column(nullable = false)
+    private int cantAsientos;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_asiento", nullable = false)
+    @Column(nullable = false)
     private TipoAsiento tipoAsiento;
 
-    @Column(name = "cantidad", nullable = false)
-    private int cantidad;
+    public ItemPaquete() {
+    }
 
-    public ItemPaquete() {}
-
-    public ItemPaquete(Paquete paquete, RutaVuelo rutaVuelo, int cantidad, TipoAsiento tipoAsiento) {
-        this.paquete = paquete;
+    public ItemPaquete(RutaVuelo rutaVuelo, int cantAsientos, TipoAsiento tipoAsiento) {
         this.rutaVuelo = rutaVuelo;
-        this.cantidad = cantidad;
+        this.cantAsientos = cantAsientos;
         this.tipoAsiento = tipoAsiento;
     }
 
-    // --- Getters ---
-    public Long getId() { return id; }
-    public Paquete getPaquete() { return paquete; }
-    public RutaVuelo getRutaVuelo() { return rutaVuelo; }
-    public int getCantidad() { return cantidad; }
-    public TipoAsiento getTipoAsiento() { return tipoAsiento; }
-
-    // --- Setters ---
-    public void setPaquete(Paquete paquete) { this.paquete = paquete; }
-    public void setRutaVuelo(RutaVuelo rutaVuelo) { this.rutaVuelo = rutaVuelo; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-    public void setTipoAsiento(TipoAsiento tipoAsiento) { this.tipoAsiento = tipoAsiento; }
-    public int getCantAsientos() {
-        return cantidad;
+    public RutaVuelo getRutaVuelo() {
+        return rutaVuelo;
     }
-    // --- Lógica de negocio ---
+
+    public int getCantAsientos() {
+        return cantAsientos;
+    }
+
+    public TipoAsiento getTipoAsiento() {
+        return tipoAsiento;
+    }
+
     public void incrementarCantidad(int cantidad) {
-        this.cantidad += cantidad;
+        this.cantAsientos += cantidad;
+    }
+
+    public double calcularCostoItem() {
+        if (rutaVuelo == null) {
+            throw new IllegalStateException("Ruta de vuelo no definida para este item");
+        }
+
+        double costoBase;
+        if (tipoAsiento == TipoAsiento.TURISTA) {
+            costoBase = rutaVuelo.getCostoTurista();
+        } else {
+            costoBase = rutaVuelo.getCostoEjecutivo();
+        }
+
+        return costoBase * cantAsientos;
     }
 }

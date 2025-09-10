@@ -36,7 +36,6 @@ public class Sistema implements ISistema {
         this.manejadorCategoria = ManejadorCategoria.getInstance();
     }
 
-    @Override
     public void cargarDesdeBd() {
         manejadorCliente.cargarClientesDesdeBD(em);
         manejadorAerolinea.cargarAerolineasDesdeBD(em);
@@ -230,8 +229,7 @@ public class Sistema implements ISistema {
 
     // --- PAQUETES ---
     @Override
-    public void altaPaquete(String nombre, String descripcion, double costo, /*LocalDate fechaAlta,*/ int descuentoPorc,
-                            int periodoValidezDias) {
+    public void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias) {
         Paquete p = new Paquete(nombre, descripcion, /*fechaAlta,*/ descuentoPorc, periodoValidezDias);
         manejadorPaquete.agregarPaquete(p,em);
     }

@@ -37,11 +37,10 @@ public class AltaPaquete {
                 return;
             }
 
-            double costo = 0;
             int descuento = 0;
             int validez = 0;
 
-            sistema.altaPaquete(nombre, descripcion, costo, descuento, validez);
+            sistema.altaPaquete(nombre, descripcion,descuento, validez);
 
             JOptionPane.showMessageDialog(null,
                     "Paquete creado correctamente.",

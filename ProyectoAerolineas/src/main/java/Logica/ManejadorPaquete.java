@@ -59,7 +59,7 @@ public class ManejadorPaquete {
         if (existente != null) {
             existente.incrementarCantidad(cantidadAsientos);
         } else {
-            ItemPaquete nuevo = new ItemPaquete(p,ruta, cantidadAsientos, tipoAsiento);
+            ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
             p.getItemPaquetes().add(nuevo);
         }
 

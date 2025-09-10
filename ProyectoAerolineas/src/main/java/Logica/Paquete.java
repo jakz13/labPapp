@@ -10,25 +10,28 @@ import java.util.List;
 public class Paquete {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String nombre; // usamos el nombre como PK
 
-    private String nombre;
+    @Column(nullable = false)
     private String descripcion;
+
     private double costo;
+
     private LocalDate fechaAlta;
+
     private int descuentoPorc;
+
     private int periodoValidezDias;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paquete_id")
-    private List<ItemPaquete> itemPaquetes = new ArrayList<>();
+    @JoinColumn(name = "paquete_id") // FK en item_paquete
+    private List<ItemPaquete> ItemPaquetes = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "paquete_id")
-    private List<CompraPaqLogica> compras = new ArrayList<>();
+    @OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompraPaqLogica> Compras = new ArrayList<>();
 
-    public Paquete() {} // constructor vacío para JPA
+    public Paquete() {
+    }
 
     public Paquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias) {
         this.nombre = nombre;
@@ -39,32 +42,55 @@ public class Paquete {
         this.periodoValidezDias = periodoValidezDias;
     }
 
-    // ======= Getters y Setters =======
-    public String getNombre() { return nombre; }
+    public void setCosto(double costo) { this.costo = costo; }
+
+    public String getNombre(){ return nombre; }
     public String getDescripcion() { return descripcion; }
     public double getCosto() { return costo; }
-    public void setCosto(double costo) { this.costo = costo; }
     public LocalDate getFechaAlta() { return fechaAlta; }
     public int getDescuentoPorc() { return descuentoPorc; }
     public int getPeriodoValidezDias() { return periodoValidezDias; }
-
-    public List<ItemPaquete> getItemPaquetes() { return itemPaquetes; }
-    public List<CompraPaqLogica> getCompras() { return compras; }
+    public List<ItemPaquete> getItemPaquetes() { return ItemPaquetes; }
+    public List<CompraPaqLogica> getCompras() { return Compras; }
 
     public String getDescuento() {
-        return descuentoPorc > 0 ? "Descuento: " + descuentoPorc + "%" : "Sin descuento";
+        if (descuentoPorc > 0) {
+            return "Descuento: " + descuentoPorc + "%";
+        } else {
+            return "Sin descuento";
+        }
     }
 
     public String getPeriodoValidez() {
-        return periodoValidezDias > 0 ? "Periodo de validez: " + periodoValidezDias + " días" : "Sin periodo de validez";
+        if (periodoValidezDias > 0) {
+            return "Periodo de validez: " + periodoValidezDias + " días";
+        } else {
+            return "Sin periodo de validez";
+        }
     }
 
     public boolean estaComprado() {
-        return !compras.isEmpty();
+        return !Compras.isEmpty();
+    }
+
+    public double calcularCostoReservaPaquete() {
+        double costoTotal = 0.0;
+
+        for (ItemPaquete item : ItemPaquetes) {
+            costoTotal += item.calcularCostoItem();
+        }
+
+        if (descuentoPorc > 0) {
+            double descuento = costoTotal * (descuentoPorc / 100.0);
+            costoTotal -= descuento;
+        }
+
+        this.costo = costoTotal;
+        return costoTotal;
     }
 
     @Override
     public String toString() {
-        return nombre;
+        return this.nombre;
     }
 }
