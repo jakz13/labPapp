@@ -66,4 +66,9 @@ public class Cliente extends Usuario {
     public void agregarReserva(String idReserva, Reserva reserva) {
         reservas.put(idReserva, reserva);
     }
+
+    @Override
+    public String toString() {
+        return this.getNombre();
+    }
 }

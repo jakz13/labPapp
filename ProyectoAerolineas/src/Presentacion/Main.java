@@ -84,7 +84,6 @@ public class Main {
             sistema.altaPaquete(
                     "Verano Caribeño",
                     "Paquete todo incluido con vuelos y hoteles en el Caribe.",
-                    1200.0,
                     10,   // descuento 10%
                     30    // válido por 30 días
             );
@@ -93,7 +92,6 @@ public class Main {
             sistema.altaPaquete(
                     "Aventura Andina",
                     "Incluye excursiones de trekking y escalada en la cordillera de los Andes.",
-                    850.0,
                     15,   // descuento 15%
                     45    // válido por 45 días
             );
