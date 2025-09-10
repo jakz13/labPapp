@@ -1,6 +1,10 @@
 package Presentacion.gui.guiSesion;
 
 
+import DataTypes.DtAerolinea;
+import DataTypes.DtReserva;
+import DataTypes.DtRutaVuelo;
+import DataTypes.DtVuelo;
 import Logica.*;
 
 import javax.swing.*;
@@ -48,7 +52,7 @@ public class VerUsuarios {
         for (Cliente c : sistema.listarClientes()) {
             modeloUsuarios.addElement("Cliente:" + c.getNickname());
         }
-        for (Aerolinea a : sistema.listarAerolineas()) {
+        for (DtAerolinea a : sistema.listarAerolineas()) {
             modeloUsuarios.addElement("Aerolinea:" + a.getNickname());
         }
         comboBoxUsuarios.setModel(modeloUsuarios);
@@ -100,7 +104,7 @@ public class VerUsuarios {
 
     // --- Mostrar aerolínea ---
     private void mostrarAerolinea(String nickname) {
-        Aerolinea a = sistema.obtenerAerolinea(nickname);
+        DtAerolinea a = sistema.obtenerAerolinea(nickname);
         if (a != null) {
             textAreaDatosUsuario.setText(
                     "Aerolinea: " + a.getNombre() + "\n" +
@@ -135,7 +139,7 @@ public class VerUsuarios {
     private void generarBotonesAerolinea(String nickname) {
         JButton btnRutas = new JButton("Ver Rutas de Vuelo");
         btnRutas.addActionListener(e -> {
-            List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
+            List<DtRutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
             mostrarListaInteractiva("Rutas de la aerolínea", rutas.toArray());
         });
         panelBotonesDinamicos.add(btnRutas);
@@ -177,7 +181,7 @@ public class VerUsuarios {
     private String obtenerDetalle(Object obj) {
         StringBuilder detalle = new StringBuilder();
 
-        if (obj instanceof RutaVuelo r) {
+        if (obj instanceof DtRutaVuelo r) {
             detalle.append("Ruta: ").append(r.getNombre()).append("\n")
                     .append("Origen: ").append(r.getCiudadOrigen()).append("\n")
                     .append("Destino: ").append(r.getCiudadDestino()).append("\n")
@@ -185,7 +189,7 @@ public class VerUsuarios {
                     .append("Vuelos Asociados: ").append(r.getVuelos().size()).append("\n\n");
 
             detalle.append("=== Vuelos ===\n");
-            for (Vuelo v : r.getVuelos()) {
+            for (DtVuelo v : r.getVuelos()) {
                 detalle.append("Vuelo: ").append(v.getNombre()).append("\n")
                         .append("Fecha: ").append(v.getFecha()).append("\n")
                         .append("Duración: ").append(v.getDuracion()).append(" días\n")
@@ -195,7 +199,7 @@ public class VerUsuarios {
                         .append("-------------------------\n");
             }
         }
-        if (obj instanceof Reserva r) {
+        if (obj instanceof DtReserva r) {
             detalle.append("Reserva ID: ").append(r.getId()).append("\n")
                     .append("Costo: $").append(r.getCosto()).append("\n")
                     .append("Tipo Asiento: ").append(r.getTipoAsiento()).append("\n")

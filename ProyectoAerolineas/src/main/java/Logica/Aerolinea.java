@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtRutaVuelo;
 import jakarta.persistence.*;
 import java.util.*;
 
@@ -39,8 +40,46 @@ public class Aerolinea extends Usuario {
         rutasVuelo.put(ruta.getNombre(), ruta);
     }
 
-    public List<RutaVuelo> getRutasVuelo() {
-        return new ArrayList<>(rutasVuelo.values());
+
+
+    public List<DtRutaVuelo> getRutasVuelo() {
+        return rutasVuelo.values().stream()
+                .map(ruta -> new DtRutaVuelo(
+                        ruta.getNombre(),
+                        ruta.getDescripcion(),
+                        ruta.getAerolinea().getNombre(),
+                        ruta.getCiudadOrigen(),
+                        ruta.getCiudadDestino(),
+                        ruta.getHora(),
+                        ruta.getFechaAlta(),
+                        ruta.getCostoTurista(),
+                        ruta.getCostoEjecutivo(),
+                        ruta.getCostoEquipajeExtra(),
+                        ruta.getCategorias(),
+                        ruta.getDtVuelos()
+                ))
+                .toList();
+    }
+
+
+    public List<DtRutaVuelo> getDtRutasVuelo() {
+        return new ArrayList<>(
+            rutasVuelo.values().stream()
+                .map(ruta -> new DtRutaVuelo(
+                    ruta.getNombre(),
+                    ruta.getDescripcion(),
+                    ruta.getAerolinea().getNombre(),
+                    ruta.getCiudadOrigen(),
+                    ruta.getCiudadDestino(),
+                    ruta.getHora(),
+                    ruta.getFechaAlta(),
+                    ruta.getCostoTurista(),
+                    ruta.getCostoEjecutivo(),
+                    ruta.getCostoEquipajeExtra(),
+                    ruta.getCategorias(), ruta.getDtVuelos()
+                ))
+                .toList()
+        );
     }
 
     public Map<String, RutaVuelo> getRutasVueloMap() {

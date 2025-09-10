@@ -2,6 +2,7 @@ package Logica;
 
 import java.time.LocalDate;
 import java.util.List;
+import DataTypes.*;
 
 public interface ISistema {
     // Usuarios
@@ -15,7 +16,7 @@ public interface ISistema {
 
     public abstract Aerolinea verInfoAerolinea(String nickname);
 
-    public abstract List<Aerolinea> listarAerolineas();
+    public abstract List<DtAerolinea> listarAerolineas();
 
     // Vuelos y rutas
     // public void cargarDatosEjemplo();
@@ -26,7 +27,7 @@ public interface ISistema {
 
     public abstract RutaVuelo obtenerRuta(String nombreRuta);
 
-    public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
+    public List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
 
     public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
 

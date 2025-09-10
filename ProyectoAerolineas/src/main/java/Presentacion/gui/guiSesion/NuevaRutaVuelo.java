@@ -1,5 +1,6 @@
 package Presentacion.gui.guiSesion;
 
+import DataTypes.DtAerolinea;
 import Logica.Aerolinea;
 import Logica.Fabrica;
 import Logica.ISistema;
@@ -29,7 +30,7 @@ public class NuevaRutaVuelo {
     public NuevaRutaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
         DefaultListModel<String> modeloAerolineas = new DefaultListModel<>();
-        for (Aerolinea a : sistema.listarAerolineas()) {
+        for (DtAerolinea a : sistema.listarAerolineas()) {
             String item = a.getNickname() + " (" + a.getNombre() + ")";
             modeloAerolineas.addElement(item);
         }
@@ -47,7 +48,7 @@ public class NuevaRutaVuelo {
             @Override
             public void actionPerformed(ActionEvent e) {
                 {
-                    Aerolinea aerolinea = sistema.obtenerAerolinea(aerolineaSeleccionada);
+                    DtAerolinea aerolinea = sistema.obtenerAerolinea(aerolineaSeleccionada);
                     String nombreRuta = NombreRuta.getText().trim();
                     String Descripcion = descripcion.getText().trim();
                     String origen = Origen.getText().trim();

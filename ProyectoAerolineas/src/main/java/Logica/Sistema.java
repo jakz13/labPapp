@@ -3,6 +3,7 @@ package Logica;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import DataTypes.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -108,8 +109,8 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public List<Aerolinea> listarAerolineas() {
-        return manejadorAerolinea.getAerolineas();
+    public List<DtAerolinea> listarAerolineas() {
+        return manejadorAerolinea.getDtAerolineas();
     }
 
     // --- CIUDADES ---
@@ -149,7 +150,7 @@ public class Sistema implements ISistema {
     }
 
 
-    public List<RutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
+    public List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
         return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);
     }
 
@@ -292,7 +293,7 @@ public class Sistema implements ISistema {
             if (ruta != null) break;
         }
 
-
+*/
         if (ruta == null) {
             System.out.println("No se encontró la ruta con ese nombre.");
             return;

@@ -1,5 +1,6 @@
 package Presentacion.gui.guiSesion;
 
+import DataTypes.DtRutaVuelo;
 import Logica.*;
 
 import javax.swing.*;
@@ -85,9 +86,9 @@ public class ConsultaVuelo {
 
     private void actualizarRutas() {
         Aerolinea seleccionada = (Aerolinea) comboBoxAerolinea.getSelectedItem();
-        DefaultListModel<RutaVuelo> modeloRutas = new DefaultListModel<>();
+        DefaultListModel<DtRutaVuelo> modeloRutas = new DefaultListModel<>();
         if (seleccionada != null) {
-            for (RutaVuelo r : seleccionada.getRutasVuelo()) {
+            for (DtRutaVuelo r : seleccionada.getRutasVuelo()) {
                 modeloRutas.addElement(r);
             }
         }

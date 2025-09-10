@@ -1,5 +1,6 @@
 package Presentacion.gui.guiSesion;
 
+import DataTypes.DtAerolinea;
 import Logica.*;
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ public class EligeUsuario {
                 String item = c.getNickname() + " (" + c.getNombre() + ")";
                 modelo.addElement(item);
             }
-            for (Aerolinea a : sistema.listarAerolineas()) {
+            for (DtAerolinea a : sistema.listarAerolineas()) {
                 String item = a.getNickname() + " (" + a.getNombre() + ")";
                 modelo.addElement(item);
             }

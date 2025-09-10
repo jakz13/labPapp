@@ -1,8 +1,10 @@
 package Logica;
 
+import DataTypes.DtReserva;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -45,6 +47,7 @@ public class Vuelo {
 
     // ===== Getters y Setters =====
     public String getNombre() { return nombre; }
+    public String getNombreAerolinea() { return NombreAereolinea; }
     public LocalDate getFecha() { return fecha; }
     public int getDuracion() { return duracion; }
     public int getAsientosTurista() { return asientosTurista; }
@@ -63,4 +66,20 @@ public class Vuelo {
     public String toString() {
         return nombre;
     }
+
+    public List<DtReserva> getDtReservas() {
+        return reservas.values().stream()
+                .map(reserva -> new DtReserva(
+                        reserva.getId(),
+                        reserva.getFecha(),
+                        reserva.getCosto(),
+                        reserva.getTipoAsiento(), // Debes tener este método en Reserva
+                        reserva.getCantidadPasajes(), // Debes tener este método en Reserva
+                        reserva.getUnidadesEquipajeExtra(), // Debes tener este método en Reserva
+                        reserva.getDtPasajeros(), // Debes tener este método en Reserva
+                        this.getNombre()
+                ))
+                .toList();
+    }
+
 }

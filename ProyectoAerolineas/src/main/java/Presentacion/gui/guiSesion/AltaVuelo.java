@@ -1,6 +1,8 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.*;
+import Logica.ISistema;
+import Logica.Fabrica;
+import DataTypes.*;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class AltaVuelo {
     public AltaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
         DefaultListModel<String> modeloAerolineas = new DefaultListModel<>();
-        for (Aerolinea a : sistema.listarAerolineas()) {
+        for (DtAerolinea a : sistema.listarAerolineas()) {
             String item = a.getNickname() + " (" + a.getNombre() + ")";
             modeloAerolineas.addElement(item);
         }
@@ -44,9 +46,9 @@ public class AltaVuelo {
 
                     campoAereolinea.setText(nombre);
 
-                    List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
+                    List<DtRutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
                     DefaultListModel<String> modeloRutas = new DefaultListModel<>();
-                    for (RutaVuelo r : rutas) {
+                    for (DtRutaVuelo r : rutas) {
                         modeloRutas.addElement(r.getNombre());
                     }
                     ListaRutasDeVuelo.setModel(modeloRutas);

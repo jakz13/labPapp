@@ -1,4 +1,4 @@
-package DtTypes;
+package DataTypes;
 
 public class DtVuelo {
 }

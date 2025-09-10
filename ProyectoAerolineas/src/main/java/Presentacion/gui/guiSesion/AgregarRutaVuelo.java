@@ -1,5 +1,7 @@
 package Presentacion.gui.guiSesion;
 
+import DataTypes.DtAerolinea;
+import DataTypes.DtRutaVuelo;
 import Logica.*;
 
 import javax.swing.*;
@@ -7,8 +9,8 @@ import java.awt.*;
 
 public class AgregarRutaVuelo {
     private JComboBox<Paquete> campoPaquete;
-    private JComboBox<Aerolinea> campoAerolinea;
-    private JList<RutaVuelo> campoRutaVuelo;
+    private JComboBox<DtAerolinea> campoAerolinea;
+    private JList<DtRutaVuelo> campoRutaVuelo;
     private JComboBox<TipoAsiento> campoTipoAsiento;
     private JTextField campoCantidadAsiento;
     private JButton añadirButton;
@@ -29,8 +31,8 @@ public class AgregarRutaVuelo {
         // Acción del botón Añadir
         añadirButton.addActionListener(e -> {
             Paquete paquete = (Paquete) campoPaquete.getSelectedItem();
-            Aerolinea aerolinea = (Aerolinea) campoAerolinea.getSelectedItem();
-            RutaVuelo rutaVuelo = (RutaVuelo) campoRutaVuelo.getSelectedValue();
+            DtAerolinea aerolinea = (DtAerolinea) campoAerolinea.getSelectedItem();
+            DtRutaVuelo rutaVuelo = (DtRutaVuelo) campoRutaVuelo.getSelectedValue();
             TipoAsiento tipoAsiento = (TipoAsiento) campoTipoAsiento.getSelectedItem();
             String cantidadAsientoStr = campoCantidadAsiento.getText().trim();
 
@@ -91,8 +93,8 @@ public class AgregarRutaVuelo {
 
     // Carga aerolíneas disponibles
     private void cargarAerolineas() {
-        DefaultComboBoxModel<Aerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
-        for (Aerolinea a : ManejadorAerolinea.getInstance().getAerolineas()) {
+        DefaultComboBoxModel<DtAerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
+        for (DtAerolinea a : ManejadorAerolinea.getInstance().getAerolinea()) {
             modeloAerolinea.addElement(a);
         }
         campoAerolinea.setModel(modeloAerolinea);
@@ -101,10 +103,10 @@ public class AgregarRutaVuelo {
 
     // Actualiza la lista de rutas según la aerolínea seleccionada
     private void actualizarRutas() {
-        Aerolinea seleccionada = (Aerolinea) campoAerolinea.getSelectedItem();
-        DefaultListModel<RutaVuelo> modeloRutas = new DefaultListModel<>();
+        DtAerolinea seleccionada = (DtAerolinea) campoAerolinea.getSelectedItem();
+        DefaultListModel<DtRutaVuelo> modeloRutas = new DefaultListModel<>();
         if (seleccionada != null) {
-            for (RutaVuelo r : seleccionada.getRutasVuelo()) {
+            for (DtRutaVuelo r : seleccionada.getRutas()) {
                 modeloRutas.addElement(r);
             }
         }

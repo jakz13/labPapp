@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtPasajero;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -58,5 +59,13 @@ public class Reserva {
     public String toString() {
         return "Reserva #" + id +
                 " | Vuelo: " + (vuelo != null ? vuelo.getNombre() : "N/A");
+    }
+
+    public List<DtPasajero> getDtPasajeros() {
+        List<DtPasajero> dtPasajeros = new ArrayList<>();
+        for (Pasajero p : pasajeros) {
+            dtPasajeros.add(new DtPasajero(p.getNombre(), p.getApellido()));
+        }
+        return dtPasajeros;
     }
 }

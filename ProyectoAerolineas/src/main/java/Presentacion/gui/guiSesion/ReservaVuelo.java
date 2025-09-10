@@ -1,5 +1,7 @@
 package Presentacion.gui.guiSesion;
 
+import DataTypes.DtAerolinea;
+import DataTypes.DtRutaVuelo;
 import Logica.*;
 
 import javax.swing.*;
@@ -56,7 +58,7 @@ public class ReservaVuelo {
         grupoTipo.add(ejecutivoRadioButton);
 
         DefaultListModel<String> modeloAerolineas = new DefaultListModel<>();
-        for (Aerolinea a : sistema.listarAerolineas()) {
+        for (DtAerolinea a : sistema.listarAerolineas()) {
             String item = a.getNickname() + " (" + a.getNombre() + ")";
             modeloAerolineas.addElement(item);
         }
@@ -70,7 +72,7 @@ public class ReservaVuelo {
                     campoAereolinea.setText(item);
 
                     DefaultListModel<String> modeloRutas = new DefaultListModel<>();
-                    for (RutaVuelo r : sistema.listarRutasPorAerolinea(aerolineaSeleccionada)) {
+                    for (DtRutaVuelo r : sistema.listarRutasPorAerolinea(aerolineaSeleccionada)) {
                         modeloRutas.addElement(r.getNombre());
                     }
                     ListaRutasDeVuelo.setModel(modeloRutas);

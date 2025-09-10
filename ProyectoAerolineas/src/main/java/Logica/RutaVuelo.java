@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtVuelo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -81,4 +82,23 @@ public class RutaVuelo {
 
     @Override
     public String toString() { return nombre; }
+
+    public List<DtVuelo> getDtVuelos() {
+        List<DtVuelo> dtVuelos = new ArrayList<>();
+        for (Vuelo v : vuelos) {
+            dtVuelos.add(new DtVuelo(
+                    v.getNombre(),
+                    v.getNombreAerolinea(),
+                    v.getFecha(),
+                    v.getDuracion(),
+                    v.getAsientosTurista(),
+                    v.getAsientosEjecutivo(),
+                    v.getFechaAlta(),
+                    v.getRutaVuelo().getNombre(),
+                    v.getDtReservas() // Asegúrate que sea una lista de DtReserva
+            ));
+        }
+        return dtVuelos;
+    }
+
 }

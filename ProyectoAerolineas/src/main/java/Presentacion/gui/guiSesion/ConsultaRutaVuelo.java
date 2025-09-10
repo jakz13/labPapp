@@ -1,6 +1,11 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.*;
+import DataTypes.DtAerolinea;
+import DataTypes.DtReserva;
+import DataTypes.DtRutaVuelo;
+import DataTypes.DtVuelo;
+import Logica.Fabrica;
+import Logica.ISistema;
 
 import javax.swing.*;
 import java.util.Map;
@@ -8,9 +13,9 @@ import java.util.Map;
 public class ConsultaRutaVuelo {
     private JPanel panel1;
     private JPanel panelConsultaRuta;
-    private JComboBox<Aerolinea> comboBoxAerolinea;
-    private JList<RutaVuelo> listRutas;
-    private JList<Vuelo> listVuelosAsociados;
+    private JComboBox<DtAerolinea> comboBoxAerolinea;
+    private JList<DtRutaVuelo> listRutas;
+    private JList<DtVuelo> listVuelosAsociados;
     private JTextArea textAreaDatosRuta;
     private JButton cerrarButton;
     private JTextArea textAreaDatosVuelo;
@@ -18,16 +23,16 @@ public class ConsultaRutaVuelo {
     public ConsultaRutaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
 
-        DefaultComboBoxModel<Aerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
-        for (Aerolinea a : sistema.listarAerolineas()) {
+        DefaultComboBoxModel<DtAerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
+        for (DtAerolinea a : sistema.listarAerolineas()) {
             modeloAerolinea.addElement(a);
         }
         comboBoxAerolinea.setModel(modeloAerolinea);
         comboBoxAerolinea.setSelectedIndex(-1);
 
         comboBoxAerolinea.addActionListener(e -> {
-            Aerolinea seleccionada = (Aerolinea) comboBoxAerolinea.getSelectedItem();
-            DefaultListModel<RutaVuelo> modeloRutas = new DefaultListModel<>();
+            DtAerolinea seleccionada = (DtAerolinea) comboBoxAerolinea.getSelectedItem();
+            DefaultListModel<DtRutaVuelo> modeloRutas = new DefaultListModel<>();
             if (seleccionada != null) {
                 for (RutaVuelo r : seleccionada.getRutasVuelo()) {
                     modeloRutas.addElement(r);
@@ -39,8 +44,8 @@ public class ConsultaRutaVuelo {
 
         listRutas.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                RutaVuelo seleccionada = listRutas.getSelectedValue();
-                DefaultListModel<Vuelo> modeloVuelos = new DefaultListModel<>();
+                DtRutaVuelo seleccionada = listRutas.getSelectedValue();
+                DefaultListModel<DtVuelo> modeloVuelos = new DefaultListModel<>();
                 if (seleccionada != null) {
 
                     StringBuilder infoRuta = new StringBuilder();
@@ -52,7 +57,7 @@ public class ConsultaRutaVuelo {
 
                     textAreaDatosRuta.setText(infoRuta.toString());
 
-                    for (Vuelo v : seleccionada.getVuelos()) {
+                    for (DtVuelo v : seleccionada.getVuelos()) {
                         modeloVuelos.addElement(v);
                     }
                 }
@@ -62,7 +67,7 @@ public class ConsultaRutaVuelo {
 
         listVuelosAsociados.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                Vuelo vuelo = listVuelosAsociados.getSelectedValue();
+                DtVuelo vuelo = listVuelosAsociados.getSelectedValue();
                 if (vuelo != null) {
                     StringBuilder infoVuelo = new StringBuilder();
                     infoVuelo.append("Nombre: ").append(vuelo.getNombre()).append("\n")
@@ -73,12 +78,13 @@ public class ConsultaRutaVuelo {
                             .append("Fecha de Alta: ").append(vuelo.getFechaAlta()).append("\n")
                             .append("Reservas:\n");
 
-                    Map<String, Reserva> reservas = vuelo.getReservas();
+                    Map<String, DtReserva> reservas = (Map<String, DtReserva>) vuelo.getReservas();
+
                     if (reservas.isEmpty()) {
                         infoVuelo.append("  Ninguna reserva\n");
                     } else {
-                        for (Map.Entry<String, Reserva> entry : reservas.entrySet()) {
-                            Reserva r = entry.getValue();
+                        for (Map.Entry<String, DtReserva> entry : reservas.entrySet()) {
+                            DtReserva r = entry.getValue();
                             infoVuelo.append("  ID: ").append(r.getId())
                                     .append(", Costo: ").append(r.getCosto())
                                     .append(", Tipo: ").append(r.getTipoAsiento())

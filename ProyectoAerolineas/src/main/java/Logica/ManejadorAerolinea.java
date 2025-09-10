@@ -1,5 +1,6 @@
 package Logica;
-
+import DataTypes.DtAerolinea;
+import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -90,16 +91,24 @@ public class ManejadorAerolinea {
         }
     }
 
-    public List<RutaVuelo> obtenerRutaVueloDeAerolinea(String nicknameAerolinea) {
+    public List<DtRutaVuelo> obtenerRutaVueloDeAerolinea(String nicknameAerolinea) {
         Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);
         if (aerolinea != null) {
-            return new ArrayList<>(aerolinea.getRutasVuelo());
+            return aerolinea.getDtRutasVuelo();
         }
         return new ArrayList<>();
     }
 
     public List<Aerolinea> getAerolineas() {
         return new ArrayList<>(aerolineas.values());
+    }
+
+    public List<DtAerolinea> getDtAerolineas() {
+        List<DtAerolinea> dtAerolineas = new ArrayList<>();
+        for (Aerolinea a : aerolineas.values()) {
+            dtAerolineas.add(new DtAerolinea(a.getNickname(), a.getNombre(), a.getEmail(), a.getDescripcion(), a.getSitioWeb(), a.getDtRutasVuelo()));
+        }
+        return dtAerolineas;
     }
 
     public void modificarDatosAerolinea(Aerolinea aerolineaTemporal, EntityManager em) {
