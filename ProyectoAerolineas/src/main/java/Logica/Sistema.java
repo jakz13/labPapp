@@ -100,12 +100,19 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public Aerolinea obtenerAerolinea(String nickname) {
+    public DtAerolinea obtenerAerolinea(String nickname) {
         Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);
         if (aerolinea == null) {
             throw new IllegalArgumentException("Aerolínea no encontrada");
         }
-        return aerolinea;
+        return new DtAerolinea(
+                aerolinea.getNickname(),
+                aerolinea.getNombre(),
+                aerolinea.getEmail(),
+                aerolinea.getDescripcion(),
+                aerolinea.getSitioWeb(),
+                aerolinea.getRutasVuelo()
+        );
     }
 
     @Override
@@ -121,7 +128,7 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void altaRutaVuelo(String nombre, String descripcion, Aerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias) {
+    public void altaRutaVuelo(String nombre, String descripcion, DtAerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias) {
 
         Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());
         if (aero != null) {
@@ -280,7 +287,8 @@ public class Sistema implements ISistema {
         if (p == null) {
             throw new IllegalArgumentException("Paquete no encontrado");
         }
-
+        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nomRuta);
+        /*
 
         RutaVuelo ruta = null;
         for (Aerolinea a : listarAerolineas()) {

@@ -38,4 +38,8 @@ public class AltaCategoria {
             topFrame.dispose();
         });
     }
+
+    public JPanel getPanel1() {
+        return panel1;
+    }
 }

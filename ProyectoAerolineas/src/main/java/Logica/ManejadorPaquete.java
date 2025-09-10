@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;

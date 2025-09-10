@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtRutaVuelo;
 import jakarta.persistence.*;
 
 @Entity

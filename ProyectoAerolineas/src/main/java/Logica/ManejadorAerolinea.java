@@ -137,4 +137,12 @@ public class ManejadorAerolinea {
             e.printStackTrace();
         }
     }
+
+    public List<DtAerolinea> getAerolinea() {
+        List<DtAerolinea> dtAerolineas = new ArrayList<>();
+        for (Aerolinea a : aerolineas.values()) {
+            dtAerolineas.add(new DtAerolinea(a.getNickname(), a.getNombre(), a.getEmail(), a.getDescripcion(), a.getSitioWeb(), a.getDtRutasVuelo()));
+        }
+        return dtAerolineas;
+    }
 }

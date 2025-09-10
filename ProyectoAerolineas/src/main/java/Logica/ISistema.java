@@ -23,7 +23,7 @@ public interface ISistema {
 
     void altaCiudad(String nombre, String pais);
 
-    public void altaRutaVuelo(String nombre, String descripcion, Aerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias);
+    public void altaRutaVuelo(String nombre, String descripcion, DtAerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias);
 
     public abstract RutaVuelo obtenerRuta(String nombreRuta);
 
@@ -53,7 +53,7 @@ public interface ISistema {
 
     public List<Paquete> listarPaquetes();
 
-    public abstract Aerolinea obtenerAerolinea(String nombreAerolinea);
+    public abstract DtAerolinea obtenerAerolinea(String nombreAerolinea);
 
     public abstract void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento);
 

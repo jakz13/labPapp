@@ -34,7 +34,7 @@ public class ConsultaRutaVuelo {
             DtAerolinea seleccionada = (DtAerolinea) comboBoxAerolinea.getSelectedItem();
             DefaultListModel<DtRutaVuelo> modeloRutas = new DefaultListModel<>();
             if (seleccionada != null) {
-                for (RutaVuelo r : seleccionada.getRutasVuelo()) {
+                for (DtRutaVuelo r : seleccionada.getRutas()) {
                     modeloRutas.addElement(r);
                 }
             }
