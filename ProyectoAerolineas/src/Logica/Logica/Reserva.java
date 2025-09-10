@@ -32,4 +32,8 @@ public class Reserva {
     public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }
     public List<Pasajero> getPasajeros() { return pasajeros; }
     public Vuelo getVuelo() { return vuelo; };
+    public String toString() {
+        return "Reserva #" + id +
+                " | Vuelo: " + (vuelo != null ? vuelo.getNombre() : "N/A");
+    }
 }

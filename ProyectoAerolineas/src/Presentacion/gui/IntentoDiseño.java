@@ -15,7 +15,6 @@ public class IntentoDiseño {
     public JLabel label1;
     public JPanel PanelInferiorizq;
     public JButton AltaClienteButton;
-    private JButton MOSTRARUSUARIOSbutton;
     private JPanel PanelUsuarios;
     private JButton AltaAereolinea;
     private JButton ALTACIUDADButton;
@@ -51,27 +50,6 @@ public class IntentoDiseño {
                 });
 
                 frameSesion.setVisible(true);
-            }
-        });
-        MOSTRARUSUARIOSbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                    framePrincipal.setVisible(false);
-
-                    DesplegarUsuarios DS = new DesplegarUsuarios(Fabrica.getInstance().getISistema().listarClientes());
-                    JFrame frameSesion = new JFrame("Inicio de Sesión");
-                    frameSesion.setContentPane(DS.getPanelUsuarios());
-                    frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frameSesion.setBounds(framePrincipal.getBounds());
-
-                    frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
-                        @Override
-                        public void windowClosed(java.awt.event.WindowEvent e) {
-                            framePrincipal.setVisible(true);
-                        }
-                    });
-
-                    frameSesion.setVisible(true);
             }
         });
         AltaAereolinea.addActionListener(new ActionListener() {
@@ -251,7 +229,7 @@ public class IntentoDiseño {
                 framePrincipal.setVisible(false);
 
                 ReservaVuelo RV = new ReservaVuelo();
-                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                JFrame frameSesion = new JFrame("Reservar Vuelo");
                 frameSesion.setContentPane(RV.getPanelReserva());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
@@ -272,7 +250,7 @@ public class IntentoDiseño {
                 framePrincipal.setVisible(false);
 
                 ConsultaRutaVuelo CRV = new ConsultaRutaVuelo();
-                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                JFrame frameSesion = new JFrame("Consulta de ruta de vuelo");
                 frameSesion.setContentPane(CRV.getPanelConsultaRuta());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
@@ -293,7 +271,7 @@ public class IntentoDiseño {
                 framePrincipal.setVisible(false);
 
                 AltaPaquete APP = new AltaPaquete();
-                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                JFrame frameSesion = new JFrame("Añadir Paquete a Cliente");
                 frameSesion.setContentPane(APP.getPanel1());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
@@ -314,7 +292,7 @@ public class IntentoDiseño {
                 framePrincipal.setVisible(false);
 
                 VerUsuarios VU = new VerUsuarios();
-                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                JFrame frameSesion = new JFrame("Consulta usuario");
                 frameSesion.setContentPane(VU.getPanelConsulta());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
