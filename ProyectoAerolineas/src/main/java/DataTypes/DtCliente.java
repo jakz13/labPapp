@@ -1,5 +1,8 @@
 package DataTypes;
 
+import Logica.Cliente;
+import Logica.TipoDoc;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,17 +11,17 @@ public class DtCliente extends DtUsuario {
     private String apellido;
     private LocalDate fechaNacimiento;
     private String nacionalidad;
-    private String tipoDocumento;   // lo paso a String para simplificar la transferencia
+    private TipoDoc tipoDocumento;   // lo paso a String para simplificar la transferencia
     private String numeroDocumento;
-    private List<Long> reservasIds = new ArrayList<>(); // en DTO solo referencias, no objetos completos
-    private List<Long> paquetesCompradosIds = new ArrayList<>();
+    private List<DtReserva> reservas = new ArrayList<>(); // en DTO solo referencias, no objetos completos
+    private List<DtPaquete> paquetesComprados = new ArrayList<>();
 
     public DtCliente() {
     }
 
     public DtCliente(String nickname, String nombre, String email,
                      String apellido, LocalDate fechaNacimiento,
-                     String nacionalidad, String tipoDocumento,
+                     String nacionalidad, TipoDoc tipoDocumento,
                      String numeroDocumento) {
         super(nickname, nombre, email);
         this.apellido = apellido;
@@ -26,6 +29,16 @@ public class DtCliente extends DtUsuario {
         this.nacionalidad = nacionalidad;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
+    }
+
+    public DtCliente(Cliente cliente) {
+        super(cliente.getNickname(), cliente.getNombre(), cliente.getEmail());
+        this.apellido = cliente.getApellido();
+        this.fechaNacimiento = cliente.getFechaNacimiento();
+        this.nacionalidad = cliente.getNacionalidad();
+        this.tipoDocumento = cliente.getTipoDocumento();
+        this.numeroDocumento = cliente.getNumeroDocumento();
+
     }
 
     // --- Getters y Setters ---
@@ -53,11 +66,11 @@ public class DtCliente extends DtUsuario {
         this.nacionalidad = nacionalidad;
     }
 
-    public String getTipoDocumento() {
+    public TipoDoc getTipoDocumento() {
         return tipoDocumento;
     }
 
-    public void setTipoDocumento(String tipoDocumento) {
+    public void setTipoDocumento(TipoDoc tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
     }
 
@@ -69,20 +82,20 @@ public class DtCliente extends DtUsuario {
         this.numeroDocumento = numeroDocumento;
     }
 
-    public List<Long> getReservasIds() {
-        return reservasIds;
+    public List<DtReserva> getReservas() {
+        return reservas;
     }
 
-    public void setReservasIds(List<Long> reservasIds) {
-        this.reservasIds = reservasIds;
+    public void setReservasIds(List<Long> reservas) {
+        this.reservas = reservas;
     }
 
-    public List<Long> getPaquetesCompradosIds() {
-        return paquetesCompradosIds;
+    public List<Long> getPaquetesComprados() {
+        return paquetesComprados;
     }
 
-    public void setPaquetesCompradosIds(List<Long> paquetesCompradosIds) {
-        this.paquetesCompradosIds = paquetesCompradosIds;
+    public void setPaquetesComprados(List<Long> paquetesComprados) {
+        this.paquetesComprados = paquetesComprados;
     }
 
     @Override
@@ -96,8 +109,8 @@ public class DtCliente extends DtUsuario {
                 ", nacionalidad='" + nacionalidad + '\'' +
                 ", tipoDocumento='" + tipoDocumento + '\'' +
                 ", numeroDocumento='" + numeroDocumento + '\'' +
-                ", reservasIds=" + reservasIds +
-                ", paquetesCompradosIds=" + paquetesCompradosIds +
+                ", reservasIds=" + reservas +
+                ", paquetesCompradosIds=" + paquetesComprados +
                 '}';
     }
 }

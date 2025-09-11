@@ -1,5 +1,7 @@
 package DataTypes;
 
+import Logica.Paquete;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,18 @@ public class DtPaquete {
         this.periodoValidezDias = periodoValidezDias;
         if (items != null) {
             this.items = items;
+        }
+    }
+
+    public DtPaquete(Paquete p) {
+        this.nombre = p.getNombre();
+        this.descripcion = p.getDescripcion();
+        this.costo = p.getCosto();
+        this.fechaAlta = p.getFechaAlta();
+        this.descuentoPorc = p.getDescuentoPorc();
+        this.periodoValidezDias = p.getPeriodoValidezDias();
+        for (Logica.ItemPaquete ip : p.getItems()) {
+            this.items.add(new DtItemPaquete(ip));
         }
     }
 

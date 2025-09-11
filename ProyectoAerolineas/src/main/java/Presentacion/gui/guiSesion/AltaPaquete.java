@@ -1,4 +1,4 @@
-package guiSesion;
+package Presentacion.gui.guiSesion;
 
 import Logica.Fabrica;
 import Logica.ISistema;

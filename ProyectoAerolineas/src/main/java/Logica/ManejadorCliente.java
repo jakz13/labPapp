@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtCliente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -51,8 +52,8 @@ public class ManejadorCliente {
         }
     }
 
-    public void modificarDatosCliente(Cliente clienteTemporal, EntityManager em) {
-        Cliente clienteOriginal = obtenerCliente(clienteTemporal.getNickname());
+    public void modificarDatosCliente(DtCliente clienteTemporal, EntityManager em) {
+        DtCliente clienteOriginal = obtenerCliente(clienteTemporal.getNickname());
         if (clienteOriginal == null) throw new IllegalArgumentException("Cliente no encontrado");
 
         if (clienteTemporal.getNombre() != null) clienteOriginal.setNombre(clienteTemporal.getNombre());
@@ -74,7 +75,10 @@ public class ManejadorCliente {
     }
 
     // =================== Consultas en memoria ===================
-    public Cliente obtenerCliente(String nickname) { return clientes.get(nickname); }
+    public DtCliente obtenerCliente(String nickname) {
+        Cliente cliente = clientes.get(nickname);
+        return (cliente != null) ? new DtCliente(cliente) : null;
+    }
 
     public Cliente obtenerClientePorDocumento(String numeroDocumento) {
         return clientes.values().stream()
@@ -83,16 +87,23 @@ public class ManejadorCliente {
     }
 
     public Cliente obtenerClientePorEmail(String email) {
-        return clientes.values().stream()
-                .filter(c -> c.getEmail().equals(email))
-                .findFirst().orElse(null);
+        return null;
     }
 
-    public List<Cliente> getClientes() { return new ArrayList<>(clientes.values()); }
+    public List<DtCliente> getClientes() {
+        List<DtCliente> lista = new ArrayList<>();
+        for (Cliente c : clientes.values()) {
+            lista.add(new DtCliente(c));
+        }
+        return lista;
+    }
 
     public void agregarReserva(Reserva reserva, String nicknameCliente, String idReserva) {
-        Cliente cliente = obtenerCliente(nicknameCliente);
-        if (cliente != null) cliente.agregarReserva(reserva);
+        DtCliente cliente = obtenerCliente(nicknameCliente);
+        Cliente clienteObj = clientes.get(nicknameCliente);
+        if (cliente != null) clienteObj.agregarReserva(reserva);
         else throw new IllegalArgumentException("Cliente no encontrado");
     }
+
+
 }

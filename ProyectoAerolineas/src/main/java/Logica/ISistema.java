@@ -10,7 +10,7 @@ public interface ISistema {
 
     public abstract Cliente verInfoCliente(String nickname);
 
-    public abstract List<Cliente> listarClientes();
+    public abstract List<DtCliente> listarClientes();
 
     public abstract void altaAerolinea(String nickname, String nombre, String descripcion, String correo, String sitioweb);
 
@@ -48,10 +48,10 @@ public interface ISistema {
     public Vuelo obtenerVuelo(String nombreVuelo);
 
     // --- PAQUETES ---
-    void altaPaquete(String nombre, String descripcion, /*double costo,*/ /*LocalDate fechaAlta,*/ int descuentoPorc,
-                     int periodoValidezDias);
 
-    public List<Paquete> listarPaquetes();
+    public void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias);
+
+    public List<DtPaquete> listarPaquetes();
 
     public abstract DtAerolinea obtenerAerolinea(String nombreAerolinea);
 
@@ -61,7 +61,7 @@ public interface ISistema {
 
     public abstract void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
 
-    public abstract Cliente obtenerCliente(String nickname);
+    public abstract DtCliente obtenerCliente(String nickname);
 
     double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra);
 
@@ -73,7 +73,10 @@ public interface ISistema {
 
     public void altaCategoria(String nomCat);
 
-    public List<Ciudad> listarCiudades();
+    public List<DtCiudad> listarCiudades();
 
-    public List<Categoria> listarCategorias();
+    public List<DtCategoria> listarCategorias();
+
+    public DtReserva obtenerReserva(String idReserva, String nicknameCliente);
+
 }

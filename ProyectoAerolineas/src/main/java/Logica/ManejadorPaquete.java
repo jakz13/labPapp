@@ -1,5 +1,7 @@
 package Logica;
 
+import DataTypes.DtCliente;
+import DataTypes.DtPaquete;
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -74,17 +76,22 @@ public class ManejadorPaquete {
             e.printStackTrace();
         }
     }
+    public void compraPaquete(Paquete p, DtCliente dtCliente, int validezDias, LocalDate fechaC, double costo, EntityManager em) {
+        // Obtener el objeto Cliente real, no DtCliente
+        Cliente clienteObj = ManejadorCliente.getInstance().obtenerClientePorEmail(dtCliente.getEmail());
+        if (clienteObj == null) {
+            throw new IllegalArgumentException("El cliente con nickname " + dtCliente.getNickname() + " no existe.");
+        }
 
-    public void compraPaquete(Paquete p, Cliente c, int validezDias, LocalDate fechaC, double costo, EntityManager em) {
-        CompraPaqLogica nuevaCompra = new CompraPaqLogica(c, p, fechaC, validezDias, costo);
+        CompraPaqLogica nuevaCompra = new CompraPaqLogica(clienteObj, p, fechaC, validezDias, costo);
         p.getCompras().add(nuevaCompra);
-        c.getPaquetesComprados().add(p);
+        clienteObj.getPaquetesComprados().add(p);
 
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
             em.merge(p);
-            em.merge(c);
+            em.merge(clienteObj);
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
@@ -95,7 +102,16 @@ public class ManejadorPaquete {
     // =================== Consultas en memoria ===================
     public Paquete obtenerPaquete(String nombre) { return paquetes.get(nombre); }
 
-    public List<Paquete> getPaquetes() { return new ArrayList<>(paquetes.values()); }
+
+    public List<DtPaquete> getPaquetes() {
+        List<DtPaquete> lista = new ArrayList<>();
+        for (Paquete p : paquetes.values()) {
+            lista.add(new DtPaquete(p)); // Asegúrate de que exista un constructor adecuado en DtPaquete
+        }
+        return lista;
+    }
+
+
 
     public List<Paquete> getPaquetesDisp() {
         List<Paquete> disponibles = new ArrayList<>();

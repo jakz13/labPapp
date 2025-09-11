@@ -59,22 +59,23 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public List<Cliente> listarClientes() {
+    public List<DtCliente> listarClientes() {
         return manejadorCliente.getClientes();
     }
 
     @Override
     public Cliente verInfoCliente(String nickname) {
-        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
-        if (cliente != null) {
-            return cliente;
+        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
+        Cliente c = manejadorCliente.obtenerClientePorEmail(cliente.getEmail());
+        if (c != null) {
+            return c;
         } else {
             throw new IllegalArgumentException("Cliente no encontrado");
         }
     }
     @Override
-    public Cliente obtenerCliente(String nickname) {
-        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+    public DtCliente obtenerCliente(String nickname) {
+        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
         return cliente;
     }
 
@@ -214,7 +215,7 @@ public class Sistema implements ISistema {
     @Override
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva) {
         // Verificar existencia de cliente y vuelo
-        Cliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
+        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
         Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
 
         if (cliente == null) {
@@ -235,6 +236,25 @@ public class Sistema implements ISistema {
         manejadorCliente.agregarReserva(reserva, nicknameCliente, idReserva);
     }
 
+    @Override
+    public DtReserva obtenerReserva(String idReserva, String nicknameCliente) {
+        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
+        try {
+            if (cliente == null) {
+                throw new IllegalArgumentException("Cliente no encontrado");
+            }
+            for (DtReserva r : cliente.getReservas()) {
+                if (r.getId().equals(idReserva)) {
+                    return r;
+                }
+            }
+            throw new IllegalArgumentException("Reserva no encontrada");
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al obtener la reserva: " + e.getMessage());
+        }
+    }
+
+
     // --- PAQUETES ---
     @Override
     public void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias) {
@@ -243,13 +263,15 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public List<Paquete> listarPaquetes() {
-        return manejadorPaquete.getPaquetes();
+    public List<DtPaquete> listarPaquetes() {
+        return (List<DtPaquete>)manejadorPaquete.getPaquetes();
+
     }
+
 
     @Override
     public void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento) {
-        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
         if (cliente != null) {
             cliente.setApellido(apellido);
             cliente.setNombre(nombre);
@@ -262,8 +284,6 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Cliente no encontrado");
         }
     }
-
-
 
     @Override
     public void modificarDatosAerolinea(String nickname, String Descripcion ,String URL) {
@@ -279,41 +299,6 @@ public class Sistema implements ISistema {
 
     public List<Paquete> listarPaquetesDisp() {
         return manejadorPaquete.getPaquetesDisp();
-    }
-
-    @Override
-    public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento) {
-        Paquete p = manejadorPaquete.obtenerPaquete(nombrePaquete);
-        if (p == null) {
-            throw new IllegalArgumentException("Paquete no encontrado");
-        }
-        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nomRuta);
-        /*
-
-        RutaVuelo ruta = null;
-        for (Aerolinea a : listarAerolineas()) {
-            for (RutaVuelo r : listarRutasPorAerolinea(a.getNickname())) {
-                if (r.getNombre().equals(nomRuta)) {
-                    ruta = r;
-                    break;
-                }
-            }
-            if (ruta != null) break;
-        }
-
-*/
-        if (ruta == null) {
-            System.out.println("No se encontró la ruta con ese nombre.");
-            return;
-        }
-
-
-        try {
-            manejadorPaquete.agregarRutaPaquete(p, ruta, cantidadAsientos, tipoAsiento,em);
-            System.out.println("Ruta agregada al paquete correctamente.");
-        } catch (IllegalStateException e) {
-            System.out.println("ERROR.");
-        }
     }
 
     @Override
@@ -356,7 +341,7 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Paquete no encontrado");
         }
 
-        Cliente c = manejadorCliente.obtenerCliente(nomCliente);
+        DtCliente c = manejadorCliente.obtenerCliente(nomCliente);
         if (c == null) {
             throw new IllegalArgumentException("Cliente no encontrado");
         }
@@ -393,10 +378,9 @@ public class Sistema implements ISistema {
         }
     }
 
-    // --- DATOS ADICIONALES DE USUARIO ---
     public List<Object> obtenerDatosAdicionalesUsuario(String nickname) {
         List<Object> adicionales = new ArrayList<>();
-        Cliente cliente = manejadorCliente.obtenerCliente(nickname);
+        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
         if (cliente != null) {
             adicionales.addAll(cliente.getReservas());
             adicionales.addAll(cliente.getPaquetesComprados());
@@ -411,14 +395,42 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public List<Ciudad> listarCiudades() {
-        return manejadorCiudad.getCiudades();
+    public List<DtCiudad> listarCiudades() {
+        List<DtCiudad> dtCiudades = new ArrayList<>();
+        for (Ciudad ciudad : manejadorCiudad.getCiudades()) {
+            dtCiudades.add(new DtCiudad(ciudad.getNombre(), ciudad.getPais()));
+        }
+        return dtCiudades;
     }
 
     @Override
-    public List<Categoria> listarCategorias() {
-        return ManejadorCategoria.getCategorias();
+    public List<DtCategoria> listarCategorias(){
+        return (List<DtCategoria>) manejadorCategoria.getCategorias();
     }
 
+    @Override
+    public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento) {
+        Paquete p = manejadorPaquete.obtenerPaquete(nombrePaquete);
+        if (p == null) {
+            throw new IllegalArgumentException("Paquete no encontrado");
+        }
+        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nomRuta);
 
+        if (ruta == null) {
+            throw new IllegalArgumentException("No se encontró la ruta con ese nombre.");
+        }
+
+        for (ItemPaquete item : p.getItemPaquetes()) {
+            if (item.getRutaVuelo().equals(ruta) && item.getTipoAsiento() == tipoAsiento) {
+                throw new IllegalArgumentException("La ruta ya fue agregada previamente al paquete con ese tipo de asiento.");
+            }
+        }
+
+        try {
+            manejadorPaquete.agregarRutaPaquete(p, ruta, cantidadAsientos, tipoAsiento, em);
+            System.out.println("Ruta agregada al paquete correctamente.");
+        } catch (IllegalStateException e) {
+            System.out.println("ERROR.");
+        }
+    }
 }

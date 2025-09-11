@@ -1,43 +1,40 @@
-package guiSesion;
+package Presentacion.gui.guiSesion;
 
+import DataTypes.*;
 import Logica.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 public class VerUsuarios {
-    private JPanel panelConsulta;          // creado en el diseñador
+    private JPanel panelConsulta;
     private JComboBox<String> comboBoxUsuarios;
     private JTextArea textAreaDatosUsuario;
     private JButton cerrarButton;
-    private JPanel JPanelDinamico;         // este es tu contenedor de botones dinámicos
+    private JPanel JPanelDinamico;
 
     private final ISistema sistema;
 
     public VerUsuarios() {
         sistema = Fabrica.getInstance().getISistema();
 
-        // --- Configuración inicial ---
         JPanelDinamico.setLayout(new FlowLayout());
         textAreaDatosUsuario.setEditable(false);
 
-        // --- Cargar usuarios en combo ---
         DefaultComboBoxModel<String> modeloUsuarios = new DefaultComboBoxModel<>();
-        for (Cliente c : sistema.listarClientes()) {
+        for (DtCliente c : sistema.listarClientes()) {
             modeloUsuarios.addElement("Cliente:" + c.getNickname());
         }
-        for (Aerolinea a : sistema.listarAerolineas()) {
+        for (DtAerolinea a : sistema.listarAerolineas()) {
             modeloUsuarios.addElement("Aerolinea:" + a.getNickname());
         }
         comboBoxUsuarios.setModel(modeloUsuarios);
         comboBoxUsuarios.setSelectedIndex(-1);
 
-        // --- Acción al seleccionar usuario ---
         comboBoxUsuarios.addActionListener(e -> {
             String seleccionado = (String) comboBoxUsuarios.getSelectedItem();
             if (seleccionado == null) return;
 
-            // limpiar el panel dinámico
             JPanelDinamico.removeAll();
 
             if (seleccionado.startsWith("Cliente:")) {
@@ -61,7 +58,7 @@ public class VerUsuarios {
     }
 
     private void mostrarCliente(String nickname) {
-        Cliente c = sistema.obtenerCliente(nickname);
+        DtCliente c = sistema.obtenerCliente(nickname);
         if (c != null) {
             textAreaDatosUsuario.setText(
                     "Cliente: " + c.getNombre() + " " + c.getApellido() + "\n" +
@@ -73,7 +70,7 @@ public class VerUsuarios {
     }
 
     private void mostrarAerolinea(String nickname) {
-        Aerolinea a = sistema.obtenerAerolinea(nickname);
+        DtAerolinea a = sistema.obtenerAerolinea(nickname);
         if (a != null) {
             textAreaDatosUsuario.setText(
                     "Aerolinea: " + a.getNombre() + "\n" +
@@ -87,14 +84,22 @@ public class VerUsuarios {
     private void generarBotonesCliente(String nickname) {
         JButton btnReservas = new JButton("Ver Reservas");
         btnReservas.addActionListener(e -> {
-            Cliente c = sistema.obtenerCliente(nickname);
-            mostrarListaInteractiva("Reservas del cliente", c.getReservas().values().toArray());
+            DtCliente c = sistema.obtenerCliente(nickname);
+            List<Long> reservasIds = c.getReservas();
+            Object[] reservas = reservasIds.stream()
+                    .map(id -> sistema.obtenerReserva(id)) // Debe retornar un DTO o un objeto con toString amigable
+                    .toArray();
+            mostrarListaInteractiva("Reservas del cliente", reservas);
         });
 
         JButton btnPaquetes = new JButton("Ver Paquetes");
         btnPaquetes.addActionListener(e -> {
-            Cliente c = sistema.obtenerCliente(nickname);
-            mostrarListaInteractiva("Paquetes del cliente", c.getPaquetesComprados().toArray());
+            DtCliente c = sistema.obtenerCliente(nickname);
+            List<Long> paquetesIds = c.getPaquetesComprados();
+            Object[] paquetes = paquetesIds.stream()
+                    .map(id -> sistema.obtenerPaquete(id)) // Debe retornar un DTO o un objeto con toString amigable
+                    .toArray();
+            mostrarListaInteractiva("Paquetes del cliente", paquetes);
         });
 
         JPanelDinamico.add(btnReservas);
@@ -104,7 +109,7 @@ public class VerUsuarios {
     private void generarBotonesAerolinea(String nickname) {
         JButton btnRutas = new JButton("Ver Rutas de Vuelo");
         btnRutas.addActionListener(e -> {
-            List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
+            List<DtRutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
             mostrarListaInteractiva("Rutas de la aerolínea", rutas.toArray());
         });
 
@@ -144,46 +149,26 @@ public class VerUsuarios {
     private String obtenerDetalle(Object obj) {
         StringBuilder detalle = new StringBuilder();
 
-        if (obj instanceof RutaVuelo r) {
+        if (obj instanceof DtRutaVuelo r) {
             detalle.append("Ruta: ").append(r.getNombre()).append("\n")
                     .append("Origen: ").append(r.getCiudadOrigen()).append("\n")
                     .append("Destino: ").append(r.getCiudadDestino()).append("\n")
-                    .append("Duración: ").append(r.getHora()).append(" horas\n")
-                    .append("Vuelos Asociados: ").append(r.getVuelos().size()).append("\n\n");
-
-            detalle.append("=== Vuelos ===\n");
-            for (Vuelo v : r.getVuelos().values()) {
-                detalle.append("Vuelo: ").append(v.getNombre()).append("\n")
-                        .append("Fecha: ").append(v.getFecha()).append("\n")
-                        .append("Duración: ").append(v.getDuracion()).append(" días\n")
-                        .append("Asientos Ejecutivos: ").append(v.getAsientosEjecutivo()).append("\n")
-                        .append("Asientos Turista: ").append(v.getAsientosTurista()).append("\n")
-                        .append("Reservas: ").append(v.getReservas().size()).append("\n")
-                        .append("-------------------------\n");
-            }
+                    .append("Duración: ").append(r.getHora()).append(" horas\n");
         }
-        if (obj instanceof Reserva r) {
+        if (obj instanceof DtReserva r) {
             detalle.append("Reserva ID: ").append(r.getId()).append("\n")
                     .append("Costo: $").append(r.getCosto()).append("\n")
                     .append("Tipo Asiento: ").append(r.getTipoAsiento()).append("\n")
                     .append("Cantidad Pasajes: ").append(r.getCantidadPasajes()).append("\n")
                     .append("Cantidad Equipaje extra: ").append(r.getUnidadesEquipajeExtra()).append("\n");
         }
-        if (obj instanceof Paquete p) {
+        if (obj instanceof DtPaquete p) {
             detalle.append("Paquete: ").append(p.getNombre()).append("\n")
                     .append("Descripción: ").append(p.getDescripcion()).append("\n")
                     .append("Costo: ").append(p.getCosto()).append("\n")
                     .append("Descuento: ").append(p.getDescuentoPorc()).append("%\n")
                     .append("Periodo de validez: ").append(p.getPeriodoValidezDias()).append(" días\n")
-                    .append("Fecha de alta: ").append(p.getFechaAlta()).append("\n")
-                    .append("Rutas incluidas: ").append(p.getItemPaquetes().size()).append("\n");
-
-            for (ItemPaquete item : p.getItemPaquetes()) {
-                detalle.append("   - Ruta: ").append(item.getRutaVuelo().getNombre())
-                        .append(" | Tipo Asiento: ").append(item.getTipoAsiento())
-                        .append(" | Cantidad: ").append(item.getCantAsientos())
-                        .append("\n");
-            }
+                    .append("Fecha de alta: ").append(p.getFechaAlta()).append("\n");
         }
 
         return detalle.toString();
