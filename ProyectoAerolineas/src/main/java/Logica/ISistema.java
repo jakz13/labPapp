@@ -8,6 +8,7 @@ import Logica.TipoDoc;
 
 public interface ISistema {
     // Usuarios
+    public abstract void cargarDesdeBd();
     public abstract void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc);
 
     public abstract Cliente verInfoCliente(String nickname);

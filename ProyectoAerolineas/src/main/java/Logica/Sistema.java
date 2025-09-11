@@ -36,7 +36,7 @@ public class Sistema implements ISistema {
         this.manejadorCiudad = ManejadorCiudad.getInstance();
         this.manejadorCategoria = ManejadorCategoria.getInstance();
     }
-
+@Override
     public void cargarDesdeBd() {
         manejadorCliente.cargarClientesDesdeBD(em);
         manejadorAerolinea.cargarAerolineasDesdeBD(em);
@@ -229,30 +229,40 @@ public class Sistema implements ISistema {
     public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva, double costo,
                                        TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra,
                                        List<Pasajero> pasajeros) {
-        try {
-            Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
-            if (vuelo == null) {
-                throw new IllegalArgumentException("El vuelo no existe: " + nombreVuelo);
-            }
-
-            if (vuelo.getReservas().containsKey(nicknameCliente)) {
-                throw new IllegalArgumentException(
-                        "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
-                                ". Debe elegir otro vuelo o ruta  ."
-                );
-            }
-
-            String idReserva = "RES" + (++idReservaCounter);
-            Reserva reserva = new Reserva(
-                    idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
-            );
-
-            registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
-
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error al registrar la reserva: " + e.getMessage(), e);
+        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+        if (vuelo == null) {
+            throw new IllegalArgumentException("El vuelo no existe: " + nombreVuelo);
         }
+
+        // Validar que el cliente no tenga ya una reserva para este vuelo
+        if (vuelo.getReservas().containsKey(nicknameCliente)) {
+            throw new IllegalArgumentException(
+                    "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
+                            ". Debe elegir otro vuelo o ruta."
+            );
+        }
+
+        // Validar también en el manejador de reservas del cliente, si aplica
+        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
+        if (cliente != null) {
+            for (DtReserva r : cliente.getReservas()) {
+                if (r.getVuelo().equals(nombreVuelo)) {
+                    throw new IllegalArgumentException(
+                            "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
+                                    "."
+                    );
+                }
+            }
+        }
+
+        String idReserva = "RES" + (++idReservaCounter);
+        Reserva reserva = new Reserva(
+                idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
+        );
+
+        registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
     }
+
 
 
     @Override
@@ -299,7 +309,7 @@ public class Sistema implements ISistema {
     // --- PAQUETES ---
     @Override
     public void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias) {
-        Paquete p = new Paquete(nombre, descripcion, /*fechaAlta,*/ descuentoPorc, periodoValidezDias);
+        Paquete p = new Paquete(nombre, descripcion, descuentoPorc, periodoValidezDias);
         manejadorPaquete.agregarPaquete(p, em);
     }
 

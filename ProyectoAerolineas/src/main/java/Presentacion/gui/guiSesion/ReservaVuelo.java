@@ -182,10 +182,15 @@ public class ReservaVuelo {
                     LocalDate fechaReserva = LocalDate.now();
                     double costo = sistema.calcularCostoReserva(vueloSeleccionado, tipoPasaje, cantidadPasajes, equipajeExtra);
 
-                    sistema.crearYRegistrarReserva(
-                            nicknameCliente, vueloSeleccionado, fechaReserva,
-                            costo, tipoPasaje, cantidadPasajes, equipajeExtra, pasajeros
-                    );
+                    try {
+                        sistema.crearYRegistrarReserva(
+                                nicknameCliente, vueloSeleccionado, fechaReserva,
+                                costo, tipoPasaje, cantidadPasajes, equipajeExtra, pasajeros
+                        );
+                    } catch (IllegalArgumentException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
                     JOptionPane.showMessageDialog(null, "Reserva creada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {

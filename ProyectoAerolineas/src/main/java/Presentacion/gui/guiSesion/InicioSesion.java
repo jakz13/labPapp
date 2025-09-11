@@ -115,8 +115,15 @@ public class InicioSesion {
                     return;
 
                 }
-
-                sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email, fecha, nacionalidad, tipoDoc, documento);
+                try {
+                    sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email, fecha, nacionalidad, tipoDoc, documento);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(null,
+                            ex.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 JOptionPane.showMessageDialog(null,
                         "Usuario creado correctamente.",
                         "Éxito",

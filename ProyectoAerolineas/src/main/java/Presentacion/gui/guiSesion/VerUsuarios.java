@@ -155,8 +155,7 @@ public class VerUsuarios {
             detalle.append("Ruta: ").append(r.getNombre()).append("\n")
                     .append("Origen: ").append(r.getCiudadOrigen()).append("\n")
                     .append("Destino: ").append(r.getCiudadDestino()).append("\n")
-                    .append("Duración: ").append(r.getHora()).append(" horas\n")
-                    .append("Vuelos Asociados: ").append(r.getVuelos().size()).append("\n\n");
+                    .append("Duración: ").append(r.getHora()).append(" horas\n");
 
             detalle.append("=== Vuelos ===\n");
 

@@ -10,8 +10,9 @@ public class Main {
     public static void main(String[] args) {
         Fabrica fabrica = Fabrica.getInstance();
         ISistema sistema = fabrica.getISistema();
-/*
+        sistema.cargarDesdeBd();
 
+/*
         // Precarga de clientes de ejemplo
         try {
 // Precarga de categorías y ciudades necesarias

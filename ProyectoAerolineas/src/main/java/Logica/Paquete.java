@@ -46,7 +46,17 @@ public class Paquete {
 
     public String getNombre(){ return nombre; }
     public String getDescripcion() { return descripcion; }
-    public double getCosto() { return costo; }
+    public double getCosto() {
+        double costoTotal = 0;
+        for (ItemPaquete item : this.getItemPaquetes()) {
+            double costoRuta = item.getTipoAsiento() == TipoAsiento.TURISTA
+                    ? item.getRutaVuelo().getCostoTurista()
+                    : item.getRutaVuelo().getCostoEjecutivo();
+            costoTotal += costoRuta * item.getCantAsientos();
+        }
+        return costoTotal * (1 - this.getDescuentoPorc() / 100.0);
+    }
+
     public LocalDate getFechaAlta() { return fechaAlta; }
     public int getDescuentoPorc() { return descuentoPorc; }
     public int getPeriodoValidezDias() { return periodoValidezDias; }

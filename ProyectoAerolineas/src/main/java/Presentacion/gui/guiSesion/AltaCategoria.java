@@ -25,7 +25,15 @@ public class AltaCategoria {
                 return;
             }
 
+            try {
             sistema.altaCategoria(nomCategoria);
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             JOptionPane.showMessageDialog(null,
                     "Categoría creada exitosamente.",
                     "Éxito",

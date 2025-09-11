@@ -30,7 +30,16 @@ public class AltaCiudad {
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 } else {
-                    sistema.altaCiudad(nombreCiudad, pais);
+                    try{
+                        sistema.altaCiudad(nombreCiudad, pais);
+                    } catch (IllegalArgumentException ex) {
+                        JOptionPane.showMessageDialog(null,
+                                ex.getMessage(),
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
                     JOptionPane.showMessageDialog(null,
                             "Ciudad creada correctamente.",
                             "Éxito",

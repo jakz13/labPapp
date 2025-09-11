@@ -20,10 +20,10 @@ public class AltaPaquete {
     private JLabel Descuento;
     private JLabel Validez;
 
+
     public AltaPaquete() {
         ISistema sistema = Fabrica.getInstance().getISistema();
         crearButton.addActionListener(e -> {
-            // Lógica para crear el paquete
             String nombre = campoNombre.getText().trim();
             String descripcion = campoDescripcion.getText().trim();
             String descuentoStr = campoDescuento.getText().trim();
@@ -31,15 +31,24 @@ public class AltaPaquete {
 
             if (nombre.isEmpty() || descripcion.isEmpty()) {
                 JOptionPane.showMessageDialog(null,
-                        "Debe completar los campos obligatorios: Nombre, Descripción y Costo.",
+                        "Debe completar los campos obligatorios: Nombre, Descripción y Descuento.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            double costo = 0;
             int descuento = 0;
             int validez = 0;
+            try {
+                descuento = Integer.parseInt(descuentoStr);
+                validez = Integer.parseInt(validezStr);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Descuento y validez deben ser números enteros.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             sistema.altaPaquete(nombre, descripcion, descuento, validez);
 
