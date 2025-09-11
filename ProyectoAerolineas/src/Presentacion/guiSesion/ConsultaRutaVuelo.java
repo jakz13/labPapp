@@ -66,7 +66,7 @@ public class ConsultaRutaVuelo {
                     StringBuilder infoVuelo = new StringBuilder();
                     infoVuelo.append("Nombre: ").append(vuelo.getNombre()).append("\n")
                             .append("Fecha: ").append(vuelo.getFecha()).append("\n")
-                            .append("Duración: ").append(vuelo.getDuracion()).append(" días\n")
+                            .append("Duración: ").append(vuelo.getDuracion()).append(" horas\n")
                             .append("Asientos Ejecutivos: ").append(vuelo.getAsientosEjecutivo()).append("\n")
                             .append("Asientos Turista: ").append(vuelo.getAsientosTurista()).append("\n")
                             .append("Fecha de Alta: ").append(vuelo.getFechaAlta()).append("\n")

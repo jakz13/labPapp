@@ -22,7 +22,32 @@ public class ConsultaPaquete {
         comboboxPaquetes.addActionListener(e -> actualizarInfoPaquete());
 
         // Al seleccionar una ruta dentro del paquete mostrar su info detallada
-        comboBoxRutaVuelo.addActionListener(e -> actualizarInfoRuta());
+        //comboBoxRutaVuelo.addActionListener(e -> actualizarInfoRuta());
+
+        comboBoxRutaVuelo.addActionListener(e -> {
+            RutaVuelo seleccionada = (RutaVuelo) comboBoxRutaVuelo.getSelectedItem();
+            DefaultComboBoxModel<Vuelo> modeloVuelos = new DefaultComboBoxModel<>();
+
+            if (seleccionada != null) {
+                StringBuilder infoRuta = new StringBuilder();
+                infoRuta.append("Nombre: ").append(seleccionada.getNombre()).append("\n")
+                        .append("Origen: ").append(seleccionada.getCiudadOrigen()).append("\n")
+                        .append("Destino: ").append(seleccionada.getCiudadDestino()).append("\n")
+                        .append("Duración Estimada: ").append(seleccionada.getHora()).append(" horas\n")
+                        .append("Vuelos Asociados: ").append(seleccionada.getVuelos().size()).append("\n");
+
+                textAreaInfoRuta.setText(infoRuta.toString());
+
+                // 🔹 Cargar los vuelos asociados al comboBox
+                for (Vuelo v : seleccionada.getVuelos().values()) {
+                    modeloVuelos.addElement(v);
+                }
+            } else {
+                textAreaInfoRuta.setText("");
+            }
+
+        });
+
 
         // Botón cerrar
         cerrarButton.addActionListener(e -> {
@@ -48,10 +73,15 @@ public class ConsultaPaquete {
             StringBuilder info = new StringBuilder();
             info.append("Nombre: ").append(seleccionado.getNombre()).append("\n")
                     .append("Descripción: ").append(seleccionado.getDescripcion()).append("\n")
-                    .append("Costo: ").append(seleccionado.getCosto()).append("\n")
+                    //.append("Costo base: ").append(seleccionado.getCosto()).append("\n")
                     .append("Descuento: ").append(seleccionado.getDescuento()).append("\n")
-                    .append("Validez: ").append(seleccionado.getPeriodoValidez()).append("\n")
-                    .append("Rutas incluidas:\n");
+                    .append("Validez: ").append(seleccionado.getPeriodoValidez()).append("\n");
+
+            // 🔹 Mostrar el costo calculado final
+            double costoTotal = seleccionado.calcularCostoReservaPaquete();
+            info.append("Costo final (con rutas y descuento): ").append(costoTotal).append("\n");
+
+            info.append("Rutas incluidas:\n");
 
             DefaultComboBoxModel<RutaVuelo> modeloRutas = new DefaultComboBoxModel<>();
 
@@ -77,6 +107,7 @@ public class ConsultaPaquete {
 
 
 
+
     private void actualizarInfoRuta() {
         RutaVuelo seleccionada = (RutaVuelo) comboBoxRutaVuelo.getSelectedItem();
         if (seleccionada != null) {
@@ -84,7 +115,7 @@ public class ConsultaPaquete {
             info.append("Nombre Ruta: ").append(seleccionada.getNombre()).append("\n")
                     .append("Origen: ").append(seleccionada.getCiudadOrigen()).append("\n")
                     .append("Destino: ").append(seleccionada.getCiudadDestino()).append("\n")
-                    .append("Duración: ").append(seleccionada.getDescripcion()).append(" días").append("\n")
+                    .append("Duración: ").append(seleccionada.getDescripcion()).append(" horas").append("\n")
                     .append("Fecha de Alta: ").append(seleccionada.getFechaAlta()).append("\n");
 
             textAreaInfoRuta.setText(info.toString());

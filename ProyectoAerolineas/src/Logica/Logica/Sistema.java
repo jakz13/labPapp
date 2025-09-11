@@ -321,7 +321,7 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Paquete no encontrado");
         }
 
-
+        // Buscar la ruta en todas las aerolíneas
         RutaVuelo ruta = null;
         for (Aerolinea a : listarAerolineas()) {
             for (RutaVuelo r : listarRutasPorAerolinea(a.getNickname())) {
@@ -333,20 +333,22 @@ public class Sistema implements ISistema {
             if (ruta != null) break;
         }
 
-
         if (ruta == null) {
-            System.out.println("No se encontró la ruta con ese nombre.");
-            return;
+            throw new IllegalArgumentException("No se encontró la ruta con ese nombre.");
         }
 
-
-        try {
-            manejadorPaquete.agregarRutaPaquete(p, ruta, cantidadAsientos, tipoAsiento);
-            System.out.println("Ruta agregada al paquete correctamente.");
-        } catch (IllegalStateException e) {
-            System.out.println("ERROR.");
+        // 🔹 Validación: verificar si la ruta ya existe en el paquete
+        for (ItemPaquete item : p.getItemPaquetes()) {
+            if (item.getRutaVuelo().equals(ruta) && item.getTipoAsiento() == tipoAsiento) {
+                throw new IllegalArgumentException("La ruta ya fue agregada previamente al paquete con ese tipo de asiento.");
+            }
         }
+
+        // Si pasó la validación, agregar
+        manejadorPaquete.agregarRutaPaquete(p, ruta, cantidadAsientos, tipoAsiento);
+        System.out.println("Ruta agregada al paquete correctamente.");
     }
+
 
     @Override
     public double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra) {

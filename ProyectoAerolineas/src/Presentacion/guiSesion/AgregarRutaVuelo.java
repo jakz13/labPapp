@@ -55,6 +55,7 @@ public class AgregarRutaVuelo {
                 return;
             }
 
+
             // Llamada a la lógica para agregar la ruta al paquete
             try {
                 sistema.altaRutaPaquete(paquete.getNombre(), rutaVuelo.getNombre(), cantidadAsiento, tipoAsiento);

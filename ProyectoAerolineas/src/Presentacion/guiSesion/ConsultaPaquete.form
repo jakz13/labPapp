@@ -54,6 +54,7 @@
             </constraints>
             <properties>
               <editable value="false"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="2fc4a" class="javax.swing.JLabel">

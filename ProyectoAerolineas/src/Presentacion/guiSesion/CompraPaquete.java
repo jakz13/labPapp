@@ -41,6 +41,8 @@ public class CompraPaquete {
             String mesStr = (String) Mes.getSelectedItem();
             String anioStr = (String) Ano.getSelectedItem();
 
+
+
             if (diaStr.equals("Día") || mesStr.equals("Mes") || anioStr.equals("Año")) {
                 JOptionPane.showMessageDialog(null,
                         "Debe seleccionar una fecha válida.",

@@ -40,7 +40,7 @@ public class ItemPaquete {
 
         double costoBase;
         if (tipoAsiento == TipoAsiento.TURISTA) {
-            costoBase = rutaVuelo.getCostoTurista(); // asumimos que RutaVuelo tiene este método
+            costoBase = rutaVuelo.getCostoTurista();
         } else {
             costoBase = rutaVuelo.getCostoEjecutivo(); // para otro tipo de asiento
         }
