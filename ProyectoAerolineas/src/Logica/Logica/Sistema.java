@@ -425,7 +425,6 @@ public class Sistema implements ISistema {
         }
     }
 
-    // --- DATOS ADICIONALES DE USUARIO ---
     public List<Object> obtenerDatosAdicionalesUsuario(String nickname) {
         List<Object> adicionales = new ArrayList<>();
         Cliente cliente = manejadorCliente.obtenerCliente(nickname);
@@ -441,6 +440,14 @@ public class Sistema implements ISistema {
         }
         return adicionales;
     }
+    @Override
+    public List<Ciudad> listarCiudades() {
+        return manejadorCiudad.getCiudades();
+    }
 
+    @Override
+    public List<Categoria> listarCategorias() {
+        return manejadorCategoria.getCategorias();
+    }
 
 }
