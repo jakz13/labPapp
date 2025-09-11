@@ -65,7 +65,9 @@ public class VerUsuarios {
                     "Cliente: " + c.getNombre() + " " + c.getApellido() + "\n" +
                             "Email: " + c.getEmail() + "\n" +
                             "Fecha Nacimiento: " + c.getFechaNacimiento() + "\n" +
-                            "Nacionalidad: " + c.getNacionalidad() + "\n"
+                            "Nacionalidad: " + c.getNacionalidad() + "\n" +
+                            "Tipo documento: " + c.getTipoDocumento() + "\n" +
+                            "Numero documento: " + c.getNumeroDocumento() + "\n"
             );
         }
     }
@@ -94,7 +96,7 @@ public class VerUsuarios {
             DtCliente c = sistema.obtenerCliente(nickname);
             List<DtPaquete> paquetesIds = c.getPaquetesComprados();
             Object[] paquetes = paquetesIds.stream()
-                    .map(id -> sistema.obtenerPaquete(id.getNombre())) // Debe retornar un DTO o un objeto con toString amigable
+                    .map(id -> sistema.obtenerDtPaquete(id.getNombre())) // Debe retornar un DTO o un objeto con toString amigable
                     .toArray();
             mostrarListaInteractiva("Paquetes del cliente", paquetes);
         });

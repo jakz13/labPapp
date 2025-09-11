@@ -117,16 +117,17 @@ public class AgregarRutaVuelo {
     }
 
     private void actualizarRutas() {
-        ISistema sistema = Fabrica.getInstance().getISistema();
         DtAerolinea seleccionada = (DtAerolinea) campoAerolinea.getSelectedItem();
         DefaultListModel<DtRutaVuelo> modeloRutas = new DefaultListModel<>();
         if (seleccionada != null) {
-            for (DtRutaVuelo r : sistema.listarRutasPorAerolinea(seleccionada.getNombre())) {
+            for (DtRutaVuelo r : seleccionada.getRutas()) {
                 modeloRutas.addElement(r);
             }
         }
         campoRutaVuelo.setModel(modeloRutas);
     }
+
+
 
     private void cargarTipoAsiento() {
         DefaultComboBoxModel<TipoAsiento> modeloAsientos = new DefaultComboBoxModel<>();

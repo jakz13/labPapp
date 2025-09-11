@@ -53,7 +53,7 @@ public class ManejadorCliente {
     }
 
     public void modificarDatosCliente(DtCliente clienteTemporal, EntityManager em) {
-        DtCliente clienteOriginal = obtenerCliente(clienteTemporal.getNickname());
+        Cliente clienteOriginal = obtenerClienteReal(clienteTemporal.getNickname());
         if (clienteOriginal == null) throw new IllegalArgumentException("Cliente no encontrado");
 
         if (clienteTemporal.getNombre() != null) clienteOriginal.setNombre(clienteTemporal.getNombre());
@@ -73,6 +73,8 @@ public class ManejadorCliente {
             e.printStackTrace();
         }
     }
+
+
 
     // =================== Consultas en memoria ===================
     public DtCliente obtenerCliente(String nickname) {

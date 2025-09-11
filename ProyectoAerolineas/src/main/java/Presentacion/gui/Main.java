@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         Fabrica fabrica = Fabrica.getInstance();
         ISistema sistema = fabrica.getISistema();
-
+/*
 
         // Precarga de clientes de ejemplo
         try {
@@ -141,7 +141,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+*/
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Ventana Principal");
             IntentoDiseño ventanaPrincipal = new IntentoDiseño(frame);

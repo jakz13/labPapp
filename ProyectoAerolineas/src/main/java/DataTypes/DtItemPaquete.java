@@ -1,15 +1,15 @@
 package DataTypes;
 
 public class DtItemPaquete {
-    private DtRutaVuelo rutaVueloId; // referencia a la ruta de vuelo
+    private DtRutaVuelo rutaVuelo; // referencia a la ruta de vuelo
     private int cantAsientos;
     private String tipoAsiento; // en texto para facilitar transporte
 
     public DtItemPaquete() {
     }
 
-    public DtItemPaquete(Long id,DtRutaVuelo rutaVueloId, int cantAsientos, String tipoAsiento) {
-        this.rutaVueloId = rutaVueloId;
+    public DtItemPaquete(DtRutaVuelo rutaVuelo, int cantAsientos, String tipoAsiento) {
+        this.rutaVuelo = rutaVuelo;
         this.cantAsientos = cantAsientos;
         this.tipoAsiento = tipoAsiento;
     }
@@ -18,12 +18,13 @@ public class DtItemPaquete {
 
 
     public DtRutaVuelo getRutaVuelo() {
-        return rutaVueloId;
+        return rutaVuelo;
     }
 
-    public void setRutaVueloId(DtRutaVuelo rutaVueloId) {
-        this.rutaVueloId = rutaVueloId;
+    public void setRutaVuelo(DtRutaVuelo rutaVuelo) {
+        this.rutaVuelo = rutaVuelo;
     }
+
 
     public int getCantAsientos() {
         return cantAsientos;
@@ -44,7 +45,6 @@ public class DtItemPaquete {
     @Override
     public String toString() {
         return "DtItemPaquete{" +
-                ", rutaVueloId=" + rutaVueloId +
                 ", cantAsientos=" + cantAsientos +
                 ", tipoAsiento='" + tipoAsiento + '\'' +
                 '}';

@@ -52,12 +52,11 @@ public class ConsultaRutaVuelo {
                     infoRuta.append("Nombre: ").append(seleccionada.getNombre()).append("\n")
                             .append("Origen: ").append(seleccionada.getCiudadOrigen()).append("\n")
                             .append("Destino: ").append(seleccionada.getCiudadDestino()).append("\n")
-                            .append("Duración Estimada: ").append(seleccionada.getHora()).append(" Horas\n")
-                            .append("Vuelos Asociados: ").append(seleccionada.getVuelos().size()).append("\n");
+                            .append("Duración Estimada: ").append(seleccionada.getHora()).append(" Horas\n");
 
                     textAreaDatosRuta.setText(infoRuta.toString());
 
-                    for (DtVuelo v : seleccionada.getVuelos()) {
+                    for (DtVuelo v : sistema.listarVuelosPorRuta(seleccionada.getNombre())) {
                         modeloVuelos.addElement(v);
                     }
                 }
@@ -68,7 +67,10 @@ public class ConsultaRutaVuelo {
         listVuelosAsociados.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 DtVuelo vuelo = listVuelosAsociados.getSelectedValue();
+                System.out.println("Vuelo seleccionado: " + vuelo); // DEBUG
+
                 if (vuelo != null) {
+                    System.out.println("Entró al if con vuelo " + vuelo.getNombre()); // DEBUG
                     StringBuilder infoVuelo = new StringBuilder();
                     infoVuelo.append("Nombre: ").append(vuelo.getNombre()).append("\n")
                             .append("Fecha: ").append(vuelo.getFecha()).append("\n")
@@ -78,13 +80,11 @@ public class ConsultaRutaVuelo {
                             .append("Fecha de Alta: ").append(vuelo.getFechaAlta()).append("\n")
                             .append("Reservas:\n");
 
-                    Map<String, DtReserva> reservas = (Map<String, DtReserva>) vuelo.getReservas();
-
+                    java.util.List<DtReserva> reservas = vuelo.getReservas();
                     if (reservas.isEmpty()) {
                         infoVuelo.append("  Ninguna reserva\n");
                     } else {
-                        for (Map.Entry<String, DtReserva> entry : reservas.entrySet()) {
-                            DtReserva r = entry.getValue();
+                        for (DtReserva r : reservas) {
                             infoVuelo.append("  ID: ").append(r.getId())
                                     .append(", Costo: ").append(r.getCosto())
                                     .append(", Tipo: ").append(r.getTipoAsiento())
@@ -92,11 +92,11 @@ public class ConsultaRutaVuelo {
                                     .append("\n");
                         }
                     }
-
                     textAreaDatosVuelo.setText(infoVuelo.toString());
                 }
             }
         });
+
 
         cerrarButton.addActionListener(e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelConsultaRuta);

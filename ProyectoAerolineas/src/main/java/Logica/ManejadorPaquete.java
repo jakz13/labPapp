@@ -1,6 +1,7 @@
 package Logica;
 
 import DataTypes.DtCliente;
+import DataTypes.DtItemPaquete;
 import DataTypes.DtPaquete;
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
@@ -68,7 +69,7 @@ public class ManejadorPaquete {
             } else {
                 ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
                 p.getItemPaquetes().add(nuevo);
-                em.persist(nuevo); // Persistir explícitamente el nuevo ItemPaquete
+                em.persist(nuevo);
             }
             em.merge(p);
             tx.commit();
@@ -123,4 +124,49 @@ public class ManejadorPaquete {
         }
         return disponibles;
     }
+
+    public DtPaquete obtenerDtPaquete(String nombrePaquete) {
+        Paquete p = paquetes.get(nombrePaquete);
+        if (p != null) {
+            return new DtPaquete(p);
+        }
+        return null;
+    }
+
+    public List<DtItemPaquete> obtenerDtItemsPaquete(String nombrePaquete) {
+        Paquete p = paquetes.get(nombrePaquete);
+        if (p != null) {
+            List<DtItemPaquete> items = new ArrayList<>();
+            for (ItemPaquete item : p.getItemPaquetes()) {
+                // Crear el DtRutaVuelo correspondiente al Item
+                RutaVuelo ruta = item.getRutaVuelo();
+                DtRutaVuelo dtRuta = new DtRutaVuelo(
+                        ruta.getNombre(),
+                        ruta.getDescripcion(),
+                        ruta.getAerolinea().getNombre(),
+                        ruta.getCiudadOrigen(),
+                        ruta.getCiudadDestino(),
+                        ruta.getHora(),
+                        ruta.getFechaAlta(),
+                        ruta.getCostoTurista(),
+                        ruta.getCostoEjecutivo(),
+                        ruta.getCostoEquipajeExtra(),
+                        ruta.getCategorias(),
+                        ruta.getDtVuelos() // convertir a DtVuelo si corresponde
+                );
+
+                // Crear el DtItemPaquete con la ruta, cantidad y tipo
+                DtItemPaquete dtItem = new DtItemPaquete(
+                        dtRuta,
+                        item.getCantAsientos(),
+                        item.getTipoAsiento().toString()
+                );
+
+                items.add(dtItem);
+            }
+            return items;
+        }
+        return new ArrayList<>(); // devolver lista vacía si no existe
+    }
+
 }

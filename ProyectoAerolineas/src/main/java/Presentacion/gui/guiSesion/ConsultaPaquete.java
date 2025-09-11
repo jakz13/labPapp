@@ -20,16 +20,16 @@ public class ConsultaPaquete {
     public ConsultaPaquete() {
         sistema = Fabrica.getInstance().getISistema();
 
-        // cargar paquetes al iniciar
+        // Cargar paquetes al iniciar
         cargarPaquetes();
 
-        // al seleccionar un paquete mostrar su información
+        // Al seleccionar un paquete, mostrar su información
         comboboxPaquetes.addActionListener(e -> actualizarInfoPaquete());
 
-        // al seleccionar una ruta dentro del paquete mostrar su info detallada
+        // Al seleccionar una ruta dentro del paquete, mostrar su info detallada
         comboBoxRutaVuelo.addActionListener(e -> actualizarInfoRuta());
 
-        // botón cerrar
+        // Botón cerrar
         cerrarButton.addActionListener(e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PanelConsultaPaquete);
             if (topFrame != null) {
@@ -55,24 +55,23 @@ public class ConsultaPaquete {
                     .append("Descripción: ").append(seleccionado.getDescripcion()).append("\n")
                     .append("Costo base: ").append(seleccionado.getCosto()).append("\n")
                     .append("Descuento: ").append(seleccionado.getDescuentoPorc()).append("%\n")
-                    .append("Validez: ").append(seleccionado.getPeriodoValidezDias()).append(" días\n");
+                    .append("Validez: ").append(seleccionado.getPeriodoValidezDias()).append(" días\n")
+                    .append("Rutas incluidas:\n");
 
-            info.append("Rutas incluidas:\n");
-
+            // Llenar ComboBox de rutas
             DefaultComboBoxModel<DtRutaVuelo> modeloRutas = new DefaultComboBoxModel<>();
-
-            for (DtItemPaquete item : seleccionado.getItems()) {
-                DtRutaVuelo r = item.getRutaVuelo();
-                if (r != null) {
-                    modeloRutas.addElement(r);
-                    info.append("  - ").append(r.getNombre())
+            for (DtItemPaquete item : sistema.getDtItemRutasPaquete(seleccionado.getNombre())) {
+                DtRutaVuelo ruta = item.getRutaVuelo();
+                if (ruta != null) {
+                    modeloRutas.addElement(ruta);
+                    info.append("  - ").append(ruta.getNombre())
                             .append(" (").append(item.getTipoAsiento())
                             .append(", Asientos: ").append(item.getCantAsientos())
                             .append(")\n");
                 }
             }
-
             comboBoxRutaVuelo.setModel(modeloRutas);
+
             InfoPaquetes.setText(info.toString());
         } else {
             InfoPaquetes.setText("");
@@ -91,7 +90,15 @@ public class ConsultaPaquete {
                     .append("Duración estimada: ").append(seleccionada.getHora()).append("\n")
                     .append("Fecha de Alta: ").append(seleccionada.getFechaAlta()).append("\n")
                     .append("Costo Turista: ").append(seleccionada.getCostoTurista()).append("\n")
-                    .append("Costo Ejecutivo: ").append(seleccionada.getCostoEjecutivo()).append("\n");
+                    .append("Costo Ejecutivo: ").append(seleccionada.getCostoEjecutivo()).append("\n")
+                    .append("Vuelos asociados:\n");
+
+            // Mostrar los vuelos de la ruta
+            for (DtVuelo v : sistema.listarVuelosPorRuta(seleccionada.getNombre())) {
+                info.append("  - ").append(v.getNombre())
+                        .append(" | Fecha: ").append(v.getFecha())
+                        .append(" | Duración: ").append(v.getDuracion()).append("h\n");
+            }
 
             textAreaInfoRuta.setText(info.toString());
         } else {

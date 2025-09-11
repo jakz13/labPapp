@@ -88,5 +88,9 @@ public interface ISistema {
     public List<DtPaquete> getPaquetesDisp();
     public List<DtCliente> getClientes();
 
+    public DtPaquete obtenerDtPaquete(String nombrePaquete);
+
+    public List<DtItemPaquete> getDtItemRutasPaquete(String nombrePaquete);
+
     public List<DtReserva> getReservasCliente(String nickname);
 }
