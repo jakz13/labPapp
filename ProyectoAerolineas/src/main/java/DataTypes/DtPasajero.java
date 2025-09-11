@@ -31,11 +31,9 @@ public class DtPasajero {
         this.apellido = apellido;
     }
 
+
     @Override
     public String toString() {
-        return "DtPasajero{" +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                '}';
+        return this.nombre + this.apellido;
     }
 }

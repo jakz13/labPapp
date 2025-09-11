@@ -52,7 +52,7 @@ public class ConsultaRutaVuelo {
                     infoRuta.append("Nombre: ").append(seleccionada.getNombre()).append("\n")
                             .append("Origen: ").append(seleccionada.getCiudadOrigen()).append("\n")
                             .append("Destino: ").append(seleccionada.getCiudadDestino()).append("\n")
-                            .append("Duración Estimada: ").append(seleccionada.getHora()).append(" horas\n")
+                            .append("Duración Estimada: ").append(seleccionada.getHora()).append(" Horas\n")
                             .append("Vuelos Asociados: ").append(seleccionada.getVuelos().size()).append("\n");
 
                     textAreaDatosRuta.setText(infoRuta.toString());
@@ -72,7 +72,7 @@ public class ConsultaRutaVuelo {
                     StringBuilder infoVuelo = new StringBuilder();
                     infoVuelo.append("Nombre: ").append(vuelo.getNombre()).append("\n")
                             .append("Fecha: ").append(vuelo.getFecha()).append("\n")
-                            .append("Duración: ").append(vuelo.getDuracion()).append(" días\n")
+                            .append("Duración: ").append(vuelo.getDuracion()).append(" Hora\n")
                             .append("Asientos Ejecutivos: ").append(vuelo.getAsientosEjecutivo()).append("\n")
                             .append("Asientos Turista: ").append(vuelo.getAsientosTurista()).append("\n")
                             .append("Fecha de Alta: ").append(vuelo.getFechaAlta()).append("\n")

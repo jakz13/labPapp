@@ -35,8 +35,12 @@ public class ManejadorCiudad {
 
     // === Agregar ciudad en memoria y en BD ===
     public void agregarCiudad(Ciudad c, EntityManager em) {
-        ciudades.put(c.getNombre(), c);
+        String clave = c.getNombre().trim().toLowerCase();
 
+        if (ciudades.containsKey(clave)) {
+            throw new IllegalArgumentException("La ciudad '" + c.getNombre() + "' ya existe.");
+        }
+        ciudades.put(clave, c);
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -44,15 +48,14 @@ public class ManejadorCiudad {
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    // === Obtener ciudad por nombre ===
+    // === Obtener ciudad por nombre (normalizado) ===
     public Ciudad obtenerCiudad(String nombre) {
-        return ciudades.get(nombre);
+        return ciudades.get(nombre.trim().toLowerCase());
     }
-
     // === Listar todas las ciudades ===
     public List<Ciudad> getCiudades() {
         return new ArrayList<>(ciudades.values());

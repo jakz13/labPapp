@@ -1,7 +1,9 @@
 package Presentacion.gui.guiSesion;
 
 import DataTypes.DtAerolinea;
-import Logica.*;
+import DataTypes.DtCliente;
+import Logica.Fabrica;
+import Logica.ISistema;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +20,7 @@ public class EligeUsuario {
     public EligeUsuario() {
         ISistema sistema = Fabrica.getInstance().getISistema();
         DefaultListModel<String> modelo = new DefaultListModel<>();
-            // --- Mostrar clientes ---
-            for (Cliente c : sistema.listarClientes()) {
+            for (DtCliente c : sistema.listarClientes()) {
                 String item = c.getNickname() + " (" + c.getNombre() + ")";
                 modelo.addElement(item);
             }

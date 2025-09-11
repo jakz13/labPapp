@@ -41,10 +41,6 @@ public class DtUsuario {
 
     @Override
     public String toString() {
-        return "DtUsuario{" +
-                "nickname='" + nickname + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return this.nombre;
     }
 }

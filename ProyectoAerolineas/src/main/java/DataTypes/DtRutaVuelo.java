@@ -50,5 +50,12 @@ public class DtRutaVuelo {
     public double getCostoEquipajeExtra() { return costoEquipajeExtra; }
     public List<String> getCategorias() { return categorias; }
     public List<DtVuelo> getVuelos() { return vuelos; }
+
+
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
 }
 

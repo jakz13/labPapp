@@ -1,7 +1,8 @@
 package Presentacion.gui.guiSesion;
 
 import DataTypes.*;
-import Logica.*;
+import Logica.Fabrica;
+import Logica.ISistema;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -85,19 +86,15 @@ public class VerUsuarios {
         JButton btnReservas = new JButton("Ver Reservas");
         btnReservas.addActionListener(e -> {
             DtCliente c = sistema.obtenerCliente(nickname);
-            List<Long> reservasIds = c.getReservas();
-            Object[] reservas = reservasIds.stream()
-                    .map(id -> sistema.obtenerReserva(id)) // Debe retornar un DTO o un objeto con toString amigable
-                    .toArray();
-            mostrarListaInteractiva("Reservas del cliente", reservas);
+            mostrarListaInteractiva("Reservas del cliente", c.getReservas().toArray()); // ACA
         });
 
         JButton btnPaquetes = new JButton("Ver Paquetes");
         btnPaquetes.addActionListener(e -> {
             DtCliente c = sistema.obtenerCliente(nickname);
-            List<Long> paquetesIds = c.getPaquetesComprados();
+            List<DtPaquete> paquetesIds = c.getPaquetesComprados();
             Object[] paquetes = paquetesIds.stream()
-                    .map(id -> sistema.obtenerPaquete(id)) // Debe retornar un DTO o un objeto con toString amigable
+                    .map(id -> sistema.obtenerPaquete(id.getNombre())) // Debe retornar un DTO o un objeto con toString amigable
                     .toArray();
             mostrarListaInteractiva("Paquetes del cliente", paquetes);
         });
@@ -105,6 +102,7 @@ public class VerUsuarios {
         JPanelDinamico.add(btnReservas);
         JPanelDinamico.add(btnPaquetes);
     }
+
 
     private void generarBotonesAerolinea(String nickname) {
         JButton btnRutas = new JButton("Ver Rutas de Vuelo");
@@ -143,6 +141,7 @@ public class VerUsuarios {
             }
         });
 
+        // Mostrar el panel dentro de JOptionPane
         JOptionPane.showMessageDialog(panelConsulta, panel, titulo, JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -150,12 +149,27 @@ public class VerUsuarios {
         StringBuilder detalle = new StringBuilder();
 
         if (obj instanceof DtRutaVuelo r) {
+
             detalle.append("Ruta: ").append(r.getNombre()).append("\n")
                     .append("Origen: ").append(r.getCiudadOrigen()).append("\n")
                     .append("Destino: ").append(r.getCiudadDestino()).append("\n")
-                    .append("Duración: ").append(r.getHora()).append(" horas\n");
+                    .append("Duración: ").append(r.getHora()).append(" horas\n")
+                    .append("Vuelos Asociados: ").append(r.getVuelos().size()).append("\n\n");
+
+            detalle.append("=== Vuelos ===\n");
+
+            for (DtVuelo v : sistema.listarVuelosPorRuta(r.getNombre())) {
+                detalle.append("Vuelo: ").append(v.getNombre()).append("\n")
+                        .append("Fecha: ").append(v.getFecha()).append("\n")
+                        .append("Duración: ").append(v.getDuracion()).append(" Horas\n")
+                        .append("Asientos Ejecutivos: ").append(v.getAsientosEjecutivo()).append("\n")
+                        .append("Asientos Turista: ").append(v.getAsientosTurista()).append("\n")
+                        .append("Reservas: ").append(v.getReservas().size()).append("\n")
+                        .append("-------------------------\n");
+            }
         }
         if (obj instanceof DtReserva r) {
+            // ACA
             detalle.append("Reserva ID: ").append(r.getId()).append("\n")
                     .append("Costo: $").append(r.getCosto()).append("\n")
                     .append("Tipo Asiento: ").append(r.getTipoAsiento()).append("\n")

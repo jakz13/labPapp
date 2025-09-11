@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtRutaVuelo;
 import DataTypes.DtVuelo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -86,17 +87,20 @@ public class RutaVuelo {
     public List<DtVuelo> getDtVuelos() {
         List<DtVuelo> dtVuelos = new ArrayList<>();
         for (Vuelo v : vuelos) {
-            dtVuelos.add(new DtVuelo(
-                    v.getNombre(),
-                    v.getNombreAerolinea(),
-                    v.getFecha(),
-                    v.getDuracion(),
-                    v.getAsientosTurista(),
-                    v.getAsientosEjecutivo(),
-                    v.getFechaAlta(),
+            new DtRutaVuelo(
                     v.getRutaVuelo().getNombre(),
-                    v.getDtReservas() // Asegúrate que sea una lista de DtReserva
-            ));
+                    v.getRutaVuelo().getDescripcion(),
+                    v.getRutaVuelo().getAerolinea() != null ? v.getRutaVuelo().getAerolinea().getNombre() : null,
+                    v.getRutaVuelo().getCiudadOrigen(),
+                    v.getRutaVuelo().getCiudadDestino(),
+                    v.getRutaVuelo().getHora(),
+                    v.getRutaVuelo().getFechaAlta(),
+                    v.getRutaVuelo().getCostoTurista(),
+                    v.getRutaVuelo().getCostoEjecutivo(),
+                    v.getRutaVuelo().getCostoEquipajeExtra(),
+                    v.getRutaVuelo().getCategorias(),
+                    new ArrayList<>() // o puedes pasar null o una lista de DtVuelo si corresponde
+            );
         }
         return dtVuelos;
     }

@@ -98,14 +98,6 @@ public class DtPaquete {
 
     @Override
     public String toString() {
-        return "DtPaquete{" +
-                "nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", costo=" + costo +
-                ", fechaAlta=" + fechaAlta +
-                ", descuentoPorc=" + descuentoPorc +
-                ", periodoValidezDias=" + periodoValidezDias +
-                ", items=" + items +
-                '}';
+        return this.nombre;
     }
 }

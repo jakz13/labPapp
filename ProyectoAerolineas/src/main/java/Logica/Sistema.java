@@ -124,32 +124,53 @@ public class Sistema implements ISistema {
     // --- CIUDADES ---
     @Override
     public void altaCiudad(String nombre, String pais) {
+        String clave = nombre.trim().toLowerCase();
+
+        if (manejadorCiudad.obtenerCiudad(clave) != null) {
+            throw new IllegalArgumentException("Ya existe una ciudad con el nombre: " + nombre);
+        }
+
         Ciudad c = new Ciudad(nombre, pais);
-        manejadorCiudad.agregarCiudad(c,em);
+        manejadorCiudad.agregarCiudad(c, em);
     }
 
+
     @Override
-    public void altaRutaVuelo(String nombre, String descripcion, DtAerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias) {
+    public void altaRutaVuelo(String nombre, String descripcion, DtAerolinea aerolinea,
+                              String ciudadOrigen, String ciudadDestino, String hora,
+                              LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
+                              double costoEquipajeExtra, String[] categorias) {
 
         Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());
-        if (aero != null) {
-            List<String> categoria = new ArrayList<>();
-            for (String cat : categorias) {
-                Categoria c = manejadorCategoria.buscarCategorias(cat);
-                if (c != null) {
-                    categoria.add(cat);
-                }
-            }
-            RutaVuelo r = new RutaVuelo(nombre, descripcion, aero, ciudadOrigen, ciudadDestino,
-                    hora, fechaAlta, costoTurista, costoEjecutivo,
-                    costoEquipajeExtra, categoria);
-
-            manejadorRutaVuelo.agregarRutaVuelo(r,em);
-            manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), r,em);
-
-        } else {
-            throw new IllegalArgumentException("No existe Aerolinea con ese nickname");
+        if (aero == null) {
+            throw new IllegalArgumentException("No existe Aerolínea con nickname: " + aerolinea.getNickname());
         }
+
+        if (manejadorRutaVuelo.getRuta(nombre) != null) {
+            throw new IllegalArgumentException("Ya existe una ruta de vuelo con el nombre: " + nombre);
+        }
+
+        if (ciudadOrigen.equalsIgnoreCase(ciudadDestino)) {
+            throw new IllegalArgumentException("La ciudad de origen y destino no pueden ser iguales.");
+        }
+
+        List<String> categoriaValida = new ArrayList<>();
+        for (String cat : categorias) {
+            Categoria c = manejadorCategoria.buscarCategorias(cat);
+            if (c != null) {
+                categoriaValida.add(cat);
+            }
+        }
+        if (categoriaValida.isEmpty()) {
+            throw new IllegalArgumentException("La ruta debe pertenecer a al menos una categoría válida.");
+        }
+
+        RutaVuelo r = new RutaVuelo(nombre, descripcion, aero, ciudadOrigen, ciudadDestino,
+                hora, fechaAlta, costoTurista, costoEjecutivo,
+                costoEquipajeExtra, categoriaValida);
+
+        manejadorRutaVuelo.agregarRutaVuelo(r, em);
+        manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), r, em);
     }
 
     @Override
@@ -163,15 +184,25 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
+    public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta,
+                          LocalDate fecha, int duracion, int asientosTurista,
                           int asientosEjecutivo, LocalDate fechaAlta) {
-        if (manejadorVuelo.getVuelo(nombreVuelo) != null) {
-            return;
-        }
+
         RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
-        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, ruta, fecha, duracion, asientosTurista, asientosEjecutivo, fechaAlta);
-        manejadorVuelo.agregarVuelo(vuelo,em);
-        manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo,em);
+        if (ruta == null) {
+            throw new IllegalArgumentException("La ruta " + nombreRuta + " no existe.");
+        }
+
+        // Verificar si en esa ruta ya existe un vuelo con el mismo nombre
+        if (manejadorRutaVuelo.getVueloDeRuta(nombreRuta, nombreVuelo) != null) {
+            throw new IllegalArgumentException("Ya existe un vuelo con el nombre " + nombreVuelo + " en la ruta " + nombreRuta);
+        }
+
+        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, ruta, fecha, duracion,
+                asientosTurista, asientosEjecutivo, fechaAlta);
+
+        manejadorVuelo.agregarVuelo(vuelo, em);
+        manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo, em);
     }
 
     public Vuelo obtenerVuelo(String nombreVuelo) {
@@ -179,12 +210,8 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public List<Vuelo> listarVuelosPorRuta(String nombreRuta) {
-        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
-        if (ruta == null) {
-            return new ArrayList<>();
-        }
-        return new ArrayList<>(ruta.getVuelos());
+    public List<DtVuelo> listarVuelosPorRuta(String nombreRuta) {
+        return manejadorRutaVuelo.obtenerVuelosPorRuta(nombreRuta);
     }
 
     @Override
@@ -199,18 +226,33 @@ public class Sistema implements ISistema {
     // --- RESERVA ---
     @Override
     public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva, double costo,
-                                       TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros) {
+                                       TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra,
+                                       List<Pasajero> pasajeros) {
         try {
-            // Generar un ID único para la reserva
             Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+            if (vuelo == null) {
+                throw new IllegalArgumentException("El vuelo no existe: " + nombreVuelo);
+            }
+
+            if (vuelo.getReservas().containsKey(nicknameCliente)) {
+                throw new IllegalArgumentException(
+                        "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
+                                ". Debe elegir otro vuelo o ruta  ."
+                );
+            }
+
             String idReserva = "RES" + (++idReservaCounter);
-            Reserva reserva = new Reserva(idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra,
-                    pasajeros, vuelo);
+            Reserva reserva = new Reserva(
+                    idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
+            );
+
             registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
+
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error al registrar la reserva: ");
+            throw new IllegalArgumentException("Error al registrar la reserva: " + e.getMessage(), e);
         }
     }
+
 
     @Override
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva) {
@@ -225,16 +267,14 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Vuelo no encontrado");
         }
 
-        // Verificar si ya existe una reserva de este cliente para este vuelo
         if (manejadorVuelo.tieneReservaDeCliente(nicknameCliente, vuelo)) {
             throw new IllegalArgumentException("El cliente ya tiene una reserva para este vuelo");
         }
-        // Generar un ID único para la reserva
         String idReserva = "RES" + (++idReservaCounter);
-        // Registrar la reserva en el vuelo y en el cliente
         vuelo.agregarReserva(idReserva,reserva);
         manejadorCliente.agregarReserva(reserva, nicknameCliente, idReserva);
     }
+
 
     @Override
     public DtReserva obtenerReserva(String idReserva, String nicknameCliente) {
@@ -297,7 +337,7 @@ public class Sistema implements ISistema {
         }
     }
 
-    public List<Paquete> listarPaquetesDisp() {
+    public List<DtPaquete> listarPaquetesDisp() {
         return manejadorPaquete.getPaquetesDisp();
     }
 
@@ -404,8 +444,13 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public List<DtCategoria> listarCategorias(){
-        return (List<DtCategoria>) manejadorCategoria.getCategorias();
+    public List<DtCategoria> listarCategorias() {
+        // Si getCategorias() retorna un Map<String, Categoria>
+        List<DtCategoria> lista = new ArrayList<>();
+        for (Categoria c : manejadorCategoria.getCategorias().values()) {
+            lista.add(new DtCategoria(c.getNombre()));
+        }
+        return lista;
     }
 
     @Override
@@ -433,4 +478,45 @@ public class Sistema implements ISistema {
             System.out.println("ERROR.");
         }
     }
+
+    @Override
+    public Paquete obtenerPaquete(String nombrePaquete) {
+        Paquete paquete = manejadorPaquete.obtenerPaquete(nombrePaquete);
+        if (paquete == null) {
+            throw new IllegalArgumentException("Paquete no encontrado");
+        }
+        return paquete;
+    }
+
+    public DtPaquete obtenerDtPaquete(String nombrePaquete) {
+        Paquete paquete = manejadorPaquete.obtenerPaquete(nombrePaquete);
+        if (paquete == null) {
+            throw new IllegalArgumentException("Paquete no encontrado");
+        }
+        return paquete;
+    }
+
+
+    @Override
+    public List<DtAerolinea> getAerolineas() {
+        return manejadorAerolinea.getDtAerolineas();
+    }
+
+    public List<DtPaquete> getPaquetesDisp() {
+        return manejadorPaquete.getPaquetes();
+    }
+
+    public List<DtCliente> getClientes() {
+        return manejadorCliente.getClientes();
+    }
+
+    public List<DtReserva> getReservasCliente(String nickname) {
+        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
+        if (cliente != null) {
+            return cliente.getReservas();
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+    }
+
 }

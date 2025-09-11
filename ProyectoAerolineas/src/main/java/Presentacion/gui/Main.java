@@ -14,6 +14,18 @@ public class Main {
 
         // Precarga de clientes de ejemplo
         try {
+// Precarga de categorías y ciudades necesarias
+            sistema.altaCategoria("Turista");
+            sistema.altaCategoria("Ejecutivo");
+
+            sistema.altaCiudad("Santiago", "Chile");
+            sistema.altaCiudad("Miami", "Estados Unidos");
+            sistema.altaCiudad("Buenos Aires", "Argentina");
+            sistema.altaCiudad("Madrid", "España");
+            sistema.altaCiudad("Londres", "Reino Unido");
+            sistema.altaCiudad("Nueva York", "Estados Unidos");
+            sistema.altaCiudad("Los Ángeles", "Estados Unidos");
+
             sistema.altaCliente("juan123", "Juan", "Callero", "juan@mail.com",
                     java.time.LocalDate.of(1990, 5, 10), "Uruguayo", Logica.TipoDoc.CI, "12345678");
             sistema.altaCliente("ana456", "Aglae", "Locher", "aglae@mail.com",

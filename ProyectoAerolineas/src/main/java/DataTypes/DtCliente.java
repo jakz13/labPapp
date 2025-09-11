@@ -6,6 +6,7 @@ import Logica.TipoDoc;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DtCliente extends DtUsuario {
     private String apellido;
@@ -38,7 +39,8 @@ public class DtCliente extends DtUsuario {
         this.nacionalidad = cliente.getNacionalidad();
         this.tipoDocumento = cliente.getTipoDocumento();
         this.numeroDocumento = cliente.getNumeroDocumento();
-
+        this.reservas = cliente.getDtReservas();
+        this.paquetesComprados = cliente.getDtPaquetesComprados();
     }
 
     // --- Getters y Setters ---
@@ -86,31 +88,21 @@ public class DtCliente extends DtUsuario {
         return reservas;
     }
 
-    public void setReservasIds(List<Long> reservas) {
+    public void setReservasIds(List<DtReserva> reservas) {
         this.reservas = reservas;
     }
 
-    public List<Long> getPaquetesComprados() {
+    public List<DtPaquete> getPaquetesComprados() {
         return paquetesComprados;
     }
 
-    public void setPaquetesComprados(List<Long> paquetesComprados) {
+    public void setPaquetesComprados(List<DtPaquete> paquetesComprados) {
         this.paquetesComprados = paquetesComprados;
     }
 
+
     @Override
     public String toString() {
-        return "DtCliente{" +
-                "nickname='" + getNickname() + '\'' +
-                ", nombre='" + getNombre() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", nacionalidad='" + nacionalidad + '\'' +
-                ", tipoDocumento='" + tipoDocumento + '\'' +
-                ", numeroDocumento='" + numeroDocumento + '\'' +
-                ", reservasIds=" + reservas +
-                ", paquetesCompradosIds=" + paquetesComprados +
-                '}';
+        return this.getNombre();
     }
 }

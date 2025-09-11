@@ -31,7 +31,7 @@ public interface ISistema {
 
     public List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
 
-    public List<Vuelo> listarVuelosPorRuta(String nombreRuta);
+    public List<DtVuelo> listarVuelosPorRuta(String nombreRuta);
 
     Vuelo verInfoVuelo(String nombreVuelo);
 
@@ -81,4 +81,12 @@ public interface ISistema {
 
     public DtReserva obtenerReserva(String idReserva, String nicknameCliente);
 
+    public Paquete obtenerPaquete(String nombrePaquete);
+
+    public List<DtAerolinea> getAerolineas();
+
+    public List<DtPaquete> getPaquetesDisp();
+    public List<DtCliente> getClientes();
+
+    public List<DtReserva> getReservasCliente(String nickname);
 }

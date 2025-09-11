@@ -21,6 +21,6 @@ public class DtCategoria {
 
     @Override
     public String toString() {
-        return "DtCategoria{nombre='" + nombre + "'}";
+        return nombre;
     }
 }

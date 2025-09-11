@@ -59,16 +59,17 @@ public class ManejadorPaquete {
                 break;
             }
         }
-        if (existente != null) {
-            existente.incrementarCantidad(cantidadAsientos);
-        } else {
-            ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
-            p.getItemPaquetes().add(nuevo);
-        }
-
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
+            if (existente != null) {
+                existente.incrementarCantidad(cantidadAsientos);
+                em.merge(existente);
+            } else {
+                ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
+                p.getItemPaquetes().add(nuevo);
+                em.persist(nuevo); // Persistir explícitamente el nuevo ItemPaquete
+            }
             em.merge(p);
             tx.commit();
         } catch (Exception e) {
@@ -76,9 +77,10 @@ public class ManejadorPaquete {
             e.printStackTrace();
         }
     }
+
     public void compraPaquete(Paquete p, DtCliente dtCliente, int validezDias, LocalDate fechaC, double costo, EntityManager em) {
         // Obtener el objeto Cliente real, no DtCliente
-        Cliente clienteObj = ManejadorCliente.getInstance().obtenerClientePorEmail(dtCliente.getEmail());
+        Cliente clienteObj = ManejadorCliente.getInstance().obtenerClienteReal(dtCliente.getNickname());
         if (clienteObj == null) {
             throw new IllegalArgumentException("El cliente con nickname " + dtCliente.getNickname() + " no existe.");
         }
@@ -112,12 +114,11 @@ public class ManejadorPaquete {
     }
 
 
-
-    public List<Paquete> getPaquetesDisp() {
-        List<Paquete> disponibles = new ArrayList<>();
+    public List<DtPaquete> getPaquetesDisp() {
+        List<DtPaquete> disponibles = new ArrayList<>();
         for (Paquete p : paquetes.values()) {
             if (!p.estaComprado()) {
-                disponibles.add(p);
+                disponibles.add(new DtPaquete(p));
             }
         }
         return disponibles;

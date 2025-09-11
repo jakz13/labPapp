@@ -1,7 +1,11 @@
 package Presentacion.gui.guiSesion;
 
+import DataTypes.DtAerolinea;
+import DataTypes.DtReserva;
 import DataTypes.DtRutaVuelo;
-import Logica.*;
+import DataTypes.DtVuelo;
+import Logica.Fabrica;
+import Logica.ISistema;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,12 +32,12 @@ public class ConsultaVuelo {
 
         listVuelo.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) { // evita que se dispare dos veces
-                Vuelo seleccionada = (Vuelo) listVuelo.getSelectedValue();
+                DtVuelo seleccionada = (DtVuelo) listVuelo.getSelectedValue();
                 if (seleccionada != null) {
                     StringBuilder info = new StringBuilder();
                     info.append("Nombre: ").append(seleccionada.getNombre()).append("\n")
-                            .append("Nombre de Ruta: ").append(seleccionada.getRutaVueloNombre()).append("\n")
-                            .append("Duración: ").append(seleccionada.getDuracion()).append(" Dias").append("\n")
+                            .append("Nombre de Ruta: ").append(seleccionada.getRutaVuelo()).append("\n")
+                            .append("Duración: ").append(seleccionada.getDuracion()).append(" Horas").append("\n")
                             .append("Fecha: ").append(seleccionada.getFecha()).append("\n")
                             .append("Asientos Ejecutivos: ").append(seleccionada.getAsientosEjecutivo()).append("\n")
                             .append("Asientos Turista: ").append(seleccionada.getAsientosTurista()).append("\n")
@@ -41,12 +45,11 @@ public class ConsultaVuelo {
                             .append("Reservas:\n");
 
                     // Recorrer el mapa de reservas
-                    Map<String, Reserva> reservas = seleccionada.getReservas();
+                    java.util.List<DtReserva> reservas = seleccionada.getReservas();
                     if (reservas.isEmpty()) {
                         info.append("  Ninguna reserva\n");
                     } else {
-                        for (Map.Entry<String, Reserva> entry : reservas.entrySet()) {
-                            Reserva r = entry.getValue();
+                        for (DtReserva r : reservas) {
                             info.append("  ID: ").append(r.getId())
                                     .append(", Costo: ").append(r.getCosto())
                                     .append(", Tipo: ").append(r.getTipoAsiento())
@@ -76,8 +79,9 @@ public class ConsultaVuelo {
 
     // Carga aerolíneas disponibles
     private void cargarAerolineas() {
-        DefaultComboBoxModel<Aerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
-        for (Aerolinea a : ManejadorAerolinea.getInstance().getAerolineas()) {
+        ISistema sistema = Fabrica.getInstance().getISistema();
+        DefaultComboBoxModel<DtAerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
+        for (DtAerolinea a : sistema.getAerolineas()) {
             modeloAerolinea.addElement(a);
         }
         comboBoxAerolinea.setModel(modeloAerolinea);
@@ -85,10 +89,10 @@ public class ConsultaVuelo {
     }
 
     private void actualizarRutas() {
-        Aerolinea seleccionada = (Aerolinea) comboBoxAerolinea.getSelectedItem();
+        DtAerolinea seleccionada = (DtAerolinea) comboBoxAerolinea.getSelectedItem();
         DefaultListModel<DtRutaVuelo> modeloRutas = new DefaultListModel<>();
         if (seleccionada != null) {
-            for (DtRutaVuelo r : seleccionada.getRutasVuelo()) {
+            for (DtRutaVuelo r : seleccionada.getRutas()) {
                 modeloRutas.addElement(r);
             }
         }
@@ -96,16 +100,18 @@ public class ConsultaVuelo {
     }
 
     private void actualizarVuelos() {
-        RutaVuelo seleccionada = (RutaVuelo) listRutaVuelo.getSelectedValue();
-        DefaultListModel<Vuelo> modeloVuelos = new DefaultListModel<>();
+        DtRutaVuelo seleccionada = (DtRutaVuelo) listRutaVuelo.getSelectedValue();
+        DefaultListModel<DtVuelo> modeloVuelos = new DefaultListModel<>();
         if (seleccionada != null) {
-            // Recorrer los valores del mapa
-            for (Vuelo v : seleccionada.getVuelos()) {
+            ISistema sistema = Fabrica.getInstance().getISistema();
+            for (DtVuelo v : sistema.listarVuelosPorRuta(seleccionada.getNombre())) {
                 modeloVuelos.addElement(v);
             }
         }
         listVuelo.setModel(modeloVuelos);
     }
+
+
 
 
     public Container getPanelConsultaVeulo() {

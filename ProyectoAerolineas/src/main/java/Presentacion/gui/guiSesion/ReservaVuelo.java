@@ -1,8 +1,13 @@
 package Presentacion.gui.guiSesion;
 
 import DataTypes.DtAerolinea;
+import DataTypes.DtCliente;
 import DataTypes.DtRutaVuelo;
-import Logica.*;
+import DataTypes.DtVuelo;
+import Logica.Fabrica;
+import Logica.ISistema;
+import Logica.Pasajero;
+import Logica.TipoAsiento;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -86,7 +91,7 @@ public class ReservaVuelo {
                 campoRuta.setText(rutaSeleccionada);
 
                 DefaultListModel<String> modeloVuelos = new DefaultListModel<>();
-                for (Vuelo v : sistema.listarVuelosPorRuta(rutaSeleccionada)) {
+                for (DtVuelo v : sistema.listarVuelosPorRuta(rutaSeleccionada)) {
                     modeloVuelos.addElement(v.getNombre());
                 }
                 ListaVuelos.setModel(modeloVuelos);
@@ -100,7 +105,7 @@ public class ReservaVuelo {
                     campoVuelo.setText(vueloSeleccionado);
                     NOmVuelo.setText(vueloSeleccionado);
 
-                    Vuelo vuelo = sistema.obtenerVuelo(vueloSeleccionado);
+                    DtVuelo vuelo = sistema.obtenerVuelo(vueloSeleccionado).getDtVuelo();
                     if (vuelo != null) {
                         Duracion.setText(String.valueOf(vuelo.getDuracion()));
 
@@ -118,7 +123,7 @@ public class ReservaVuelo {
         });
 
         clienteElegido.removeAllItems();
-        for (Cliente c : sistema.listarClientes()) {
+        for (DtCliente c : sistema.listarClientes()) {
             clienteElegido.addItem(c.getNickname() + " (" + c.getNombre() + ")");
         }
 

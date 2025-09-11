@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -81,4 +82,16 @@ public class ManejadorRutaVuelo {
     }
 
     public List<RutaVuelo> getRutas() { return new ArrayList<>(rutasVuelo.values()); }
+
+    public List<DtVuelo> obtenerVuelosPorRuta(String nombreRuta) {
+        RutaVuelo ruta = rutasVuelo.get(nombreRuta);
+        if (ruta != null) {
+            List<DtVuelo> dtVuelos = new ArrayList<>();
+            for (Vuelo vuelo : ruta.getVuelos()) {
+                dtVuelos.add(vuelo.getDtVuelo());
+            }
+            return dtVuelos;
+        }
+        return Collections.emptyList();
+    }
 }

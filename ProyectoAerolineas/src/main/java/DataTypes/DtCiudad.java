@@ -82,13 +82,6 @@ public class DtCiudad {
 
     @Override
     public String toString() {
-        return "DtCiudad{" +
-                ", nombre='" + nombre + '\'' +
-                ", pais='" + pais + '\'' +
-                ", aeropuerto='" + aeropuerto + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", sitioWeb='" + sitioWeb + '\'' +
-                ", fechaAlta=" + fechaAlta +
-                '}';
+        return this.nombre;
     }
 }

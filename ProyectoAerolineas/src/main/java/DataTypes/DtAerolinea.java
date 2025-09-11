@@ -27,5 +27,10 @@ public class DtAerolinea {
     public String getSitioWeb() { return sitioWeb; }
     public List<DtRutaVuelo> getRutas() { return rutas; }
 
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+
 }
 

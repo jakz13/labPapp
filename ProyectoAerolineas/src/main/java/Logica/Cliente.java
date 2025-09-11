@@ -1,5 +1,7 @@
 package Logica;
 
+import DataTypes.DtPaquete;
+import DataTypes.DtReserva;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -38,8 +40,8 @@ public class Cliente extends Usuario {
     public Cliente() {
     }
 
-    public Cliente(String nickname, String nombre, String email,
-                   String apellido, LocalDate fechaNac, String nacionalidad,
+    public Cliente(String nickname, String nombre, String apellido,
+                   String email, LocalDate fechaNac, String nacionalidad,
                    TipoDoc tipoDoc, String numDoc) {
         super(nickname, nombre, email);
         this.apellido = apellido;
@@ -77,5 +79,21 @@ public class Cliente extends Usuario {
     @Override
     public String toString() {
         return this.getNombre();
+    }
+
+    public List<DtReserva> getDtReservas() {
+        List<DtReserva> dtReservas = new ArrayList<>();
+        for (Reserva r : reservas) {
+            dtReservas.add(new DtReserva(r.getId(), r.getFecha(), r.getCosto(), r.getTipoAsiento(), r.getCantidadPasajes(), r.getUnidadesEquipajeExtra(), r.getDtPasajeros(), r.getVuelo() != null ? r.getVuelo().getNombre() : "N/A"));
+        }
+        return dtReservas;
+    }
+
+    public List<DtPaquete> getDtPaquetesComprados() {
+        List<DtPaquete> dtPaquetes = new ArrayList<>();
+        for (Paquete p : paquetesComprados) {
+            dtPaquetes.add(new DtPaquete(p));
+        }
+        return dtPaquetes;
     }
 }

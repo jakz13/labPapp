@@ -2,13 +2,16 @@ package Presentacion.gui.guiSesion;
 
 import DataTypes.DtAerolinea;
 import DataTypes.DtRutaVuelo;
-import Logica.*;
+import DataTypes.DtPaquete;
+import Logica.Fabrica;
+import Logica.ISistema;
+import Logica.TipoAsiento;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class AgregarRutaVuelo {
-    private JComboBox<Paquete> campoPaquete;
+    private JComboBox<DtPaquete> campoPaquete;
     private JComboBox<DtAerolinea> campoAerolinea;
     private JList<DtRutaVuelo> campoRutaVuelo;
     private JComboBox<TipoAsiento> campoTipoAsiento;
@@ -30,7 +33,7 @@ public class AgregarRutaVuelo {
 
         // Acción del botón Añadir
         añadirButton.addActionListener(e -> {
-            Paquete paquete = (Paquete) campoPaquete.getSelectedItem();
+            DtPaquete paquete = (DtPaquete) campoPaquete.getSelectedItem();
             DtAerolinea aerolinea = (DtAerolinea) campoAerolinea.getSelectedItem();
             DtRutaVuelo rutaVuelo = (DtRutaVuelo) campoRutaVuelo.getSelectedValue();
             TipoAsiento tipoAsiento = (TipoAsiento) campoTipoAsiento.getSelectedItem();
@@ -57,7 +60,6 @@ public class AgregarRutaVuelo {
                 return;
             }
 
-            // Llamada a la lógica para agregar la ruta al paquete
             try {
                 sistema.altaRutaPaquete(paquete.getNombre(), rutaVuelo.getNombre(), cantidadAsiento, tipoAsiento);
                 JOptionPane.showMessageDialog(null,
@@ -83,37 +85,49 @@ public class AgregarRutaVuelo {
 
     // Carga paquetes disponibles
     private void cargarPaquetes() {
-        DefaultComboBoxModel<Paquete> modeloPaquetes = new DefaultComboBoxModel<>();
-        for (Paquete p : ManejadorPaquete.getInstance().getPaquetesDisp()) {
+        ISistema sistema = Fabrica.getInstance().getISistema();
+        DefaultComboBoxModel<DtPaquete> modeloPaquetes = new DefaultComboBoxModel<>();
+
+        for (DtPaquete p : sistema.getPaquetesDisp()) {
             modeloPaquetes.addElement(p);
         }
+
         campoPaquete.setModel(modeloPaquetes);
         campoPaquete.setSelectedIndex(-1);
+
+        // Listener opcional para mostrar detalle en otro componente
+        campoPaquete.addActionListener(e -> {
+            DtPaquete seleccionado = (DtPaquete) campoPaquete.getSelectedItem();
+            if (seleccionado != null) {
+                // Mostrar detalles en un TextArea, Label o popup
+                System.out.println(seleccionado.toString());
+            }
+        });
     }
 
-    // Carga aerolíneas disponibles
+
     private void cargarAerolineas() {
+        ISistema sistema = Fabrica.getInstance().getISistema();
         DefaultComboBoxModel<DtAerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
-        for (DtAerolinea a : ManejadorAerolinea.getInstance().getAerolinea()) {
+        for (DtAerolinea a : sistema.getAerolineas()) {
             modeloAerolinea.addElement(a);
         }
         campoAerolinea.setModel(modeloAerolinea);
         campoAerolinea.setSelectedIndex(-1);
     }
 
-    // Actualiza la lista de rutas según la aerolínea seleccionada
     private void actualizarRutas() {
+        ISistema sistema = Fabrica.getInstance().getISistema();
         DtAerolinea seleccionada = (DtAerolinea) campoAerolinea.getSelectedItem();
         DefaultListModel<DtRutaVuelo> modeloRutas = new DefaultListModel<>();
         if (seleccionada != null) {
-            for (DtRutaVuelo r : seleccionada.getRutas()) {
+            for (DtRutaVuelo r : sistema.listarRutasPorAerolinea(seleccionada.getNombre())) {
                 modeloRutas.addElement(r);
             }
         }
         campoRutaVuelo.setModel(modeloRutas);
     }
 
-    // Carga los tipos de asiento del enum
     private void cargarTipoAsiento() {
         DefaultComboBoxModel<TipoAsiento> modeloAsientos = new DefaultComboBoxModel<>();
         for (TipoAsiento t : TipoAsiento.values()) {

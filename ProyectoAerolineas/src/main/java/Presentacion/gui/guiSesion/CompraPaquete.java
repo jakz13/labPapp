@@ -1,6 +1,9 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.*;
+import DataTypes.DtCliente;
+import DataTypes.DtPaquete;
+import Logica.Fabrica;
+import Logica.ISistema;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,10 +31,10 @@ public class CompraPaquete {
 
         aceptarCompraButton.addActionListener(e -> {
 
-            Paquete seleccionado = (Paquete) PaqueteSeleccionado.getSelectedItem();
+            DtPaquete seleccionado = (DtPaquete) PaqueteSeleccionado.getSelectedItem();
             String nomPaquete = (seleccionado != null) ? seleccionado.getNombre() : null;
 
-            Cliente clienteSeleccionado = (Cliente) ClienteElegido.getSelectedItem();
+            DtCliente clienteSeleccionado = (DtCliente) ClienteElegido.getSelectedItem();
             String ClienteElegidoStr = (clienteSeleccionado != null) ? clienteSeleccionado.getNickname() : null;
 
             String costoStr = (String) CostoCalculado.getText();
@@ -82,8 +85,9 @@ public class CompraPaquete {
 
     // Carga paquetes disponibles
     private void cargarPaquetes() {
-        DefaultComboBoxModel<Paquete> modeloPaquetes = new DefaultComboBoxModel<>();
-        for (Paquete p : ManejadorPaquete.getInstance().getPaquetes()) {
+        ISistema sistema = Fabrica.getInstance().getISistema();
+        DefaultComboBoxModel<DtPaquete> modeloPaquetes = new DefaultComboBoxModel<>();
+        for (DtPaquete p : sistema.getPaquetesDisp()) {
             modeloPaquetes.addElement(p);
         }
         PaqueteSeleccionado.setModel(modeloPaquetes);
@@ -91,8 +95,9 @@ public class CompraPaquete {
     }
 
     private void cargarClientes() {
-        DefaultComboBoxModel<Cliente> modeloClientes = new DefaultComboBoxModel<>();
-        for (Cliente c : ManejadorCliente.getInstance().getClientes()) {
+        ISistema sistema = Fabrica.getInstance().getISistema();
+        DefaultComboBoxModel<DtCliente> modeloClientes = new DefaultComboBoxModel<>();
+        for (DtCliente c : sistema.getClientes()) {
             modeloClientes.addElement(c);
         }
         ClienteElegido.setModel(modeloClientes);
@@ -100,10 +105,10 @@ public class CompraPaquete {
     }
 
     private void actualizarCosto() {
-        Paquete seleccionado = (Paquete) PaqueteSeleccionado.getSelectedItem();
+        DtPaquete seleccionado = (DtPaquete) PaqueteSeleccionado.getSelectedItem();
         if (seleccionado != null) {
             // Calculamos el costo total usando el método que ya definimos
-            double costoTotal = seleccionado.calcularCostoReservaPaquete();
+            double costoTotal = seleccionado.getCosto();
 
             // Mostramos el costo en el campo de texto
             CostoCalculado.setText(String.valueOf(costoTotal));

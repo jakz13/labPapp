@@ -1,6 +1,7 @@
 package Logica;
 
 import DataTypes.DtReserva;
+import DataTypes.DtVuelo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -82,4 +83,17 @@ public class Vuelo {
                 .toList();
     }
 
+    public DtVuelo getDtVuelo() {
+        return new DtVuelo(
+                this.nombre,
+                this.NombreAereolinea,
+                this.fecha,
+                this.duracion,
+                this.asientosTurista,
+                this.asientosEjecutivo,
+                this.fechaAlta,
+                this.rutaVuelo.getDtRutaVuelo(), // Asegúrate de tener este método en RutaVuelo
+                this.getDtReservas()
+        );
+    }
 }

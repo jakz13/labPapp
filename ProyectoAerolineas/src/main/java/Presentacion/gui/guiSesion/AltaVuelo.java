@@ -102,7 +102,7 @@ public class AltaVuelo {
                 try {
                     sistema.altaVuelo(Vuelo, aereolinea, Ruta,fecha,  duracion, turista, ejecutivo, fechaAlta);
                     JOptionPane.showMessageDialog(null,
-                            "Ruta creada correctamente.",
+                            "Vuelo creado correctamente.",
                             "Éxito",
                             JOptionPane.INFORMATION_MESSAGE);
                 } catch (IllegalArgumentException ex) {

@@ -49,6 +49,7 @@ public class Reserva {
 
     // ===== Getters y Setters =====
     public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public LocalDate getFecha() { return fecha; }
     public double getCosto() { return costo; }
     public TipoAsiento getTipoAsiento() { return tipoAsiento; }
@@ -56,6 +57,7 @@ public class Reserva {
     public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }
     public List<Pasajero> getPasajeros() { return pasajeros; }
     public Vuelo getVuelo() { return vuelo; }
+    public void setVuelo(Vuelo vuelo) { this.vuelo = vuelo; }
     public String toString() {
         return "Reserva #" + id +
                 " | Vuelo: " + (vuelo != null ? vuelo.getNombre() : "N/A");

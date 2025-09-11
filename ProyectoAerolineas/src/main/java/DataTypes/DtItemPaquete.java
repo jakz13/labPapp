@@ -1,14 +1,14 @@
 package DataTypes;
 
 public class DtItemPaquete {
-    private Long rutaVueloId; // referencia a la ruta de vuelo
+    private DtRutaVuelo rutaVueloId; // referencia a la ruta de vuelo
     private int cantAsientos;
     private String tipoAsiento; // en texto para facilitar transporte
 
     public DtItemPaquete() {
     }
 
-    public DtItemPaquete(Long id, Long rutaVueloId, int cantAsientos, String tipoAsiento) {
+    public DtItemPaquete(Long id,DtRutaVuelo rutaVueloId, int cantAsientos, String tipoAsiento) {
         this.rutaVueloId = rutaVueloId;
         this.cantAsientos = cantAsientos;
         this.tipoAsiento = tipoAsiento;
@@ -17,11 +17,11 @@ public class DtItemPaquete {
     // --- Getters y Setters ---
 
 
-    public Long getRutaVueloId() {
+    public DtRutaVuelo getRutaVuelo() {
         return rutaVueloId;
     }
 
-    public void setRutaVueloId(Long rutaVueloId) {
+    public void setRutaVueloId(DtRutaVuelo rutaVueloId) {
         this.rutaVueloId = rutaVueloId;
     }
 

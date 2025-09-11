@@ -80,6 +80,11 @@ public class ManejadorCliente {
         return (cliente != null) ? new DtCliente(cliente) : null;
     }
 
+    public Cliente obtenerClienteReal(String nickname) {
+        Cliente cliente = clientes.get(nickname);
+        return cliente;
+    }
+
     public Cliente obtenerClientePorDocumento(String numeroDocumento) {
         return clientes.values().stream()
                 .filter(c -> c.getNumeroDocumento().equals(numeroDocumento))
