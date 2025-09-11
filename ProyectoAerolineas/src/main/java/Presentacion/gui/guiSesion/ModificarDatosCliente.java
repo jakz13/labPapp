@@ -27,6 +27,28 @@ public class ModificarDatosCliente {
     public ModificarDatosCliente(String nickname) {
         this.nickname = nickname;
         ISistema sistema = Fabrica.getInstance().getISistema();
+
+        var cliente = sistema.obtenerCliente(nickname);
+        if (cliente != null) {
+            NomNuevo.setText(cliente.getNombre());
+            Apellido.setText(cliente.getApellido());
+            Nacionalidad.setText(cliente.getNacionalidad());
+            Documento.setText(cliente.getNumeroDocumento());
+
+            if (cliente.getTipoDocumento() == TipoDoc.CI) {
+                CiRadioButton.setSelected(true);
+            } else if (cliente.getTipoDocumento() == TipoDoc.PASAPORTE) {
+                PasaporteRadioButton.setSelected(true);
+            }
+
+            LocalDate fecha = cliente.getFechaNacimiento();
+            if (fecha != null) {
+                DiaNacimiento.setSelectedItem(String.valueOf(fecha.getDayOfMonth()));
+                MesNacimiento.setSelectedItem(String.valueOf(fecha.getMonthValue()));
+                AnoNacimiento.setSelectedItem(String.valueOf(fecha.getYear()));
+            }
+        }
+
         modificarButton.addActionListener(e -> {
             String nombre = NomNuevo.getText();
             String apellido = Apellido.getText();

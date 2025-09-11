@@ -41,34 +41,41 @@ public class EligeUsuario {
                 }
             });
 
-            seleccionarButton.addActionListener(e -> {
-                if (nicknameSeleccionado == null || nicknameSeleccionado.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,
-                            "Debe seleccionar un usuario.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
+        seleccionarButton.addActionListener(e -> {
+            if (nicknameSeleccionado == null || nicknameSeleccionado.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar un usuario.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-                JFrame frame;
-                if (sistema.obtenerCliente(nicknameSeleccionado) != null) {
-                    // Abrir modificar cliente
-                    frame = new JFrame("Modificar Cliente");
-                    frame.setContentPane(new ModificarDatosCliente(nicknameSeleccionado).getPanelDeVuelo());
-                } else {
-                    // Abrir modificar aerolínea
-                    frame = new JFrame("Modificar Aerolínea");
-                    frame.setContentPane(new ModificarDatosAereolinea(nicknameSeleccionado).getPanelDeModificacion());
-                }
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
+            JFrame framePrincipal = (JFrame) SwingUtilities.getWindowAncestor(campoUsuarios);
+            framePrincipal.setVisible(false);
 
-                JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(campoUsuarios);
-                topFrame.dispose();
+            JFrame frame;
+            if (sistema.obtenerCliente(nicknameSeleccionado) != null) {
+                frame = new JFrame("Modificar Cliente");
+                frame.setContentPane(new ModificarDatosCliente(nicknameSeleccionado).getPanelDeVuelo());
+            } else {
+                frame = new JFrame("Modificar Aerolínea");
+                frame.setContentPane(new ModificarDatosAereolinea(nicknameSeleccionado).getPanelDeModificacion());
+            }
+
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setBounds(framePrincipal.getBounds());
+
+            frame.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
+                    framePrincipal.setVisible(true);
+                }
             });
 
-            cancelarButton.addActionListener(e -> {
+            frame.setVisible(true);
+        });
+
+
+        cancelarButton.addActionListener(e -> {
                 JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(campoUsuarios);
                 topFrame.dispose();
             });

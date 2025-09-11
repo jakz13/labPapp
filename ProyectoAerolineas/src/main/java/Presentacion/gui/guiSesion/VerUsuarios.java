@@ -1,71 +1,45 @@
-package Presentacion.gui.guiSesion;
+package guiSesion;
 
-
-import DataTypes.DtAerolinea;
-import DataTypes.DtReserva;
-import DataTypes.DtRutaVuelo;
-import DataTypes.DtVuelo;
 import Logica.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-
 public class VerUsuarios {
-    private JPanel panelConsulta;
+    private JPanel panelConsulta;          // creado en el diseñador
     private JComboBox<String> comboBoxUsuarios;
     private JTextArea textAreaDatosUsuario;
-    private JPanel panelBotonesDinamicos;
     private JButton cerrarButton;
-
+    private JPanel JPanelDinamico;         // este es tu contenedor de botones dinámicos
 
     private final ISistema sistema;
-
 
     public VerUsuarios() {
         sistema = Fabrica.getInstance().getISistema();
 
-
-        // --- Inicializar componentes ---
-        panelConsulta = new JPanel(new BorderLayout());
-        comboBoxUsuarios = new JComboBox<>();
-        textAreaDatosUsuario = new JTextArea(10, 40);
+        // --- Configuración inicial ---
+        JPanelDinamico.setLayout(new FlowLayout());
         textAreaDatosUsuario.setEditable(false);
-        cerrarButton = new JButton("Cerrar");
-        panelBotonesDinamicos = new JPanel(new FlowLayout());
 
-
-        // --- Layout general ---
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.add(comboBoxUsuarios, BorderLayout.NORTH);
-        topPanel.add(new JScrollPane(textAreaDatosUsuario), BorderLayout.CENTER);
-
-
-        panelConsulta.add(topPanel, BorderLayout.NORTH);
-        panelConsulta.add(panelBotonesDinamicos, BorderLayout.CENTER);
-        panelConsulta.add(cerrarButton, BorderLayout.SOUTH);
-
-
-        // --- Cargar usuarios ---
+        // --- Cargar usuarios en combo ---
         DefaultComboBoxModel<String> modeloUsuarios = new DefaultComboBoxModel<>();
         for (Cliente c : sistema.listarClientes()) {
             modeloUsuarios.addElement("Cliente:" + c.getNickname());
         }
-        for (DtAerolinea a : sistema.listarAerolineas()) {
+        for (Aerolinea a : sistema.listarAerolineas()) {
             modeloUsuarios.addElement("Aerolinea:" + a.getNickname());
         }
         comboBoxUsuarios.setModel(modeloUsuarios);
         comboBoxUsuarios.setSelectedIndex(-1);
-
 
         // --- Acción al seleccionar usuario ---
         comboBoxUsuarios.addActionListener(e -> {
             String seleccionado = (String) comboBoxUsuarios.getSelectedItem();
             if (seleccionado == null) return;
 
+            // limpiar el panel dinámico
+            JPanelDinamico.removeAll();
 
-            panelBotonesDinamicos.removeAll();
             if (seleccionado.startsWith("Cliente:")) {
                 String nick = seleccionado.substring("Cliente:".length()).trim();
                 mostrarCliente(nick);
@@ -75,20 +49,17 @@ public class VerUsuarios {
                 mostrarAerolinea(nick);
                 generarBotonesAerolinea(nick);
             }
-            panelBotonesDinamicos.revalidate();
-            panelBotonesDinamicos.repaint();
+
+            JPanelDinamico.revalidate();
+            JPanelDinamico.repaint();
         });
 
-
-        // --- Botón cerrar ---
         cerrarButton.addActionListener(e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelConsulta);
             if (topFrame != null) topFrame.dispose();
         });
     }
 
-
-    // --- Mostrar cliente ---
     private void mostrarCliente(String nickname) {
         Cliente c = sistema.obtenerCliente(nickname);
         if (c != null) {
@@ -101,10 +72,8 @@ public class VerUsuarios {
         }
     }
 
-
-    // --- Mostrar aerolínea ---
     private void mostrarAerolinea(String nickname) {
-        DtAerolinea a = sistema.obtenerAerolinea(nickname);
+        Aerolinea a = sistema.obtenerAerolinea(nickname);
         if (a != null) {
             textAreaDatosUsuario.setText(
                     "Aerolinea: " + a.getNombre() + "\n" +
@@ -115,15 +84,12 @@ public class VerUsuarios {
         }
     }
 
-
-    // --- Botones dinámicos para cliente ---
     private void generarBotonesCliente(String nickname) {
         JButton btnReservas = new JButton("Ver Reservas");
         btnReservas.addActionListener(e -> {
             Cliente c = sistema.obtenerCliente(nickname);
-            mostrarListaInteractiva("Reservas del cliente", c.getReservas().toArray());
+            mostrarListaInteractiva("Reservas del cliente", c.getReservas().values().toArray());
         });
-
 
         JButton btnPaquetes = new JButton("Ver Paquetes");
         btnPaquetes.addActionListener(e -> {
@@ -131,18 +97,18 @@ public class VerUsuarios {
             mostrarListaInteractiva("Paquetes del cliente", c.getPaquetesComprados().toArray());
         });
 
-
-        panelBotonesDinamicos.add(btnReservas);
-        panelBotonesDinamicos.add(btnPaquetes);
+        JPanelDinamico.add(btnReservas);
+        JPanelDinamico.add(btnPaquetes);
     }
 
     private void generarBotonesAerolinea(String nickname) {
         JButton btnRutas = new JButton("Ver Rutas de Vuelo");
         btnRutas.addActionListener(e -> {
-            List<DtRutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
+            List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
             mostrarListaInteractiva("Rutas de la aerolínea", rutas.toArray());
         });
-        panelBotonesDinamicos.add(btnRutas);
+
+        JPanelDinamico.add(btnRutas);
     }
 
     private void mostrarListaInteractiva(String titulo, Object[] elementos) {
@@ -172,16 +138,13 @@ public class VerUsuarios {
             }
         });
 
-        // Mostrar el panel dentro de JOptionPane
         JOptionPane.showMessageDialog(panelConsulta, panel, titulo, JOptionPane.PLAIN_MESSAGE);
     }
 
-
-    // --- Obtener detalle como String (para poner en el textArea) ---
     private String obtenerDetalle(Object obj) {
         StringBuilder detalle = new StringBuilder();
 
-        if (obj instanceof DtRutaVuelo r) {
+        if (obj instanceof RutaVuelo r) {
             detalle.append("Ruta: ").append(r.getNombre()).append("\n")
                     .append("Origen: ").append(r.getCiudadOrigen()).append("\n")
                     .append("Destino: ").append(r.getCiudadDestino()).append("\n")
@@ -189,7 +152,7 @@ public class VerUsuarios {
                     .append("Vuelos Asociados: ").append(r.getVuelos().size()).append("\n\n");
 
             detalle.append("=== Vuelos ===\n");
-            for (DtVuelo v : r.getVuelos()) {
+            for (Vuelo v : r.getVuelos().values()) {
                 detalle.append("Vuelo: ").append(v.getNombre()).append("\n")
                         .append("Fecha: ").append(v.getFecha()).append("\n")
                         .append("Duración: ").append(v.getDuracion()).append(" días\n")
@@ -199,7 +162,7 @@ public class VerUsuarios {
                         .append("-------------------------\n");
             }
         }
-        if (obj instanceof DtReserva r) {
+        if (obj instanceof Reserva r) {
             detalle.append("Reserva ID: ").append(r.getId()).append("\n")
                     .append("Costo: $").append(r.getCosto()).append("\n")
                     .append("Tipo Asiento: ").append(r.getTipoAsiento()).append("\n")
@@ -225,8 +188,6 @@ public class VerUsuarios {
 
         return detalle.toString();
     }
-
-
 
     public Container getPanelConsulta() {
         return panelConsulta;

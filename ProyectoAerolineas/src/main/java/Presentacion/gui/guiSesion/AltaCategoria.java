@@ -1,4 +1,4 @@
-package Presentacion.gui.guiSesion;
+package guiSesion;
 
 import Logica.Fabrica;
 import Logica.ISistema;
@@ -11,7 +11,7 @@ public class AltaCategoria {
     private JButton aceptarButton;
     private JButton cancelarButton;
 
-    AltaCategoria(){
+    public AltaCategoria(){
         ISistema sistema = Fabrica.getInstance().getISistema();
 
         aceptarButton.addActionListener(e -> {
@@ -38,7 +38,6 @@ public class AltaCategoria {
             topFrame.dispose();
         });
     }
-
     public JPanel getPanel1() {
         return panel1;
     }

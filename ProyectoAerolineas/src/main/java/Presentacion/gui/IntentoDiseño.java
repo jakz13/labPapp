@@ -28,6 +28,8 @@ public class IntentoDiseño {
     private JButton ANIADIRPAQUETE;
     private JButton CONSULTARUTA;
     private JButton USUARIOS;
+    private JButton CREARCATEGORIA;
+    private JButton CONSULTARPAQUETE;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -295,6 +297,50 @@ public class IntentoDiseño {
                 VerUsuarios VU = new VerUsuarios();
                 JFrame frameSesion = new JFrame("Consulta usuario");
                 frameSesion.setContentPane(VU.getPanelConsulta());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        CREARCATEGORIA.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                framePrincipal.setVisible(false);
+
+                AltaCategoria ACE = new AltaCategoria();
+                JFrame frameSesion = new JFrame("Crear categoria");
+                frameSesion.setContentPane(ACE.getPanel1());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        CONSULTARPAQUETE.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                framePrincipal.setVisible(false);
+
+                ConsultaPaquete CPP = new ConsultaPaquete();
+                JFrame frameSesion = new JFrame("Consulta paquete");
+                frameSesion.setContentPane(CPP.getPanelConsultaPaquete());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 
