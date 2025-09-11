@@ -292,9 +292,9 @@ public class IntentoDiseño {
             public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
 
-                CompraPaquete CPQ = new CompraPaquete();
+                AltaPaquete APP = new AltaPaquete();
                 JFrame frameSesion = new JFrame("Consulta Vuelo");
-                frameSesion.setContentPane(CPQ.getPanelDeSesion());
+                frameSesion.setContentPane(APP.getPanel1());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 

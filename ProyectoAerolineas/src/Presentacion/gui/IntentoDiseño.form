@@ -162,7 +162,7 @@
                   <enabled value="true"/>
                   <font name="Segoe UI Black"/>
                   <foreground color="-13421773"/>
-                  <text value="COMPRAR UN PAQUETE"/>
+                  <text value="AÑADIR UN PAQUETE"/>
                 </properties>
               </component>
             </children>
