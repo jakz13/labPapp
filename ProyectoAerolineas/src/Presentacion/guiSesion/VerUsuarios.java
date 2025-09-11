@@ -14,6 +14,7 @@ public class VerUsuarios {
     private JTextArea textAreaDatosUsuario;
     private JPanel panelBotonesDinamicos;
     private JButton cerrarButton;
+    private JPanel JPanelDinamico;
 
 
     private final ISistema sistema;
@@ -24,12 +25,8 @@ public class VerUsuarios {
 
 
         // --- Inicializar componentes ---
-        panelConsulta = new JPanel(new BorderLayout());
-        comboBoxUsuarios = new JComboBox<>();
-        textAreaDatosUsuario = new JTextArea(10, 40);
-        textAreaDatosUsuario.setEditable(false);
-        cerrarButton = new JButton("Cerrar");
-        panelBotonesDinamicos = new JPanel(new FlowLayout());
+        JPanelDinamico.setLayout(new FlowLayout());
+
 
 
         // --- Layout general ---
@@ -39,7 +36,7 @@ public class VerUsuarios {
 
 
         panelConsulta.add(topPanel, BorderLayout.NORTH);
-        panelConsulta.add(panelBotonesDinamicos, BorderLayout.CENTER);
+        panelConsulta.add(JPanelDinamico, BorderLayout.CENTER);
         panelConsulta.add(cerrarButton, BorderLayout.SOUTH);
 
 
@@ -61,7 +58,7 @@ public class VerUsuarios {
             if (seleccionado == null) return;
 
 
-            panelBotonesDinamicos.removeAll();
+            JPanelDinamico.removeAll();
             if (seleccionado.startsWith("Cliente:")) {
                 String nick = seleccionado.substring("Cliente:".length()).trim();
                 mostrarCliente(nick);
@@ -71,8 +68,8 @@ public class VerUsuarios {
                 mostrarAerolinea(nick);
                 generarBotonesAerolinea(nick);
             }
-            panelBotonesDinamicos.revalidate();
-            panelBotonesDinamicos.repaint();
+            JPanelDinamico.revalidate();
+            JPanelDinamico.repaint();
         });
 
 
@@ -128,8 +125,8 @@ public class VerUsuarios {
         });
 
 
-        panelBotonesDinamicos.add(btnReservas);
-        panelBotonesDinamicos.add(btnPaquetes);
+        JPanelDinamico.add(btnReservas);
+        JPanelDinamico.add(btnPaquetes);
     }
 
     private void generarBotonesAerolinea(String nickname) {
@@ -138,7 +135,7 @@ public class VerUsuarios {
             List<RutaVuelo> rutas = sistema.listarRutasPorAerolinea(nickname);
             mostrarListaInteractiva("Rutas de la aerolínea", rutas.toArray());
         });
-        panelBotonesDinamicos.add(btnRutas);
+        JPanelDinamico.add(btnRutas);
     }
 
     private void mostrarListaInteractiva(String titulo, Object[] elementos) {
@@ -168,7 +165,6 @@ public class VerUsuarios {
             }
         });
 
-        // Mostrar el panel dentro de JOptionPane
         JOptionPane.showMessageDialog(panelConsulta, panel, titulo, JOptionPane.PLAIN_MESSAGE);
     }
 
