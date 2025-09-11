@@ -2,6 +2,7 @@
 
 import Logica.Fabrica;
 import Logica.ISistema;
+import Logica.Pasajero;
 import gui.IntentoDiseño;
 import javax.swing.*;
 import java.time.LocalDate;
@@ -101,6 +102,34 @@ public class Main {
         } catch (Exception e) {
         }
 
+// Reservas de prueba para Ana y Juan
+        try {
+            // Reserva para Ana en el vuelo LATAM001-SCLMIA
+            sistema.crearYRegistrarReserva(
+                    "ana456",
+                    "LATAM001-SCLMIA",
+                    LocalDate.now(),
+                    sistema.calcularCostoReserva("LATAM001-SCLMIA", Logica.TipoAsiento.TURISTA, 1, 0),
+                    Logica.TipoAsiento.TURISTA,
+                    1,
+                    0,
+                    java.util.Arrays.asList(sistema.crearPasajero("Aglae", "Locher"))
+            );
+
+            // Reserva para Juan en el vuelo AA001-JFKLAX
+            sistema.crearYRegistrarReserva(
+                    "juan123",
+                    "AA001-JFKLAX",
+                    LocalDate.now(),
+                    sistema.calcularCostoReserva("AA001-JFKLAX", Logica.TipoAsiento.EJECUTIVO, 2, 1),
+                    Logica.TipoAsiento.EJECUTIVO,
+                    2,
+                    1,
+                    java.util.Arrays.asList(sistema.crearPasajero("Juan", "Callero"))
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Ventana Principal");

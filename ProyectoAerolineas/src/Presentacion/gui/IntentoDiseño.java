@@ -15,7 +15,6 @@ public class IntentoDiseño {
     public JLabel label1;
     public JPanel PanelInferiorizq;
     public JButton AltaClienteButton;
-    private JButton MOSTRARUSUARIOSbutton;
     private JPanel PanelUsuarios;
     private JButton AltaAereolinea;
     private JButton ALTACIUDADButton;
@@ -29,6 +28,8 @@ public class IntentoDiseño {
     private JButton ANIADIRPAQUETE;
     private JButton CONSULTARUTA;
     private JButton USUARIOS;
+    private JButton CREARCATEGORIA;
+    private JButton CONSULTARPAQUETE;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -51,27 +52,6 @@ public class IntentoDiseño {
                 });
 
                 frameSesion.setVisible(true);
-            }
-        });
-        MOSTRARUSUARIOSbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                    framePrincipal.setVisible(false);
-
-                    DesplegarUsuarios DS = new DesplegarUsuarios(Fabrica.getInstance().getISistema().listarClientes());
-                    JFrame frameSesion = new JFrame("Inicio de Sesión");
-                    frameSesion.setContentPane(DS.getPanelUsuarios());
-                    frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    frameSesion.setBounds(framePrincipal.getBounds());
-
-                    frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
-                        @Override
-                        public void windowClosed(java.awt.event.WindowEvent e) {
-                            framePrincipal.setVisible(true);
-                        }
-                    });
-
-                    frameSesion.setVisible(true);
             }
         });
         AltaAereolinea.addActionListener(new ActionListener() {
@@ -251,7 +231,7 @@ public class IntentoDiseño {
                 framePrincipal.setVisible(false);
 
                 ReservaVuelo RV = new ReservaVuelo();
-                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                JFrame frameSesion = new JFrame("Reservar Vuelo");
                 frameSesion.setContentPane(RV.getPanelReserva());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
@@ -272,7 +252,7 @@ public class IntentoDiseño {
                 framePrincipal.setVisible(false);
 
                 ConsultaRutaVuelo CRV = new ConsultaRutaVuelo();
-                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                JFrame frameSesion = new JFrame("Consulta de ruta de vuelo");
                 frameSesion.setContentPane(CRV.getPanelConsultaRuta());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
@@ -292,9 +272,9 @@ public class IntentoDiseño {
             public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
 
-                AltaPaquete APP = new AltaPaquete();
+                CompraPaquete CPQ = new CompraPaquete();
                 JFrame frameSesion = new JFrame("Consulta Vuelo");
-                frameSesion.setContentPane(APP.getPanel1());
+                frameSesion.setContentPane(CPQ.getPanelDeSesion());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 
@@ -308,14 +288,59 @@ public class IntentoDiseño {
                 frameSesion.setVisible(true);
             }
         });
+
         USUARIOS.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
 
                 VerUsuarios VU = new VerUsuarios();
-                JFrame frameSesion = new JFrame("Consulta Vuelo");
+                JFrame frameSesion = new JFrame("Consulta usuario");
                 frameSesion.setContentPane(VU.getPanelConsulta());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        CREARCATEGORIA.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                framePrincipal.setVisible(false);
+
+                AltaCategoria ACE = new AltaCategoria();
+                JFrame frameSesion = new JFrame("Crear categoria");
+                frameSesion.setContentPane(ACE.getPanel1());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        CONSULTARPAQUETE.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                framePrincipal.setVisible(false);
+
+                ConsultaPaquete CPP = new ConsultaPaquete();
+                JFrame frameSesion = new JFrame("Consulta paquete");
+                frameSesion.setContentPane(CPP.getPanelConsultaPaquete());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 

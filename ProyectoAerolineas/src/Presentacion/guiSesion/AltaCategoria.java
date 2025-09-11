@@ -11,7 +11,7 @@ public class AltaCategoria {
     private JButton aceptarButton;
     private JButton cancelarButton;
 
-    AltaCategoria(){
+    public AltaCategoria(){
         ISistema sistema = Fabrica.getInstance().getISistema();
 
         aceptarButton.addActionListener(e -> {
@@ -37,5 +37,8 @@ public class AltaCategoria {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel1);
             topFrame.dispose();
         });
+    }
+    public JPanel getPanel1() {
+        return panel1;
     }
 }

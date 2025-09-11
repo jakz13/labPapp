@@ -1,6 +1,7 @@
 package Logica;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,9 @@ public class ManejadorCategoria {
     }
     public Categoria buscarCategorias(String nombre) {
         return categorias.get(nombre);
+    }
+    public List<Categoria> getCategorias() {
+        return new ArrayList<>(categorias.values());
     }
 
 }
