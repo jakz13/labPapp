@@ -15,8 +15,6 @@ public class DtPaquete {
     private int periodoValidezDias;
     private List<DtItemPaquete> items = new ArrayList<>();
 
-    public DtPaquete() {
-    }
 
     public DtPaquete(String nombre, String descripcion, double costo,
                      LocalDate fechaAlta, int descuentoPorc,
@@ -39,9 +37,6 @@ public class DtPaquete {
         this.fechaAlta = p.getFechaAlta();
         this.descuentoPorc = p.getDescuentoPorc();
         this.periodoValidezDias = p.getPeriodoValidezDias();
-        for (Logica.ItemPaquete ip : p.getItems()) {
-            this.items.add(new DtItemPaquete(ip));
-        }
     }
 
     // --- Getters y Setters ---

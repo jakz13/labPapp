@@ -3,6 +3,8 @@ package Logica;
 import java.time.LocalDate;
 import java.util.List;
 import DataTypes.*;
+import Logica.TipoDoc;
+
 
 public interface ISistema {
     // Usuarios

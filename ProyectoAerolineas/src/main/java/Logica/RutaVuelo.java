@@ -101,4 +101,34 @@ public class RutaVuelo {
         return dtVuelos;
     }
 
+    public DataTypes.DtRutaVuelo getDtRutaVuelo() {
+        // Obtener el nombre de la aerolínea (o null si no hay)
+        String nombreAerolinea = (aerolinea != null) ? aerolinea.getNombre() : null;
+
+        // Obtener la lista de nombres de vuelos
+        List<String> nombresVuelos = new ArrayList<>();
+        for (Vuelo v : vuelos) {
+            nombresVuelos.add(v.getNombre());
+        }
+
+        // Obtener la lista de DtVuelo
+        List<DtVuelo> dtVuelos = getDtVuelos();
+
+        return new DataTypes.DtRutaVuelo(
+                nombre,
+                descripcion,
+                nombreAerolinea,
+                ciudadOrigen,
+                ciudadDestino,
+                hora,
+                fechaAlta,
+                costoTurista,
+                costoEjecutivo,
+                costoEquipajeExtra,
+                categorias,
+                dtVuelos
+        );
+    }
+
+
 }

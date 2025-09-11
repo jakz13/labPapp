@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+
 public class DtVuelo {
     private String nombre;
     private String nombreAerolinea;

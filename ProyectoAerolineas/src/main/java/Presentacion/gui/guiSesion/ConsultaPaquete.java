@@ -48,9 +48,7 @@ public class ConsultaPaquete {
 
                 textAreaInfoRuta.setText(infoRuta.toString());
 
-
-                // 🔹 Cargar los vuelos asociados al comboBox
-                for (Vuelo v : seleccionada.getVuelos().values()) {
+                for (Vuelo v : seleccionada.getVuelos()) {
                     modeloVuelos.addElement(v);
                 }
             } else {
