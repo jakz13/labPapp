@@ -72,4 +72,8 @@ public interface ISistema {
     public List<Object> obtenerDatosAdicionalesUsuario(String nickname);
 
     public void altaCategoria(String nomCat);
+
+    public List<Ciudad> listarCiudades();
+
+    public List<Categoria> listarCategorias();
 }

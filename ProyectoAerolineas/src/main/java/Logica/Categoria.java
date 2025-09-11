@@ -25,5 +25,6 @@ public class Categoria {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
 }
 

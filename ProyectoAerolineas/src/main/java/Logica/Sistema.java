@@ -410,5 +410,15 @@ public class Sistema implements ISistema {
         return adicionales;
     }
 
+    @Override
+    public List<Ciudad> listarCiudades() {
+        return manejadorCiudad.getCiudades();
+    }
+
+    @Override
+    public List<Categoria> listarCategorias() {
+        return ManejadorCategoria.getCategorias();
+    }
+
 
 }

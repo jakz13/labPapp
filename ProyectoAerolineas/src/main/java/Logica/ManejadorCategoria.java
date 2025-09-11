@@ -57,4 +57,5 @@ public class ManejadorCategoria {
     public Map<String, Categoria> getCategorias() {
         return categorias;
     }
+
 }
