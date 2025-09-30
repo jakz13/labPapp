@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Viajes</title> <!-- Titulo que aparece en la pestaña -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Juan Viajes</a> <!-- Titulo que aparece arriba a la izquierda -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vuelos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Paquetes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Ciudades</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container mt-4">
+        <div class="jumbotron">
+            <h1 class="display-4">Bienvenido a Juan Viajes</h1>
+            <p class="lead">Tu mejor opción para reservar vuelos y paquetes turísticos.</p>
+            <hr class="my-4">
+            <p>Explora nuestras ofertas y destinos exclusivos.</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Ver Vuelos</a>
+            <a class="btn btn-secondary btn-lg" href="#" role="button">Ver Paquetes</a>
+        </div>
+
+        <section>
+            <h2>Destinos Populares</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="images/paris.jpg" class="card-img-top" alt="París">
+                        <div class="card-body">
+                            <h5 class="card-title">París</h5>
+                            <p class="card-text">La ciudad del amor y la luz.</p>
+                            <a href="#" class="btn btn-primary">Ver Más</a>
+                        </div>
+                    </div>
+                </div>
 
 </body>
 </html>
