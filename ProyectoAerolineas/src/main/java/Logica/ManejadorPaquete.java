@@ -87,18 +87,24 @@ public class ManejadorPaquete {
         }
 
         CompraPaqLogica nuevaCompra = new CompraPaqLogica(clienteObj, p, fechaC, validezDias, costo);
-        p.getCompras().add(nuevaCompra);
-        clienteObj.getPaquetesComprados().add(p);
 
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
+
+            // Persistir la compra
+            em.persist(nuevaCompra);
+
+            // Agregar a las listas
+            p.getCompras().add(nuevaCompra);
+            clienteObj.getComprasPaquetes().add(nuevaCompra);
+
             em.merge(p);
             em.merge(clienteObj);
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
+            throw new RuntimeException("Error al comprar el paquete: " + e.getMessage(), e);
         }
     }
 

@@ -29,13 +29,8 @@ public class Cliente extends Usuario {
     @JoinColumn(name = "cliente_nickname") // FK en tabla Reserva
     private List<Reserva> reservas = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "cliente_paquete",
-            joinColumns = @JoinColumn(name = "cliente_id"),
-            inverseJoinColumns = @JoinColumn(name = "paquete_id")
-    )
-    private List<Paquete> paquetesComprados = new ArrayList<>();
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompraPaqLogica> comprasPaquetes = new ArrayList<>();
 
     public Cliente() {
     }
@@ -70,8 +65,9 @@ public class Cliente extends Usuario {
     public List<Reserva> getReservas() { return reservas; }
     public void setReservas(List<Reserva> reservas) { this.reservas = reservas; }
 
-    public List<Paquete> getPaquetesComprados() { return paquetesComprados; }
-    public void setPaquetesComprados(List<Paquete> paquetesComprados) { this.paquetesComprados = paquetesComprados; }
+    public List<CompraPaqLogica> getComprasPaquetes() { return comprasPaquetes; }
+    public void setComprasPaquetes(List<CompraPaqLogica> comprasPaquetes) { this.comprasPaquetes = comprasPaquetes; }
+
 
     public void agregarReserva(Reserva reserva) {
         reservas.add(reserva);
@@ -91,8 +87,8 @@ public class Cliente extends Usuario {
 
     public List<DtPaquete> getDtPaquetesComprados() {
         List<DtPaquete> dtPaquetes = new ArrayList<>();
-        for (Paquete p : paquetesComprados) {
-            dtPaquetes.add(new DtPaquete(p));
+        for (CompraPaqLogica compra : comprasPaquetes) {
+            dtPaquetes.add(new DtPaquete(compra.getPaquete()));
         }
         return dtPaquetes;
     }

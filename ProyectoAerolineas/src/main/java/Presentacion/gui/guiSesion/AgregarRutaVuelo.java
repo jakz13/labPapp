@@ -39,11 +39,42 @@ public class AgregarRutaVuelo {
             TipoAsiento tipoAsiento = (TipoAsiento) campoTipoAsiento.getSelectedItem();
             String cantidadAsientoStr = campoCantidadAsiento.getText().trim();
 
-            // Validar campos
-            if (paquete == null || aerolinea == null || rutaVuelo == null ||
-                    tipoAsiento == null || cantidadAsientoStr.isEmpty()) {
+            // Validar campos específicos
+            if (paquete == null) {
                 JOptionPane.showMessageDialog(null,
-                        "Debe completar todos los campos.",
+                        "Debe seleccionar un paquete.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (aerolinea == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar una aerolínea.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (rutaVuelo == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar una ruta de vuelo.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (tipoAsiento == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar un tipo de asiento.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (cantidadAsientoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe ingresar la cantidad de asientos.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -52,9 +83,16 @@ public class AgregarRutaVuelo {
             int cantidadAsiento;
             try {
                 cantidadAsiento = Integer.parseInt(cantidadAsientoStr);
+                if (cantidadAsiento <= 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "La cantidad de asientos debe ser mayor a 0.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null,
-                        "Cantidad de Asientos debe ser un número entero válido.",
+                        "La cantidad de asientos debe ser un número entero válido.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -66,9 +104,19 @@ public class AgregarRutaVuelo {
                         "Ruta de vuelo agregada correctamente al paquete.",
                         "Éxito",
                         JOptionPane.INFORMATION_MESSAGE);
+
+                // Limpiar campos después del éxito
+                campoCantidadAsiento.setText("");
+                campoRutaVuelo.clearSelection();
+
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null,
-                        "Error al agregar la ruta: " + ex.getMessage(),
+                        "Error inesperado al agregar la ruta: " + ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             }

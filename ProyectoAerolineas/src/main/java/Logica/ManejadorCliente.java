@@ -8,8 +8,8 @@ import java.util.*;
 
 public class ManejadorCliente {
 
-    private Map<String, Cliente> clientes;
-    public static ManejadorCliente instancia = null;
+    private final Map<String, Cliente> clientes;
+    private static volatile ManejadorCliente instancia = null;
 
     private ManejadorCliente() {
         clientes = new HashMap<>();
@@ -17,7 +17,11 @@ public class ManejadorCliente {
 
     public static ManejadorCliente getInstance() {
         if (instancia == null) {
-            instancia = new ManejadorCliente();
+            synchronized (ManejadorCliente.class) {
+                if (instancia == null) {
+                    instancia = new ManejadorCliente();
+                }
+            }
         }
         return instancia;
     }
@@ -32,19 +36,25 @@ public class ManejadorCliente {
     }
 
     public void agregarCliente(Cliente c, EntityManager em) {
+        if (c == null) {
+            throw new IllegalArgumentException("El cliente no puede ser null");
+        }
         if (this.obtenerCliente(c.getNickname()) == null &&
                 this.obtenerClientePorDocumento(c.getNumeroDocumento()) == null &&
                 this.obtenerClientePorEmail(c.getEmail()) == null) {
 
-            clientes.put(c.getNickname(), c);
             EntityTransaction tx = em.getTransaction();
             try {
                 tx.begin();
                 em.persist(c);
+                clientes.put(c.getNickname(), c);
                 tx.commit();
             } catch (Exception e) {
-                if (tx.isActive()) tx.rollback();
-                e.printStackTrace();
+                if (tx.isActive()) {
+                    tx.rollback();
+                }
+                clientes.remove(c.getNickname());
+                throw new RuntimeException("Error al persistir el cliente: " + e.getMessage(), e);
             }
 
         } else {
@@ -53,6 +63,9 @@ public class ManejadorCliente {
     }
 
     public void modificarDatosCliente(DtCliente clienteTemporal, EntityManager em) {
+        if (clienteTemporal == null) {
+            throw new IllegalArgumentException("Los datos del cliente no pueden ser null");
+        }
         Cliente clienteOriginal = obtenerClienteReal(clienteTemporal.getNickname());
         if (clienteOriginal == null) throw new IllegalArgumentException("Cliente no encontrado");
 
@@ -69,12 +82,12 @@ public class ManejadorCliente {
             em.merge(clienteOriginal);
             tx.commit();
         } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw new RuntimeException("Error al modificar el cliente: " + e.getMessage(), e);
         }
     }
-
-
 
     // =================== Consultas en memoria ===================
     public DtCliente obtenerCliente(String nickname) {
@@ -105,11 +118,30 @@ public class ManejadorCliente {
         return lista;
     }
 
-    public void agregarReserva(Reserva reserva, String nicknameCliente, String idReserva) {
+    public void agregarReserva(Reserva reserva, String nicknameCliente, String idReserva, EntityManager em) {
         DtCliente cliente = obtenerCliente(nicknameCliente);
         Cliente clienteObj = clientes.get(nicknameCliente);
-        if (cliente != null) clienteObj.agregarReserva(reserva);
-        else throw new IllegalArgumentException("Cliente no encontrado");
+        if (cliente == null || clienteObj == null) {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+
+            em.persist(reserva);
+
+            clienteObj.agregarReserva(reserva);
+
+            em.merge(clienteObj);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw new RuntimeException("Error al agregar la reserva: " + e.getMessage(), e);
+        }
     }
 
 

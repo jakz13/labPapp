@@ -24,23 +24,37 @@ public class ManejadorVuelo {
 
     // =================== CRUD BD ===================
     public void cargarVuelosDesdeBD(EntityManager em) {
-        TypedQuery<Vuelo> query = em.createQuery("SELECT v FROM Vuelo v", Vuelo.class);
+        TypedQuery<Vuelo> query = em.createQuery("SELECT v FROM Vuelo v LEFT JOIN FETCH v.reservasList", Vuelo.class);
         List<Vuelo> vuelosPersistidos = query.getResultList();
         for (Vuelo v : vuelosPersistidos) {
+            // Sincronizar el Map con las reservas cargadas
+            v.getReservas(); // Esto sincroniza el Map
             vuelos.put(v.getNombre(), v);
         }
     }
 
     public void agregarVuelo(Vuelo vuelo, EntityManager em) {
-        vuelos.put(vuelo.getNombre(), vuelo);
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
             em.persist(vuelo);
+            vuelos.put(vuelo.getNombre(), vuelo);
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
+            throw new RuntimeException("Error al agregar el vuelo: " + e.getMessage(), e);
+        }
+    }
+
+    public void actualizarVuelo(Vuelo vuelo, EntityManager em) {
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.merge(vuelo);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Error al actualizar el vuelo: " + e.getMessage(), e);
         }
     }
 

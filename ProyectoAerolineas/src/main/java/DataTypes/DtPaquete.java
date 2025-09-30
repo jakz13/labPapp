@@ -37,6 +37,34 @@ public class DtPaquete {
         this.fechaAlta = p.getFechaAlta();
         this.descuentoPorc = p.getDescuentoPorc();
         this.periodoValidezDias = p.getPeriodoValidezDias();
+
+        if (p.getItemPaquetes() != null) {
+            for (Logica.ItemPaquete item : p.getItemPaquetes()) {
+                Logica.RutaVuelo ruta = item.getRutaVuelo();
+                DtRutaVuelo dtRuta = new DtRutaVuelo(
+                        ruta.getNombre(),
+                        ruta.getDescripcion(),
+                        ruta.getAerolinea().getNombre(),
+                        ruta.getCiudadOrigen(),
+                        ruta.getCiudadDestino(),
+                        ruta.getHora(),
+                        ruta.getFechaAlta(),
+                        ruta.getCostoTurista(),
+                        ruta.getCostoEjecutivo(),
+                        ruta.getCostoEquipajeExtra(),
+                        ruta.getCategorias(),
+                        ruta.getDtVuelos()
+                );
+
+                DtItemPaquete dtItem = new DtItemPaquete(
+                        dtRuta,
+                        item.getCantAsientos(),
+                        item.getTipoAsiento().toString()
+                );
+
+                this.items.add(dtItem);
+            }
+        }
     }
 
     // --- Getters y Setters ---

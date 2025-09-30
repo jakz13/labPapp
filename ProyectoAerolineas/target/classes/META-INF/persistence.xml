@@ -9,13 +9,6 @@
         <class>Logica.Cliente</class>
         <class>Logica.CompraPaqLogica</class>
         <class>Logica.ItemPaquete</class>
-        <class>Logica.ManejadorAerolinea</class>
-        <class>Logica.ManejadorCategoria</class>
-        <class>Logica.ManejadorCiudad</class>
-        <class>Logica.ManejadorCliente</class>
-        <class>Logica.ManejadorPaquete</class>
-        <class>Logica.ManejadorVuelo</class>
-        <class>Logica.ManejadorRutaVuelo</class>
         <class>Logica.Paquete</class>
         <class>Logica.Pasajero</class>
         <class>Logica.Reserva</class>

@@ -37,7 +37,28 @@ public class CompraPaquete {
             DtCliente clienteSeleccionado = (DtCliente) ClienteElegido.getSelectedItem();
             String ClienteElegidoStr = (clienteSeleccionado != null) ? clienteSeleccionado.getNickname() : null;
 
-            String costoStr = (String) CostoCalculado.getText();
+            // Validar selecciones
+            if (nomPaquete == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar un paquete.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (ClienteElegidoStr == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar un cliente.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String costoStr = CostoCalculado.getText().trim();
+            if (costoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "El costo no puede estar vacío.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             String diaStr = (String) Dia.getSelectedItem();
             String mesStr = (String) Mes.getSelectedItem();
             String anioStr = (String) Ano.getSelectedItem();
@@ -53,10 +74,18 @@ public class CompraPaquete {
             int mes = Integer.parseInt(mesStr);
             int anio = Integer.parseInt(anioStr);
 
-            LocalDate fecha = LocalDate.of(anio, mes, dia);
+            LocalDate fechaVencimiento = LocalDate.of(anio, mes, dia);
             LocalDate hoy = LocalDate.now();
 
-            long diasValidez = ChronoUnit.DAYS.between(hoy, fecha);
+            // Validar que la fecha de vencimiento sea futura
+            if (fechaVencimiento.isBefore(hoy) || fechaVencimiento.isEqual(hoy)) {
+                JOptionPane.showMessageDialog(null,
+                        "La fecha de vencimiento debe ser futura.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            long diasValidez = ChronoUnit.DAYS.between(hoy, fechaVencimiento);
 
             double costo = Double.parseDouble(costoStr);
 
@@ -74,7 +103,6 @@ public class CompraPaquete {
             //compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo)
         });
 
-        // Acción del botón Cancelar
         cancelarCompraButton.addActionListener(e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(PaqueteSeleccionado);
             if (topFrame != null) {

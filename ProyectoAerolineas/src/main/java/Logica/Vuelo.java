@@ -4,6 +4,7 @@ import DataTypes.DtReserva;
 import DataTypes.DtVuelo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +29,9 @@ public class Vuelo {
     @JoinColumn(name = "ruta_vuelo_id")
     private RutaVuelo rutaVuelo;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "vuelo_id")
-    @MapKey(name = "id") // usa el campo 'id' de Reserva como clave del Map
+    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Reserva> reservasList = new ArrayList<>();
+    @Transient
     private Map<String, Reserva> reservas = new HashMap<>();
 
     public Vuelo() {}
@@ -55,11 +56,19 @@ public class Vuelo {
     public int getAsientosEjecutivo() { return asientosEjecutivo; }
     public LocalDate getFechaAlta() { return fechaAlta; }
     public RutaVuelo getRutaVuelo() { return rutaVuelo; }
-    public Map<String, Reserva> getReservas() { return reservas; }
+    public Map<String, Reserva> getReservas() {
+        reservas.clear();
+        for (Reserva r : reservasList) {
+            reservas.put(r.getId(), r);
+        }
+        return reservas;
+    }
 
     public void agregarReserva(String idReserva, Reserva reserva) {
+        reservasList.add(reserva);
         reservas.put(idReserva, reserva);
     }
+    public List<Reserva> getReservasList() { return reservasList; }
     public String getRutaVueloNombre() {
         return rutaVuelo.getNombre();
     }
@@ -69,15 +78,15 @@ public class Vuelo {
     }
 
     public List<DtReserva> getDtReservas() {
-        return reservas.values().stream()
+        return reservasList.stream()
                 .map(reserva -> new DtReserva(
                         reserva.getId(),
                         reserva.getFecha(),
                         reserva.getCosto(),
-                        reserva.getTipoAsiento(), // Debes tener este método en Reserva
-                        reserva.getCantidadPasajes(), // Debes tener este método en Reserva
-                        reserva.getUnidadesEquipajeExtra(), // Debes tener este método en Reserva
-                        reserva.getDtPasajeros(), // Debes tener este método en Reserva
+                        reserva.getTipoAsiento(),
+                        reserva.getCantidadPasajes(),
+                        reserva.getUnidadesEquipajeExtra(),
+                        reserva.getDtPasajeros(),
                         this.getNombre()
                 ))
                 .toList();

@@ -64,10 +64,53 @@ public class InicioSesion {
                 String anioStr = (String) AnoNacimiento.getSelectedItem();
 
 
-                if (nombreUsuario.isEmpty() || nombreCliente.isEmpty() || email.isEmpty() || documento.isEmpty() || apellido.isEmpty() ||  (!CiRadioButton.isSelected() && !PasaporteRadioButton.isSelected())) {
+                // Validaciones específicas de campos
+                if (nombreUsuario.isEmpty()) {
                     JOptionPane.showMessageDialog(null,
-                            "Debe completar todos los campos.",
-                            "Error de salame", JOptionPane.ERROR_MESSAGE);
+                            "El nombre de usuario es obligatorio.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (nombreCliente.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                            "El nombre del cliente es obligatorio.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (apellido.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                            "El apellido es obligatorio.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (email.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                            "El email es obligatorio.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (documento.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                            "El documento es obligatorio.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (nacionalidad.isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                            "La nacionalidad es obligatoria.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (!CiRadioButton.isSelected() && !PasaporteRadioButton.isSelected()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Debe seleccionar un tipo de documento.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if (diaStr.equals("Día") || mesStr.equals("Mes") || anioStr.equals("Año")) {
@@ -117,17 +160,34 @@ public class InicioSesion {
                 }
                 try {
                     sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email, fecha, nacionalidad, tipoDoc, documento);
+                    JOptionPane.showMessageDialog(null,
+                            "Usuario creado correctamente.",
+                            "Éxito",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                    // Limpiar campos después del éxito
+                    NombreUsuario.setText("");
+                    NombreCliente.setText("");
+                    Apellido.setText("");
+                    EmailUsuario.setText("");
+                    Documento.setText("");
+                    NacionalidadCliente.setText("");
+                    grupoDocumento.clearSelection();
+                    DiaNacimiento.setSelectedItem("Día");
+                    MesNacimiento.setSelectedItem("Mes");
+                    AnoNacimiento.setSelectedItem("Año");
+
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null,
                             ex.getMessage(),
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
-                    return;
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null,
+                            "Error inesperado al crear el usuario: " + ex.getMessage(),
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
-                JOptionPane.showMessageDialog(null,
-                        "Usuario creado correctamente.",
-                        "Éxito",
-                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
         cancelarButton.addActionListener(new ActionListener() {

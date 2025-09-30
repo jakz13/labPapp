@@ -29,33 +29,78 @@ public class AltaPaquete {
             String descuentoStr = campoDescuento.getText().trim();
             String validezStr = campoValidez.getText().trim();
 
-            if (nombre.isEmpty() || descripcion.isEmpty()) {
+            // Validaciones de campos obligatorios
+            if (nombre.isEmpty()) {
                 JOptionPane.showMessageDialog(null,
-                        "Debe completar los campos obligatorios: Nombre, Descripción y Descuento.",
+                        "El nombre del paquete es obligatorio.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
+            if (descripcion.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "La descripción del paquete es obligatoria.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validar campos numéricos
             int descuento = 0;
             int validez = 0;
+
+            if (descuentoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "El descuento es obligatorio.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (validezStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "El período de validez es obligatorio.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             try {
                 descuento = Integer.parseInt(descuentoStr);
                 validez = Integer.parseInt(validezStr);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null,
-                        "Descuento y validez deben ser números enteros.",
+                        "Descuento y validez deben ser números enteros válidos.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            sistema.altaPaquete(nombre, descripcion, descuento, validez);
+            try {
+                sistema.altaPaquete(nombre, descripcion, descuento, validez);
+                JOptionPane.showMessageDialog(null,
+                        "Paquete creado correctamente.",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
 
-            JOptionPane.showMessageDialog(null,
-                    "Paquete creado correctamente.",
-                    "Éxito",
-                    JOptionPane.INFORMATION_MESSAGE);
+                // Limpiar campos después del éxito
+                campoNombre.setText("");
+                campoDescripcion.setText("");
+                campoDescuento.setText("");
+                campoValidez.setText("");
+
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null,
+                        ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Error inesperado al crear el paquete: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         cancelarButton.addActionListener(e -> {
@@ -67,9 +112,4 @@ public class AltaPaquete {
     public Container getPanel1() {
         return panel1;
     }
-/*
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-*/
 }

@@ -1,8 +1,8 @@
 package Logica;
 
 public class Fabrica {
-    private static Fabrica instancia = null;
-    private ISistema sistema;
+    private static volatile Fabrica instancia = null;
+    private final ISistema sistema;
 
     private Fabrica() {
         sistema = new Sistema(); // Asumiendo que Logica.Sistema implementa Logica.ISistema
@@ -10,7 +10,11 @@ public class Fabrica {
 
     public static Fabrica getInstance() {
         if (instancia == null) {
-            instancia = new Fabrica();
+            synchronized (Fabrica.class) {
+                if (instancia == null) {
+                    instancia = new Fabrica();
+                }
+            }
         }
         return instancia;
     }

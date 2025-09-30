@@ -263,11 +263,8 @@ public class Sistema implements ISistema {
         registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
     }
 
-
-
     @Override
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva) {
-        // Verificar existencia de cliente y vuelo
         DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
         Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
 
@@ -281,9 +278,11 @@ public class Sistema implements ISistema {
         if (manejadorVuelo.tieneReservaDeCliente(nicknameCliente, vuelo)) {
             throw new IllegalArgumentException("El cliente ya tiene una reserva para este vuelo");
         }
-        String idReserva = "RES" + (++idReservaCounter);
+        String idReserva = reserva.getId();
         vuelo.agregarReserva(idReserva, reserva);
-        manejadorCliente.agregarReserva(reserva, nicknameCliente, idReserva);
+        manejadorCliente.agregarReserva(reserva, nicknameCliente, idReserva, em);
+
+        manejadorVuelo.actualizarVuelo(vuelo, em);
     }
 
 
@@ -309,7 +308,21 @@ public class Sistema implements ISistema {
     // --- PAQUETES ---
     @Override
     public void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias) {
-        Paquete p = new Paquete(nombre, descripcion, descuentoPorc, periodoValidezDias);
+        if (manejadorPaquete.obtenerPaquete(nombre) != null) {
+            throw new IllegalArgumentException("Ya existe un paquete con el nombre: " + nombre);
+        }
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del paquete no puede estar vacío.");
+        }
+        if (descuentoPorc < 0 || descuentoPorc > 100) {
+            throw new IllegalArgumentException("El descuento debe estar entre 0 y 100 por ciento.");
+        }
+        if (periodoValidezDias < 0) {
+            throw new IllegalArgumentException("El período de validez no puede ser negativo.");
+        }
+
+        Paquete p = new Paquete(nombre.trim(), descripcion, descuentoPorc, periodoValidezDias);
         manejadorPaquete.agregarPaquete(p, em);
     }
 
@@ -468,10 +481,13 @@ public class Sistema implements ISistema {
     @Override
     public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento) {
 
-
         Paquete p = manejadorPaquete.obtenerPaquete(nombrePaquete);
         if (p == null) {
             throw new IllegalArgumentException("Paquete no encontrado");
+        }
+
+        if (p.estaComprado()) {
+            throw new IllegalArgumentException("No se pueden agregar rutas a un paquete que ya ha sido comprado.");
         }
 
         RutaVuelo ruta = manejadorRutaVuelo.getRuta(nomRuta);
@@ -489,8 +505,6 @@ public class Sistema implements ISistema {
         double costoConDescuento = costoTotal * (1 - p.getDescuentoPorc() / 100.0);
         p.setCosto(costoConDescuento);
 
-
-        // Evitar duplicados del mismo tipo de asiento
         for (ItemPaquete item : p.getItemPaquetes()) {
             if (item.getRutaVuelo().equals(ruta) && item.getTipoAsiento() == tipoAsiento) {
                 throw new IllegalArgumentException("La ruta ya fue agregada previamente al paquete con ese tipo de asiento.");
@@ -523,7 +537,6 @@ public class Sistema implements ISistema {
 
         System.out.println("Ruta agregada al paquete correctamente.");
     }
-
 
     @Override
     public Paquete obtenerPaquete(String nombrePaquete) {

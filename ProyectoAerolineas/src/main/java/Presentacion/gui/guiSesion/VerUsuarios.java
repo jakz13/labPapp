@@ -94,11 +94,12 @@ public class VerUsuarios {
         JButton btnPaquetes = new JButton("Ver Paquetes");
         btnPaquetes.addActionListener(e -> {
             DtCliente c = sistema.obtenerCliente(nickname);
-            List<DtPaquete> paquetesIds = c.getPaquetesComprados();
-            Object[] paquetes = paquetesIds.stream()
-                    .map(id -> sistema.obtenerDtPaquete(id.getNombre())) // Debe retornar un DTO o un objeto con toString amigable
-                    .toArray();
-            mostrarListaInteractiva("Paquetes del cliente", paquetes);
+            List<DtPaquete> paquetesComprados = c.getPaquetesComprados();
+            if (paquetesComprados == null || paquetesComprados.isEmpty()) {
+                JOptionPane.showMessageDialog(panelConsulta, "El cliente no tiene paquetes comprados.");
+                return;
+            }
+            mostrarListaInteractiva("Paquetes del cliente", paquetesComprados.toArray());
         });
 
         JPanelDinamico.add(btnReservas);
@@ -180,7 +181,7 @@ public class VerUsuarios {
         if (obj instanceof DtPaquete p) {
             detalle.append("Paquete: ").append(p.getNombre()).append("\n")
                     .append("Descripción: ").append(p.getDescripcion()).append("\n")
-                    .append("Costo: ").append(p.getCosto()).append("\n")
+                    .append("Costo: $").append(String.format("%.2f", p.getCosto())).append("\n")
                     .append("Descuento: ").append(p.getDescuentoPorc()).append("%\n")
                     .append("Periodo de validez: ").append(p.getPeriodoValidezDias()).append(" días\n")
                     .append("Fecha de alta: ").append(p.getFechaAlta()).append("\n");
