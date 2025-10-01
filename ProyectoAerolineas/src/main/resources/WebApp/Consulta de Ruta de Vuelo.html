@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consulta de Ruta de Vuelo</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Consulta de Ruta de Vuelo</h4>
+        </div>
+        <div class="card-body">
+
+            <form>
+                <!-- Selección de aerolínea o categoría -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="aerolinea" class="form-label">Aerolínea</label>
+                        <select class="form-select" id="aerolinea">
+                            <option value="">Seleccione...</option>
+                            <option value="aerolinea1">Aerolínea 1</option>
+                            <option value="aerolinea2">Aerolínea 2</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="categoria" class="form-label">Categoría</label>
+                        <select class="form-select" id="categoria">
+                            <option value="">Seleccione...</option>
+                            <option value="economica">Económica</option>
+                            <option value="premium">Premium</option>
+                            <option value="negocios">Negocios</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Listado de rutas confirmadas -->
+                <div class="mb-3">
+                    <label for="rutas" class="form-label">Rutas confirmadas</label>
+                    <select class="form-select" id="rutas" size="5">
+                        <!-- Opciones dinámicas -->
+                        <option value="ruta1">Ruta 1 - Ciudad A a Ciudad B</option>
+                        <option value="ruta2">Ruta 2 - Ciudad C a Ciudad D</option>
+                    </select>
+                </div>
+
+                <!-- Información detallada de la ruta seleccionada -->
+                <div id="infoRuta" class="border rounded p-3 mb-3" style="display: none;">
+                    <h5>Detalles de la Ruta</h5>
+                    <p><strong>Nombre:</strong> <span id="rutaNombre"></span></p>
+                    <p><strong>Descripción:</strong> <span id="rutaDescripcion"></span></p>
+                    <p><strong>Hora de salida:</strong> <span id="rutaHora"></span></p>
+                    <p><strong>Ciudad origen:</strong> <span id="rutaOrigen"></span></p>
+                    <p><strong>Ciudad destino:</strong> <span id="rutaDestino"></span></p>
+                    <p><strong>Costos:</strong> Turista $<span id="costoTurista"></span>, Ejecutivo $<span id="costoEjecutivo"></span>, Equipaje extra $<span id="costoEquipaje"></span></p>
+                    <img id="imagenRuta" src="" alt="Imagen de la ruta" class="img-fluid mt-2" style="max-height: 200px;">
+                </div>
+
+                <!-- Botón para cargar información -->
+                <button type="button" class="btn btn-primary" id="consultarRuta">Consultar Ruta</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts Bootstrap + lógica ejemplo -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const rutasSelect = document.getElementById("rutas");
+    const infoRuta = document.getElementById("infoRuta");
+    const consultarBtn = document.getElementById("consultarRuta");
+
+    consultarBtn.addEventListener("click", () => {
+        const rutaSeleccionada = rutasSelect.value;
+        if (rutaSeleccionada) {
+            // Simulación de datos que normalmente vendrían del servidor
+            document.getElementById("rutaNombre").textContent = "Ruta 1";
+            document.getElementById("rutaDescripcion").textContent = "Descripción de ejemplo de la ruta";
+            document.getElementById("rutaHora").textContent = "08:00";
+            document.getElementById("rutaOrigen").textContent = "Ciudad A";
+            document.getElementById("rutaDestino").textContent = "Ciudad B";
+            document.getElementById("costoTurista").textContent = "200";
+            document.getElementById("costoEjecutivo").textContent = "350";
+            document.getElementById("costoEquipaje").textContent = "50";
+            document.getElementById("imagenRuta").src = "https://via.placeholder.com/400x200";
+
+            infoRuta.style.display = "block";
+        } else {
+            infoRuta.style.display = "none";
+        }
+    });
+</script>
+</body>
+</html>
+

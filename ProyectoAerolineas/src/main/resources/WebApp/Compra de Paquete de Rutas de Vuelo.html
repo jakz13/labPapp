@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Paquete de Rutas de Vuelo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Compra de Paquete de Rutas de Vuelo</h4>
+        </div>
+        <div class="card-body">
+
+            <!-- Selección de Paquete -->
+            <div class="mb-3">
+                <label for="paqueteSelect" class="form-label">Seleccione un paquete</label>
+                <select class="form-select" id="paqueteSelect">
+                    <option value="">Seleccione un paquete...</option>
+                    <option value="Paquete A">Paquete A</option>
+                    <option value="Paquete B">Paquete B</option>
+                    <option value="Paquete C">Paquete C</option>
+                </select>
+            </div>
+
+            <!-- Información del Paquete -->
+            <div id="infoPaquete" style="display: none;" class="mt-3">
+                <h5>Datos del Paquete</h5>
+                <p><strong>Nombre:</strong> <span id="nombrePaquete"></span></p>
+                <p><strong>Costo:</strong> $<span id="costoPaquete"></span></p>
+                <p><strong>Rutas incluidas:</strong></p>
+                <ul id="rutasPaquete"></ul>
+            </div>
+
+            <!-- Botón de Compra -->
+            <div id="compraBoton" style="display: none;" class="mt-3">
+                <button class="btn btn-success" id="btnComprar">Comprar Paquete</button>
+            </div>
+
+            <!-- Mensaje de confirmación -->
+            <div id="mensajeCompra" class="mt-3"></div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const paqueteSelect = document.getElementById("paqueteSelect");
+    const infoPaquete = document.getElementById("infoPaquete");
+    const nombrePaquete = document.getElementById("nombrePaquete");
+    const costoPaquete = document.getElementById("costoPaquete");
+    const rutasPaquete = document.getElementById("rutasPaquete");
+    const compraBoton = document.getElementById("compraBoton");
+    const btnComprar = document.getElementById("btnComprar");
+    const mensajeCompra = document.getElementById("mensajeCompra");
+
+    // Paquetes simulados
+    const paquetes = {
+        "Paquete A": {costo: 500, rutas: ["Ruta 1", "Ruta 2"]},
+        "Paquete B": {costo: 800, rutas: ["Ruta 3"]},
+        "Paquete C": {costo: 1200, rutas: ["Ruta 4", "Ruta 5"]}
+    };
+
+    // Simulación de paquetes ya comprados por el cliente
+    const paquetesComprados = [];
+
+    paqueteSelect.addEventListener("change", () => {
+        const paquete = paquetes[paqueteSelect.value];
+        if(paquete) {
+            infoPaquete.style.display = "block";
+            nombrePaquete.textContent = paqueteSelect.value;
+            costoPaquete.textContent = paquete.costo;
+            rutasPaquete.innerHTML = "";
+            paquete.rutas.forEach(r => {
+                const li = document.createElement("li");
+                li.textContent = r;
+                rutasPaquete.appendChild(li);
+            });
+
+            if(paquetesComprados.includes(paqueteSelect.value)) {
+                compraBoton.style.display = "none";
+                mensajeCompra.innerHTML = `<div class="alert alert-warning">Ya compró este paquete. Elija otro o cancele.</div>`;
+            } else {
+                compraBoton.style.display = "block";
+                mensajeCompra.innerHTML = "";
+            }
+        } else {
+            infoPaquete.style.display = "none";
+            compraBoton.style.display = "none";
+            mensajeCompra.innerHTML = "";
+        }
+    });
+
+    btnComprar.addEventListener("click", () => {
+        const paquete = paqueteSelect.value;
+        if(paquete && !paquetesComprados.includes(paquete)) {
+            paquetesComprados.push(paquete);
+            mensajeCompra.innerHTML = `<div class="alert alert-success">Paquete "${paquete}" comprado con éxito en la fecha ${new Date().toLocaleDateString()}.</div>`;
+            compraBoton.style.display = "none";
+        }
+    });
+</script>
+
+</body>
+</html>
