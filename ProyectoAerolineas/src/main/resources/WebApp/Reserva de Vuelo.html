@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reserva de Vuelo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Reserva de Vuelo</h4>
+        </div>
+        <div class="card-body">
+
+            <form>
+                <!-- Selección de Aerolínea -->
+                <div class="mb-3">
+                    <label for="aerolinea" class="form-label">Seleccionar Aerolínea</label>
+                    <select class="form-select" id="aerolinea" required>
+                        <option value="">Seleccione una aerolínea...</option>
+                        <option value="aerolinea1">Aerolínea 1</option>
+                        <option value="aerolinea2">Aerolínea 2</option>
+                    </select>
+                </div>
+
+                <!-- Selección de Ruta de Vuelo -->
+                <div class="mb-3">
+                    <label for="rutaVuelo" class="form-label">Seleccionar Ruta de Vuelo</label>
+                    <select class="form-select" id="rutaVuelo" required>
+                        <option value="">Seleccione una ruta...</option>
+                    </select>
+                </div>
+
+                <!-- Selección de Vuelo -->
+                <div class="mb-3">
+                    <label for="vuelo" class="form-label">Seleccionar Vuelo</label>
+                    <select class="form-select" id="vuelo" required>
+                        <option value="">Seleccione un vuelo...</option>
+                    </select>
+                </div>
+
+                <!-- Datos del Vuelo -->
+                <div id="datosVuelo" class="border p-3 mb-3" style="display:none;">
+                    <h5>Datos del Vuelo</h5>
+                    <p><strong>Nombre del Vuelo:</strong> <span id="nombreVueloDetalle"></span></p>
+                    <p><strong>Fecha:</strong> <span id="fechaVueloDetalle"></span></p>
+                    <p><strong>Duración:</strong> <span id="duracionVueloDetalle"></span></p>
+                    <p><strong>Asientos Turista:</strong> <span id="asientosTuristaDetalle"></span></p>
+                    <p><strong>Asientos Ejecutivo:</strong> <span id="asientosEjecutivoDetalle"></span></p>
+                    <p><strong>Imagen del vuelo:</strong></p>
+                    <img id="imagenVueloDetalle" src="" alt="Imagen del vuelo" class="img-fluid">
+                </div>
+
+                <!-- Datos de Reserva -->
+                <div id="datosReserva" class="border p-3 mb-3" style="display:none;">
+                    <h5>Datos de Reserva</h5>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Asiento</label>
+                        <select class="form-select" id="tipoAsiento" required>
+                            <option value="">Seleccione...</option>
+                            <option value="turista">Turista</option>
+                            <option value="ejecutivo">Ejecutivo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidadPasajes" class="form-label">Cantidad de Pasajes</label>
+                        <input type="number" class="form-control" id="cantidadPasajes" min="1" value="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="equipajeExtra" class="form-label">Unidades de Equipaje Extra</label>
+                        <input type="number" class="form-control" id="equipajeExtra" min="0" value="0">
+                    </div>
+
+                    <div id="pasajerosDiv" style="display:none;">
+                        <h6>Datos de los Pasajeros</h6>
+                        <div id="pasajerosContainer"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Forma de Pago</label>
+                        <select class="form-select" id="formaPago" required>
+                            <option value="">Seleccione...</option>
+                            <option value="general">General</option>
+                            <option value="paquete">Con paquete</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <button type="submit" class="btn btn-success">Realizar Reserva</button>
+                <button type="reset" class="btn btn-secondary" onclick="resetForm()">Cancelar</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const aerolinea = document.getElementById('aerolinea');
+    const rutaVuelo = document.getElementById('rutaVuelo');
+    const vuelo = document.getElementById('vuelo');
+    const datosVueloDiv = document.getElementById('datosVuelo');
+    const datosReservaDiv = document.getElementById('datosReserva');
+    const cantidadPasajes = document.getElementById('cantidadPasajes');
+    const pasajerosDiv = document.getElementById('pasajerosDiv');
+    const pasajerosContainer = document.getElementById('pasajerosContainer');
+
+    // Simulación de rutas según aerolínea
+    const rutas = {
+        aerolinea1: ['Ruta 1 - Ciudad A a B', 'Ruta 2 - Ciudad C a D'],
+        aerolinea2: ['Ruta 3 - Ciudad E a F']
+    };
+
+    // Simulación de vuelos según ruta
+    const vuelos = {
+        'Ruta 1 - Ciudad A a B': ['Vuelo 101', 'Vuelo 102'],
+        'Ruta 2 - Ciudad C a D': ['Vuelo 201'],
+        'Ruta 3 - Ciudad E a F': ['Vuelo 301']
+    };
+
+    aerolinea.addEventListener('change', () => {
+        rutaVuelo.innerHTML = '<option value="">Seleccione una ruta...</option>';
+        vuelo.innerHTML = '<option value="">Seleccione un vuelo...</option>';
+        datosVueloDiv.style.display = 'none';
+        datosReservaDiv.style.display = 'none';
+        pasajerosDiv.style.display = 'none';
+        if(aerolinea.value) {
+            rutas[aerolinea.value].forEach(r => {
+                rutaVuelo.innerHTML += `<option value="${r}">${r}</option>`;
+            });
+        }
+    });
+
+    rutaVuelo.addEventListener('change', () => {
+        vuelo.innerHTML = '<option value="">Seleccione un vuelo...</option>';
+        datosVueloDiv.style.display = 'none';
+        datosReservaDiv.style.display = 'none';
+        pasajerosDiv.style.display = 'none';
+        if(rutaVuelo.value) {
+            vuelos[rutaVuelo.value].forEach(v => {
+                vuelo.innerHTML += `<option value="${v}">${v}</option>`;
+            });
+        }
+    });
+
+    vuelo.addEventListener('change', () => {
+        if(vuelo.value) {
+            document.getElementById('nombreVueloDetalle').textContent = vuelo.value;
+            document.getElementById('fechaVueloDetalle').textContent = '2025-10-01';
+            document.getElementById('duracionVueloDetalle').textContent = '02:30';
+            document.getElementById('asientosTuristaDetalle').textContent = '150';
+            document.getElementById('asientosEjecutivoDetalle').textContent = '20';
+            document.getElementById('imagenVueloDetalle').src = 'https://via.placeholder.com/400x200';
+            datosVueloDiv.style.display = 'block';
+            datosReservaDiv.style.display = 'block';
+        } else {
+            datosVueloDiv.style.display = 'none';
+            datosReservaDiv.style.display = 'none';
+        }
+    });
+
+    cantidadPasajes.addEventListener('input', () => {
+        pasajerosContainer.innerHTML = '';
+        if(cantidadPasajes.value > 1) {
+            pasajerosDiv.style.display = 'block';
+            for(let i=1;i<=cantidadPasajes.value;i++) {
+                pasajerosContainer.innerHTML += `
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Nombre pasajero ${i}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Apellido pasajero ${i}" required>
+                        </div>
+                    </div>`;
+            }
+        } else {
+            pasajerosDiv.style.display = 'none';
+        }
+    });
+
+    function resetForm() {
+        datosVueloDiv.style.display = 'none';
+        datosReservaDiv.style.display = 'none';
+        pasajerosDiv.style.display = 'none';
+        rutaVuelo.innerHTML = '<option value="">Seleccione una ruta...</option>';
+        vuelo.innerHTML = '<option value="">Seleccione un vuelo...</option>';
+    }
+</script>
+
+</body>
+</html>
