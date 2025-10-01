@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Viajes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .categories-sidebar {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .categories-sidebar h5 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .flight-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .flight-header {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .flight-description {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .read-more {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .main-content {
+            display: flex;
+            gap: 20px;
+        }
+        .sidebar {
+            flex: 0 0 250px;
+        }
+        .content {
+            flex: 1;
+        }
+        /* Jumbotron más compacto */
+        .compact-jumbotron {
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 0.3rem;
+        }
+        .compact-jumbotron h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .compact-jumbotron .lead {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .compact-jumbotron p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            border-color: #2980b9;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #3498db;
+        }
+        .dropdown-menu {
+            border: 1px solid rgba(0,0,0,.15);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .dropdown-item:hover {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="PaginaPrincipal.html">Juan Viajes</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
+                </li>
+
+                <!-- Menú Vuelos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                        Vuelos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="vuelosDropdown">
+                        <a class="dropdown-item" href="consulta-vuelo.html">Consulta de Vuelo</a>
+                        <a class="dropdown-item active" href="consulta-reserva.html">Consulta de Reserva</a>
+                        <a class="dropdown-item" href="reserva-vuelo.html">Reserva de Vuelo</a>
+                        <a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a>
+                    </div>
+                </li>
+
+                <!-- Menú Paquetes -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                        Paquetes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="paquetesDropdown">
+                        <a class="dropdown-item" href="consulta-paquete.html">Consulta de Paquete</a>
+                        <a class="dropdown-item" href="compra-paquete.html">Compra de Paquete</a>
+                        <a class="dropdown-item" href="alta-paquete.html">Alta de Paquete</a>
+                    </div>
+                </li>
+
+                <!-- Menú Aerolíneas -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                        Aerolíneas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="aerolineasDropdown">
+                        <a class="dropdown-item" href="alta-ruta.html">Alta de Ruta</a>
+                        <a class="dropdown-item" href="consulta-ruta.html">Consulta de Ruta</a>
+                        <a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a>
+                    </div>
+                </li>
+
+                <!-- Menú Usuarios -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="usuariosDropdown">
+                        <a class="dropdown-item" href="alta-usuario.html">Alta de Usuario</a>
+                        <a class="dropdown-item" href="consulta-usuario.html">Consulta de Usuario</a>
+                        <a class="dropdown-item" href="modificar-usuario.html">Modificar Datos</a>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="user-actions">
+                <a class="btn btn-outline-primary" href="#" data-toggle="modal" data-target="#loginModal">Iniciar Sesión</a>
+                <a class="btn btn-primary" href="alta-usuario.html">Registrarse</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="container mt-4">
+    <!-- Jumbotron compacto de bienvenida -->
+    <div class="compact-jumbotron">
+        <h1>Bienvenido a Juan Viajes</h1>
+        <p class="lead">Tu mejor opción para reservar vuelos y paquetes turísticos.</p>
+        <p>Explora nuestras ofertas y destinos exclusivos.</p>
+        <a class="btn btn-primary btn-lg" href="consulta-vuelo.html" role="button">Ver Vuelos</a>
+        <a class="btn btn-light btn-lg" href="consulta-paquete.html" role="button">Ver Paquetes</a>
+    </div>
+
+    <div class="main-content">
+        <!-- Sidebar de categorías -->
+        <div class="sidebar">
+            <div class="categories-sidebar">
+                <h5>CATEGORÍAS</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-dark">Nacionales</a></li>
+                    <li><a href="#" class="text-dark">Internacionales</a></li>
+                    <li><a href="#" class="text-dark">Europa</a></li>
+                    <li><a href="#" class="text-dark">América</a></li>
+                    <li><a href="#" class="text-dark">Exclusivos</a></li>
+                    <li><a href="#" class="text-dark">Temporada</a></li>
+                    <li><a href="#" class="text-dark">Cortos</a></li>
+                </ul>
+            </div>
+
+            <!-- Destinos populares -->
+            <div class="mt-4">
+                <h5>Destinos Populares</h5>
+                <div class="card mb-3">
+                    <img src="https://via.placeholder.com/250x150?text=París" class="card-img-top" alt="París">
+                    <div class="card-body">
+                        <h6 class="card-title">París</h6>
+                        <p class="card-text small">La ciudad del amor y la luz.</p>
+                        <a href="consulta-vuelo.html" class="btn btn-sm btn-primary">Ver Más</a>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <img src="https://via.placeholder.com/250x150?text=Rio" class="card-img-top" alt="Río de Janeiro">
+                    <div class="card-body">
+                        <h6 class="card-title">Río de Janeiro</h6>
+                        <p class="card-text small">La ciudad maravillosa de Brasil.</p>
+                        <a href="consulta-vuelo.html" class="btn btn-sm btn-primary">Ver Más</a>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <img src="https://via.placeholder.com/250x150?text=NY" class="card-img-top" alt="Nueva York">
+                    <div class="card-body">
+                        <h6 class="card-title">Nueva York</h6>
+                        <p class="card-text small">La ciudad que nunca duerme.</p>
+                        <a href="consulta-vuelo.html" class="btn btn-sm btn-primary">Ver Más</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="content">
+            <h2 class="mb-4">Rutas de Vuelo Disponibles</h2>
+
+            <!-- Tarjeta de vuelo 1 -->
+            <div class="flight-card">
+                <div class="flight-header">Montevideo-Madrid por Iberia (IB6012)</div>
+                <div class="flight-description">
+                    Tiempo de vuelo: cerca de 12 horas. Incluye comidas, bebidas y entretenimiento en vuelo.
+                </div>
+                <div class="flight-details mt-2">
+                    <small><strong>Salida:</strong> 22:00 | <strong>Llegada:</strong> 14:00 (+1) | <strong>Precio desde:</strong> $750</small>
+                </div>
+                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
+            </div>
+
+            <!-- Tarjeta de vuelo 2 -->
+            <div class="flight-card">
+                <div class="flight-header">Ciudad de Panamá-Nueva York por Copa (CN804)</div>
+                <div class="flight-description">
+                    Copa Airlines ofrece comidas, bebidas y entretenimiento a bordo, asegurando una experiencia de viaje cómoda y agradable entre Centroamérica y la ciudad de Nueva York.
+                </div>
+                <div class="flight-details mt-2">
+                    <small><strong>Salida:</strong> 08:30 | <strong>Llegada:</strong> 15:45 | <strong>Precio desde:</strong> $520</small>
+                </div>
+                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
+            </div>
+
+            <!-- Tarjeta de vuelo 3 -->
+            <div class="flight-card">
+                <div class="flight-header">Montevideo-Rio de Janeiro por ZulyFly (ZL1502)</div>
+                <div class="flight-description">
+                    Tiempo estimado de vuelo 2 horas y 30 minutos, vuelo directo. Perfecto para un fin de semana en las playas de Copacabana e Ipanema.
+                </div>
+                <div class="flight-details mt-2">
+                    <small><strong>Salida:</strong> 07:15 | <strong>Llegada:</strong> 09:45 | <strong>Precio desde:</strong> $320</small>
+                </div>
+                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
+            </div>
+
+            <!-- Tarjeta de vuelo 4 -->
+            <div class="flight-card">
+                <div class="flight-header">Buenos Aires-Miami por American Airlines (AA904)</div>
+                <div class="flight-description">
+                    Conexión directa a Estados Unidos con servicio premium y entretenimiento a bordo en todos los asientos.
+                </div>
+                <div class="flight-details mt-2">
+                    <small><strong>Salida:</strong> 21:20 | <strong>Llegada:</strong> 06:30 (+1) | <strong>Precio desde:</strong> $890</small>
+                </div>
+                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
+            </div>
+
+            <!-- Sección de paquetes -->
+            <h3 class="mt-5 mb-4">Paquetes de Rutas de Vuelo</h3>
+
+            <div class="flight-card">
+                <div class="flight-header">Paquete Sudamérica Esencial</div>
+                <div class="flight-description">
+                    Disfruta de los mejores destinos de Sudamérica con nuestro paquete exclusivo. Incluye vuelos a Brasil, Argentina y Chile con alojamiento en hoteles 4 estrellas.
+                </div>
+                <div class="flight-details mt-2">
+                    <small><strong>Incluye:</strong> 3 rutas | <strong>Vigencia:</strong> 6 meses | <strong>Precio:</strong> $1,200</small>
+                </div>
+                <a href="consulta-paquete.html" class="read-more">Ver detalles del paquete</a>
+            </div>
+
+            <div class="flight-card">
+                <div class="flight-header">Europa Grand Tour</div>
+                <div class="flight-description">
+                    Recorre las capitales más emblemáticas de Europa: Madrid, París, Roma y Barcelona. Incluye traslados y tours guiados.
+                </div>
+                <div class="flight-details mt-2">
+                    <small><strong>Incluye:</strong> 4 rutas | <strong>Vigencia:</strong> 1 año | <strong>Precio:</strong> $2,500</small>
+                </div>
+                <a href="consulta-paquete.html" class="read-more">Ver detalles del paquete</a>
+            </div>
+
+            <div class="flight-card">
+                <div class="flight-header">Caribe Paradise</div>
+                <div class="flight-description">
+                    Escape tropical a los destinos más exclusivos del Caribe. Incluye Cancún, Punta Cana y Jamaica con todo incluido.
+                </div>
+                <div class="flight-details mt-2">
+                    <small><strong>Incluye:</strong> 3 rutas | <strong>Vigencia:</strong> 3 meses | <strong>Precio:</strong> $1,800</small>
+                </div>
+                <a href="consulta-paquete.html" class="read-more">Ver detalles del paquete</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal para inicio de sesión -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="loginEmail">Email o Nickname</label>
+                        <input type="text" class="form-control" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Contraseña</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p class="text-center w-100">¿No tienes cuenta? <a href="alta-usuario.html">Regístrate aquí</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro de Usuario - Juan Viajes</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .user-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            border-bottom: none;
+        }
+        .form-section {
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 2px;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+        .step.active .step-number {
+            background-color: #3498db;
+            color: white;
+        }
+        .step.completed .step-number {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="PaginaPrincipal.html">Juan Viajes</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Vuelos
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
+                    <li><a class="dropdown-item" href="consulta-vuelo.html">Consulta de Vuelo</a></li>
+                    <li><a class="dropdown-item active" href="consulta-reserva.html">Consulta de Reserva</a></li>
+                    <li><a class="dropdown-item" href="reserva-vuelo.html">Reserva de Vuelo</a></li>
+                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Paquetes
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
+                    <li><a class="dropdown-item" href="consulta-paquete.html">Consulta de Paquete</a></li>
+                    <li><a class="dropdown-item" href="compra-paquete.html">Compra de Paquete</a></li>
+                    <li><a class="dropdown-item active" href="alta-paquete.html">Alta de Paquete</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Aerolíneas
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
+                    <li><a class="dropdown-item" href="alta-ruta.html">Alta de Ruta</a></li>
+                    <li><a class="dropdown-item" href="consulta-ruta.html">Consulta de Ruta</a></li>
+                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Usuarios
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
+                    <li><a class="dropdown-item" href="alta-usuario.html">Alta de Usuario</a></li>
+                    <li><a class="dropdown-item" href="consulta-usuario.html">Consulta de Usuario</a></li>
+                    <li><a class="dropdown-item" href="modificar-usuario.html">Modificar Datos</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="user-actions">
+            <span class="navbar-text me-3">
+                <i class="bi bi-person-gear"></i> Administrador
+            </span>
+            <a class="btn btn-outline-primary" href="PaginaPrincipal.html">Salir</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Crear Cuenta en Juan Viajes</h4>
+                    <p class="mb-0 mt-2 small">Únete a nuestra comunidad de viajeros</p>
+                </div>
+                <div class="card-body p-4">
+
+                    <!-- Indicador de pasos -->
+                    <div class="step-indicator">
+                        <div class="step active" id="step1">
+                            <div class="step-number">1</div>
+                            <div class="step-label small">Datos Básicos</div>
+                        </div>
+                        <div class="step" id="step2">
+                            <div class="step-number">2</div>
+                            <div class="step-label small">Tipo de Usuario</div>
+                        </div>
+                        <div class="step" id="step3">
+                            <div class="step-number">3</div>
+                            <div class="step-label small">Información Adicional</div>
+                        </div>
+                    </div>
+
+                    <form id="formRegistroUsuario" novalidate>
+                        <!-- Paso 1: Datos Básicos -->
+                        <div class="form-section" id="section1">
+                            <h5 class="text-primary mb-3">Datos Básicos del Usuario</h5>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nickname" class="form-label">Nickname *</label>
+                                    <input type="text" class="form-control" id="nickname" required>
+                                    <div class="invalid-feedback">Por favor ingrese un nickname.</div>
+                                    <div class="form-text">Este será tu nombre de usuario único en la plataforma.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="nombre" class="form-label">Nombre Completo *</label>
+                                    <input type="text" class="form-control" id="nombre" required>
+                                    <div class="invalid-feedback">Por favor ingrese su nombre.</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Correo Electrónico *</label>
+                                <input type="email" class="form-control" id="email" required>
+                                <div class="invalid-feedback">Por favor ingrese un email válido.</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="password" class="form-label">Contraseña *</label>
+                                    <input type="password" class="form-control" id="password" required minlength="6">
+                                    <div class="password-strength" id="passwordStrength"></div>
+                                    <div class="form-text">Mínimo 6 caracteres.</div>
+                                    <div class="invalid-feedback">La contraseña debe tener al menos 6 caracteres.</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="confirmPassword" class="form-label">Confirmar Contraseña *</label>
+                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                    <div class="invalid-feedback">Las contraseñas no coinciden.</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="imagenUsuario" class="form-label">Foto de Perfil (opcional)</label>
+                                <input type="file" class="form-control" id="imagenUsuario" accept="image/*">
+                                <div class="form-text">Formatos: JPG, PNG. Máx. 2MB.</div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <div></div>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 2: Tipo de Usuario -->
+                        <div class="form-section d-none" id="section2">
+                            <h5 class="text-primary mb-3">Tipo de Usuario</h5>
+
+                            <div class="mb-4">
+                                <label class="form-label">Seleccione el tipo de cuenta *</label>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <h6>Cliente</h6>
+                                                <p class="small text-muted">Para viajeros que desean reservar vuelos y comprar paquetes</p>
+                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="selectUserType('cliente')">Seleccionar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <h6>Aerolínea</h6>
+                                                <p class="small text-muted">Para empresas que desean publicar rutas y vuelos</p>
+                                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="selectUserType('aerolinea')">Seleccionar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="tipoUsuario" required>
+                                <div class="invalid-feedback">Por favor seleccione un tipo de usuario.</div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Anterior</button>
+                                <button type="button" class="btn btn-primary" onclick="nextStep(3)">Siguiente</button>
+                            </div>
+                        </div>
+
+                        <!-- Paso 3: Información Adicional -->
+                        <div class="form-section d-none" id="section3">
+                            <h5 class="text-primary mb-3">Información Adicional</h5>
+
+                            <!-- Campos para Cliente -->
+                            <div id="camposCliente" class="d-none">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="apellido" class="form-label">Apellido *</label>
+                                        <input type="text" class="form-control" id="apellido">
+                                        <div class="invalid-feedback">Por favor ingrese su apellido.</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento *</label>
+                                        <input type="date" class="form-control" id="fechaNacimiento">
+                                        <div class="invalid-feedback">Por favor ingrese su fecha de nacimiento.</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="nacionalidad" class="form-label">Nacionalidad *</label>
+                                        <input type="text" class="form-control" id="nacionalidad">
+                                        <div class="invalid-feedback">Por favor ingrese su nacionalidad.</div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="tipoDocumento" class="form-label">Tipo de Documento *</label>
+                                        <select class="form-select" id="tipoDocumento">
+                                            <option value="">Seleccionar...</option>
+                                            <option value="pasaporte">Pasaporte</option>
+                                            <option value="cedula">Cédula</option>
+                                            <option value="dni">DNI</option>
+                                        </select>
+                                        <div class="invalid-feedback">Por favor seleccione un tipo de documento.</div>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="numeroDocumento" class="form-label">Número *</label>
+                                        <input type="text" class="form-control" id="numeroDocumento">
+                                        <div class="invalid-feedback">Por favor ingrese el número de documento.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Campos para Aerolínea -->
+                            <div id="camposAerolinea" class="d-none">
+                                <div class="mb-3">
+                                    <label for="descripcionAerolinea" class="form-label">Descripción General *</label>
+                                    <textarea class="form-control" id="descripcionAerolinea" rows="3"></textarea>
+                                    <div class="invalid-feedback">Por favor ingrese una descripción.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sitioWeb" class="form-label">Sitio Web (opcional)</label>
+                                    <input type="url" class="form-control" id="sitioWeb" placeholder="https://...">
+                                    <div class="form-text">Enlace a su sitio web oficial.</div>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="terminosCondiciones" required>
+                                <label class="form-check-label" for="terminosCondiciones">
+                                    Acepto los <a href="#" class="text-primary">términos y condiciones</a> y la <a href="#" class="text-primary">política de privacidad</a> *
+                                </label>
+                                <div class="invalid-feedback">Debe aceptar los términos y condiciones.</div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Anterior</button>
+                                <button type="submit" class="btn btn-success">Crear Cuenta</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <p>¿Ya tienes una cuenta? <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Inicia sesión aquí</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de éxito -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="successModalLabel">¡Cuenta Creada Exitosamente!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+                </div>
+                <h5>Bienvenido a Juan Viajes</h5>
+                <p>Tu cuenta ha sido creada exitosamente. Ahora puedes disfrutar de todos nuestros servicios.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a href="PaginaPrincipal.html" class="btn btn-primary">Ir al Inicio</a>
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Navegación entre pasos
+    function nextStep(step) {
+        // Validar paso actual antes de avanzar
+        if (step === 2 && !validateStep1()) return;
+        if (step === 3 && !validateStep2()) return;
+
+        document.getElementById('section' + (step-1)).classList.add('d-none');
+        document.getElementById('section' + step).classList.remove('d-none');
+        document.getElementById('step' + (step-1)).classList.remove('active');
+        document.getElementById('step' + step).classList.add('active');
+    }
+
+    function prevStep(step) {
+        document.getElementById('section' + (step+1)).classList.add('d-none');
+        document.getElementById('section' + step).classList.remove('d-none');
+        document.getElementById('step' + (step+1)).classList.remove('active');
+        document.getElementById('step' + step).classList.add('active');
+    }
+
+    // Selección de tipo de usuario
+    function selectUserType(tipo) {
+        document.getElementById('tipoUsuario').value = tipo;
+
+        // Mostrar campos específicos según el tipo
+        if (tipo === 'cliente') {
+            document.getElementById('camposCliente').classList.remove('d-none');
+            document.getElementById('camposAerolinea').classList.add('d-none');
+        } else {
+            document.getElementById('camposCliente').classList.add('d-none');
+            document.getElementById('camposAerolinea').classList.remove('d-none');
+        }
+
+        // Remover validación de error
+        document.getElementById('tipoUsuario').classList.remove('is-invalid');
+    }
+
+    // Validación de contraseña
+    document.getElementById('password').addEventListener('input', function() {
+        const strengthBar = document.getElementById('passwordStrength');
+        const password = this.value;
+
+        let strength = 0;
+        if (password.length >= 6) strength += 25;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 25;
+        if (password.match(/\d/)) strength += 25;
+        if (password.match(/[^a-zA-Z\d]/)) strength += 25;
+
+        strengthBar.style.width = strength + '%';
+        strengthBar.style.backgroundColor =
+            strength < 50 ? '#dc3545' :
+                strength < 75 ? '#ffc107' : '#28a745';
+    });
+
+    // Validar confirmación de contraseña
+    document.getElementById('confirmPassword').addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = this.value;
+
+        if (password !== confirmPassword && confirmPassword !== '') {
+            this.classList.add('is-invalid');
+        } else {
+            this.classList.remove('is-invalid');
+        }
+    });
+
+    // Validaciones de pasos
+    function validateStep1() {
+        const form = document.getElementById('formRegistroUsuario');
+        const requiredFields = ['nickname', 'nombre', 'email', 'password'];
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            const element = document.getElementById(field);
+            if (!element.value) {
+                element.classList.add('is-invalid');
+                isValid = false;
+            }
+        });
+
+        // Validar confirmación de contraseña
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        if (password !== confirmPassword) {
+            document.getElementById('confirmPassword').classList.add('is-invalid');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function validateStep2() {
+        const tipoUsuario = document.getElementById('tipoUsuario').value;
+        if (!tipoUsuario) {
+            document.getElementById('tipoUsuario').classList.add('is-invalid');
+            return false;
+        }
+        return true;
+    }
+
+    // Envío del formulario
+    document.getElementById('formRegistroUsuario').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        if (this.checkValidity() && validateStep3()) {
+            // Simular envío exitoso
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+            // Aquí iría la lógica real para enviar al servidor
+            console.log('Datos del usuario:', {
+                nickname: document.getElementById('nickname').value,
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                tipo: document.getElementById('tipoUsuario').value,
+                // ... otros campos
+            });
+        } else {
+            event.stopPropagation();
+        }
+
+        this.classList.add('was-validated');
+    });
+
+    function validateStep3() {
+        const tipoUsuario = document.getElementById('tipoUsuario').value;
+        let isValid = true;
+
+        if (tipoUsuario === 'cliente') {
+            const camposCliente = ['apellido', 'fechaNacimiento', 'nacionalidad', 'tipoDocumento', 'numeroDocumento'];
+            camposCliente.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value) {
+                    element.classList.add('is-invalid');
+                    isValid = false;
+                }
+            });
+        } else {
+            const descripcion = document.getElementById('descripcionAerolinea');
+            if (!descripcion.value) {
+                descripcion.classList.add('is-invalid');
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    // Validar edad mínima (18 años)
+    document.getElementById('fechaNacimiento').max = new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0];
+</script>
+</body>
+</html>
