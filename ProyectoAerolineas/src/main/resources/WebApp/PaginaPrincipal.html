@@ -3,16 +3,503 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juan Viajes</title>
+    <title>Juan Viajes - Tu plataforma de viajes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/CssLogica/pagina-principal.css">
+    <style>
+        :root {
+            --color-dark: #121212;
+            --color-dark-gray: #1e1e1e;
+            --color-medium-gray: #2d2d2d;
+            --color-light-gray: #3a3a3a;
+            --color-accent: #dc2626;
+            --color-accent-light: #ef4444;
+            --color-text: #e5e5e5;
+            --color-text-light: #a3a3a3;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-text);
+            line-height: 1.6;
+            padding-top: 80px; /* Espacio para la navbar fija */
+        }
+
+        /* Navbar moderna - FIXED con z-index alto */
+        .navbar {
+            background-color: rgba(18, 18, 18, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-medium-gray);
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030; /* Alto z-index para que esté por encima */
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--color-text) !important;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand span {
+            color: var(--color-accent);
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--color-text) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link:focus {
+            color: var(--color-accent) !important;
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        .navbar-nav .nav-link.active {
+            color: var(--color-accent) !important;
+            background-color: rgba(220, 38, 38, 0.15);
+        }
+
+        /* Dropdown menus - FIXED con z-index */
+        .dropdown-menu {
+            background-color: var(--color-dark-gray);
+            border: 1px solid var(--color-light-gray);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            z-index: 1050; /* Más alto que la navbar */
+        }
+
+        .dropdown-item {
+            color: var(--color-text);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--color-medium-gray);
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--color-accent);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Botones - FIXED para que sean clickeables */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-accent), #b91c1c);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
+            cursor: pointer; /* Asegurar que muestre cursor pointer */
+            position: relative; /* Para asegurar que esté en el stacking context correcto */
+            z-index: 1; /* Para que esté por encima */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--color-accent-light), var(--color-accent));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-outline-primary {
+            background-color: transparent;
+            border: 2px solid var(--color-accent);
+            color: var(--color-accent);
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-light {
+            background-color: var(--color-light-gray);
+            border-color: var(--color-light-gray);
+            color: var(--color-text);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-light:hover {
+            background-color: var(--color-medium-gray);
+            border-color: var(--color-medium-gray);
+            color: var(--color-text);
+        }
+
+        /* Hero Section - Ajustado para no superponerse con navbar */
+        .hero-section {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark-gray) 100%);
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 20px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23dc2626" opacity="0.03"><polygon points="0,0 1000,50 1000,100 0,100"/></svg>') no-repeat center bottom;
+            background-size: cover;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--color-text), var(--color-accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-text-light);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Cards modernas */
+        .card-modern {
+            background-color: var(--color-dark-gray);
+            border: 1px solid var(--color-medium-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-modern:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--color-accent);
+        }
+
+        .card-header-modern {
+            background: linear-gradient(135deg, var(--color-medium-gray), var(--color-light-gray));
+            border-bottom: 1px solid var(--color-medium-gray);
+            padding: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .card-body-modern {
+            padding: 1.5rem;
+        }
+
+        .card-title-modern {
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .card-text-modern {
+            color: var(--color-text-light);
+            margin-bottom: 1rem;
+        }
+
+        /* Flight cards */
+        .flight-card {
+            background-color: var(--color-dark-gray);
+            border: 1px solid var(--color-medium-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .flight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--color-accent), #b91c1c);
+        }
+
+        .flight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--color-accent);
+        }
+
+        .flight-header {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .flight-route {
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+
+        .flight-description {
+            color: var(--color-text-light);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .flight-details {
+            background-color: var(--color-medium-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid var(--color-accent);
+        }
+
+        .flight-details small {
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        .read-more {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+
+        .read-more:hover {
+            color: var(--color-accent-light);
+            gap: 8px;
+        }
+
+        /* Sidebar */
+        .sidebar-modern {
+            background-color: var(--color-dark-gray);
+            border: 1px solid var(--color-medium-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-title {
+            color: var(--color-text);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--color-accent);
+            font-size: 1.25rem;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-list li {
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-list li:hover {
+            background-color: var(--color-medium-gray);
+            border-left-color: var(--color-accent);
+            padding-left: 1rem;
+        }
+
+        .sidebar-list a {
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-list a:hover {
+            color: var(--color-accent);
+        }
+
+        /* User actions */
+        .user-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .user-info {
+            color: var(--color-text);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-info i {
+            color: var(--color-accent);
+        }
+
+        /* Section titles */
+        .section-title {
+            color: var(--color-text);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--color-accent);
+            font-size: 1.75rem;
+        }
+
+        /* Modal */
+        .modal-content {
+            background-color: var(--color-dark-gray);
+            border: 1px solid var(--color-medium-gray);
+            border-radius: 12px;
+            color: var(--color-text);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--color-medium-gray);
+            padding: 1.5rem;
+        }
+
+        .modal-title {
+            color: var(--color-text);
+            font-weight: 700;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--color-medium-gray);
+            padding: 1rem 1.5rem;
+        }
+
+        .form-control {
+            background-color: var(--color-medium-gray);
+            border: 1px solid var(--color-light-gray);
+            color: var(--color-text);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+        }
+
+        .form-control:focus {
+            background-color: var(--color-medium-gray);
+            border-color: var(--color-accent);
+            color: var(--color-text);
+            box-shadow: 0 0 0 0.25rem rgba(220, 38, 38, 0.25);
+        }
+
+        .form-label {
+            color: var(--color-text);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .navbar-nav {
+                margin-top: 1rem;
+            }
+
+            .user-actions {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Asegurar que todos los elementos clickeables tengan cursor pointer */
+        a, button, .btn, .dropdown-item, .read-more {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="PaginaPrincipal.html">Juan Viajes</a>
+            <a class="navbar-brand" href="PaginaPrincipal.html">Juan <span>Viajes</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -28,10 +515,10 @@
                             Vuelos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
-                            <a class="dropdown-item" href="consulta-vuelo.html">Consulta de Vuelo</a>
-                            <a class="dropdown-item active" href="consulta-reserva.html">Consulta de Reserva</a>
-                            <a class="dropdown-item" href="reserva-vuelo.html">Reserva de Vuelo</a>
-                            <a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a>
+                            <li><a class="dropdown-item" href="consulta-vuelo.html"><i class="bi bi-search"></i> Consulta de Vuelo</a></li>
+                            <li><a class="dropdown-item" href="consulta-reserva.html"><i class="bi bi-ticket-perforated"></i> Consulta de Reserva</a></li>
+                            <li><a class="dropdown-item" href="reserva-vuelo.html"><i class="bi bi-calendar-check"></i> Reserva de Vuelo</a></li>
+                            <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-plus-circle"></i> Alta de Vuelo</a></li>
                         </ul>
                     </li>
 
@@ -41,9 +528,9 @@
                             Paquetes
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
-                            <a class="dropdown-item" href="consulta-paquete.html">Consulta de Paquete</a>
-                            <a class="dropdown-item" href="compra-paquete.html">Compra de Paquete</a>
-                            <a class="dropdown-item" href="alta-paquete.html">Alta de Paquete</a>
+                            <li><a class="dropdown-item" href="consulta-paquete.html"><i class="bi bi-box-seam"></i> Consulta de Paquete</a></li>
+                            <li><a class="dropdown-item" href="compra-paquete.html"><i class="bi bi-cart-check"></i> Compra de Paquete</a></li>
+                            <li><a class="dropdown-item" href="alta-paquete.html"><i class="bi bi-plus-square"></i> Alta de Paquete</a></li>
                         </ul>
                     </li>
 
@@ -53,9 +540,9 @@
                             Aerolíneas
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
-                            <a class="dropdown-item" href="alta-ruta.html">Alta de Ruta</a>
-                            <a class="dropdown-item" href="consulta-ruta.html">Consulta de Ruta</a>
-                            <a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a>
+                            <li><a class="dropdown-item" href="alta-ruta.html"><i class="bi bi-signpost"></i> Alta de Ruta</a></li>
+                            <li><a class="dropdown-item" href="consulta-ruta.html"><i class="bi bi-map"></i> Consulta de Ruta</a></li>
+                            <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-airplane"></i> Alta de Vuelo</a></li>
                         </ul>
                     </li>
 
@@ -65,19 +552,19 @@
                             Usuarios
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
-                            <a class="dropdown-item" href="alta-usuario.html">Alta de Usuario</a>
-                            <a class="dropdown-item" href="consulta-usuario.html">Consulta de Usuario</a>
-                            <a class="dropdown-item" href="modificar-usuario.html">Modificar Datos</a>
+                            <li><a class="dropdown-item" href="alta-usuario.html"><i class="bi bi-person-plus"></i> Alta de Usuario</a></li>
+                            <li><a class="dropdown-item" href="consulta-usuario.html"><i class="bi bi-person-vcard"></i> Consulta de Usuario</a></li>
+                            <li><a class="dropdown-item" href="modificar-usuario.html"><i class="bi bi-pencil-square"></i> Modificar Datos</a></li>
                         </ul>
                     </li>
                 </ul>
 
                 <div class="user-actions">
-                    <span class="navbar-text me-3" id="userInfo">
+                    <span class="user-info" id="userInfo">
                         <i class="bi bi-person-circle"></i> Invitado
                     </span>
                     <button class="btn btn-outline-primary" id="loginBtn" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</button>
-                    <a class="btn btn-primary d-none" id="logoutBtn" href="PaginaPrincipal.html">Salir</a>
+                    <button class="btn btn-primary d-none" id="logoutBtn">Cerrar Sesión</button>
                 </div>
             </div>
         </div>
@@ -85,147 +572,173 @@
 </header>
 
 <main class="container mt-4">
-    <!-- Jumbotron compacto de bienvenida -->
-    <div class="compact-jumbotron">
-        <h1>Bienvenido a Juan Viajes</h1>
-        <p class="lead">Tu mejor opción para reservar vuelos y paquetes turísticos.</p>
-        <p>Explora nuestras ofertas y destinos exclusivos.</p>
-        <a class="btn btn-primary btn-lg" href="consulta-vuelo.html" role="button">Ver Vuelos</a>
-        <a class="btn btn-light btn-lg" href="consulta-paquete.html" role="button">Ver Paquetes</a>
-    </div>
+    <!-- Hero Section -->
+    <section class="hero-section fade-in">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Descubre el mundo con Juan Viajes</h1>
+                    <p class="hero-subtitle">Tu plataforma premium para reservar vuelos y paquetes turísticos exclusivos. Explora destinos únicos con las mejores ofertas.</p>
+                    <div class="hero-buttons">
+                        <a class="btn btn-primary btn-lg" href="consulta-vuelo.html" role="button">
+                            <i class="bi bi-airplane me-2"></i>Explorar Vuelos
+                        </a>
+                        <a class="btn btn-light btn-lg" href="consulta-paquete.html" role="button">
+                            <i class="bi bi-gift me-2"></i>Ver Paquetes
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <i class="bi bi-airplane-fill" style="font-size: 10rem; opacity: 0.1;"></i>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="main-content">
-        <!-- Sidebar de categorías -->
-        <div class="sidebar">
-            <div class="categories-sidebar">
-                <h5>CATEGORÍAS</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-dark">Nacionales</a></li>
-                    <li><a href="#" class="text-dark">Internacionales</a></li>
-                    <li><a href="#" class="text-dark">Europa</a></li>
-                    <li><a href="#" class="text-dark">América</a></li>
-                    <li><a href="#" class="text-dark">Exclusivos</a></li>
-                    <li><a href="#" class="text-dark">Temporada</a></li>
-                    <li><a href="#" class="text-dark">Cortos</a></li>
+    <div class="row mt-5">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="sidebar-modern fade-in">
+                <h5 class="sidebar-title">Categorías</h5>
+                <ul class="sidebar-list">
+                    <li><a href="consulta-vuelo.html?categoria=nacionales"><i class="bi bi-geo-alt"></i> Nacionales</a></li>
+                    <li><a href="consulta-vuelo.html?categoria=internacionales"><i class="bi bi-globe-americas"></i> Internacionales</a></li>
+                    <li><a href="consulta-vuelo.html?categoria=europa"><i class="bi bi-building"></i> Europa</a></li>
+                    <li><a href="consulta-vuelo.html?categoria=america"><i class="bi bi-tree"></i> América</a></li>
+                    <li><a href="consulta-vuelo.html?categoria=exclusivos"><i class="bi bi-star"></i> Exclusivos</a></li>
+                    <li><a href="consulta-vuelo.html?categoria=temporada"><i class="bi bi-sun"></i> Temporada</a></li>
+                    <li><a href="consulta-vuelo.html?categoria=cortos"><i class="bi bi-clock"></i> Cortos</a></li>
                 </ul>
             </div>
 
-            <!-- Destinos populares -->
-            <div class="mt-4">
-                <h5>Destinos Populares</h5>
-                <div class="card mb-3">
-                    <img src="https://via.placeholder.com/250x150?text=París" class="card-img-top" alt="París">
-                    <div class="card-body">
-                        <h6 class="card-title">París</h6>
-                        <p class="card-text small">La ciudad del amor y la luz.</p>
-                        <a href="consulta-vuelo.html" class="btn btn-sm btn-primary">Ver Más</a>
+            <div class="sidebar-modern fade-in">
+                <h5 class="sidebar-title">Destinos Populares</h5>
+                <div class="card-modern mb-3">
+                    <img src="https://images.unsplash.com/photo-1502602898536-47ad22581b52?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="París" style="height: 120px; object-fit: cover;">
+                    <div class="card-body-modern">
+                        <h6 class="card-title-modern">París, Francia</h6>
+                        <p class="card-text-modern small">La ciudad del amor y la luz.</p>
+                        <a href="consulta-vuelo.html?destino=paris" class="read-more">Ver vuelos</a>
                     </div>
                 </div>
-                <div class="card mb-3">
-                    <img src="https://via.placeholder.com/250x150?text=Rio" class="card-img-top" alt="Río de Janeiro">
-                    <div class="card-body">
-                        <h6 class="card-title">Río de Janeiro</h6>
-                        <p class="card-text small">La ciudad maravillosa de Brasil.</p>
-                        <a href="consulta-vuelo.html" class="btn btn-sm btn-primary">Ver Más</a>
+                <div class="card-modern mb-3">
+                    <img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Río de Janeiro" style="height: 120px; object-fit: cover;">
+                    <div class="card-body-modern">
+                        <h6 class="card-title-modern">Río de Janeiro, Brasil</h6>
+                        <p class="card-text-modern small">La ciudad maravillosa.</p>
+                        <a href="consulta-vuelo.html?destino=rio" class="read-more">Ver vuelos</a>
                     </div>
                 </div>
-                <div class="card mb-3">
-                    <img src="https://via.placeholder.com/250x150?text=NY" class="card-img-top" alt="Nueva York">
-                    <div class="card-body">
-                        <h6 class="card-title">Nueva York</h6>
-                        <p class="card-text small">La ciudad que nunca duerme.</p>
-                        <a href="consulta-vuelo.html" class="btn btn-sm btn-primary">Ver Más</a>
+                <div class="card-modern">
+                    <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Nueva York" style="height: 120px; object-fit: cover;">
+                    <div class="card-body-modern">
+                        <h6 class="card-title-modern">Nueva York, USA</h6>
+                        <p class="card-text-modern small">La ciudad que nunca duerme.</p>
+                        <a href="consulta-vuelo.html?destino=ny" class="read-more">Ver vuelos</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Contenido principal -->
-        <div class="content">
-            <h2 class="mb-4">Rutas de Vuelo Disponibles</h2>
+        <div class="col-lg-9">
+            <h2 class="section-title fade-in">Rutas de Vuelo Disponibles</h2>
 
             <!-- Tarjeta de vuelo 1 -->
-            <div class="flight-card">
-                <div class="flight-header">Montevideo-Madrid por Iberia (IB6012)</div>
-                <div class="flight-description">
-                    Tiempo de vuelo: cerca de 12 horas. Incluye comidas, bebidas y entretenimiento en vuelo.
+            <div class="flight-card fade-in">
+                <div class="flight-header">
+                    <div>
+                        <span class="flight-route">Montevideo - Madrid</span>
+                        <div>Iberia (IB6012)</div>
+                    </div>
+                    <span class="badge bg-danger">Popular</span>
                 </div>
-                <div class="flight-details mt-2">
+                <div class="flight-description">
+                    Vuelo directo desde Montevideo a Madrid. Tiempo estimado: 11 horas y 45 minutos. Incluye comidas, bebidas y entretenimiento a bordo.
+                </div>
+                <div class="flight-details">
                     <small><strong>Salida:</strong> 22:00 | <strong>Llegada:</strong> 14:00 (+1) | <strong>Precio desde:</strong> $750</small>
                 </div>
-                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
+                <a href="consulta-vuelo.html?id=IB6012" class="read-more">
+                    Ver detalles <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
 
             <!-- Tarjeta de vuelo 2 -->
-            <div class="flight-card">
-                <div class="flight-header">Ciudad de Panamá-Nueva York por Copa (CN804)</div>
+            <div class="flight-card fade-in">
+                <div class="flight-header">
+                    <div>
+                        <span class="flight-route">Ciudad de Panamá - Nueva York</span>
+                        <div>Copa Airlines (CN804)</div>
+                    </div>
+                </div>
                 <div class="flight-description">
                     Copa Airlines ofrece comidas, bebidas y entretenimiento a bordo, asegurando una experiencia de viaje cómoda y agradable entre Centroamérica y la ciudad de Nueva York.
                 </div>
-                <div class="flight-details mt-2">
+                <div class="flight-details">
                     <small><strong>Salida:</strong> 08:30 | <strong>Llegada:</strong> 15:45 | <strong>Precio desde:</strong> $520</small>
                 </div>
-                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
+                <a href="consulta-vuelo.html?id=CN804" class="read-more">
+                    Ver detalles <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
 
             <!-- Tarjeta de vuelo 3 -->
-            <div class="flight-card">
-                <div class="flight-header">Montevideo-Rio de Janeiro por ZulyFly (ZL1502)</div>
+            <div class="flight-card fade-in">
+                <div class="flight-header">
+                    <div>
+                        <span class="flight-route">Montevideo - Rio de Janeiro</span>
+                        <div>ZulyFly (ZL1502)</div>
+                    </div>
+                    <span class="badge bg-success">Directo</span>
+                </div>
                 <div class="flight-description">
                     Tiempo estimado de vuelo 2 horas y 30 minutos, vuelo directo. Perfecto para un fin de semana en las playas de Copacabana e Ipanema.
                 </div>
-                <div class="flight-details mt-2">
+                <div class="flight-details">
                     <small><strong>Salida:</strong> 07:15 | <strong>Llegada:</strong> 09:45 | <strong>Precio desde:</strong> $320</small>
                 </div>
-                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
-            </div>
-
-            <!-- Tarjeta de vuelo 4 -->
-            <div class="flight-card">
-                <div class="flight-header">Buenos Aires-Miami por American Airlines (AA904)</div>
-                <div class="flight-description">
-                    Conexión directa a Estados Unidos con servicio premium y entretenimiento a bordo en todos los asientos.
-                </div>
-                <div class="flight-details mt-2">
-                    <small><strong>Salida:</strong> 21:20 | <strong>Llegada:</strong> 06:30 (+1) | <strong>Precio desde:</strong> $890</small>
-                </div>
-                <a href="consulta-vuelo.html" class="read-more">Leer más</a>
+                <a href="consulta-vuelo.html?id=ZL1502" class="read-more">
+                    Ver detalles <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
 
             <!-- Sección de paquetes -->
-            <h3 class="mt-5 mb-4">Paquetes de Rutas de Vuelo</h3>
+            <h3 class="section-title mt-5 fade-in">Paquetes de Rutas de Vuelo</h3>
 
-            <div class="flight-card">
-                <div class="flight-header">Paquete Sudamérica Esencial</div>
+            <div class="flight-card fade-in">
+                <div class="flight-header">
+                    <div>
+                        <span class="flight-route">Paquete Sudamérica Esencial</span>
+                    </div>
+                    <span class="badge bg-warning text-dark">Oferta</span>
+                </div>
                 <div class="flight-description">
                     Disfruta de los mejores destinos de Sudamérica con nuestro paquete exclusivo. Incluye vuelos a Brasil, Argentina y Chile con alojamiento en hoteles 4 estrellas.
                 </div>
-                <div class="flight-details mt-2">
+                <div class="flight-details">
                     <small><strong>Incluye:</strong> 3 rutas | <strong>Vigencia:</strong> 6 meses | <strong>Precio:</strong> $1,200</small>
                 </div>
-                <a href="consulta-paquete.html" class="read-more">Ver detalles del paquete</a>
+                <a href="consulta-paquete.html?id=1" class="read-more">
+                    Ver detalles del paquete <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
 
-            <div class="flight-card">
-                <div class="flight-header">Europa Grand Tour</div>
+            <div class="flight-card fade-in">
+                <div class="flight-header">
+                    <div>
+                        <span class="flight-route">Europa Grand Tour</span>
+                    </div>
+                </div>
                 <div class="flight-description">
                     Recorre las capitales más emblemáticas de Europa: Madrid, París, Roma y Barcelona. Incluye traslados y tours guiados.
                 </div>
-                <div class="flight-details mt-2">
+                <div class="flight-details">
                     <small><strong>Incluye:</strong> 4 rutas | <strong>Vigencia:</strong> 1 año | <strong>Precio:</strong> $2,500</small>
                 </div>
-                <a href="consulta-paquete.html" class="read-more">Ver detalles del paquete</a>
-            </div>
-
-            <div class="flight-card">
-                <div class="flight-header">Caribe Paradise</div>
-                <div class="flight-description">
-                    Escape tropical a los destinos más exclusivos del Caribe. Incluye Cancún, Punta Cana y Jamaica con todo incluido.
-                </div>
-                <div class="flight-details mt-2">
-                    <small><strong>Incluye:</strong> 3 rutas | <strong>Vigencia:</strong> 3 meses | <strong>Precio:</strong> $1,800</small>
-                </div>
-                <a href="consulta-paquete.html" class="read-more">Ver detalles del paquete</a>
+                <a href="consulta-paquete.html?id=2" class="read-more">
+                    Ver detalles del paquete <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -253,13 +766,74 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <p class="text-center w-100">¿No tienes cuenta? <a href="alta-usuario.html">Regístrate aquí</a></p>
+                <p class="text-center w-100">¿No tienes cuenta? <a href="alta-usuario.html" class="text-accent">Regístrate aquí</a></p>
             </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/JsLogica/session-manager.js"></script>
+<script>
+    // Gestión de sesión
+    function checkSession() {
+        const user = localStorage.getItem('currentUser');
+        if (user) {
+            const userData = JSON.parse(user);
+            document.getElementById('userInfo').innerHTML = `<i class="bi bi-person-check-fill"></i> ${userData.nickname}`;
+            document.getElementById('loginBtn').classList.add('d-none');
+            document.getElementById('logoutBtn').classList.remove('d-none');
+        } else {
+            document.getElementById('userInfo').innerHTML = '<i class="bi bi-person-circle"></i> Invitado';
+            document.getElementById('loginBtn').classList.remove('d-none');
+            document.getElementById('logoutBtn').classList.add('d-none');
+        }
+    }
+
+    // Inicializar verificación de sesión
+    document.addEventListener('DOMContentLoaded', checkSession);
+
+    // Manejo del formulario de inicio de sesión
+    if (document.getElementById('loginForm')) {
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Simulación de inicio de sesión exitoso
+            const userData = {
+                nickname: document.getElementById('loginEmail').value,
+                nombre: "Usuario Ejemplo"
+            };
+
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            checkSession();
+
+            // Cerrar modal
+            const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            loginModal.hide();
+
+            alert('Inicio de sesión exitoso');
+        });
+    }
+
+    // Cerrar sesión
+    if (document.getElementById('logoutBtn')) {
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('currentUser');
+            checkSession();
+            alert('Sesión cerrada correctamente');
+        });
+    }
+
+    // Asegurar que todos los enlaces funcionen
+    document.addEventListener('DOMContentLoaded', function() {
+        const allLinks = document.querySelectorAll('a');
+        allLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
