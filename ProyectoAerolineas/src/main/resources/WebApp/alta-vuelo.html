@@ -6,97 +6,94 @@
     <title>Alta de Vuelo - Juan Viajes</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .user-actions {
-            display: flex;
-            gap: 10px;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-        .card-header {
-            background: linear-gradient(135deg, #3498db, #8e44ad);
-            border-bottom: none;
-        }
-    </style>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/CssLogica/alta-vuelo.css">
 </head>
-<body class="bg-light">
+<body class="bg-dark">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="PaginaPrincipal.html">Juan Viajes</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Vuelos
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
-                    <li><a class="dropdown-item" href="consulta-vuelo.html">Consulta de Vuelo</a></li>
-                    <li><a class="dropdown-item active" href="consulta-reserva.html">Consulta de Reserva</a></li>
-                    <li><a class="dropdown-item" href="reserva-vuelo.html">Reserva de Vuelo</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Paquetes
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
-                    <li><a class="dropdown-item" href="consulta-paquete.html">Consulta de Paquete</a></li>
-                    <li><a class="dropdown-item" href="compra-paquete.html">Compra de Paquete</a></li>
-                    <li><a class="dropdown-item active" href="alta-paquete.html">Alta de Paquete</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Aerolíneas
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
-                    <li><a class="dropdown-item" href="alta-ruta.html">Alta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="consulta-ruta.html">Consulta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Usuarios
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
-                    <li><a class="dropdown-item" href="alta-usuario.html">Alta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="consulta-usuario.html">Consulta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="modificar-usuario.html">Modificar Datos</a></li>
-                </ul>
-            </li>
-        </ul>
-        <div class="user-actions">
-            <span class="navbar-text me-3">
-                <i class="bi bi-person-gear"></i> Administrador
-            </span>
-            <a class="btn btn-outline-primary" href="PaginaPrincipal.html">Salir</a>
+<!-- Navbar consistente con PáginaPrincipal -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="PaginaPrincipal.html">Juan <span>Viajes</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
+                </li>
+
+                <!-- Menú Vuelos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Vuelos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
+                        <li><a class="dropdown-item" href="consulta-vuelo.html"><i class="bi bi-search"></i> Consulta de Vuelo</a></li>
+                        <li><a class="dropdown-item" href="consulta-reserva.html"><i class="bi bi-ticket-perforated"></i> Consulta de Reserva</a></li>
+                        <li><a class="dropdown-item" href="reserva-vuelo.html"><i class="bi bi-calendar-check"></i> Reserva de Vuelo</a></li>
+                        <li><a class="dropdown-item active" href="alta-vuelo.html"><i class="bi bi-plus-circle"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Paquetes -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Paquetes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
+                        <li><a class="dropdown-item" href="consulta-paquete.html"><i class="bi bi-box-seam"></i> Consulta de Paquete</a></li>
+                        <li><a class="dropdown-item" href="compra-paquete.html"><i class="bi bi-cart-check"></i> Compra de Paquete</a></li>
+                        <li><a class="dropdown-item" href="alta-paquete.html"><i class="bi bi-plus-square"></i> Alta de Paquete</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Aerolíneas -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Aerolíneas
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
+                        <li><a class="dropdown-item" href="alta-ruta.html"><i class="bi bi-signpost"></i> Alta de Ruta</a></li>
+                        <li><a class="dropdown-item" href="consulta-ruta.html"><i class="bi bi-map"></i> Consulta de Ruta</a></li>
+                        <li><a class="dropdown-item active" href="alta-vuelo.html"><i class="bi bi-airplane"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Usuarios -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
+                        <li><a class="dropdown-item" href="alta-usuario.html"><i class="bi bi-person-plus"></i> Alta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="consulta-usuario.html"><i class="bi bi-person-vcard"></i> Consulta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="modificar-usuario.html"><i class="bi bi-pencil-square"></i> Modificar Datos</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="user-actions">
+                <span class="user-info" id="userInfo">
+                    <i class="bi bi-person-gear"></i> Administrador
+                </span>
+                <button class="btn btn-outline-primary" id="logoutBtn">Cerrar Sesión</button>
+            </div>
         </div>
     </div>
 </nav>
 
 <div class="container mt-5">
     <div class="card shadow-lg">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header">
             <h4 class="mb-0">Alta de Vuelo</h4>
             <p class="mb-0 mt-2 small">Complete los datos para crear un nuevo vuelo asociado a una de sus rutas</p>
         </div>
         <div class="card-body">
 
-            <form id="formAltaVuelo">
+            <form id="formAltaVuelo" novalidate>
                 <!-- Información de la aerolínea -->
                 <div class="alert alert-info">
                     <strong>Aerolínea:</strong> ZulyFly Airlines
@@ -178,7 +175,7 @@
                         <i class="bi bi-check-lg"></i> Dar de Alta Vuelo
                     </button>
                     <button type="reset" class="btn btn-secondary">
-                        <i class="bi bi-x-lg"></i> Limpiar Formulario
+                        <i class="bi bi-arrow-clockwise"></i> Limpiar Formulario
                     </button>
                     <a href="PaginaPrincipal.html" class="btn btn-outline-primary">
                         <i class="bi bi-house"></i> Volver al Inicio
@@ -190,122 +187,9 @@
     </div>
 </div>
 
-<!-- Modal de éxito -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="successModalLabel">Vuelo Creado Exitosamente</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>El vuelo ha sido creado exitosamente y está ahora disponible en el sistema.</p>
-                <p><strong>Próximo paso:</strong> Los clientes podrán ver este vuelo y realizar reservas.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Continuar</button>
-                <a href="alta-vuelo.html" class="btn btn-outline-primary">Crear Otro Vuelo</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Scripts Bootstrap -->
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Datos de ejemplo de rutas
-    const rutasData = {
-        'ZL1502': {
-            nombre: 'Montevideo - Rio de Janeiro',
-            descripcion: 'Vuelo directo con duración aproximada de 2 horas 30 minutos',
-            costo_turista: 75,
-            costo_ejecutivo: 190,
-            origen: 'Montevideo (MVD)',
-            destino: 'Rio de Janeiro (GIG)'
-        },
-        'ZL2001': {
-            nombre: 'Montevideo - São Paulo',
-            descripcion: 'Vuelo directo con duración aproximada de 3 horas',
-            costo_turista: 80,
-            costo_ejecutivo: 200,
-            origen: 'Montevideo (MVD)',
-            destino: 'São Paulo (GRU)'
-        },
-        'ZL3005': {
-            nombre: 'Buenos Aires - Santiago',
-            descripcion: 'Vuelo directo cruzando la cordillera de los Andes',
-            costo_turista: 120,
-            costo_ejecutivo: 280,
-            origen: 'Buenos Aires (EZE)',
-            destino: 'Santiago (SCL)'
-        },
-        'ZL4002': {
-            nombre: 'Lima - Bogotá',
-            descripcion: 'Vuelo internacional con servicio completo a bordo',
-            costo_turista: 150,
-            costo_ejecutivo: 320,
-            origen: 'Lima (LIM)',
-            destino: 'Bogotá (BOG)'
-        }
-    };
-
-    // Actualizar información de la ruta seleccionada
-    document.getElementById('rutaVuelo').addEventListener('change', function() {
-        const rutaSeleccionada = this.value;
-        const infoRuta = document.getElementById('infoRuta');
-        const detallesRuta = document.getElementById('detallesRuta');
-
-        if (rutaSeleccionada && rutasData[rutaSeleccionada]) {
-            const ruta = rutasData[rutaSeleccionada];
-            detallesRuta.innerHTML = `
-                <p><strong>Ruta:</strong> ${ruta.nombre}</p>
-                <p><strong>Origen:</strong> ${ruta.origen}</p>
-                <p><strong>Destino:</strong> ${ruta.destino}</p>
-                <p><strong>Descripción:</strong> ${ruta.descripcion}</p>
-                <p><strong>Costos base:</strong> Turista: $${ruta.costo_turista} | Ejecutivo: $${ruta.costo_ejecutivo}</p>
-            `;
-            infoRuta.classList.remove('d-none');
-        } else {
-            infoRuta.classList.add('d-none');
-        }
-    });
-
-    // Validación del formulario
-    document.getElementById('formAltaVuelo').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        if (this.checkValidity()) {
-            // Simular envío exitoso
-            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-            successModal.show();
-
-            // Aquí iría la lógica real para enviar al servidor
-            console.log('Datos del vuelo:', {
-                ruta: document.getElementById('rutaVuelo').value,
-                nombre: document.getElementById('nombreVuelo').value,
-                fecha: document.getElementById('fechaVuelo').value,
-                duracion: `${document.getElementById('horas').value}h ${document.getElementById('minutos').value}m`,
-                asientos_turista: document.getElementById('asientosTurista').value,
-                asientos_ejecutivo: document.getElementById('asientosEjecutivo').value,
-                imagen: document.getElementById('imagenVuelo').files[0]?.name || 'No seleccionada'
-            });
-
-            // Limpiar formulario después de éxito
-            setTimeout(() => {
-                this.reset();
-                this.classList.remove('was-validated');
-                document.getElementById('infoRuta').classList.add('d-none');
-            }, 2000);
-
-        } else {
-            event.stopPropagation();
-        }
-
-        this.classList.add('was-validated');
-    });
-
-    // Validar que la fecha sea futura
-    document.getElementById('fechaVuelo').min = new Date().toISOString().split('T')[0];
-</script>
+<script src="js/JsLogica/session-manager.js"></script>
+<script src="js/JsLogica/alta-vuelo.js"></script>
 </body>
 </html>

@@ -4,113 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra de Paquete de Rutas de Vuelo - Juan Viajes</title>
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .user-actions {
-            display: flex;
-            gap: 10px;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-        .card-header {
-            background: linear-gradient(135deg, #3498db, #8e44ad);
-            border-bottom: none;
-        }
-        .paquete-card {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .paquete-card:hover {
-            border-color: #3498db;
-            transform: translateY(-2px);
-        }
-        .paquete-card.selected {
-            border-color: #28a745;
-            background-color: #f8fff9;
-        }
-        .ruta-item {
-            padding: 8px 12px;
-            margin-bottom: 5px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            border-left: 3px solid #3498db;
-        }
-        .badge-vigente {
-            background-color: #28a745;
-        }
-        .badge-vencido {
-            background-color: #dc3545;
-        }
-    </style>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/CssLogica/compra-paquete.css">
 </head>
-<body class="bg-light">
+<body class="bg-dark">
 
 <!-- Navbar consistente con PáginaPrincipal -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="PaginaPrincipal.html">Juan Viajes</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Vuelos
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
-                    <li><a class="dropdown-item" href="consulta-vuelo.html">Consulta de Vuelo</a></li>
-                    <li><a class="dropdown-item active" href="consulta-reserva.html">Consulta de Reserva</a></li>
-                    <li><a class="dropdown-item" href="reserva-vuelo.html">Reserva de Vuelo</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Paquetes
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
-                    <li><a class="dropdown-item" href="consulta-paquete.html">Consulta de Paquete</a></li>
-                    <li><a class="dropdown-item" href="compra-paquete.html">Compra de Paquete</a></li>
-                    <li><a class="dropdown-item active" href="alta-paquete.html">Alta de Paquete</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Aerolíneas
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
-                    <li><a class="dropdown-item" href="alta-ruta.html">Alta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="consulta-ruta.html">Consulta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Usuarios
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
-                    <li><a class="dropdown-item" href="alta-usuario.html">Alta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="consulta-usuario.html">Consulta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="modificar-usuario.html">Modificar Datos</a></li>
-                </ul>
-            </li>
-        </ul>
-        <div class="user-actions">
-            <span class="navbar-text me-3">
-                <i class="bi bi-person-gear"></i> Administrador
-            </span>
-            <a class="btn btn-outline-primary" href="PaginaPrincipal.html">Salir</a>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="PaginaPrincipal.html">Juan <span>Viajes</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
+                </li>
+
+                <!-- Menú Vuelos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Vuelos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
+                        <li><a class="dropdown-item" href="consulta-vuelo.html"><i class="bi bi-search"></i> Consulta de Vuelo</a></li>
+                        <li><a class="dropdown-item" href="consulta-reserva.html"><i class="bi bi-ticket-perforated"></i> Consulta de Reserva</a></li>
+                        <li><a class="dropdown-item" href="reserva-vuelo.html"><i class="bi bi-calendar-check"></i> Reserva de Vuelo</a></li>
+                        <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-plus-circle"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Paquetes -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Paquetes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
+                        <li><a class="dropdown-item" href="consulta-paquete.html"><i class="bi bi-box-seam"></i> Consulta de Paquete</a></li>
+                        <li><a class="dropdown-item active" href="compra-paquete.html"><i class="bi bi-cart-check"></i> Compra de Paquete</a></li>
+                        <li><a class="dropdown-item" href="alta-paquete.html"><i class="bi bi-plus-square"></i> Alta de Paquete</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Aerolíneas -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Aerolíneas
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
+                        <li><a class="dropdown-item" href="alta-ruta.html"><i class="bi bi-signpost"></i> Alta de Ruta</a></li>
+                        <li><a class="dropdown-item" href="consulta-ruta.html"><i class="bi bi-map"></i> Consulta de Ruta</a></li>
+                        <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-airplane"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Usuarios -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
+                        <li><a class="dropdown-item" href="alta-usuario.html"><i class="bi bi-person-plus"></i> Alta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="consulta-usuario.html"><i class="bi bi-person-vcard"></i> Consulta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="modificar-usuario.html"><i class="bi bi-pencil-square"></i> Modificar Datos</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="user-actions">
+                <span class="user-info" id="userInfo">
+                    <i class="bi bi-person-circle"></i> María González
+                </span>
+                <button class="btn btn-outline-primary" id="logoutBtn">Cerrar Sesión</button>
+            </div>
         </div>
     </div>
 </nav>
@@ -119,7 +89,7 @@
     <div class="row">
         <div class="col-lg-8 mx-auto">
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header">
                     <h4 class="mb-0">Compra de Paquete de Rutas de Vuelo</h4>
                     <p class="mb-0 mt-2 small">Seleccione un paquete disponible para comprar</p>
                 </div>
@@ -200,6 +170,9 @@
             <div class="modal-body">
                 <p>¿Está seguro que desea comprar el paquete <strong id="modalNombrePaquete"></strong> por $<strong id="modalCostoPaquete"></strong>?</p>
                 <p>Este paquete tendrá una vigencia de <strong id="modalVigencia"></strong> días a partir de hoy.</p>
+                <div class="alert alert-info mt-3">
+                    <small><i class="bi bi-info-circle"></i> Después de la compra, podrás utilizar este paquete para reservar vuelos en las rutas incluidas.</small>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -209,260 +182,9 @@
     </div>
 </div>
 
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Datos de ejemplo - Paquetes disponibles
-    const paquetesDisponibles = [
-        {
-            id: 1,
-            nombre: "Sudamérica Básico",
-            costo: 500,
-            vigencia: 180, // días
-            rutas: [
-                { id: "R001", nombre: "Montevideo - Buenos Aires", aerolinea: "ZulyFly" },
-                { id: "R002", nombre: "Buenos Aires - Santiago", aerolinea: "Aerolíneas Argentinas" }
-            ],
-            descripcion: "Ideal para viajes regionales dentro de Sudamérica"
-        },
-        {
-            id: 2,
-            nombre: "Europa Explorer",
-            costo: 1200,
-            vigencia: 365,
-            rutas: [
-                { id: "R101", nombre: "Madrid - París", aerolinea: "Iberia" },
-                { id: "R102", nombre: "París - Roma", aerolinea: "Air France" },
-                { id: "R103", nombre: "Roma - Barcelona", aerolinea: "Alitalia" }
-            ],
-            descripcion: "Descubre las principales capitales europeas"
-        },
-        {
-            id: 3,
-            nombre: "Caribe Paradise",
-            costo: 800,
-            vigencia: 90,
-            rutas: [
-                { id: "R201", nombre: "Miami - Cancún", aerolinea: "American Airlines" },
-                { id: "R202", nombre: "Cancún - Punta Cana", aerolinea: "Copa Airlines" }
-            ],
-            descripcion: "Escape tropical a los mejores destinos del Caribe"
-        }
-    ];
-
-    // Paquetes ya comprados por el cliente (inicialmente vacío)
-    let paquetesComprados = [];
-
-    // Elementos del DOM
-    const listaPaquetes = document.getElementById('listaPaquetes');
-    const infoPaquete = document.getElementById('infoPaquete');
-    const mensajeCompra = document.getElementById('mensajeCompra');
-    const listaPaquetesComprados = document.getElementById('listaPaquetesComprados');
-    const contadorPaquetes = document.getElementById('contadorPaquetes');
-    const saldoCliente = document.getElementById('saldoCliente');
-
-    // Variables globales
-    let paqueteSeleccionado = null;
-
-    // Inicializar la página
-    function inicializarPagina() {
-        cargarPaquetesDisponibles();
-        actualizarPaquetesComprados();
-        actualizarContadores();
-    }
-
-    // Cargar paquetes disponibles en la lista
-    function cargarPaquetesDisponibles() {
-        listaPaquetes.innerHTML = '';
-
-        paquetesDisponibles.forEach(paquete => {
-            const yaComprado = paquetesComprados.some(p => p.id === paquete.id && estaVigente(p));
-
-            const paqueteHTML = `
-                <div class="col-md-6">
-                    <div class="card paquete-card ${yaComprado ? 'opacity-50' : ''}"
-                         onclick="${yaComprado ? '' : `seleccionarPaquete(${paquete.id})`}">
-                        <div class="card-body">
-                            <h6 class="card-title">${paquete.nombre}</h6>
-                            <p class="card-text small text-muted">${paquete.descripcion}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 text-primary">$${paquete.costo}</span>
-                                <span class="badge bg-info">Vigencia: ${paquete.vigencia} días</span>
-                            </div>
-                            <div class="mt-2">
-                                <small class="text-muted">Incluye ${paquete.rutas.length} rutas</small>
-                            </div>
-                            ${yaComprado ? '<div class="text-center mt-2"><span class="badge bg-warning">Ya comprado</span></div>' : ''}
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            listaPaquetes.innerHTML += paqueteHTML;
-        });
-    }
-
-    // Seleccionar un paquete
-    function seleccionarPaquete(id) {
-        paqueteSeleccionado = paquetesDisponibles.find(p => p.id === id);
-
-        // Actualizar información del paquete seleccionado
-        document.getElementById('nombrePaqueteSeleccionado').textContent = paqueteSeleccionado.nombre;
-        document.getElementById('costoPaqueteSeleccionado').textContent = paqueteSeleccionado.costo;
-        document.getElementById('vigenciaPaquete').textContent = paqueteSeleccionado.vigencia;
-
-        const fechaCompra = new Date();
-        const fechaVencimiento = new Date();
-        fechaVencimiento.setDate(fechaVencimiento.getDate() + paqueteSeleccionado.vigencia);
-
-        document.getElementById('fechaCompra').textContent = fechaCompra.toLocaleDateString();
-        document.getElementById('fechaVencimiento').textContent = fechaVencimiento.toLocaleDateString();
-
-        // Mostrar rutas incluidas
-        const rutasContainer = document.getElementById('rutasPaqueteSeleccionado');
-        rutasContainer.innerHTML = '';
-        paqueteSeleccionado.rutas.forEach(ruta => {
-            const rutaHTML = `
-                <div class="ruta-item">
-                    <strong>${ruta.nombre}</strong><br>
-                    <small class="text-muted">${ruta.aerolinea}</small>
-                </div>
-            `;
-            rutasContainer.innerHTML += rutaHTML;
-        });
-
-        // Mostrar sección de información
-        infoPaquete.classList.remove('d-none');
-        mensajeCompra.innerHTML = '';
-
-        // Remover selección anterior y marcar actual
-        document.querySelectorAll('.paquete-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-        event.currentTarget.classList.add('selected');
-    }
-
-    // Confirmar compra
-    document.getElementById('btnConfirmarCompra').addEventListener('click', function() {
-        if (!paqueteSeleccionado) {
-            mostrarMensaje('Por favor seleccione un paquete primero.', 'warning');
-            return;
-        }
-
-        // Verificar saldo suficiente
-        const saldo = parseInt(saldoCliente.textContent.replace(',', ''));
-        if (saldo < paqueteSeleccionado.costo) {
-            mostrarMensaje('Saldo insuficiente para realizar esta compra.', 'danger');
-            return;
-        }
-
-        // Mostrar modal de confirmación
-        document.getElementById('modalNombrePaquete').textContent = paqueteSeleccionado.nombre;
-        document.getElementById('modalCostoPaquete').textContent = paqueteSeleccionado.costo;
-        document.getElementById('modalVigencia').textContent = paqueteSeleccionado.vigencia;
-
-        const confirmacionModal = new bootstrap.Modal(document.getElementById('confirmacionModal'));
-        confirmacionModal.show();
-    });
-
-    // Confirmar compra desde el modal
-    document.getElementById('btnModalConfirmar').addEventListener('click', function() {
-        realizarCompra();
-        const modal = bootstrap.Modal.getInstance(document.getElementById('confirmacionModal'));
-        modal.hide();
-    });
-
-    // Realizar la compra
-    function realizarCompra() {
-        const fechaCompra = new Date();
-        const fechaVencimiento = new Date();
-        fechaVencimiento.setDate(fechaVencimiento.getDate() + paqueteSeleccionado.vigencia);
-
-        // Agregar a paquetes comprados
-        const compra = {
-            ...paqueteSeleccionado,
-            fechaCompra: fechaCompra.toISOString(),
-            fechaVencimiento: fechaVencimiento.toISOString()
-        };
-
-        paquetesComprados.push(compra);
-
-        // Actualizar saldo
-        const nuevoSaldo = parseInt(saldoCliente.textContent.replace(',', '')) - paqueteSeleccionado.costo;
-        saldoCliente.textContent = nuevoSaldo.toLocaleString();
-
-        // Mostrar mensaje de éxito
-        mostrarMensaje(`¡Compra realizada con éxito! El paquete "${paqueteSeleccionado.nombre}" ha sido agregado a tu cuenta. Vence el ${fechaVencimiento.toLocaleDateString()}.`, 'success');
-
-        // Actualizar interfaz
-        actualizarPaquetesComprados();
-        actualizarContadores();
-        cargarPaquetesDisponibles();
-
-        // Limpiar selección
-        cancelarSeleccion();
-    }
-
-    // Cancelar selección
-    document.getElementById('btnCancelarSeleccion').addEventListener('click', cancelarSeleccion);
-
-    function cancelarSeleccion() {
-        paqueteSeleccionado = null;
-        infoPaquete.classList.add('d-none');
-        document.querySelectorAll('.paquete-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-    }
-
-    // Actualizar lista de paquetes comprados
-    function actualizarPaquetesComprados() {
-        listaPaquetesComprados.innerHTML = '';
-
-        if (paquetesComprados.length === 0) {
-            listaPaquetesComprados.innerHTML = '<div class="col-12"><p class="text-muted text-center">No has comprado ningún paquete aún.</p></div>';
-            return;
-        }
-
-        paquetesComprados.forEach(paquete => {
-            const vigente = estaVigente(paquete);
-            const paqueteHTML = `
-                <div class="col-md-6">
-                    <div class="card ${vigente ? 'border-success' : 'border-secondary'}">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <h6 class="card-title">${paquete.nombre}</h6>
-                                <span class="badge ${vigente ? 'badge-vigente' : 'badge-vencido'}">${vigente ? 'Vigente' : 'Vencido'}</span>
-                            </div>
-                            <p class="small text-muted mb-2">Comprado: ${new Date(paquete.fechaCompra).toLocaleDateString()}</p>
-                            <p class="small text-muted mb-2">Vence: ${new Date(paquete.fechaVencimiento).toLocaleDateString()}</p>
-                            <div class="mt-2">
-                                <small><strong>Rutas:</strong> ${paquete.rutas.length} incluidas</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            listaPaquetesComprados.innerHTML += paqueteHTML;
-        });
-    }
-
-    // Verificar si un paquete está vigente
-    function estaVigente(paquete) {
-        return new Date(paquete.fechaVencimiento) > new Date();
-    }
-
-    // Actualizar contadores
-    function actualizarContadores() {
-        const paquetesVigentes = paquetesComprados.filter(estaVigente).length;
-        contadorPaquetes.textContent = `${paquetesVigentes}/${paquetesComprados.length}`;
-    }
-
-    // Mostrar mensajes
-    function mostrarMensaje(mensaje, tipo) {
-        mensajeCompra.innerHTML = `<div class="alert alert-${tipo}">${mensaje}</div>`;
-    }
-
-    // Inicializar la página cuando se carga
-    document.addEventListener('DOMContentLoaded', inicializarPagina);
-</script>
+<script src="js/JsLogica/session-manager.js"></script>
+<script src="js/JsLogica/compra-paquete.js"></script>
 </body>
 </html>
