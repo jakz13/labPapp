@@ -17,7 +17,6 @@ body {
     padding-top: 80px; /* Espacio para la navbar fija */
 }
 
-/* Navbar moderna - FIXED con z-index alto */
 .navbar {
     background-color: rgba(18, 18, 18, 0.95) !important;
     backdrop-filter: blur(10px);
