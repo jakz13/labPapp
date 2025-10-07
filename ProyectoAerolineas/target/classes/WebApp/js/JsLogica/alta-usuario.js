@@ -161,3 +161,16 @@ function validateStep3() {
 
 // Validar edad mínima (18 años)
 document.getElementById('fechaNacimiento').max = new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().split('T')[0];
+
+// Inicialización al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    // Solo mostrar el primer paso
+    document.getElementById('section1').classList.remove('d-none');
+    document.getElementById('section2').classList.add('d-none');
+    document.getElementById('section3').classList.add('d-none');
+    // Ocultar campos adicionales
+    document.getElementById('camposCliente').classList.add('d-none');
+    document.getElementById('camposAerolinea').classList.add('d-none');
+    // Desactivar botón siguiente del paso 2
+    document.getElementById('nextStep2').disabled = true;
+});
