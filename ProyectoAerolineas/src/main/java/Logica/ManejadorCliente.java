@@ -107,7 +107,9 @@ public class ManejadorCliente {
     }
 
     public Cliente obtenerClientePorEmail(String email) {
-        return null;
+        return clientes.values().stream()
+                .filter(c -> c.getEmail().equals(email))
+                .findFirst().orElse(null);
     }
 
     public List<DtCliente> getClientes() {

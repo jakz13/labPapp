@@ -33,6 +33,7 @@ public class IntentoDiseño {
     private JButton CONSULTARPAQUETE;
 
     public IntentoDiseño(JFrame framePrincipal) {
+
         AltaClienteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

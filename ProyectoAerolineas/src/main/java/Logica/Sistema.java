@@ -44,6 +44,7 @@ public class Sistema implements ISistema {
         manejadorRutaVuelo.cargarRutasDesdeBD(em);
         manejadorVuelo.cargarVuelosDesdeBD(em);
         manejadorPaquete.cargarPaquetesDesdeBD(em);
+        manejadorCategoria.cargarCategoriasDesdeBD(em);
     }
 
     // --- USUARIOS ---
