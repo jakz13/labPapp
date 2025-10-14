@@ -1,18 +1,36 @@
 // Navegación entre pasos
+// Navegación entre pasos
 function nextStep(step) {
-    // Validar paso actual antes de avanzar
     if (step === 2 && !validateStep1()) return;
     if (step === 3 && !validateStep2()) return;
 
-    document.getElementById('section' + (step-1)).classList.add('d-none');
-    document.getElementById('section' + step).classList.remove('d-none');
+    // Oculta la sección anterior
+    const prevSection = document.getElementById('section' + (step-1));
+    prevSection.classList.add('d-none');
+    prevSection.classList.remove('active');
+
+    // Muestra la sección actual
+    const currSection = document.getElementById('section' + step);
+    currSection.classList.remove('d-none');
+    currSection.classList.add('active');
+
+    // Actualiza el step indicator
     document.getElementById('step' + (step-1)).classList.remove('active');
     document.getElementById('step' + step).classList.add('active');
 }
 
 function prevStep(step) {
-    document.getElementById('section' + (step+1)).classList.add('d-none');
-    document.getElementById('section' + step).classList.remove('d-none');
+    // Oculta la sección siguiente
+    const nextSection = document.getElementById('section' + (step+1));
+    nextSection.classList.add('d-none');
+    nextSection.classList.remove('active');
+
+    // Muestra la sección actual
+    const currSection = document.getElementById('section' + step);
+    currSection.classList.remove('d-none');
+    currSection.classList.add('active');
+
+    // Actualiza el step indicator
     document.getElementById('step' + (step+1)).classList.remove('active');
     document.getElementById('step' + step).classList.add('active');
 }

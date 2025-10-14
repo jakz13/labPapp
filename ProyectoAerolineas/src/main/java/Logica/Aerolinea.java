@@ -44,9 +44,10 @@ public class Aerolinea extends Usuario {
 
     public List<DtRutaVuelo> getRutasVuelo() {
         return rutasVuelo.values().stream()
-                .map(ruta -> new DtRutaVuelo(
+                .map(ruta ->  new DtRutaVuelo(
                         ruta.getNombre(),
                         ruta.getDescripcion(),
+                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta
                         ruta.getAerolinea().getNombre(),
                         ruta.getCiudadOrigen(),
                         ruta.getCiudadDestino(),
@@ -55,6 +56,7 @@ public class Aerolinea extends Usuario {
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),
+                        ruta.getEstado().toString(), // Nuevo campo: estado
                         ruta.getCategorias(),
                         ruta.getDtVuelos()
                 ))
@@ -66,17 +68,20 @@ public class Aerolinea extends Usuario {
         return new ArrayList<>(
             rutasVuelo.values().stream()
                 .map(ruta -> new DtRutaVuelo(
-                    ruta.getNombre(),
-                    ruta.getDescripcion(),
-                    ruta.getAerolinea().getNombre(),
-                    ruta.getCiudadOrigen(),
-                    ruta.getCiudadDestino(),
-                    ruta.getHora(),
-                    ruta.getFechaAlta(),
-                    ruta.getCostoTurista(),
-                    ruta.getCostoEjecutivo(),
-                    ruta.getCostoEquipajeExtra(),
-                    ruta.getCategorias(), ruta.getDtVuelos()
+                        ruta.getNombre(),
+                        ruta.getDescripcion(),
+                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta
+                        ruta.getAerolinea().getNombre(),
+                        ruta.getCiudadOrigen(),
+                        ruta.getCiudadDestino(),
+                        ruta.getHora(),
+                        ruta.getFechaAlta(),
+                        ruta.getCostoTurista(),
+                        ruta.getCostoEjecutivo(),
+                        ruta.getCostoEquipajeExtra(),
+                        ruta.getEstado().toString(), // Nuevo campo: estado
+                        ruta.getCategorias(),
+                        ruta.getDtVuelos()
                 ))
                 .toList()
         );
