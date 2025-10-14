@@ -43,5 +43,18 @@ if (document.getElementById('logoutBtn')) {
     document.getElementById('logoutBtn').addEventListener('click', function() {
         localStorage.removeItem('currentUser');
         checkSession();
+        alert('Sesión cerrada correctamente');
     });
 }
+
+// Asegurar que todos los enlaces funcionen
+document.addEventListener('DOMContentLoaded', function() {
+    const allLinks = document.querySelectorAll('a');
+    allLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href') === '#') {
+                e.preventDefault();
+            }
+        });
+    });
+});

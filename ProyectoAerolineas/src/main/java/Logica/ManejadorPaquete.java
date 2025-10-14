@@ -52,30 +52,38 @@ public class ManejadorPaquete {
         }
     }
 
-    public void agregarRutaPaquete(Paquete p, RutaVuelo ruta, int cantidadAsientos, TipoAsiento tipoAsiento, EntityManager em) {
-        ItemPaquete existente = null;
-        for (ItemPaquete item : p.getItemPaquetes()) {
+    public void agregarRutaAPaquete(Paquete paquete, RutaVuelo ruta, int cantidadAsientos, TipoAsiento tipoAsiento, EntityManager em) {
+        // Verificar que la ruta no esté ya en el paquete con el mismo tipo de asiento
+        for (ItemPaquete item : paquete.getItemPaquetes()) {
             if (item.getRutaVuelo().equals(ruta) && item.getTipoAsiento() == tipoAsiento) {
-                existente = item;
-                break;
+                throw new IllegalArgumentException("La ruta ya fue agregada previamente al paquete con ese tipo de asiento.");
             }
         }
+
+        // Crear y agregar el nuevo item
+        ItemPaquete nuevoItem = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
+        paquete.getItemPaquetes().add(nuevoItem);
+
+        // Recalcular costo
+        double costoTotal = 0;
+        for (ItemPaquete item : paquete.getItemPaquetes()) {
+            double costoRuta = item.getTipoAsiento() == TipoAsiento.TURISTA
+                    ? item.getRutaVuelo().getCostoTurista()
+                    : item.getRutaVuelo().getCostoEjecutivo();
+            costoTotal += costoRuta * item.getCantAsientos();
+        }
+        double costoConDescuento = costoTotal * (1 - paquete.getDescuentoPorc() / 100.0);
+        paquete.setCosto(costoConDescuento);
+
+        // Persistir en BD
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            if (existente != null) {
-                existente.incrementarCantidad(cantidadAsientos);
-                em.merge(existente);
-            } else {
-                ItemPaquete nuevo = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
-                p.getItemPaquetes().add(nuevo);
-                em.persist(nuevo);
-            }
-            em.merge(p);
+            em.merge(paquete);
             tx.commit();
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
-            e.printStackTrace();
+            throw new IllegalArgumentException("Error al guardar la ruta en el paquete: " + e.getMessage());
         }
     }
 
@@ -149,6 +157,7 @@ public class ManejadorPaquete {
                 DtRutaVuelo dtRuta = new DtRutaVuelo(
                         ruta.getNombre(),
                         ruta.getDescripcion(),
+                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta
                         ruta.getAerolinea().getNombre(),
                         ruta.getCiudadOrigen(),
                         ruta.getCiudadDestino(),
@@ -157,8 +166,9 @@ public class ManejadorPaquete {
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),
+                        ruta.getEstado().toString(),
                         ruta.getCategorias(),
-                        ruta.getDtVuelos() // convertir a DtVuelo si corresponde
+                        ruta.getDtVuelos()
                 );
 
                 // Crear el DtItemPaquete con la ruta, cantidad y tipo

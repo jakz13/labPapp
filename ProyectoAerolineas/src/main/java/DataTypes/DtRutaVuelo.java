@@ -6,7 +6,8 @@ import java.util.List;
 public class DtRutaVuelo {
     private String nombre;
     private String descripcion;
-    private String aerolinea; // solo nickname o nombre, no objeto
+    private String descripcionCorta; // Nueva descripción corta
+    private String aerolinea;
     private String ciudadOrigen;
     private String ciudadDestino;
     private String hora;
@@ -14,15 +15,18 @@ public class DtRutaVuelo {
     private double costoTurista;
     private double costoEjecutivo;
     private double costoEquipajeExtra;
+    private String estado; // Nuevo campo estado
     private List<String> categorias;
-    private List<DtVuelo> vuelos; // nombres de vuelos, no objetos
+    private List<DtVuelo> vuelos;
 
-    public DtRutaVuelo(String nombre, String descripcion, String aerolinea,
+    public DtRutaVuelo(String nombre, String descripcion, String descripcionCorta, String aerolinea,
                        String ciudadOrigen, String ciudadDestino, String hora,
                        LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
-                       double costoEquipajeExtra, List<String> categorias, List<DtVuelo> vuelos) {
+                       double costoEquipajeExtra, String estado, List<String> categorias,
+                       List<DtVuelo> vuelos) {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.descripcionCorta = descripcionCorta;
         this.aerolinea = aerolinea;
         this.ciudadOrigen = ciudadOrigen;
         this.ciudadDestino = ciudadDestino;
@@ -31,15 +35,15 @@ public class DtRutaVuelo {
         this.costoTurista = costoTurista;
         this.costoEjecutivo = costoEjecutivo;
         this.costoEquipajeExtra = costoEquipajeExtra;
+        this.estado = estado;
         this.categorias = categorias;
         this.vuelos = vuelos;
     }
 
-
-
     // === Getters ===
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
+    public String getDescripcionCorta() { return descripcionCorta; }
     public String getAerolinea() { return aerolinea; }
     public String getCiudadOrigen() { return ciudadOrigen; }
     public String getCiudadDestino() { return ciudadDestino; }
@@ -48,14 +52,12 @@ public class DtRutaVuelo {
     public double getCostoTurista() { return costoTurista; }
     public double getCostoEjecutivo() { return costoEjecutivo; }
     public double getCostoEquipajeExtra() { return costoEquipajeExtra; }
+    public String getEstado() { return estado; }
     public List<String> getCategorias() { return categorias; }
     public List<DtVuelo> getVuelos() { return vuelos; }
 
-
-
     @Override
     public String toString() {
-        return this.nombre;
+        return this.nombre + " (" + this.estado + ")";
     }
 }
-

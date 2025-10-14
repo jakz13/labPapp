@@ -6,126 +6,101 @@
     <title>Consulta de Vuelo - Juan Viajes</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .user-actions {
-            display: flex;
-            gap: 10px;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-        .card-header {
-            background: linear-gradient(135deg, #3498db, #8e44ad);
-            border-bottom: none;
-        }
-        .flight-image {
-            max-height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .info-card {
-            background-color: #f8f9fa;
-            border-left: 4px solid #3498db;
-        }
-        .reserva-section {
-            background-color: #e8f5e8;
-            border-left: 4px solid #28a745;
-        }
-        .dropdown-menu {
-            border: none;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-        .dropdown-item:hover {
-            background-color: #3498db;
-            color: white;
-        }
-    </style>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/CssLogica/estilo-css.css">
 </head>
-<body class="bg-light">
+<body class="bg-dark text-light">
 
 <!-- Navbar consistente con PáginaPrincipal -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="PaginaPrincipal.html">Juan Viajes</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Vuelos
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
-                    <li><a class="dropdown-item" href="consulta-vuelo.html">Consulta de Vuelo</a></li>
-                    <li><a class="dropdown-item active" href="consulta-reserva.html">Consulta de Reserva</a></li>
-                    <li><a class="dropdown-item" href="reserva-vuelo.html">Reserva de Vuelo</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Paquetes
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
-                    <li><a class="dropdown-item" href="consulta-paquete.html">Consulta de Paquete</a></li>
-                    <li><a class="dropdown-item" href="compra-paquete.html">Compra de Paquete</a></li>
-                    <li><a class="dropdown-item active" href="alta-paquete.html">Alta de Paquete</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Aerolíneas
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
-                    <li><a class="dropdown-item" href="alta-ruta.html">Alta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="consulta-ruta.html">Consulta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Usuarios
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
-                    <li><a class="dropdown-item" href="alta-usuario.html">Alta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="consulta-usuario.html">Consulta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="modificar-usuario.html">Modificar Datos</a></li>
-                </ul>
-            </li>
-        </ul>
-        <div class="user-actions">
-            <span class="navbar-text me-3">
-                <i class="bi bi-person-gear"></i> Administrador
-            </span>
-            <a class="btn btn-outline-primary" href="PaginaPrincipal.html">Salir</a>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="PaginaPrincipal.html">Juan <span>Viajes</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
+                </li>
+
+                <!-- Menú Vuelos -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Vuelos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
+                        <li><a class="dropdown-item active" href="consulta-vuelo.html"><i class="bi bi-search"></i> Consulta de Vuelo</a></li>
+                        <li><a class="dropdown-item" href="consulta-reserva.html"><i class="bi bi-ticket-perforated"></i> Consulta de Reserva</a></li>
+                        <li><a class="dropdown-item" href="reserva-vuelo.html"><i class="bi bi-calendar-check"></i> Reserva de Vuelo</a></li>
+                        <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-plus-circle"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Paquetes -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Paquetes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
+                        <li><a class="dropdown-item" href="consulta-paquete.html"><i class="bi bi-box-seam"></i> Consulta de Paquete</a></li>
+                        <li><a class="dropdown-item" href="compra-paquete.html"><i class="bi bi-cart-check"></i> Compra de Paquete</a></li>
+                        <li><a class="dropdown-item" href="alta-paquete.html"><i class="bi bi-plus-square"></i> Alta de Paquete</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Aerolíneas -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Aerolíneas
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
+                        <li><a class="dropdown-item" href="alta-ruta.html"><i class="bi bi-signpost"></i> Alta de Ruta</a></li>
+                        <li><a class="dropdown-item" href="consulta-ruta.html"><i class="bi bi-map"></i> Consulta de Ruta</a></li>
+                        <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-airplane"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Usuarios -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
+                        <li><a class="dropdown-item" href="alta-usuario.html"><i class="bi bi-person-plus"></i> Alta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="consulta-usuario.html"><i class="bi bi-person-vcard"></i> Consulta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="modificar-usuario.html"><i class="bi bi-pencil-square"></i> Modificar Datos</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="user-actions">
+                <span class="user-info" id="userInfo">
+                    <i class="bi bi-person-gear"></i> Administrador
+                </span>
+                <button class="btn btn-outline-primary" id="logoutBtn">Cerrar Sesión</button>
+            </div>
         </div>
     </div>
 </nav>
 
-<div class="container mt-4 mb-5">
+<div class="container mt-5">
     <div class="row">
         <div class="col-lg-10 mx-auto">
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header">
                     <h4 class="mb-0">Consulta de Vuelo</h4>
                     <p class="mb-0 mt-2 small">Busque y consulte información detallada de vuelos disponibles</p>
                 </div>
                 <div class="card-body p-4">
 
                     <!-- Formulario de búsqueda -->
-                    <form id="formConsultaVuelo">
+                    <form id="formConsultaVuelo" novalidate>
                         <div class="row g-3">
                             <!-- Selección de aerolínea -->
                             <div class="col-md-4">
-                                <label for="aerolinea" class="form-label">Aerolínea</label>
+                                <label for="aerolinea" class="form-label">Aerolínea *</label>
                                 <select class="form-select" id="aerolinea" required>
                                     <option value="">Seleccione aerolínea...</option>
                                     <option value="iberia">Iberia</option>
@@ -134,22 +109,25 @@
                                     <option value="american">American Airlines</option>
                                     <option value="aerolineas">Aerolíneas Argentinas</option>
                                 </select>
+                                <div class="invalid-feedback">Por favor seleccione una aerolínea.</div>
                             </div>
 
                             <!-- Selección de ruta -->
                             <div class="col-md-4">
-                                <label for="rutaVuelo" class="form-label">Ruta de Vuelo</label>
+                                <label for="rutaVuelo" class="form-label">Ruta de Vuelo *</label>
                                 <select class="form-select" id="rutaVuelo" required disabled>
                                     <option value="">Primero seleccione aerolínea</option>
                                 </select>
+                                <div class="invalid-feedback">Por favor seleccione una ruta.</div>
                             </div>
 
                             <!-- Selección de vuelo -->
                             <div class="col-md-4">
-                                <label for="vuelo" class="form-label">Vuelo</label>
+                                <label for="vuelo" class="form-label">Vuelo *</label>
                                 <select class="form-select" id="vuelo" required disabled>
                                     <option value="">Primero seleccione ruta</option>
                                 </select>
+                                <div class="invalid-feedback">Por favor seleccione un vuelo.</div>
                             </div>
                         </div>
 
@@ -197,11 +175,11 @@
                                     <div class="col-md-6">
                                         <div class="card h-100">
                                             <div class="card-body">
-                                                <h6 class="card-title">Información del Vuelo</h6>
-                                                <p class="mb-1"><strong>Fecha:</strong> <span id="fechaVueloDetalle"></span></p>
-                                                <p class="mb-1"><strong>Duración:</strong> <span id="duracionVueloDetalle"></span></p>
-                                                <p class="mb-1"><strong>Hora salida:</strong> <span id="horaSalidaDetalle"></span></p>
-                                                <p class="mb-1"><strong>Hora llegada:</strong> <span id="horaLlegadaDetalle"></span></p>
+                                                <h6 class="card-title text-light">Información del Vuelo</h6>
+                                                <p class="mb-1 text-light"><strong>Fecha:</strong> <span id="fechaVueloDetalle"></span></p>
+                                                <p class="mb-1 text-light"><strong>Duración:</strong> <span id="duracionVueloDetalle"></span></p>
+                                                <p class="mb-1 text-light"><strong>Hora salida:</strong> <span id="horaSalidaDetalle"></span></p>
+                                                <p class="mb-1 text-light"><strong>Hora llegada:</strong> <span id="horaLlegadaDetalle"></span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -209,9 +187,9 @@
                                     <div class="col-md-6">
                                         <div class="card h-100">
                                             <div class="card-body">
-                                                <h6 class="card-title">Disponibilidad</h6>
-                                                <p class="mb-1"><strong>Turista:</strong> <span id="asientosTuristaDetalle"></span> asientos</p>
-                                                <p class="mb-1"><strong>Ejecutivo:</strong> <span id="asientosEjecutivoDetalle"></span> asientos</p>
+                                                <h6 class="card-title text-light">Disponibilidad</h6>
+                                                <p class="mb-1 text-light"><strong>Turista:</strong> <span id="asientosTuristaDetalle"></span> asientos</p>
+                                                <p class="mb-1 text-light"><strong>Ejecutivo:</strong> <span id="asientosEjecutivoDetalle"></span> asientos</p>
                                                 <p class="mb-1"><strong>Estado:</strong> <span id="estadoVueloDetalle" class="badge bg-success"></span></p>
                                             </div>
                                         </div>
@@ -220,15 +198,15 @@
 
                                 <!-- Información para aerolíneas (reservas) -->
                                 <div id="infoAerolinea" class="reserva-section p-3 mt-3" style="display: none;">
-                                    <h6>Reservas del Vuelo</h6>
-                                    <p class="mb-2">Este vuelo tiene <strong id="totalReservas">0</strong> reservas confirmadas.</p>
+                                    <h6 class="text-light">Reservas del Vuelo</h6>
+                                    <p class="mb-2 text-light">Este vuelo tiene <strong id="totalReservas">0</strong> reservas confirmadas.</p>
                                     <button class="btn btn-sm btn-outline-primary">Ver Detalles de Reservas</button>
                                 </div>
 
                                 <!-- Información para clientes (mi reserva) -->
                                 <div id="infoCliente" class="reserva-section p-3 mt-3" style="display: none;">
-                                    <h6>Tu Reserva</h6>
-                                    <p class="mb-2">Ya tienes una reserva confirmada para este vuelo.</p>
+                                    <h6 class="text-light">Tu Reserva</h6>
+                                    <p class="mb-2 text-light">Ya tienes una reserva confirmada para este vuelo.</p>
                                     <button class="btn btn-sm btn-outline-success">Ver Mi Reserva</button>
                                 </div>
 
@@ -251,201 +229,11 @@
     </div>
 </div>
 
-<!-- Modal de Login -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="loginEmail" class="form-label">Email o Nickname</label>
-                        <input type="text" class="form-control" id="loginEmail" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="loginPassword" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="loginPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <p class="text-center w-100">¿No tienes cuenta? <a href="alta-usuario.html">Regístrate aquí</a></p>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Container para mensajes toast -->
+<div id="toastContainer"></div>
 
-<!-- Scripts Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Datos de ejemplo
-    const datosVuelos = {
-        'iberia': {
-            rutas: {
-                'IB6012': {
-                    nombre: 'Montevideo - Madrid',
-                    vuelos: {
-                        'IB6012201': {
-                            nombre: 'IB6012 - Vuelo 201',
-                            fecha: '25/10/2024',
-                            duracion: '12 horas',
-                            horaSalida: '22:00',
-                            horaLlegada: '14:00 (+1)',
-                            asientosTurista: 142,
-                            asientosEjecutivo: 24,
-                            estado: 'Confirmado',
-                            imagen: 'https://via.placeholder.com/600x300/3498db/ffffff?text=IB6012+Montevideo-Madrid',
-                            tieneReservaCliente: true,
-                            totalReservas: 45
-                        }
-                    }
-                }
-            }
-        },
-        'zulyfly': {
-            rutas: {
-                'ZL1502': {
-                    nombre: 'Montevideo - Rio de Janeiro',
-                    vuelos: {
-                        'ZL1502001': {
-                            nombre: 'ZL1502 - Vuelo 001',
-                            fecha: '28/10/2024',
-                            duracion: '2 horas 30 min',
-                            horaSalida: '07:15',
-                            horaLlegada: '09:45',
-                            asientosTurista: 148,
-                            asientosEjecutivo: 28,
-                            estado: 'Confirmado',
-                            imagen: 'https://via.placeholder.com/600x300/8e44ad/ffffff?text=ZL1502+Montevideo-Rio',
-                            tieneReservaCliente: false,
-                            totalReservas: 32
-                        }
-                    }
-                }
-            }
-        },
-        'copa': {
-            rutas: {
-                'CN804': {
-                    nombre: 'Ciudad de Panamá - Nueva York',
-                    vuelos: {
-                        'CN804101': {
-                            nombre: 'CN804 - Vuelo 101',
-                            fecha: '30/10/2024',
-                            duracion: '5 horas 15 min',
-                            horaSalida: '08:30',
-                            horaLlegada: '15:45',
-                            asientosTurista: 135,
-                            asientosEjecutivo: 18,
-                            estado: 'Confirmado',
-                            imagen: 'https://via.placeholder.com/600x300/e74c3c/ffffff?text=CN804+Panamá-NY',
-                            tieneReservaCliente: false,
-                            totalReservas: 28
-                        }
-                    }
-                }
-            }
-        }
-    };
-
-    // Elementos del DOM
-    const aerolineaSelect = document.getElementById('aerolinea');
-    const rutaSelect = document.getElementById('rutaVuelo');
-    const vueloSelect = document.getElementById('vuelo');
-    const resultadoConsulta = document.getElementById('resultadoConsulta');
-    const formConsulta = document.getElementById('formConsultaVuelo');
-
-    // Cargar rutas cuando se selecciona aerolínea
-    aerolineaSelect.addEventListener('change', function() {
-        const aerolinea = this.value;
-        rutaSelect.innerHTML = '<option value="">Seleccione ruta...</option>';
-        vueloSelect.innerHTML = '<option value="">Primero seleccione ruta</option>';
-        vueloSelect.disabled = true;
-
-        if (aerolinea && datosVuelos[aerolinea]) {
-            rutaSelect.disabled = false;
-            Object.keys(datosVuelos[aerolinea].rutas).forEach(rutaId => {
-                const ruta = datosVuelos[aerolinea].rutas[rutaId];
-                const option = document.createElement('option');
-                option.value = rutaId;
-                option.textContent = `${rutaId} - ${ruta.nombre}`;
-                rutaSelect.appendChild(option);
-            });
-        } else {
-            rutaSelect.disabled = true;
-        }
-
-        resultadoConsulta.style.display = 'none';
-    });
-
-    // Cargar vuelos cuando se selecciona ruta
-    rutaSelect.addEventListener('change', function() {
-        const aerolinea = aerolineaSelect.value;
-        const ruta = this.value;
-        vueloSelect.innerHTML = '<option value="">Seleccione vuelo...</option>';
-
-        if (aerolinea && ruta && datosVuelos[aerolinea].rutas[ruta]) {
-            vueloSelect.disabled = false;
-            Object.keys(datosVuelos[aerolinea].rutas[ruta].vuelos).forEach(vueloId => {
-                const vuelo = datosVuelos[aerolinea].rutas[ruta].vuelos[vueloId];
-                const option = document.createElement('option');
-                option.value = vueloId;
-                option.textContent = `${vueloId} - ${vuelo.nombre}`;
-                vueloSelect.appendChild(option);
-            });
-        } else {
-            vueloSelect.disabled = true;
-        }
-
-        resultadoConsulta.style.display = 'none';
-    });
-
-    // Mostrar información del vuelo seleccionado
-    formConsulta.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const aerolinea = aerolineaSelect.value;
-        const ruta = rutaSelect.value;
-        const vuelo = vueloSelect.value;
-
-        if (aerolinea && ruta && vuelo && datosVuelos[aerolinea].rutas[ruta].vuelos[vuelo]) {
-            const vueloData = datosVuelos[aerolinea].rutas[ruta].vuelos[vuelo];
-
-            // Actualizar información en la interfaz
-            document.getElementById('nombreVueloDetalle').textContent = vueloData.nombre;
-            document.getElementById('aerolineaDetalle').textContent = aerolineaSelect.options[aerolineaSelect.selectedIndex].text;
-            document.getElementById('rutaDetalle').textContent = `${ruta} - ${datosVuelos[aerolinea].rutas[ruta].nombre}`;
-            document.getElementById('fechaVueloDetalle').textContent = vueloData.fecha;
-            document.getElementById('duracionVueloDetalle').textContent = vueloData.duracion;
-            document.getElementById('horaSalidaDetalle').textContent = vueloData.horaSalida;
-            document.getElementById('horaLlegadaDetalle').textContent = vueloData.horaLlegada;
-            document.getElementById('asientosTuristaDetalle').textContent = vueloData.asientosTurista;
-            document.getElementById('asientosEjecutivoDetalle').textContent = vueloData.asientosEjecutivo;
-            document.getElementById('estadoVueloDetalle').textContent = vueloData.estado;
-            document.getElementById('imagenVueloDetalle').src = vueloData.imagen;
-            document.getElementById('totalReservas').textContent = vueloData.totalReservas;
-
-            // Mostrar/ocultar secciones según el tipo de usuario
-            document.getElementById('infoAerolinea').style.display = 'none';
-            document.getElementById('infoCliente').style.display = vueloData.tieneReservaCliente ? 'block' : 'none';
-            document.getElementById('btnReservar').style.display = !vueloData.tieneReservaCliente ? 'block' : 'none';
-
-            // Mostrar resultados
-            resultadoConsulta.style.display = 'block';
-
-            // Scroll a los resultados
-            resultadoConsulta.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-
-    // Limpiar búsqueda
-    document.getElementById('btnLimpiar').addEventListener('click', function() {
-        resultadoConsulta.style.display = 'none';
-    });
-</script>
+<script src="js/JsLogica/session-manager.js"></script>
+<script src="js/JsLogica/consulta-vuelo.js"></script>
 </body>
 </html>

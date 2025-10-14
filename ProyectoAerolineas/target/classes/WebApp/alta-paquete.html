@@ -4,194 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Alta de Paquete de Rutas de Vuelo - Juan Viajes</title>
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .user-actions {
-            display: flex;
-            gap: 10px;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-        .card-header {
-            background: linear-gradient(135deg, #3498db, #8e44ad);
-            border-bottom: none;
-        }
-        .nav-tabs .nav-link {
-            color: #495057;
-            font-weight: 500;
-        }
-        .nav-tabs .nav-link.active {
-            color: #3498db;
-            border-bottom: 3px solid #3498db;
-            background-color: transparent;
-        }
-        .step-indicator {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .step {
-            text-align: center;
-            flex: 1;
-            position: relative;
-            z-index: 2;
-        }
-        .step-number {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: #e9ecef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 8px;
-            font-weight: bold;
-            border: 3px solid #e9ecef;
-            font-size: 0.9rem;
-        }
-        .step.active .step-number {
-            background-color: #3498db;
-            color: white;
-            border-color: #3498db;
-        }
-        .step.completed .step-number {
-            background-color: #28a745;
-            color: white;
-            border-color: #28a745;
-        }
-        .step-line {
-            position: absolute;
-            top: 17px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background-color: #e9ecef;
-            z-index: 1;
-        }
-        .form-section {
-            display: none;
-        }
-        .form-section.active {
-            display: block;
-        }
-        .ruta-item {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
-        }
-        .ruta-item:hover {
-            border-color: #3498db;
-            background-color: #e3f2fd;
-        }
-        .ruta-item.selected {
-            border-color: #28a745;
-            background-color: #e8f5e8;
-        }
-        .paquete-card {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .paquete-card:hover {
-            border-color: #3498db;
-            transform: translateY(-2px);
-        }
-        .paquete-card.selected {
-            border-color: #28a745;
-            background-color: #f8fff9;
-        }
-        .badge-disponible {
-            background-color: #28a745;
-        }
-        .badge-comprado {
-            background-color: #6c757d;
-        }
-        .tab-content {
-            min-height: 500px;
-        }
-    </style>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/CssLogica/estilo-css.css">
 </head>
-<body class="bg-light">
+<body class="bg-dark">
 
 <!-- Navbar consistente con PáginaPrincipal -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="PaginaPrincipal.html">Juan Viajes</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Vuelos
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
-                    <li><a class="dropdown-item" href="consulta-vuelo.html">Consulta de Vuelo</a></li>
-                    <li><a class="dropdown-item active" href="consulta-reserva.html">Consulta de Reserva</a></li>
-                    <li><a class="dropdown-item" href="reserva-vuelo.html">Reserva de Vuelo</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Paquetes
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
-                    <li><a class="dropdown-item" href="consulta-paquete.html">Consulta de Paquete</a></li>
-                    <li><a class="dropdown-item" href="compra-paquete.html">Compra de Paquete</a></li>
-                    <li><a class="dropdown-item active" href="alta-paquete.html">Alta de Paquete</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Aerolíneas
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
-                    <li><a class="dropdown-item" href="alta-ruta.html">Alta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="consulta-ruta.html">Consulta de Ruta</a></li>
-                    <li><a class="dropdown-item" href="alta-vuelo.html">Alta de Vuelo</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Usuarios
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
-                    <li><a class="dropdown-item" href="alta-usuario.html">Alta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="consulta-usuario.html">Consulta de Usuario</a></li>
-                    <li><a class="dropdown-item" href="modificar-usuario.html">Modificar Datos</a></li>
-                </ul>
-            </li>
-        </ul>
-        <div class="user-actions">
-            <span class="navbar-text me-3">
-                <i class="bi bi-person-gear"></i> Administrador
-            </span>
-            <a class="btn btn-outline-primary" href="PaginaPrincipal.html">Salir</a>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="PaginaPrincipal.html">Juan <span>Viajes</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="PaginaPrincipal.html">Inicio</a>
+                </li>
+
+                <!-- Menú Vuelos -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="vuelosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Vuelos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="vuelosDropdown">
+                        <li><a class="dropdown-item" href="consulta-vuelo.html"><i class="bi bi-search"></i> Consulta de Vuelo</a></li>
+                        <li><a class="dropdown-item" href="consulta-reserva.html"><i class="bi bi-ticket-perforated"></i> Consulta de Reserva</a></li>
+                        <li><a class="dropdown-item" href="reserva-vuelo.html"><i class="bi bi-calendar-check"></i> Reserva de Vuelo</a></li>
+                        <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-plus-circle"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Paquetes -->
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="paquetesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Paquetes
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="paquetesDropdown">
+                        <li><a class="dropdown-item" href="consulta-paquete.html"><i class="bi bi-box-seam"></i> Consulta de Paquete</a></li>
+                        <li><a class="dropdown-item" href="compra-paquete.html"><i class="bi bi-cart-check"></i> Compra de Paquete</a></li>
+                        <li><a class="dropdown-item active" href="alta-paquete.html"><i class="bi bi-plus-square"></i> Alta de Paquete</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Aerolíneas -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="aerolineasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Aerolíneas
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="aerolineasDropdown">
+                        <li><a class="dropdown-item" href="alta-ruta.html"><i class="bi bi-signpost"></i> Alta de Ruta</a></li>
+                        <li><a class="dropdown-item" href="consulta-ruta.html"><i class="bi bi-map"></i> Consulta de Ruta</a></li>
+                        <li><a class="dropdown-item" href="alta-vuelo.html"><i class="bi bi-airplane"></i> Alta de Vuelo</a></li>
+                    </ul>
+                </li>
+
+                <!-- Menú Usuarios -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
+                        <li><a class="dropdown-item" href="alta-usuario.html"><i class="bi bi-person-plus"></i> Alta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="consulta-usuario.html"><i class="bi bi-person-vcard"></i> Consulta de Usuario</a></li>
+                        <li><a class="dropdown-item" href="modificar-usuario.html"><i class="bi bi-pencil-square"></i> Modificar Datos</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="user-actions">
+                <span class="user-info" id="userInfo">
+                    <i class="bi bi-person-gear"></i> Administrador
+                </span>
+                <button class="btn btn-outline-primary" id="logoutBtn">Cerrar Sesión</button>
+            </div>
         </div>
     </div>
 </nav>
 
-<div class="container mt-4 mb-5">
+<div class="container mt-5">
     <div class="row">
         <div class="col-lg-10 mx-auto">
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header">
                     <h4 class="mb-0">Gestión de Paquetes de Rutas de Vuelo</h4>
                     <p class="mb-0 mt-2 small">Administre la creación y configuración de paquetes de viaje</p>
                 </div>
@@ -227,7 +125,7 @@
                                 </div>
                             </div>
 
-                            <form id="formCrearPaquete">
+                            <form id="formCrearPaquete" novalidate>
                                 <!-- Paso 1: Datos del Paquete -->
                                 <div class="form-section active" id="sectionCrear1">
                                     <h5 class="text-primary mb-4">Datos del Nuevo Paquete</h5>
@@ -317,7 +215,7 @@
                                 </div>
                             </div>
 
-                            <form id="formAgregarRuta">
+                            <form id="formAgregarRuta" novalidate>
                                 <!-- Paso 1: Seleccionar Paquete -->
                                 <div class="form-section active" id="sectionAgregar1">
                                     <h5 class="text-primary mb-4">Seleccionar Paquete</h5>
@@ -456,383 +354,11 @@
     </div>
 </div>
 
+<!-- Container para mensajes toast -->
+<div id="toastContainer"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Datos de ejemplo
-    const paquetesExistentes = [
-        {
-            id: 1,
-            nombre: "Sudamérica Esencial",
-            descripcion: "Paquete básico para explorar Sudamérica",
-            validez: 180,
-            descuento: 20,
-            fechaAlta: "2024-01-15",
-            estado: "disponible",
-            rutasIncluidas: 2
-        },
-        {
-            id: 2,
-            nombre: "Europa Grand Tour",
-            descripcion: "Recorrido por las capitales europeas",
-            validez: 365,
-            descuento: 30,
-            fechaAlta: "2024-02-01",
-            estado: "disponible",
-            rutasIncluidas: 1
-        },
-        {
-            id: 3,
-            nombre: "Caribe Paradise",
-            descripcion: "Escapada a destinos caribeños",
-            validez: 90,
-            descuento: 25,
-            fechaAlta: "2024-01-20",
-            estado: "comprado", // Este paquete ya fue comprado, no se puede modificar
-            rutasIncluidas: 1
-        }
-    ];
-
-    const rutasDisponibles = [
-        {
-            id: "ZL1502",
-            nombre: "Montevideo - Rio de Janeiro",
-            aerolinea: "ZulyFly",
-            origen: "Montevideo (MVD)",
-            destino: "Rio de Janeiro (GIG)",
-            duracion: "2h 30m",
-            categorias: ["Internacionales", "América", "Cortos"],
-            costoTurista: 320,
-            costoEjecutivo: 550,
-            estado: "Confirmada"
-        },
-        {
-            id: "IB6012",
-            nombre: "Montevideo - Madrid",
-            aerolinea: "Iberia",
-            origen: "Montevideo (MVD)",
-            destino: "Madrid (MAD)",
-            duracion: "12h",
-            categorias: ["Internacionales", "Europa"],
-            costoTurista: 750,
-            costoEjecutivo: 1200,
-            estado: "Confirmada"
-        },
-        {
-            id: "AR2050",
-            nombre: "Buenos Aires - Santiago",
-            aerolinea: "Aerolíneas Argentinas",
-            origen: "Buenos Aires (EZE)",
-            destino: "Santiago (SCL)",
-            duracion: "2h 15m",
-            categorias: ["Internacionales", "América"],
-            costoTurista: 280,
-            costoEjecutivo: 480,
-            estado: "Confirmada"
-        },
-        {
-            id: "AA904",
-            nombre: "Miami - Cancún",
-            aerolinea: "American Airlines",
-            origen: "Miami (MIA)",
-            destino: "Cancún (CUN)",
-            duracion: "2h 30m",
-            categorias: ["Internacionales", "Caribe"],
-            costoTurista: 380,
-            costoEjecutivo: 650,
-            estado: "Confirmada"
-        }
-    ];
-
-    // Variables globales
-    let paqueteSeleccionado = null;
-    let rutaSeleccionada = null;
-
-    // Inicialización
-    document.addEventListener('DOMContentLoaded', function() {
-        // Establecer fecha actual como fecha de alta por defecto
-        document.getElementById('fechaAlta').valueAsDate = new Date();
-
-        // Cargar lista de paquetes para la pestaña de agregar rutas
-        cargarPaquetesDisponibles();
-
-        // Cargar rutas disponibles
-        cargarRutasDisponibles();
-    });
-
-    // Funciones para la pestaña "Crear Nuevo Paquete"
-    function siguientePasoCrear(paso) {
-        if (paso === 2 && !validarPasoCrear1()) return;
-
-        document.querySelectorAll('#crear .form-section').forEach(section => {
-            section.classList.remove('active');
-        });
-        document.getElementById('sectionCrear' + paso).classList.add('active');
-
-        document.querySelectorAll('#crear .step').forEach(stepEl => {
-            stepEl.classList.remove('active', 'completed');
-        });
-
-        for (let i = 1; i <= paso; i++) {
-            const stepEl = document.getElementById('stepCrear' + i);
-            if (i === paso) {
-                stepEl.classList.add('active');
-            } else {
-                stepEl.classList.add('completed');
-            }
-        }
-
-        if (paso === 2) {
-            generarResumenPaquete();
-        }
-    }
-
-    function validarPasoCrear1() {
-        const nombre = document.getElementById('nombrePaquete').value;
-        const descripcion = document.getElementById('descripcionPaquete').value;
-
-        if (!nombre || !descripcion) {
-            alert('Por favor complete todos los campos requeridos.');
-            return false;
-        }
-
-        // Verificar si el nombre ya existe
-        const nombreExiste = paquetesExistentes.some(p => p.nombre.toLowerCase() === nombre.toLowerCase());
-        if (nombreExiste) {
-            document.getElementById('nombreError').textContent = 'Ya existe un paquete con este nombre. Por favor elija otro.';
-            document.getElementById('nombrePaquete').classList.add('is-invalid');
-            return false;
-        }
-
-        return true;
-    }
-
-    function generarResumenPaquete() {
-        const resumen = document.getElementById('resumenPaquete');
-        const html = `
-            <p><strong>Nombre:</strong> ${document.getElementById('nombrePaquete').value}</p>
-            <p><strong>Descripción:</strong> ${document.getElementById('descripcionPaquete').value}</p>
-            <p><strong>Validez:</strong> ${document.getElementById('validezPaquete').value} días</p>
-            <p><strong>Descuento:</strong> ${document.getElementById('descuentoPaquete').value}%</p>
-            <p><strong>Fecha de alta:</strong> ${document.getElementById('fechaAlta').value}</p>
-        `;
-        resumen.innerHTML = html;
-    }
-
-    // Funciones para la pestaña "Agregar Rutas a Paquete"
-    function siguientePasoAgregar(paso) {
-        if (paso === 2 && !validarPasoAgregar1()) return;
-        if (paso === 3 && !validarPasoAgregar2()) return;
-
-        document.querySelectorAll('#agregar .form-section').forEach(section => {
-            section.classList.remove('active');
-        });
-        document.getElementById('sectionAgregar' + paso).classList.add('active');
-
-        document.querySelectorAll('#agregar .step').forEach(stepEl => {
-            stepEl.classList.remove('active', 'completed');
-        });
-
-        for (let i = 1; i <= paso; i++) {
-            const stepEl = document.getElementById('stepAgregar' + i);
-            if (i === paso) {
-                stepEl.classList.add('active');
-            } else {
-                stepEl.classList.add('completed');
-            }
-        }
-
-        if (paso === 3) {
-            mostrarDetallesRutaSeleccionada();
-        }
-    }
-
-    function validarPasoAgregar1() {
-        return paqueteSeleccionado !== null;
-    }
-
-    function validarPasoAgregar2() {
-        return rutaSeleccionada !== null;
-    }
-
-    function cargarPaquetesDisponibles() {
-        const container = document.getElementById('listaPaquetes');
-        container.innerHTML = '';
-
-        const paquetesDisponibles = paquetesExistentes.filter(p => p.estado === 'disponible');
-
-        if (paquetesDisponibles.length === 0) {
-            container.innerHTML = '<div class="col-12"><p class="text-muted text-center">No hay paquetes disponibles para modificar.</p></div>';
-            return;
-        }
-
-        paquetesDisponibles.forEach(paquete => {
-            const paqueteHTML = `
-                <div class="col-md-6">
-                    <div class="card paquete-card" onclick="seleccionarPaquete(${paquete.id})">
-                        <div class="card-body">
-                            <h6 class="card-title">${paquete.nombre}</h6>
-                            <p class="card-text small text-muted">${paquete.descripcion}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="badge badge-disponible">Disponible</span>
-                                <small class="text-muted">${paquete.rutasIncluidas} rutas</small>
-                            </div>
-                            <div class="mt-2">
-                                <small><strong>Validez:</strong> ${paquete.validez} días</small><br>
-                                <small><strong>Descuento:</strong> ${paquete.descuento}%</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += paqueteHTML;
-        });
-    }
-
-    function cargarRutasDisponibles() {
-        const container = document.getElementById('listaRutas');
-        container.innerHTML = '';
-
-        const aerolineaFiltro = document.getElementById('aerolineaSelect').value;
-        const categoriaFiltro = document.getElementById('categoriaSelect').value;
-
-        const rutasFiltradas = rutasDisponibles.filter(ruta => {
-            const coincideAerolinea = !aerolineaFiltro ||
-                ruta.aerolinea.toLowerCase().includes(aerolineaFiltro.toLowerCase());
-            const coincideCategoria = !categoriaFiltro ||
-                ruta.categorias.some(cat => cat.toLowerCase().includes(categoriaFiltro.toLowerCase()));
-
-            return coincideAerolinea && coincideCategoria;
-        });
-
-        if (rutasFiltradas.length === 0) {
-            container.innerHTML = '<div class="col-12"><p class="text-muted text-center">No se encontraron rutas con los filtros seleccionados.</p></div>';
-            return;
-        }
-
-        rutasFiltradas.forEach(ruta => {
-            const rutaHTML = `
-                <div class="col-md-6">
-                    <div class="ruta-item" onclick="seleccionarRuta('${ruta.id}')">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h6 class="mb-1">${ruta.nombre}</h6>
-                                <p class="mb-1 text-muted small">${ruta.aerolinea}</p>
-                                <p class="mb-1 small"><strong>${ruta.origen}</strong> → <strong>${ruta.destino}</strong></p>
-                                <p class="mb-0 small">Duración: ${ruta.duracion}</p>
-                            </div>
-                            <span class="badge bg-primary">${ruta.id}</span>
-                        </div>
-                        <div class="mt-2">
-                            ${ruta.categorias.map(cat => `<span class="badge bg-secondary me-1">${cat}</span>`).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += rutaHTML;
-        });
-    }
-
-    function seleccionarPaquete(id) {
-        paqueteSeleccionado = paquetesExistentes.find(p => p.id === id);
-
-        // Remover selección anterior y marcar actual
-        document.querySelectorAll('#agregar .paquete-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-        event.currentTarget.classList.add('selected');
-
-        document.getElementById('btnSiguienteAgregar1').disabled = false;
-    }
-
-    function seleccionarRuta(id) {
-        rutaSeleccionada = rutasDisponibles.find(r => r.id === id);
-
-        // Remover selección anterior y marcar actual
-        document.querySelectorAll('#agregar .ruta-item').forEach(item => {
-            item.classList.remove('selected');
-        });
-        event.currentTarget.classList.add('selected');
-
-        document.getElementById('btnSiguienteAgregar2').disabled = false;
-    }
-
-    function mostrarDetallesRutaSeleccionada() {
-        if (!rutaSeleccionada) return;
-
-        document.getElementById('rutaSeleccionadaNombre').textContent = rutaSeleccionada.nombre;
-        document.getElementById('rutaSeleccionadaInfo').textContent =
-            `${rutaSeleccionada.aerolinea} | ${rutaSeleccionada.origen} → ${rutaSeleccionada.destino} | ${rutaSeleccionada.duracion}`;
-    }
-
-    // Filtros para rutas
-    document.getElementById('aerolineaSelect').addEventListener('change', cargarRutasDisponibles);
-    document.getElementById('categoriaSelect').addEventListener('change', cargarRutasDisponibles);
-
-    // Manejo de envío de formularios
-    document.getElementById('formCrearPaquete').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        if (document.getElementById('confirmarCreacion').checked) {
-            mostrarModalExito(
-                'Paquete Creado Exitosamente',
-                `El paquete "${document.getElementById('nombrePaquete').value}" ha sido creado y está ahora disponible en el sistema.`
-            );
-
-            // Aquí iría la lógica para enviar al servidor
-            console.log('Nuevo paquete:', {
-                nombre: document.getElementById('nombrePaquete').value,
-                descripcion: document.getElementById('descripcionPaquete').value,
-                validez: document.getElementById('validezPaquete').value,
-                descuento: document.getElementById('descuentoPaquete').value,
-                fechaAlta: document.getElementById('fechaAlta').value
-            });
-
-            // Limpiar formulario
-            this.reset();
-            document.getElementById('fechaAlta').valueAsDate = new Date();
-            siguientePasoCrear(1);
-        } else {
-            alert('Debe confirmar la creación del paquete antes de continuar.');
-        }
-    });
-
-    document.getElementById('formAgregarRuta').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        if (document.getElementById('confirmarAgregar').checked) {
-            mostrarModalExito(
-                'Ruta Agregada al Paquete',
-                `La ruta "${rutaSeleccionada.nombre}" ha sido agregada al paquete "${paqueteSeleccionado.nombre}".`
-            );
-
-            // Aquí iría la lógica para enviar al servidor
-            console.log('Ruta agregada:', {
-                paquete: paqueteSeleccionado.nombre,
-                ruta: rutaSeleccionada.nombre,
-                cantidad: document.getElementById('cantidadRuta').value,
-                tipoAsiento: document.getElementById('tipoAsientoRuta').value
-            });
-
-            // Limpiar selecciones
-            paqueteSeleccionado = null;
-            rutaSeleccionada = null;
-            document.querySelectorAll('#agregar .paquete-card, #agregar .ruta-item').forEach(el => {
-                el.classList.remove('selected');
-            });
-            document.getElementById('btnSiguienteAgregar1').disabled = true;
-            document.getElementById('btnSiguienteAgregar2').disabled = true;
-            siguientePasoAgregar(1);
-        } else {
-            alert('Debe confirmar la adición de la ruta al paquete.');
-        }
-    });
-
-    function mostrarModalExito(titulo, mensaje) {
-        document.getElementById('modalMensajeTitulo').textContent = titulo;
-        document.getElementById('modalMensajeDetalle').textContent = mensaje;
-        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-        successModal.show();
-    }
-</script>
+<script src="js/JsLogica/session-manager.js"></script>
+<script src="js/JsLogica/alta-paquete.js"></script>
 </body>
 </html>

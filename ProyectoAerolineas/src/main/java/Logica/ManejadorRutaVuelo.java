@@ -22,6 +22,36 @@ public class ManejadorRutaVuelo {
         return instancia;
     }
 
+
+    public List<RutaVuelo> getRutasPorEstadoYAerolinea(String nombreAerolinea, RutaVuelo.EstadoRuta estado) {
+        List<RutaVuelo> rutasFiltradas = new ArrayList<>();
+        for (RutaVuelo ruta : rutasVuelo.values()) {
+            if (ruta.getAerolinea().getNombre().equals(nombreAerolinea) &&
+                    ruta.getEstado() == estado) {
+                rutasFiltradas.add(ruta);
+            }
+        }
+        return rutasFiltradas;
+    }
+
+    // Método para cambiar estado de una ruta
+    public void cambiarEstadoRuta(String nombreRuta, RutaVuelo.EstadoRuta nuevoEstado, EntityManager em) {
+        RutaVuelo ruta = rutasVuelo.get(nombreRuta);
+        if (ruta != null) {
+            ruta.setEstado(nuevoEstado);
+            EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.merge(ruta);
+                tx.commit();
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                e.printStackTrace();
+            }
+        } else {
+            throw new IllegalArgumentException("Ruta de vuelo no encontrada: " + nombreRuta);
+        }
+    }
     // =================== CRUD BD ===================
     public void cargarRutasDesdeBD(EntityManager em) {
         TypedQuery<RutaVuelo> query = em.createQuery("SELECT r FROM RutaVuelo r", RutaVuelo.class);

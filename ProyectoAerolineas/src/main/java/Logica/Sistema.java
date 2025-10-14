@@ -135,9 +135,8 @@ public class Sistema implements ISistema {
         manejadorCiudad.agregarCiudad(c, em);
     }
 
-
     @Override
-    public void altaRutaVuelo(String nombre, String descripcion, DtAerolinea aerolinea,
+    public void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta, DtAerolinea aerolinea,
                               String ciudadOrigen, String ciudadDestino, String hora,
                               LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
                               double costoEquipajeExtra, String[] categorias) {
@@ -166,12 +165,48 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("La ruta debe pertenecer a al menos una categoría válida.");
         }
 
-        RutaVuelo r = new RutaVuelo(nombre, descripcion, aero, ciudadOrigen, ciudadDestino,
+        RutaVuelo r = new RutaVuelo(nombre, descripcion, descripcionCorta, aero, ciudadOrigen, ciudadDestino,
                 hora, fechaAlta, costoTurista, costoEjecutivo,
                 costoEquipajeExtra, categoriaValida);
 
         manejadorRutaVuelo.agregarRutaVuelo(r, em);
         manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), r, em);
+    }
+
+    @Override
+    // Nuevos métodos para aceptar/rechazar rutas
+    public List<DtAerolinea> obtenerAerolineasConRutasPendientes() {
+        List<DtAerolinea> aerolineasConPendientes = new ArrayList<>();
+        for (DtAerolinea aero : manejadorAerolinea.getDtAerolineas()) {
+            List<RutaVuelo> rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(
+                    aero.getNombre(), RutaVuelo.EstadoRuta.INGRESADA);
+            if (!rutasPendientes.isEmpty()) {
+                aerolineasConPendientes.add(aero);
+            }
+        }
+        return aerolineasConPendientes;
+    }
+
+    @Override
+    public List<DtRutaVuelo> obtenerRutasPendientesPorAerolinea(String nombreAerolinea) {
+        List<RutaVuelo> rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(
+                nombreAerolinea, RutaVuelo.EstadoRuta.INGRESADA);
+
+        List<DtRutaVuelo> dtRutasPendientes = new ArrayList<>();
+        for (RutaVuelo ruta : rutasPendientes) {
+            dtRutasPendientes.add(ruta.getDtRutaVuelo());
+        }
+        return dtRutasPendientes;
+    }
+
+    @Override
+    public void aceptarRutaVuelo(String nombreRuta) {
+        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.CONFIRMADA, em);
+    }
+
+    @Override
+    public void rechazarRutaVuelo(String nombreRuta) {
+        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.RECHAZADA, em);
     }
 
     @Override
@@ -480,7 +515,6 @@ public class Sistema implements ISistema {
 
     @Override
     public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento) {
-
         Paquete p = manejadorPaquete.obtenerPaquete(nombrePaquete);
         if (p == null) {
             throw new IllegalArgumentException("Paquete no encontrado");
@@ -495,42 +529,18 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("No se encontró la ruta con ese nombre.");
         }
 
-        double costoTotal = 0;
-        for (ItemPaquete item : p.getItemPaquetes()) {
-            double costoRuta = item.getTipoAsiento() == TipoAsiento.TURISTA
-                    ? item.getRutaVuelo().getCostoTurista()
-                    : item.getRutaVuelo().getCostoEjecutivo();
-            costoTotal += costoRuta * item.getCantAsientos();
-        }
-        double costoConDescuento = costoTotal * (1 - p.getDescuentoPorc() / 100.0);
-        p.setCosto(costoConDescuento);
-
-        for (ItemPaquete item : p.getItemPaquetes()) {
-            if (item.getRutaVuelo().equals(ruta) && item.getTipoAsiento() == tipoAsiento) {
-                throw new IllegalArgumentException("La ruta ya fue agregada previamente al paquete con ese tipo de asiento.");
-            }
+        // Verificar que la ruta esté confirmada
+        if (ruta.getEstado() != RutaVuelo.EstadoRuta.CONFIRMADA) {
+            throw new IllegalArgumentException("No se puede agregar una ruta que no esté CONFIRMADA al paquete. Ruta actual: " + ruta.getEstado());
         }
 
-        ItemPaquete nuevoItem = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);
-        p.getItemPaquetes().add(nuevoItem);
+        // Usar el manejador para agregar la ruta al paquete
+        manejadorPaquete.agregarRutaAPaquete(p, ruta, cantidadAsientos, tipoAsiento, em);
 
-        DtPaquete dtPaquete = obtenerDtPaquete(nombrePaquete); // lista de DtPaquete en el sistema
+        // Actualizar DtPaquete si es necesario
+        DtPaquete dtPaquete = obtenerDtPaquete(nombrePaquete);
         if (dtPaquete != null) {
-            DtRutaVuelo dtRuta = new DtRutaVuelo(
-                    ruta.getNombre(),
-                    ruta.getDescripcion(),
-                    ruta.getAerolinea().getNombre(),
-                    ruta.getCiudadOrigen(),
-                    ruta.getCiudadDestino(),
-                    ruta.getHora(),
-                    ruta.getFechaAlta(),
-                    ruta.getCostoTurista(),
-                    ruta.getCostoEjecutivo(),
-                    ruta.getCostoEquipajeExtra(),
-                    ruta.getCategorias(),
-                    ruta.getDtVuelos() // lista de DtVuelo
-            );
-
+            DtRutaVuelo dtRuta = ruta.getDtRutaVuelo();
             DtItemPaquete dtItem = new DtItemPaquete(dtRuta, cantidadAsientos, tipoAsiento.toString());
             dtPaquete.getItems().add(dtItem);
         }

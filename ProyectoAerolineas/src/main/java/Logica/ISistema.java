@@ -26,7 +26,18 @@ public interface ISistema {
 
     void altaCiudad(String nombre, String pais);
 
-    public void altaRutaVuelo(String nombre, String descripcion, DtAerolinea aerolinea, String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo, double costoEquipajeExtra, String[] categorias);
+    public void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta, DtAerolinea aerolinea,
+                              String ciudadOrigen, String ciudadDestino, String hora,
+                              LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
+                              double costoEquipajeExtra, String[] categorias);
+
+    public void rechazarRutaVuelo(String nombreRuta);
+
+    public void aceptarRutaVuelo(String nombreRuta);
+
+    public List<DtRutaVuelo> obtenerRutasPendientesPorAerolinea(String nombreAerolinea);
+
+    public List<DtAerolinea> obtenerAerolineasConRutasPendientes();
 
     public abstract RutaVuelo obtenerRuta(String nombreRuta);
 
