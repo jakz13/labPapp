@@ -44,6 +44,7 @@ public class DtPaquete {
                 DtRutaVuelo dtRuta = new DtRutaVuelo(
                         ruta.getNombre(),
                         ruta.getDescripcion(),
+                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta
                         ruta.getAerolinea().getNombre(),
                         ruta.getCiudadOrigen(),
                         ruta.getCiudadDestino(),
@@ -52,6 +53,7 @@ public class DtPaquete {
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),
+                        ruta.getEstado().toString(), // Nuevo campo: estado
                         ruta.getCategorias(),
                         ruta.getDtVuelos()
                 );
@@ -66,7 +68,6 @@ public class DtPaquete {
             }
         }
     }
-
     // --- Getters y Setters ---
     public String getNombre() {
         return nombre;
