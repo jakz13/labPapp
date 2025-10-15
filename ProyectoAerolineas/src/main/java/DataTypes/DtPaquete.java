@@ -68,6 +68,7 @@ public class DtPaquete {
             }
         }
     }
+
     // --- Getters y Setters ---
     public String getNombre() {
         return nombre;
