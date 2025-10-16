@@ -11,7 +11,7 @@ public class DtVuelo {
     private int asientosTurista;
     private int asientosEjecutivo;
     private LocalDate fechaAlta;
-    private DtRutaVuelo rutaVuelo; // Puede ser null
+    private DtRutaVuelo rutaVuelo;
     private List<DtReserva> reservas;
 
     public DtVuelo(String nombre, String nombreAerolinea, LocalDate fecha, int duracion,
@@ -38,4 +38,9 @@ public class DtVuelo {
     public LocalDate getFechaAlta() { return fechaAlta; }
     public DtRutaVuelo getRutaVuelo() { return rutaVuelo; }
     public List<DtReserva> getReservas() { return reservas; }
+
+    @Override
+    public String toString() {
+        return nombre + " - " + fecha + " (" + nombreAerolinea + ")";
+    }
 }

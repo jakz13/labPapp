@@ -6,7 +6,7 @@ import java.util.List;
 public class DtRutaVuelo {
     private String nombre;
     private String descripcion;
-    private String descripcionCorta; // Nueva descripción corta
+    private String descripcionCorta;
     private String aerolinea;
     private String ciudadOrigen;
     private String ciudadDestino;
@@ -15,7 +15,7 @@ public class DtRutaVuelo {
     private double costoTurista;
     private double costoEjecutivo;
     private double costoEquipajeExtra;
-    private String estado; // Nuevo campo estado
+    private String estado;
     private List<String> categorias;
     private List<DtVuelo> vuelos;
 
@@ -58,6 +58,6 @@ public class DtRutaVuelo {
 
     @Override
     public String toString() {
-        return this.nombre + " (" + this.estado + ")";
+        return nombre + " - " + ciudadOrigen + " → " + ciudadDestino + " (" + estado + ")";
     }
 }

@@ -13,7 +13,6 @@ public class NuevaRutaVuelo {
     private JPanel PanelAltaRuta;
     private JTextField NombreRuta;
     private JTextArea descripcion;
-    private JTextField descripcionCortaField; // Nuevo campo para descripción corta
     private JTextField CostoTurista;
     private JTextField CostoEjecutivo;
     private JTextField Equipaje;
@@ -23,7 +22,9 @@ public class NuevaRutaVuelo {
     private JComboBox<String> comboBoxCiudadOrigen;
     private JComboBox<String> comboBoxDestino;
     private JComboBox<String> comboBoxCategoria;
+    private JTextArea DescripcionCorta; // Campo para descripción corta (JTextArea)
     private JScrollPane scrollPane;
+    private JScrollPane scrollPaneDescripcionCorta; // Scroll para la descripción corta
 
     public NuevaRutaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
@@ -62,11 +63,16 @@ public class NuevaRutaVuelo {
         }
         comboBoxCategoria.setModel(modeloCategorias);
 
+        // --- Configurar el JTextArea para descripción corta ---
+        DescripcionCorta.setLineWrap(true); // Salto de línea automático
+        DescripcionCorta.setWrapStyleWord(true); // Salto por palabras completas
+        DescripcionCorta.setRows(3); // Altura de 3 líneas
+
         // --- Crear ruta ---
         crear.addActionListener(e -> {
             String nombreRuta = NombreRuta.getText().trim();
             String Descripcion = descripcion.getText().trim();
-            String descripcionCorta = descripcionCortaField.getText().trim(); // Nueva descripción corta
+            String descripcionCorta = DescripcionCorta.getText().trim(); // Usar el JTextArea
             String origen = (String) comboBoxCiudadOrigen.getSelectedItem();
             String destino = (String) comboBoxDestino.getSelectedItem();
             String categoriaSel = (String) comboBoxCategoria.getSelectedItem();
@@ -80,16 +86,68 @@ public class NuevaRutaVuelo {
                 costoEjecutivo = Double.parseDouble(CostoEjecutivo.getText().trim());
                 equipaje = Double.parseDouble(Equipaje.getText().trim());
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Costos inválidos. Deben ser números.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Costos inválidos. Deben ser números.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             LocalDate fecha = LocalDate.now();
 
-            if (nombreRuta.isEmpty() || descripcionCorta.isEmpty() || aerolineaSeleccionada == null ||
-                    origen == null || destino == null || categorias.length == 0) {
+            // Validaciones más específicas
+            if (nombreRuta.isEmpty()) {
                 JOptionPane.showMessageDialog(null,
-                        "Debe completar todos los campos, incluyendo la descripción corta.",
+                        "El nombre de la ruta es obligatorio.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (descripcionCorta.isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "La descripción corta es obligatoria.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (aerolineaSeleccionada == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar una aerolínea.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (origen == null || destino == null) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar ciudad de origen y destino.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (origen.equals(destino)) {
+                JOptionPane.showMessageDialog(null,
+                        "La ciudad de origen y destino no pueden ser iguales.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (categorias.length == 0) {
+                JOptionPane.showMessageDialog(null,
+                        "Debe seleccionar al menos una categoría.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validar longitud de descripción corta (opcional)
+            if (descripcionCorta.length() > 255) {
+                JOptionPane.showMessageDialog(null,
+                        "La descripción corta no puede exceder los 255 caracteres.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -103,8 +161,12 @@ public class NuevaRutaVuelo {
                         costoTurista, costoEjecutivo, equipaje, categorias);
 
                 JOptionPane.showMessageDialog(null,
-                        "Ruta creada correctamente. Estado: INGRESADA - Esperando aprobación del administrador.",
-                        "Éxito",
+                        "Ruta creada correctamente.\nEstado: INGRESADA - Esperando aprobación del administrador.\n\n" +
+                                "Nombre: " + nombreRuta + "\n" +
+                                "Descripción corta: " + descripcionCorta + "\n" +
+                                "Aerolínea: " + aerolineaSeleccionada + "\n" +
+                                "Ruta: " + origen + " → " + destino,
+                        "Ruta Creada - Pendiente de Aprobación",
                         JOptionPane.INFORMATION_MESSAGE);
 
                 // Limpiar campos después de crear
@@ -112,8 +174,9 @@ public class NuevaRutaVuelo {
 
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(null,
-                        ex.getMessage(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error al crear la ruta:\n" + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -127,7 +190,7 @@ public class NuevaRutaVuelo {
     private void limpiarCampos() {
         NombreRuta.setText("");
         descripcion.setText("");
-        descripcionCortaField.setText("");
+        DescripcionCorta.setText(""); // Limpiar el JTextArea
         CostoTurista.setText("");
         CostoEjecutivo.setText("");
         Equipaje.setText("");
@@ -135,6 +198,7 @@ public class NuevaRutaVuelo {
         comboBoxCiudadOrigen.setSelectedIndex(0);
         comboBoxDestino.setSelectedIndex(0);
         comboBoxCategoria.setSelectedIndex(0);
+        aerolineaSeleccionada = null;
     }
 
     public Container getPanelAltaRuta() {
@@ -144,5 +208,14 @@ public class NuevaRutaVuelo {
     // Método para crear los componentes de la GUI (necesario para el diseñador de GUI)
     private void createUIComponents() {
         // Inicialización de componentes si es necesario
+        DescripcionCorta = new JTextArea();
+        DescripcionCorta.setLineWrap(true);
+        DescripcionCorta.setWrapStyleWord(true);
+        DescripcionCorta.setRows(3);
+
+        // Crear scroll pane para la descripción corta
+        scrollPaneDescripcionCorta = new JScrollPane(DescripcionCorta);
+        scrollPaneDescripcionCorta.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPaneDescripcionCorta.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     }
 }

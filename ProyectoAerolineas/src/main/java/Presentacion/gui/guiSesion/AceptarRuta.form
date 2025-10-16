@@ -15,7 +15,7 @@
         <border type="none"/>
         <children>
           <grid id="36792" layout-manager="GridBagLayout">
-            <constraints border-constraint="East"/>
+            <constraints border-constraint="Center"/>
             <properties>
               <background color="-2700033"/>
             </properties>
