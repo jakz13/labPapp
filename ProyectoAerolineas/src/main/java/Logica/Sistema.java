@@ -53,10 +53,10 @@ public class Sistema implements ISistema {
     @Override
     public void altaCliente(String nickname, String nombre, String apellido, String correo,
                             LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc,
-                            String numDoc, String password) {
+                            String numDoc, String password, String imagenUrl) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
-            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc, password);
+            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc, password, imagenUrl);
             manejadorCliente.agregarCliente(c, em);
         } else {
             throw new IllegalArgumentException("Ya existe un usuario con ese nickname");
@@ -71,7 +71,7 @@ public class Sistema implements ISistema {
 
     @Override
     public void altaAerolinea(String nickname, String nombre, String descripcion,
-                              String email, String sitioWeb, String password) {
+                              String email, String sitioWeb, String password, String imagenUrl) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
             Aerolinea a = new Aerolinea(nickname, nombre, email, descripcion, sitioWeb, password);

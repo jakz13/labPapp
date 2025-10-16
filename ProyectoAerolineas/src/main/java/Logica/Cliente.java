@@ -38,8 +38,8 @@ public class Cliente extends Usuario {
 
     public Cliente(String nickname, String nombre, String apellido,
                    String email, LocalDate fechaNac, String nacionalidad,
-                   TipoDoc tipoDoc, String numDoc, String password) {
-        super(nickname, nombre, email, password); // Con contraseña
+                   TipoDoc tipoDoc, String numDoc, String password, String imagenUrl) {
+        super(nickname, nombre, email, password, LocalDate.now(), imagenUrl); //// Con contraseña
         this.apellido = apellido;
         this.fechaNacimiento = fechaNac;
         this.nacionalidad = nacionalidad;

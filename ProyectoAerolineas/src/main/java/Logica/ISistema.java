@@ -15,7 +15,7 @@ public interface ISistema {
                      String numDoc, String password);
 
     void altaAerolinea(String nickname, String nombre, String descripcion,
-                       String email, String sitioWeb, String password);
+                       String email, String sitioWeb, String password, String imagenUrl);
 
     // Métodos de login
     boolean verificarLogin(String email, String password);

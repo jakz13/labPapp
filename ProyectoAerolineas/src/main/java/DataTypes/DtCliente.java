@@ -19,23 +19,23 @@ public class DtCliente extends DtUsuario {
     public DtCliente() {
     }
 
-    public DtCliente(String nickname, String nombre, String email,
+   /* public DtCliente(String nickname, String nombre, String email,
                      String apellido, LocalDate fechaNacimiento,
                      String nacionalidad, TipoDoc tipoDocumento,
                      String numeroDocumento) {
-        super(nickname, nombre, email);
+        super(nickname, nombre, email, );
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
     }
-
+*/
     public DtCliente(String nickname, String nombre, String email, String imagenUrl,
                      String apellido, LocalDate fechaNacimiento,
                      String nacionalidad, TipoDoc tipoDocumento,
-                     String numeroDocumento) {
-        super(nickname, nombre, email, imagenUrl);
+                     String numeroDocumento, LocalDate fechaAlta) {
+        super(nickname, nombre, email, imagenUrl, fechaAlta);
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;

@@ -176,7 +176,7 @@ public class InicioSesion {
 
                     // =================== CREAR CLIENTE ===================
                     sistema.altaCliente(nickname, nombreCliente, apellido, email,
-                            fechaNacimiento, nacionalidad, tipoDoc, documento, password);
+                            fechaNacimiento, nacionalidad, tipoDoc, documento, password,null);
 
                     JOptionPane.showMessageDialog(null,
                             "✅ Cliente creado correctamente\n\n" +

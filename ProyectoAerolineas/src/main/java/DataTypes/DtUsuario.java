@@ -12,11 +12,12 @@ public class DtUsuario {
     public DtUsuario() {
     }
 
-    public DtUsuario(String nickname, String nombre, String email) {
+    public DtUsuario(String nickname, String nombre, String email, LocalDate fechaAlta) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.email = email;
         this.imagenUrl = null;
+        this.fechaAlta = fechaAlta;
     }
 
     public DtUsuario(String nickname, String nombre, String email, String imagenUrl, LocalDate fechaAlta) {
@@ -38,6 +39,7 @@ public class DtUsuario {
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setEmail(String email) { this.email = email; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+    public void setFechaAlta(LocalDate fechaAlta) { this.fechaAlta = fechaAlta; }
 
     @Override
     public String toString() {

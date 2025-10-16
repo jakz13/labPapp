@@ -34,11 +34,11 @@ public abstract class Usuario {
         this.imagenUrl = null; // Opcional - puede ser null
     }
 
-    public Usuario(String nickname, String nombre, String email, String password) {
+    public Usuario(String nickname, String nombre, String email, String password, LocalDate fechaAlta, String imagenUrl) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.email = email;
-        this.imagenUrl = null; // Por defecto sin imagen
+        this.imagenUrl = imagenUrl; // Por defecto sin imagen
         setPassword(password);
         this.fechaAlta = LocalDate.now();
     }
@@ -50,7 +50,7 @@ public abstract class Usuario {
     public String getPasswordHash() { return passwordHash; }
     public String getPasswordSalt() { return passwordSalt; }
     public String getImagenUrl() { return imagenUrl; }
-
+    public LocalDate getFechaAlta() { return fechaAlta; }
     public void setEmail(String email) { this.email = email; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
