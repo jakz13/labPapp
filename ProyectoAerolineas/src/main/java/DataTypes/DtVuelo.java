@@ -2,19 +2,17 @@ package DataTypes;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import DataTypes.DtReserva;
 
 public class DtVuelo {
     private String nombre;
     private String nombreAerolinea;
     private LocalDate fecha;
-    private int duracion;  // en minutos o en horas, según cómo lo manejes
+    private int duracion;
     private int asientosTurista;
     private int asientosEjecutivo;
     private LocalDate fechaAlta;
-    private DtRutaVuelo rutaVuelo;  // nombre de la ruta en lugar de la entidad completa
-    private List<DtReserva> reservas; // lista de reservas asociadas
+    private DtRutaVuelo rutaVuelo; // Puede ser null
+    private List<DtReserva> reservas;
 
     public DtVuelo(String nombre, String nombreAerolinea, LocalDate fecha, int duracion,
                    int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta,
@@ -30,8 +28,7 @@ public class DtVuelo {
         this.reservas = reservas;
     }
 
-    // ===== Getters =====
-
+    // Getters
     public String getNombre() { return nombre; }
     public String getNombreAerolinea() { return nombreAerolinea; }
     public LocalDate getFecha() { return fecha; }
@@ -40,16 +37,5 @@ public class DtVuelo {
     public int getAsientosEjecutivo() { return asientosEjecutivo; }
     public LocalDate getFechaAlta() { return fechaAlta; }
     public DtRutaVuelo getRutaVuelo() { return rutaVuelo; }
-    public List<DtReserva> getReservas() {
-
-        return reservas;
-    }
-
-
-    @Override
-    public String toString() {
-        return this.nombre;
-    }
-
-
+    public List<DtReserva> getReservas() { return reservas; }
 }

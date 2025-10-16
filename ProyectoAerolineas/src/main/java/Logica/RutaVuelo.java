@@ -53,7 +53,12 @@ public class RutaVuelo {
     @JoinColumn(name = "ruta_vuelo_id")
     private List<Vuelo> vuelos = new ArrayList<>();
 
-    public RutaVuelo() {} // constructor vacío para JPA
+    public RutaVuelo() {
+        // Constructor vacío para JPA - inicializar valores por defecto
+        this.estado = EstadoRuta.INGRESADA;
+        this.categorias = new ArrayList<>();
+        this.vuelos = new ArrayList<>();
+    }
 
     public RutaVuelo(String nombre, String descripcion, String descripcionCorta, Aerolinea aerolinea,
                      String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta,
@@ -70,14 +75,17 @@ public class RutaVuelo {
         this.costoTurista = costoTurista;
         this.costoEjecutivo = costoEjecutivo;
         this.costoEquipajeExtra = costoEquipajeExtra;
-        this.categorias = categorias;
+        this.categorias = (categorias != null) ? categorias : new ArrayList<>();
         this.estado = EstadoRuta.INGRESADA; // Estado inicial
+        this.vuelos = new ArrayList<>();
     }
 
     // ===== Getters y Setters =====
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }
-    public String getDescripcionCorta() { return descripcionCorta; }
+    public String getDescripcionCorta() {
+        return (descripcionCorta != null) ? descripcionCorta : "";
+    }
     public Aerolinea getAerolinea() { return aerolinea; }
     public String getCiudadOrigen() { return ciudadOrigen; }
     public String getCiudadDestino() { return ciudadDestino; }
@@ -86,18 +94,29 @@ public class RutaVuelo {
     public double getCostoTurista() { return costoTurista; }
     public double getCostoEjecutivo() { return costoEjecutivo; }
     public double getCostoEquipajeExtra() { return costoEquipajeExtra; }
-    public EstadoRuta getEstado() { return estado; }
-    public List<String> getCategorias() { return categorias; }
-    public List<Vuelo> getVuelos() { return vuelos; }
+    public EstadoRuta getEstado() {
+        return (estado != null) ? estado : EstadoRuta.INGRESADA;
+    }
+    public List<String> getCategorias() {
+        return (categorias != null) ? categorias : new ArrayList<>();
+    }
+    public List<Vuelo> getVuelos() {
+        return (vuelos != null) ? vuelos : new ArrayList<>();
+    }
 
     public void setEstado(EstadoRuta estado) { this.estado = estado; }
     public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }
 
     public void agregarVuelo(Vuelo vuelo) {
+        if (vuelos == null) {
+            vuelos = new ArrayList<>();
+        }
         vuelos.add(vuelo);
     }
 
     public Vuelo getVuelo(String nombreVuelo) {
+        if (vuelos == null) return null;
+
         for (Vuelo v : vuelos) {
             if (v.getNombre().equals(nombreVuelo)) return v;
         }
@@ -109,20 +128,25 @@ public class RutaVuelo {
 
     public List<DtVuelo> getDtVuelos() {
         List<DtVuelo> dtVuelos = new ArrayList<>();
-        for (Vuelo v : vuelos) {
-            dtVuelos.add(v.getDtVuelo());
+        if (vuelos != null) {
+            for (Vuelo v : vuelos) {
+                // Usar el método que no causa recursión
+                dtVuelos.add(v.getDtVueloSinRuta());
+            }
         }
         return dtVuelos;
     }
 
     public DataTypes.DtRutaVuelo getDtRutaVuelo() {
         String nombreAerolinea = (aerolinea != null) ? aerolinea.getNombre() : null;
-        List<DtVuelo> dtVuelos = getDtVuelos();
+        List<DtVuelo> dtVuelos = getDtVuelos(); // Esto ahora usa el método sin recursión
+        String estadoStr = (estado != null) ? estado.toString() : "INGRESADA";
+        String descCorta = (descripcionCorta != null) ? descripcionCorta : "";
 
         return new DataTypes.DtRutaVuelo(
                 nombre,
                 descripcion,
-                descripcionCorta, // Nueva descripción corta
+                descCorta,
                 nombreAerolinea,
                 ciudadOrigen,
                 ciudadDestino,
@@ -131,8 +155,8 @@ public class RutaVuelo {
                 costoTurista,
                 costoEjecutivo,
                 costoEquipajeExtra,
-                estado.toString(), // Incluir estado en DTO
-                categorias,
+                estadoStr,
+                categorias != null ? categorias : new ArrayList<>(),
                 dtVuelos
         );
     }

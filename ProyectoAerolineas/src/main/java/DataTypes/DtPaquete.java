@@ -15,7 +15,6 @@ public class DtPaquete {
     private int periodoValidezDias;
     private List<DtItemPaquete> items = new ArrayList<>();
 
-
     public DtPaquete(String nombre, String descripcion, double costo,
                      LocalDate fechaAlta, int descuentoPorc,
                      int periodoValidezDias, List<DtItemPaquete> items) {
@@ -41,11 +40,18 @@ public class DtPaquete {
         if (p.getItemPaquetes() != null) {
             for (Logica.ItemPaquete item : p.getItemPaquetes()) {
                 Logica.RutaVuelo ruta = item.getRutaVuelo();
+
+                // Manejar valores nulos
+                String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
+                String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
+                String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
+                List<DtVuelo> dtVuelos = (ruta.getDtVuelos() != null) ? ruta.getDtVuelos() : new ArrayList<>();
+
                 DtRutaVuelo dtRuta = new DtRutaVuelo(
                         ruta.getNombre(),
                         ruta.getDescripcion(),
-                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta
-                        ruta.getAerolinea().getNombre(),
+                        descripcionCorta, // Campo manejado contra nulos
+                        nombreAerolinea,  // Campo manejado contra nulos
                         ruta.getCiudadOrigen(),
                         ruta.getCiudadDestino(),
                         ruta.getHora(),
@@ -53,9 +59,9 @@ public class DtPaquete {
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),
-                        ruta.getEstado().toString(), // Nuevo campo: estado
-                        ruta.getCategorias(),
-                        ruta.getDtVuelos()
+                        estado, // Campo manejado contra nulos
+                        ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList<>(),
+                        dtVuelos // Campo manejado contra nulos
                 );
 
                 DtItemPaquete dtItem = new DtItemPaquete(

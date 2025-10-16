@@ -22,41 +22,15 @@ public class ManejadorRutaVuelo {
         return instancia;
     }
 
-
-    public List<RutaVuelo> getRutasPorEstadoYAerolinea(String nombreAerolinea, RutaVuelo.EstadoRuta estado) {
-        List<RutaVuelo> rutasFiltradas = new ArrayList<>();
-        for (RutaVuelo ruta : rutasVuelo.values()) {
-            if (ruta.getAerolinea().getNombre().equals(nombreAerolinea) &&
-                    ruta.getEstado() == estado) {
-                rutasFiltradas.add(ruta);
-            }
-        }
-        return rutasFiltradas;
-    }
-
-    // Método para cambiar estado de una ruta
-    public void cambiarEstadoRuta(String nombreRuta, RutaVuelo.EstadoRuta nuevoEstado, EntityManager em) {
-        RutaVuelo ruta = rutasVuelo.get(nombreRuta);
-        if (ruta != null) {
-            ruta.setEstado(nuevoEstado);
-            EntityTransaction tx = em.getTransaction();
-            try {
-                tx.begin();
-                em.merge(ruta);
-                tx.commit();
-            } catch (Exception e) {
-                if (tx.isActive()) tx.rollback();
-                e.printStackTrace();
-            }
-        } else {
-            throw new IllegalArgumentException("Ruta de vuelo no encontrada: " + nombreRuta);
-        }
-    }
     // =================== CRUD BD ===================
     public void cargarRutasDesdeBD(EntityManager em) {
         TypedQuery<RutaVuelo> query = em.createQuery("SELECT r FROM RutaVuelo r", RutaVuelo.class);
         List<RutaVuelo> rutasPersistidas = query.getResultList();
         for (RutaVuelo r : rutasPersistidas) {
+            // Inicializar estado si es nulo
+            if (r.getEstado() == null) {
+                r.setEstado(RutaVuelo.EstadoRuta.INGRESADA);
+            }
             rutasVuelo.put(r.getNombre(), r);
         }
     }
@@ -93,7 +67,9 @@ public class ManejadorRutaVuelo {
     }
 
     // =================== Consultas en memoria ===================
-    public RutaVuelo getRuta(String nombre) { return rutasVuelo.get(nombre); }
+    public RutaVuelo getRuta(String nombre) {
+        return rutasVuelo.get(nombre);
+    }
 
     public Vuelo getVueloDeRuta(String nombreRuta, String nombreVuelo) {
         RutaVuelo ruta = rutasVuelo.get(nombreRuta);
@@ -104,14 +80,49 @@ public class ManejadorRutaVuelo {
     public List<RutaVuelo> getRutasPorAerolinea(String nombreAerolinea) {
         List<RutaVuelo> rutas = new ArrayList<>();
         for (RutaVuelo ruta : rutasVuelo.values()) {
-            if (ruta.getAerolinea().getNombre().equals(nombreAerolinea)) {
+            if (ruta.getAerolinea() != null &&
+                    ruta.getAerolinea().getNombre().equals(nombreAerolinea)) {
                 rutas.add(ruta);
             }
         }
         return rutas;
     }
 
-    public List<RutaVuelo> getRutas() { return new ArrayList<>(rutasVuelo.values()); }
+    // Nuevo método para obtener rutas por estado y aerolínea
+    public List<RutaVuelo> getRutasPorEstadoYAerolinea(String nombreAerolinea, RutaVuelo.EstadoRuta estado) {
+        List<RutaVuelo> rutasFiltradas = new ArrayList<>();
+        for (RutaVuelo ruta : rutasVuelo.values()) {
+            if (ruta.getAerolinea() != null &&
+                    ruta.getAerolinea().getNombre().equals(nombreAerolinea) &&
+                    ruta.getEstado() == estado) {
+                rutasFiltradas.add(ruta);
+            }
+        }
+        return rutasFiltradas;
+    }
+
+    // Método para cambiar estado de una ruta
+    public void cambiarEstadoRuta(String nombreRuta, RutaVuelo.EstadoRuta nuevoEstado, EntityManager em) {
+        RutaVuelo ruta = rutasVuelo.get(nombreRuta);
+        if (ruta != null) {
+            ruta.setEstado(nuevoEstado);
+            EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.merge(ruta);
+                tx.commit();
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                e.printStackTrace();
+            }
+        } else {
+            throw new IllegalArgumentException("Ruta de vuelo no encontrada: " + nombreRuta);
+        }
+    }
+
+    public List<RutaVuelo> getRutas() {
+        return new ArrayList<>(rutasVuelo.values());
+    }
 
     public List<DtVuelo> obtenerVuelosPorRuta(String nombreRuta) {
         RutaVuelo ruta = rutasVuelo.get(nombreRuta);

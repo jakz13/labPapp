@@ -31,6 +31,7 @@ public class Vuelo {
 
     @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Reserva> reservasList = new ArrayList<>();
+
     @Transient
     private Map<String, Reserva> reservas = new HashMap<>();
 
@@ -56,6 +57,7 @@ public class Vuelo {
     public int getAsientosEjecutivo() { return asientosEjecutivo; }
     public LocalDate getFechaAlta() { return fechaAlta; }
     public RutaVuelo getRutaVuelo() { return rutaVuelo; }
+
     public Map<String, Reserva> getReservas() {
         reservas.clear();
         for (Reserva r : reservasList) {
@@ -68,10 +70,13 @@ public class Vuelo {
         reservasList.add(reserva);
         reservas.put(idReserva, reserva);
     }
+
     public List<Reserva> getReservasList() { return reservasList; }
+
     public String getRutaVueloNombre() {
         return rutaVuelo.getNombre();
     }
+
     @Override
     public String toString() {
         return nombre;
@@ -93,6 +98,24 @@ public class Vuelo {
     }
 
     public DtVuelo getDtVuelo() {
+        // Crear un DtRutaVuelo simplificado sin vuelos para evitar recursión
+        DataTypes.DtRutaVuelo dtRutaSimplificada = new DataTypes.DtRutaVuelo(
+                rutaVuelo.getNombre(),
+                rutaVuelo.getDescripcion(),
+                rutaVuelo.getDescripcionCorta(),
+                rutaVuelo.getAerolinea() != null ? rutaVuelo.getAerolinea().getNombre() : null,
+                rutaVuelo.getCiudadOrigen(),
+                rutaVuelo.getCiudadDestino(),
+                rutaVuelo.getHora(),
+                rutaVuelo.getFechaAlta(),
+                rutaVuelo.getCostoTurista(),
+                rutaVuelo.getCostoEjecutivo(),
+                rutaVuelo.getCostoEquipajeExtra(),
+                rutaVuelo.getEstado() != null ? rutaVuelo.getEstado().toString() : "INGRESADA",
+                rutaVuelo.getCategorias() != null ? rutaVuelo.getCategorias() : new ArrayList<>(),
+                new ArrayList<>() // Lista vacía de vuelos para evitar recursión
+        );
+
         return new DtVuelo(
                 this.nombre,
                 this.NombreAereolinea,
@@ -101,7 +124,22 @@ public class Vuelo {
                 this.asientosTurista,
                 this.asientosEjecutivo,
                 this.fechaAlta,
-                this.rutaVuelo.getDtRutaVuelo(), // Asegúrate de tener este método en RutaVuelo
+                dtRutaSimplificada, // Usar la versión simplificada
+                this.getDtReservas()
+        );
+    }
+
+    // Método alternativo sin información de ruta (para casos donde no se necesita)
+    public DtVuelo getDtVueloSinRuta() {
+        return new DtVuelo(
+                this.nombre,
+                this.NombreAereolinea,
+                this.fecha,
+                this.duracion,
+                this.asientosTurista,
+                this.asientosEjecutivo,
+                this.fechaAlta,
+                null, // Sin información de ruta
                 this.getDtReservas()
         );
     }
