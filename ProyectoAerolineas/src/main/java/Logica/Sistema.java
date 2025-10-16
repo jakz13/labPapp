@@ -105,8 +105,44 @@ public class Sistema implements ISistema {
         }
         return null;
     }
+// =================== MÉTODOS PARA IMÁGENES ===================
+
+    @Override
+    public void actualizarImagenCliente(String nickname, String imagenUrl) {
+        manejadorCliente.actualizarImagenCliente(nickname, imagenUrl, em);
+    }
+
+    @Override
+    public void actualizarImagenAerolinea(String nickname, String imagenUrl) {
+        manejadorAerolinea.actualizarImagenAerolinea(nickname, imagenUrl, em);
+    }
+
+    @Override
+    public void actualizarImagenRuta(String nombreRuta, String imagenUrl) {
+        manejadorRutaVuelo.actualizarImagenRuta(nombreRuta, imagenUrl, em);
+    }
+
+    // Métodos para obtener URLs de imagen (si los necesitan)
+    public String obtenerImagenCliente(String nickname) {
+        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
+        return cliente != null ? cliente.getImagenUrl() : null;
+    }
+
+    public String obtenerImagenAerolinea(String nickname) {
+        DtAerolinea aerolinea = manejadorAerolinea.getDtAerolineas().stream()
+                .filter(a -> a.getNickname().equals(nickname))
+                .findFirst()
+                .orElse(null);
+        return aerolinea != null ? aerolinea.getImagenUrl() : null;
+    }
+
+    public String obtenerImagenRuta(String nombreRuta) {
+        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
+        return ruta != null ? ruta.getImagenUrl() : null;
+    }
 
     // ======================================
+
 
     @Override
     public List<DtCliente> listarClientes() {

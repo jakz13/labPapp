@@ -31,8 +31,20 @@ public class DtCliente extends DtUsuario {
         this.numeroDocumento = numeroDocumento;
     }
 
+    public DtCliente(String nickname, String nombre, String email, String imagenUrl,
+                     String apellido, LocalDate fechaNacimiento,
+                     String nacionalidad, TipoDoc tipoDocumento,
+                     String numeroDocumento) {
+        super(nickname, nombre, email, imagenUrl);
+        this.apellido = apellido;
+        this.fechaNacimiento = fechaNacimiento;
+        this.nacionalidad = nacionalidad;
+        this.tipoDocumento = tipoDocumento;
+        this.numeroDocumento = numeroDocumento;
+    }
+
     public DtCliente(Cliente cliente) {
-        super(cliente.getNickname(), cliente.getNombre(), cliente.getEmail());
+        super(cliente.getNickname(), cliente.getNombre(), cliente.getEmail(), cliente.getImagenUrl());
         this.apellido = cliente.getApellido();
         this.fechaNacimiento = cliente.getFechaNacimiento();
         this.nacionalidad = cliente.getNacionalidad();

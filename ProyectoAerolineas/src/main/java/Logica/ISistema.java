@@ -95,4 +95,16 @@ public interface ISistema {
     List<DtCliente> getClientes();
     List<DtReserva> getReservasCliente(String nickname);
     List<DtItemPaquete> getDtItemRutasPaquete(String nombrePaquete);
+
+    // =================== MÉTODOS PARA IMÁGENES ===================
+    void actualizarImagenCliente(String nickname, String imagenUrl);
+    void actualizarImagenAerolinea(String nickname, String imagenUrl);
+    void actualizarImagenRuta(String nombreRuta, String imagenUrl);
+
+    //para obtener imágenes
+    String obtenerImagenCliente(String nickname);
+    String obtenerImagenAerolinea(String nickname);
+    String obtenerImagenRuta(String nombreRuta);
+
 }
+

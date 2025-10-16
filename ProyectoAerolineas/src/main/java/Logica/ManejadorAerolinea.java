@@ -106,6 +106,25 @@ public class ManejadorAerolinea {
         return dtAerolineas;
     }
 
+    public void actualizarImagenAerolinea(String nickname, String imagenUrl, EntityManager em) {
+        Aerolinea aerolinea = aerolineas.get(nickname);
+        if (aerolinea != null) {
+            aerolinea.setImagenUrl(imagenUrl);
+            EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.merge(aerolinea);
+                tx.commit();
+                System.out.println("Imagen actualizada para aerolínea: " + nickname);
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                throw new RuntimeException("Error actualizando imagen de la aerolínea: " + e.getMessage(), e);
+            }
+        } else {
+            throw new IllegalArgumentException("Aerolínea no encontrada: " + nickname);
+        }
+    }
+
     public void modificarDatosAerolinea(Aerolinea aerolinea, EntityManager em) {
         if (aerolinea != null) {
             EntityTransaction tx = em.getTransaction();

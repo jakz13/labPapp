@@ -23,9 +23,10 @@ public class RutaVuelo {
 
     private String nombre;
     private String descripcion;
-
-    // Nueva descripción corta
     private String descripcionCorta;
+
+    @Column(name = "imagen_url")
+    private String imagenUrl;
 
     @ManyToOne
     @JoinColumn(name = "aerolinea_id")
@@ -40,7 +41,6 @@ public class RutaVuelo {
     private double costoEjecutivo;
     private double costoEquipajeExtra;
 
-    // Nuevo campo para el estado
     @Enumerated(EnumType.STRING)
     private EstadoRuta estado = EstadoRuta.INGRESADA;
 
@@ -54,10 +54,10 @@ public class RutaVuelo {
     private List<Vuelo> vuelos = new ArrayList<>();
 
     public RutaVuelo() {
-        // Constructor vacío para JPA - inicializar valores por defecto
         this.estado = EstadoRuta.INGRESADA;
         this.categorias = new ArrayList<>();
         this.vuelos = new ArrayList<>();
+        this.imagenUrl = null;
     }
 
     public RutaVuelo(String nombre, String descripcion, String descripcionCorta, Aerolinea aerolinea,
@@ -76,8 +76,9 @@ public class RutaVuelo {
         this.costoEjecutivo = costoEjecutivo;
         this.costoEquipajeExtra = costoEquipajeExtra;
         this.categorias = (categorias != null) ? categorias : new ArrayList<>();
-        this.estado = EstadoRuta.INGRESADA; // Estado inicial
+        this.estado = EstadoRuta.INGRESADA;
         this.vuelos = new ArrayList<>();
+        this.imagenUrl = null;
     }
 
     // ===== Getters y Setters =====
@@ -86,6 +87,7 @@ public class RutaVuelo {
     public String getDescripcionCorta() {
         return (descripcionCorta != null) ? descripcionCorta : "";
     }
+    public String getImagenUrl() { return imagenUrl; }
     public Aerolinea getAerolinea() { return aerolinea; }
     public String getCiudadOrigen() { return ciudadOrigen; }
     public String getCiudadDestino() { return ciudadDestino; }
@@ -106,6 +108,7 @@ public class RutaVuelo {
 
     public void setEstado(EstadoRuta estado) { this.estado = estado; }
     public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
 
     public void agregarVuelo(Vuelo vuelo) {
         if (vuelos == null) {
@@ -130,7 +133,6 @@ public class RutaVuelo {
         List<DtVuelo> dtVuelos = new ArrayList<>();
         if (vuelos != null) {
             for (Vuelo v : vuelos) {
-                // Usar el método que no causa recursión
                 dtVuelos.add(v.getDtVueloSinRuta());
             }
         }
@@ -139,14 +141,16 @@ public class RutaVuelo {
 
     public DataTypes.DtRutaVuelo getDtRutaVuelo() {
         String nombreAerolinea = (aerolinea != null) ? aerolinea.getNombre() : null;
-        List<DtVuelo> dtVuelos = getDtVuelos(); // Esto ahora usa el método sin recursión
+        List<DtVuelo> dtVuelos = getDtVuelos();
         String estadoStr = (estado != null) ? estado.toString() : "INGRESADA";
         String descCorta = (descripcionCorta != null) ? descripcionCorta : "";
+        String imgUrl = (imagenUrl != null) ? imagenUrl : null;
 
         return new DataTypes.DtRutaVuelo(
                 nombre,
                 descripcion,
                 descCorta,
+                imgUrl,
                 nombreAerolinea,
                 ciudadOrigen,
                 ciudadDestino,

@@ -124,6 +124,25 @@ public class ManejadorRutaVuelo {
         return new ArrayList<>(rutasVuelo.values());
     }
 
+    public void actualizarImagenRuta(String nombreRuta, String imagenUrl, EntityManager em) {
+        RutaVuelo ruta = rutasVuelo.get(nombreRuta);
+        if (ruta != null) {
+            ruta.setImagenUrl(imagenUrl);
+            EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.merge(ruta);
+                tx.commit();
+                System.out.println("Imagen actualizada para ruta: " + nombreRuta);
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                throw new RuntimeException("Error actualizando imagen de la ruta: " + e.getMessage(), e);
+            }
+        } else {
+            throw new IllegalArgumentException("Ruta no encontrada: " + nombreRuta);
+        }
+    }
+
     public List<DtVuelo> obtenerVuelosPorRuta(String nombreRuta) {
         RutaVuelo ruta = rutasVuelo.get(nombreRuta);
         if (ruta != null) {

@@ -129,6 +129,25 @@ public class ManejadorCliente {
         return lista;
     }
 
+    public void actualizarImagenCliente(String nickname, String imagenUrl, EntityManager em) {
+        Cliente cliente = clientes.get(nickname);
+        if (cliente != null) {
+            cliente.setImagenUrl(imagenUrl);
+            EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.merge(cliente);
+                tx.commit();
+                System.out.println("Imagen actualizada para cliente: " + nickname);
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                throw new RuntimeException("Error actualizando imagen del cliente: " + e.getMessage(), e);
+            }
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado: " + nickname);
+        }
+    }
+
     public void agregarReserva(Reserva reserva, String nicknameCliente, String idReserva, EntityManager em) {
         DtCliente cliente = obtenerCliente(nicknameCliente);
         Cliente clienteObj = clientes.get(nicknameCliente);
