@@ -84,6 +84,39 @@ public class Sistema implements ISistema {
         throw new UnsupportedOperationException("Use el método con contraseña: altaAerolinea(..., password)");
     }
 
+    @Override
+    public void actualizarPassword(String email, String nuevaPassword) {
+        try {
+            manejadorCliente.actualizarPassword(email, nuevaPassword, em);
+            return;
+        } catch (IllegalArgumentException e) {
+            // Si no es cliente, continuar
+        }
+
+        try {
+            manejadorAerolinea.actualizarPassword(email, nuevaPassword, em);
+            return;
+        } catch (IllegalArgumentException e) {
+            // Si no es aerolínea, lanzar error
+        }
+
+        throw new IllegalArgumentException("Usuario no encontrado: " + email);
+    }
+
+    @Override
+    public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido, String email,
+                                              String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
+                                              String numeroDocumento, String password, String imagenUrl) {
+        manejadorCliente.modificarDatosClienteCompleto(nickname, nombre, apellido, email, nacionalidad, fechaNacimiento,
+                tipoDocumento, numeroDocumento, password, imagenUrl, em);
+    }
+
+    @Override
+    public void modificarDatosAerolineaCompleto(String nickname, String nombre, String email, String descripcion,
+                                                String sitioWeb, String password, String imagenUrl) {
+        manejadorAerolinea.modificarDatosAerolineaCompleto(nickname, nombre, email, descripcion, sitioWeb, password, imagenUrl, em);
+    }
+
     // =================== LOGIN ===================
 
     @Override
@@ -188,6 +221,7 @@ public class Sistema implements ISistema {
                 aerolinea.getEmail(),
                 aerolinea.getDescripcion(),
                 aerolinea.getSitioWeb(),
+                aerolinea.getImagenUrl(),
                 aerolinea.getRutasVuelo()
         );
     }

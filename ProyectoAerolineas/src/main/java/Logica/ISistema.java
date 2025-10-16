@@ -28,7 +28,14 @@ public interface ISistema {
     Aerolinea verInfoAerolinea(String nickname);
     DtAerolinea obtenerAerolinea(String nickname);
     List<DtAerolinea> listarAerolineas();
+    public void actualizarPassword(String email, String nuevaPassword);
 
+    void modificarDatosClienteCompleto(String nickname, String nombre, String apellido, String email,
+                                       String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
+                                       String numeroDocumento, String password, String imagenUrl);
+
+    void modificarDatosAerolineaCompleto(String nickname, String nombre, String email, String descripcion,
+                                         String sitioWeb, String password, String imagenUrl);
     // =================== Ciudades ===================
     void altaCiudad(String nombre, String pais);
     List<DtCiudad> listarCiudades();

@@ -106,6 +106,51 @@ public class ManejadorAerolinea {
         return dtAerolineas;
     }
 
+    public void actualizarPassword(String email, String nuevaPassword, EntityManager em) {
+        Aerolinea aerolinea = obtenerAerolineaPorEmail(email);
+        if (aerolinea != null) {
+            aerolinea.setPassword(nuevaPassword);
+            EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.merge(aerolinea);
+                tx.commit();
+                System.out.println("Contraseña actualizada para aerolínea: " + email);
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                throw new RuntimeException("Error actualizando contraseña: " + e.getMessage(), e);
+            }
+        } else {
+            throw new IllegalArgumentException("Aerolínea no encontrada: " + email);
+        }
+    }
+
+    public void modificarDatosAerolineaCompleto(String nickname, String nombre, String email, String descripcion,
+                                                String sitioWeb, String password, String imagenUrl, EntityManager em) {
+        Aerolinea aerolinea = obtenerAerolinea(nickname);
+        if (aerolinea == null) {
+            throw new IllegalArgumentException("Aerolínea no encontrada: " + nickname);
+        }
+
+        if (nombre != null) aerolinea.setNombre(nombre.trim());
+        if (email != null && !email.trim().isEmpty()) aerolinea.setEmail(email.trim());
+        if (descripcion != null) aerolinea.setDescripcion(descripcion.trim());
+        if (sitioWeb != null) aerolinea.setSitioWeb(sitioWeb.trim());
+        if (password != null && !password.trim().isEmpty()) aerolinea.setPassword(password.trim());
+        if (imagenUrl != null) aerolinea.setImagenUrl(imagenUrl.trim().isEmpty() ? null : imagenUrl.trim());
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.merge(aerolinea);
+            tx.commit();
+            System.out.println("Todos los datos actualizados para aerolínea: " + nickname);
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Error modificando datos completos de la aerolínea: " + e.getMessage(), e);
+        }
+    }
+
     public void actualizarImagenAerolinea(String nickname, String imagenUrl, EntityManager em) {
         Aerolinea aerolinea = aerolineas.get(nickname);
         if (aerolinea != null) {

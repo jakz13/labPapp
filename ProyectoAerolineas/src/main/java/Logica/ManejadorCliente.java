@@ -4,6 +4,8 @@ import DataTypes.DtCliente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
+
+import java.time.LocalDate;
 import java.util.*;
 
 public class ManejadorCliente {
@@ -119,6 +121,55 @@ public class ManejadorCliente {
             return cliente.verificarPassword(password);
         }
         return false;
+    }
+
+    public void actualizarPassword(String email, String nuevaPassword, EntityManager em) {
+        Cliente cliente = obtenerClientePorEmail(email);
+        if (cliente != null) {
+            cliente.setPassword(nuevaPassword);
+            EntityTransaction tx = em.getTransaction();
+            try {
+                tx.begin();
+                em.merge(cliente);
+                tx.commit();
+                System.out.println("Contraseña actualizada para cliente: " + email);
+            } catch (Exception e) {
+                if (tx.isActive()) tx.rollback();
+                throw new RuntimeException("Error actualizando contraseña: " + e.getMessage(), e);
+            }
+        } else {
+            throw new IllegalArgumentException("Cliente no encontrado: " + email);
+        }
+    }
+
+    public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido, String email,
+                                              String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
+                                              String numeroDocumento, String password, String imagenUrl, EntityManager em) {
+        Cliente cliente = obtenerClienteReal(nickname);
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente no encontrado: " + nickname);
+        }
+
+        if (nombre != null) cliente.setNombre(nombre.trim());
+        if (apellido != null) cliente.setApellido(apellido.trim());
+        if (email != null && !email.trim().isEmpty()) cliente.setEmail(email.trim());
+        if (nacionalidad != null) cliente.setNacionalidad(nacionalidad.trim());
+        if (fechaNacimiento != null) cliente.setFechaNacimiento(fechaNacimiento);
+        if (tipoDocumento != null) cliente.setTipoDocumento(tipoDocumento);
+        if (numeroDocumento != null) cliente.setNumeroDocumento(numeroDocumento.trim());
+        if (password != null && !password.trim().isEmpty()) cliente.setPassword(password.trim());
+        if (imagenUrl != null) cliente.setImagenUrl(imagenUrl.trim().isEmpty() ? null : imagenUrl.trim());
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.merge(cliente);
+            tx.commit();
+            System.out.println("Todos los datos actualizados para cliente: " + nickname);
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw new RuntimeException("Error modificando datos completos del cliente: " + e.getMessage(), e);
+        }
     }
 
     public List<DtCliente> getClientes() {
