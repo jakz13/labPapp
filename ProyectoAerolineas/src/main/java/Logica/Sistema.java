@@ -33,6 +33,9 @@ public class Sistema implements ISistema {
         this.manejadorVuelo = ManejadorVuelo.getInstance();
         this.manejadorCiudad = ManejadorCiudad.getInstance();
         this.manejadorCategoria = ManejadorCategoria.getInstance();
+
+        // Precargar datos si la base está vacía
+
     }
 
     @Override
@@ -104,17 +107,17 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido, String email,
+    public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido,
                                               String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
                                               String numeroDocumento, String password, String imagenUrl) {
-        manejadorCliente.modificarDatosClienteCompleto(nickname, nombre, apellido, email, nacionalidad, fechaNacimiento,
+        manejadorCliente.modificarDatosClienteCompleto(nickname, nombre, apellido, nacionalidad, fechaNacimiento,
                 tipoDocumento, numeroDocumento, password, imagenUrl, em);
     }
 
     @Override
-    public void modificarDatosAerolineaCompleto(String nickname, String nombre, String email, String descripcion,
+    public void modificarDatosAerolineaCompleto(String nickname, String nombre, String descripcion,
                                                 String sitioWeb, String password, String imagenUrl) {
-        manejadorAerolinea.modificarDatosAerolineaCompleto(nickname, nombre, email, descripcion, sitioWeb, password, imagenUrl, em);
+        manejadorAerolinea.modificarDatosAerolineaCompleto(nickname, nombre, descripcion, sitioWeb, password, imagenUrl, em);
     }
 
     // =================== LOGIN ===================
@@ -696,3 +699,4 @@ public class Sistema implements ISistema {
         }
     }
 }
+

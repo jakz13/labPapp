@@ -27,50 +27,54 @@ public class Main {
             sistema.altaCiudad("Nueva York", "Estados Unidos");
             sistema.altaCiudad("Los Ángeles", "Estados Unidos");
 
+            // Añadir passwords obligatorios a los clientes
             sistema.altaCliente("juan123", "Juan", "Callero", "juan@mail.com",
-                    java.time.LocalDate.of(1990, 5, 10), "Uruguayo", Logica.TipoDoc.CI, "12345678");
+                    java.time.LocalDate.of(1990, 5, 10), "Uruguayo", Logica.TipoDoc.CI, "12345678", "pwdJuan");
             sistema.altaCliente("ana456", "Aglae", "Locher", "aglae@mail.com",
-                    java.time.LocalDate.of(1985, 8, 22), "Argentina", Logica.TipoDoc.PASAPORTE, "A9876543");
+                    java.time.LocalDate.of(1985, 8, 22), "Argentina", Logica.TipoDoc.PASAPORTE, "A9876543", "pwdAna");
             sistema.altaCliente("luis789", "Luis", "Martínez", "luis@mail.com",
-                    java.time.LocalDate.of(1992, 12, 3), "Chileno", Logica.TipoDoc.CI, "87654321");
+                    java.time.LocalDate.of(1992, 12, 3), "Chileno", Logica.TipoDoc.CI, "87654321", "pwdLuis");
+
+            // Alta de aerolíneas con password (método actual requiere password)
             sistema.altaAerolinea("latam001", "LATAM Airlines", "Principal aerolínea de Latinoamérica",
-                    "contacto@latam.com", "https://www.latam.com");
+                    "contacto@latam.com", "https://www.latam.com", "pwdLatam");
 
             sistema.altaAerolinea("iberia002", "Iberia", "Aerolínea española con vuelos internacionales",
-                    "info@iberia.com", "https://www.iberia.com");
+                    "info@iberia.com", "https://www.iberia.com", "pwdIberia");
 
             sistema.altaAerolinea("aa003", "American Airlines", "Aerolínea estadounidense con gran cobertura global",
-                    "support@aa.com", "https://www.aa.com");
+                    "support@aa.com", "https://www.aa.com", "pwdAA");
 
             sistema.altaAerolinea("aeromex004", "AeroMéxico", "Aerolínea mexicana líder en vuelos internacionales",
-                    "clientes@aeromexico.com", "https://www.aeromexico.com");
+                    "clientes@aeromexico.com", "https://www.aeromexico.com", "pwdAeroMex");
 
             sistema.altaAerolinea("flybondi005", "FlyBondi", "Low cost argentina con vuelos regionales",
-                    "contacto@flybondi.com", "https://www.flybondi.com");
+                    "contacto@flybondi.com", "https://www.flybondi.com", "pwdFlybondi");
 
             // --- Precarga de rutas de vuelo ---
             try {
-                sistema.altaRutaVuelo("SCL-MIA", "Santiago a Miami",
+                // Corregir orden de parámetros: nombre, descripcion, descripcionCorta, DtAerolinea, ciudadOrigen, ciudadDestino, hora, fechaAlta, costos..., categorias
+                sistema.altaRutaVuelo("SCL-MIA", "Santiago a Miami", "Directo",
                         sistema.obtenerAerolinea("latam001"),
                         "Santiago", "Miami", "08:00", LocalDate.now(),
                         500.0, 900.0, 50.0, new String[]{"Turista", "Ejecutivo"});
 
-                sistema.altaRutaVuelo("SCL-EZE", "Santiago a Buenos Aires",
+                sistema.altaRutaVuelo("SCL-EZE", "Santiago a Buenos Aires", "Directo",
                         sistema.obtenerAerolinea("latam001"),
                         "Santiago", "Buenos Aires", "14:00", LocalDate.now(),
                         200.0, 350.0, 30.0, new String[]{"Turista", "Ejecutivo"});
 
-                sistema.altaRutaVuelo("MAD-LHR", "Madrid a Londres",
+                sistema.altaRutaVuelo("MAD-LHR", "Madrid a Londres", "Directo",
                         sistema.obtenerAerolinea("iberia002"),
                         "Madrid", "Londres", "10:00", LocalDate.now(),
                         150.0, 300.0, 20.0, new String[]{"Turista", "Ejecutivo"});
 
-                sistema.altaRutaVuelo("JFK-LAX", "Nueva York a Los Ángeles",
+                sistema.altaRutaVuelo("JFK-LAX", "Nueva York a Los Ángeles", "Directo",
                         sistema.obtenerAerolinea("aa003"),
                         "Nueva York", "Los Ángeles", "09:30", LocalDate.now(),
                         400.0, 700.0, 40.0, new String[]{"Turista", "Ejecutivo"});
 
-                sistema.altaRutaVuelo("JFK-MIA", "Nueva York a Miami",
+                sistema.altaRutaVuelo("JFK-MIA", "Nueva York a Miami", "Directo",
                         sistema.obtenerAerolinea("aa003"),
                         "Nueva York", "Miami", "13:00", LocalDate.now(),
                         300.0, 550.0, 35.0, new String[]{"Turista", "Ejecutivo"});
@@ -154,4 +158,3 @@ public class Main {
         });
     }
 }
-

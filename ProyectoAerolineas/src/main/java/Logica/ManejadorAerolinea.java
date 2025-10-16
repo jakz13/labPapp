@@ -125,7 +125,7 @@ public class ManejadorAerolinea {
         }
     }
 
-    public void modificarDatosAerolineaCompleto(String nickname, String nombre, String email, String descripcion,
+    public void modificarDatosAerolineaCompleto(String nickname, String nombre, String descripcion,
                                                 String sitioWeb, String password, String imagenUrl, EntityManager em) {
         Aerolinea aerolinea = obtenerAerolinea(nickname);
         if (aerolinea == null) {
@@ -133,7 +133,6 @@ public class ManejadorAerolinea {
         }
 
         if (nombre != null) aerolinea.setNombre(nombre.trim());
-        if (email != null && !email.trim().isEmpty()) aerolinea.setEmail(email.trim());
         if (descripcion != null) aerolinea.setDescripcion(descripcion.trim());
         if (sitioWeb != null) aerolinea.setSitioWeb(sitioWeb.trim());
         if (password != null && !password.trim().isEmpty()) aerolinea.setPassword(password.trim());

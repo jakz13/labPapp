@@ -142,7 +142,7 @@ public class ManejadorCliente {
         }
     }
 
-    public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido, String email,
+    public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido,
                                               String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
                                               String numeroDocumento, String password, String imagenUrl, EntityManager em) {
         Cliente cliente = obtenerClienteReal(nickname);
@@ -152,7 +152,6 @@ public class ManejadorCliente {
 
         if (nombre != null) cliente.setNombre(nombre.trim());
         if (apellido != null) cliente.setApellido(apellido.trim());
-        if (email != null && !email.trim().isEmpty()) cliente.setEmail(email.trim());
         if (nacionalidad != null) cliente.setNacionalidad(nacionalidad.trim());
         if (fechaNacimiento != null) cliente.setFechaNacimiento(fechaNacimiento);
         if (tipoDocumento != null) cliente.setTipoDocumento(tipoDocumento);

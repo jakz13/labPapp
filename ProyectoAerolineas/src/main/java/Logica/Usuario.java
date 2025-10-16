@@ -2,6 +2,8 @@ package Logica;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @MappedSuperclass
 public abstract class Usuario {
 
@@ -13,6 +15,8 @@ public abstract class Usuario {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    private LocalDate fechaAlta;
 
     @Column(name = "password_hash")
     private String passwordHash;
@@ -36,6 +40,7 @@ public abstract class Usuario {
         this.email = email;
         this.imagenUrl = null; // Por defecto sin imagen
         setPassword(password);
+        this.fechaAlta = LocalDate.now();
     }
 
     // ===== Getters y Setters =====

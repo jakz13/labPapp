@@ -1,10 +1,13 @@
 package DataTypes;
 
+import java.time.LocalDate;
+
 public class DtUsuario {
     private String nickname;
     private String nombre;
     private String email;
-    private String imagenUrl; 
+    private String imagenUrl;
+    private LocalDate fechaAlta;
 
     public DtUsuario() {
     }
@@ -16,11 +19,12 @@ public class DtUsuario {
         this.imagenUrl = null;
     }
 
-    public DtUsuario(String nickname, String nombre, String email, String imagenUrl) {
+    public DtUsuario(String nickname, String nombre, String email, String imagenUrl, LocalDate fechaAlta) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.email = email;
         this.imagenUrl = imagenUrl;
+        this.fechaAlta = fechaAlta;
     }
 
     // --- Getters y Setters ---
@@ -28,6 +32,7 @@ public class DtUsuario {
     public String getNombre() { return nombre; }
     public String getEmail() { return email; }
     public String getImagenUrl() { return imagenUrl; }
+    public LocalDate getFechaAlta() { return fechaAlta; }
 
     public void setNickname(String nickname) { this.nickname = nickname; }
     public void setNombre(String nombre) { this.nombre = nombre; }

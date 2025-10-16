@@ -30,11 +30,11 @@ public interface ISistema {
     List<DtAerolinea> listarAerolineas();
     public void actualizarPassword(String email, String nuevaPassword);
 
-    void modificarDatosClienteCompleto(String nickname, String nombre, String apellido, String email,
+    void modificarDatosClienteCompleto(String nickname, String nombre, String apellido,
                                        String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
                                        String numeroDocumento, String password, String imagenUrl);
 
-    void modificarDatosAerolineaCompleto(String nickname, String nombre, String email, String descripcion,
+    void modificarDatosAerolineaCompleto(String nickname, String nombre, String descripcion,
                                          String sitioWeb, String password, String imagenUrl);
     // =================== Ciudades ===================
     void altaCiudad(String nombre, String pais);
