@@ -1,108 +1,98 @@
 package Logica;
 
+import DataTypes.*;
 import java.time.LocalDate;
 import java.util.List;
-import DataTypes.*;
-import Logica.TipoDoc;
-
 
 public interface ISistema {
-    // Usuarios
-    public abstract void cargarDesdeBd();
-    public abstract void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc);
 
-    public abstract Cliente verInfoCliente(String nickname);
+    // =================== Inicialización ===================
+    void cargarDesdeBd();
 
-    public abstract List<DtCliente> listarClientes();
+    // =================== Usuarios ===================
+    void altaCliente(String nickname, String nombre, String apellido, String correo,
+                     LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc,
+                     String numDoc, String password);
 
-    public abstract void altaAerolinea(String nickname, String nombre, String descripcion, String correo, String sitioweb);
+    void altaAerolinea(String nickname, String nombre, String descripcion,
+                       String email, String sitioWeb, String password);
 
-    public abstract Aerolinea verInfoAerolinea(String nickname);
+    // Métodos de login
+    boolean verificarLogin(String email, String password);
+    String obtenerTipoUsuario(String email);
 
-    public abstract List<DtAerolinea> listarAerolineas();
+    List<DtCliente> listarClientes();
+    Cliente verInfoCliente(String nickname);
+    DtCliente obtenerCliente(String nickname);
 
-    // Vuelos y rutas
-    // public void cargarDatosEjemplo();
+    Aerolinea verInfoAerolinea(String nickname);
+    DtAerolinea obtenerAerolinea(String nickname);
+    List<DtAerolinea> listarAerolineas();
 
+    // =================== Ciudades ===================
     void altaCiudad(String nombre, String pais);
+    List<DtCiudad> listarCiudades();
 
-    public void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta, DtAerolinea aerolinea,
-                              String ciudadOrigen, String ciudadDestino, String hora,
-                              LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
-                              double costoEquipajeExtra, String[] categorias);
+    // =================== Rutas de Vuelo ===================
+    void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta,
+                       DtAerolinea aerolinea, String ciudadOrigen, String ciudadDestino,
+                       String hora, LocalDate fechaAlta, double costoTurista,
+                       double costoEjecutivo, double costoEquipajeExtra, String[] categorias);
 
-    public void rechazarRutaVuelo(String nombreRuta);
+    RutaVuelo obtenerRuta(String nombreRuta);
+    List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
 
-    public void aceptarRutaVuelo(String nombreRuta);
+    // Métodos para aceptar/rechazar rutas
+    List<DtAerolinea> obtenerAerolineasConRutasPendientes();
+    List<DtRutaVuelo> obtenerRutasPendientesPorAerolinea(String nombreAerolinea);
+    void aceptarRutaVuelo(String nombreRuta);
+    void rechazarRutaVuelo(String nombreRuta);
 
-    public List<DtRutaVuelo> obtenerRutasPendientesPorAerolinea(String nombreAerolinea);
+    // =================== Vuelos ===================
+    void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta,
+                   LocalDate fecha, int duracion, int asientosTurista,
+                   int asientosEjecutivo, LocalDate fechaAlta);
 
-    public List<DtAerolinea> obtenerAerolineasConRutasPendientes();
-
-    public abstract RutaVuelo obtenerRuta(String nombreRuta);
-
-    public List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
-
-    public List<DtVuelo> listarVuelosPorRuta(String nombreRuta);
-
+    Vuelo obtenerVuelo(String nombreVuelo);
+    List<DtVuelo> listarVuelosPorRuta(String nombreRuta);
     Vuelo verInfoVuelo(String nombreVuelo);
 
-    //String altaVueloAux(String nombreAerolinea, String nombreRuta, String nombreVuelo, String fecha, int duracion,
-    //int asientosTurista, int asientosEjecutivo);
+    // =================== Reservas ===================
+    void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva, double costo,
+                                TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra,
+                                List<Pasajero> pasajeros);
 
-    public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta, LocalDate fecha, int duracion, int asientosTurista,
-                          int asientosEjecutivo, LocalDate fechaAlta);
-
-    public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva);
-
-    public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva,
-                                       double costo,
-                                       TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros);
-
-    public Vuelo obtenerVuelo(String nombreVuelo);
-
-    // --- PAQUETES ---
-
-    public void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias);
-
-    public List<DtPaquete> listarPaquetes();
-
-    public abstract DtAerolinea obtenerAerolinea(String nombreAerolinea);
-
-    public abstract void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento);
-
-    public abstract void modificarDatosAerolinea(String nickname, String Descripcion ,String URL);
-
-    public abstract void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
-
-    public abstract DtCliente obtenerCliente(String nickname);
-
+    void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva);
+    DtReserva obtenerReserva(String idReserva, String nicknameCliente);
     double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra);
 
+    // =================== Paquetes ===================
+    void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias);
+    List<DtPaquete> listarPaquetes();
+    void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento);
+    Paquete obtenerPaquete(String nombrePaquete);
+    DtPaquete obtenerDtPaquete(String nombrePaquete);
+    List<DtPaquete> listarPaquetesDisp();
+    void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo);
+
+    // =================== Categorías ===================
+    void altaCategoria(String nomCat);
+    List<DtCategoria> listarCategorias();
+
+    // =================== Pasajeros ===================
     Pasajero crearPasajero(String nombre, String apellido);
 
-    public void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo);
+    // =================== Modificación de datos ===================
+    void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad,
+                                 LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento);
 
-    public List<Object> obtenerDatosAdicionalesUsuario(String nickname);
+    void modificarDatosAerolinea(String nickname, String Descripcion, String URL);
 
-    public void altaCategoria(String nomCat);
-
-    public List<DtCiudad> listarCiudades();
-
-    public List<DtCategoria> listarCategorias();
-
-    public DtReserva obtenerReserva(String idReserva, String nicknameCliente);
-
-    public Paquete obtenerPaquete(String nombrePaquete);
-
-    public List<DtAerolinea> getAerolineas();
-
-    public List<DtPaquete> getPaquetesDisp();
-    public List<DtCliente> getClientes();
-
-    public DtPaquete obtenerDtPaquete(String nombrePaquete);
-
-    public List<DtItemPaquete> getDtItemRutasPaquete(String nombrePaquete);
-
-    public List<DtReserva> getReservasCliente(String nickname);
+    // =================== Consultas adicionales ===================
+    List<Object> obtenerDatosAdicionalesUsuario(String nickname);
+    List<DtAerolinea> getAerolineas();
+    List<DtPaquete> getPaquetesDisp();
+    List<DtCliente> getClientes();
+    List<DtReserva> getReservasCliente(String nickname);
+    List<DtItemPaquete> getDtItemRutasPaquete(String nombrePaquete);
 }

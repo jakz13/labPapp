@@ -1,13 +1,10 @@
-// InicioSesion.java
 package Presentacion.gui.guiSesion;
-
 
 import Logica.Fabrica;
 import Logica.ISistema;
 import Logica.TipoDoc;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,12 +12,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.time.LocalDate;
 
-
 public class InicioSesion {
     private JPanel PanelDeSesion;
     private JButton ALTAVUELOButton;
     private JButton ALTACIUDADButton;
-    private JTextField NombreUsuario;
+    private JTextField NombreUsuario;  // Nickname (clave)
     private JTextField NombreCliente;
     private JTextField Apellido;
     private JButton crearButton;
@@ -33,9 +29,10 @@ public class InicioSesion {
     private JComboBox DiaNacimiento;
     private JComboBox MesNacimiento;
     private JComboBox AnoNacimiento;
+    private JPasswordField passwordField;
+    private JPasswordField ConfirmacionPassword;
 
     public InicioSesion() {
-        // Agrupa los JRadioButton para que solo uno pueda estar seleccionado
         ISistema sistema = Fabrica.getInstance().getISistema();
         ButtonGroup grupoDocumento = new ButtonGroup();
         grupoDocumento.add(PasaporteRadioButton);
@@ -47,15 +44,18 @@ public class InicioSesion {
                 super.componentShown(e);
             }
         });
+
         crearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nombreUsuario = NombreUsuario.getText();
-                String apellido = Apellido.getText();
-                String nombreCliente = NombreCliente.getText();
-                String email = EmailUsuario.getText();
-                String documento = Documento.getText();
-                String nacionalidad = NacionalidadCliente.getText();
+                String nickname = NombreUsuario.getText().trim();  // Nickname (clave)
+                String nombreCliente = NombreCliente.getText().trim();
+                String apellido = Apellido.getText().trim();
+                String email = EmailUsuario.getText().trim();
+                String documento = Documento.getText().trim();
+                String nacionalidad = NacionalidadCliente.getText().trim();
+                String password = new String(passwordField.getPassword()).trim();
+                String confirmacion = new String(ConfirmacionPassword.getPassword()).trim();
 
                 TipoDoc tipoDoc;
 
@@ -63,56 +63,57 @@ public class InicioSesion {
                 String mesStr = (String) MesNacimiento.getSelectedItem();
                 String anioStr = (String) AnoNacimiento.getSelectedItem();
 
+                // =================== VALIDACIONES ===================
 
-                // Validaciones específicas de campos
-                if (nombreUsuario.isEmpty()) {
+                // Validaciones de campos obligatorios
+                if (nickname.isEmpty() || nombreCliente.isEmpty() || apellido.isEmpty() ||
+                        email.isEmpty() || documento.isEmpty() || nacionalidad.isEmpty() ||
+                        password.isEmpty() || confirmacion.isEmpty()) {
                     JOptionPane.showMessageDialog(null,
-                            "El nombre de usuario es obligatorio.",
+                            "Debe completar todos los campos.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                if (nombreCliente.isEmpty()) {
+                // Validación de contraseñas
+                if (!password.equals(confirmacion)) {
                     JOptionPane.showMessageDialog(null,
-                            "El nombre del cliente es obligatorio.",
+                            "Las contraseñas no coinciden.",
                             "Error", JOptionPane.ERROR_MESSAGE);
+                    passwordField.setText("");
+                    ConfirmacionPassword.setText("");
                     return;
                 }
 
-                if (apellido.isEmpty()) {
+                // Validación de fortaleza de contraseña
+                if (password.length() < 6) {
                     JOptionPane.showMessageDialog(null,
-                            "El apellido es obligatorio.",
+                            "La contraseña debe tener al menos 6 caracteres.",
                             "Error", JOptionPane.ERROR_MESSAGE);
+                    passwordField.setText("");
+                    ConfirmacionPassword.setText("");
                     return;
                 }
 
-                if (email.isEmpty()) {
+                // Validación de caracteres especiales en contraseña
+                if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
                     JOptionPane.showMessageDialog(null,
-                            "El email es obligatorio.",
+                            "La contraseña debe contener al menos:\n- Una letra mayúscula\n- Una letra minúscula\n- Un número",
                             "Error", JOptionPane.ERROR_MESSAGE);
+                    passwordField.setText("");
+                    ConfirmacionPassword.setText("");
                     return;
                 }
 
-                if (documento.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,
-                            "El documento es obligatorio.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                if (nacionalidad.isEmpty()) {
-                    JOptionPane.showMessageDialog(null,
-                            "La nacionalidad es obligatoria.",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
+                // Validación de tipo de documento
                 if (!CiRadioButton.isSelected() && !PasaporteRadioButton.isSelected()) {
                     JOptionPane.showMessageDialog(null,
                             "Debe seleccionar un tipo de documento.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+
+                // Validación de fecha
                 if (diaStr.equals("Día") || mesStr.equals("Mes") || anioStr.equals("Año")) {
                     JOptionPane.showMessageDialog(null,
                             "Debe seleccionar una fecha válida.",
@@ -120,12 +121,7 @@ public class InicioSesion {
                     return;
                 }
 
-                int dia = Integer.parseInt(diaStr);
-                int mes = Integer.parseInt(mesStr);
-                int anio = Integer.parseInt(anioStr);
-
-                LocalDate fecha = LocalDate.of(anio, mes, dia);
-
+                // Validación de email
                 if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
                     JOptionPane.showMessageDialog(null,
                             "Correo electrónico no válido.",
@@ -133,63 +129,85 @@ public class InicioSesion {
                     return;
                 }
 
+                // Validaciones específicas por tipo de documento
                 if (CiRadioButton.isSelected()) {
-                    // Validar formato de CI (8 dígitos)
-                    if (!Documento.getText().matches("\\d{8}")) {
+                    if (!documento.matches("\\d{8}")) {
                         JOptionPane.showMessageDialog(null,
-                                "La CI debe tener 8 números.",
+                                "La CI debe tener exactamente 8 números.",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     tipoDoc = TipoDoc.CI;
-                } else if (PasaporteRadioButton.isSelected()) {
-                    // Validar formato de pasaporte (2 letras + 6 números)
-                    if (!Documento.getText().matches("[A-Z]{2}\\d{6}")) {
+                } else {
+                    if (!documento.matches("[A-Z]{2}\\d{6}")) {
                         JOptionPane.showMessageDialog(null,
-                                "El pasaporte debe tener el formato: 2 letras y 6 números (ej: AB123456).",
+                                "El pasaporte debe tener el formato: 2 letras + 6 números\nEjemplo: AB123456",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     tipoDoc = TipoDoc.PASAPORTE;
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "Debe seleccionar CI o Pasaporte.",
-                            "Error", JOptionPane.WARNING_MESSAGE);
-                    return;
-
                 }
+
+                // Validación de fecha de nacimiento
                 try {
-                    sistema.altaCliente(nombreUsuario, nombreCliente, apellido, email, fecha, nacionalidad, tipoDoc, documento);
+                    int dia = Integer.parseInt(diaStr);
+                    int mes = Integer.parseInt(mesStr);
+                    int anio = Integer.parseInt(anioStr);
+
+                    LocalDate fechaNacimiento = LocalDate.of(anio, mes, dia);
+                    LocalDate hoy = LocalDate.now();
+
+                    // Validar que la fecha no sea en el futuro
+                    if (fechaNacimiento.isAfter(hoy)) {
+                        JOptionPane.showMessageDialog(null,
+                                "La fecha de nacimiento no puede ser futura.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // Validar edad mínima (por ejemplo, 18 años)
+                    LocalDate fechaMinima = hoy.minusYears(18);
+                    if (fechaNacimiento.isAfter(fechaMinima)) {
+                        JOptionPane.showMessageDialog(null,
+                                "Debe ser mayor de 18 años para registrarse.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // =================== CREAR CLIENTE ===================
+                    sistema.altaCliente(nickname, nombreCliente, apellido, email,
+                            fechaNacimiento, nacionalidad, tipoDoc, documento, password);
+
                     JOptionPane.showMessageDialog(null,
-                            "Usuario creado correctamente.",
-                            "Éxito",
+                            "✅ Cliente creado correctamente\n\n" +
+                                    "Nickname: " + nickname + "\n" +
+                                    "Nombre: " + nombreCliente + " " + apellido + "\n" +
+                                    "Email: " + email + "\n" +
+                                    "Fecha Nac: " + fechaNacimiento + "\n" +
+                                    "🌍 Nacionalidad: " + nacionalidad + "\n" +
+                                    "Documento: " + tipoDoc + " " + documento,
+                            "Cliente Creado - Éxito",
                             JOptionPane.INFORMATION_MESSAGE);
 
                     // Limpiar campos después del éxito
-                    NombreUsuario.setText("");
-                    NombreCliente.setText("");
-                    Apellido.setText("");
-                    EmailUsuario.setText("");
-                    Documento.setText("");
-                    NacionalidadCliente.setText("");
-                    grupoDocumento.clearSelection();
-                    DiaNacimiento.setSelectedItem("Día");
-                    MesNacimiento.setSelectedItem("Mes");
-                    AnoNacimiento.setSelectedItem("Año");
+                    limpiarCampos();
 
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null,
+                            "Error en el formato de la fecha.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(null,
-                            ex.getMessage(),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Error al crear el cliente:\n" + ex.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null,
-                            "Error inesperado al crear el usuario: " + ex.getMessage(),
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                            "Error inesperado: " + ex.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
+
         cancelarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -199,9 +217,54 @@ public class InicioSesion {
                 }
             }
         });
+
+        // Mejoras de usabilidad
+        passwordField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ConfirmacionPassword.requestFocus();
+            }
+        });
+
+        ConfirmacionPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                crearButton.doClick();
+            }
+        });
+    }
+
+    private void limpiarCampos() {
+        NombreUsuario.setText("");
+        NombreCliente.setText("");
+        Apellido.setText("");
+        EmailUsuario.setText("");
+        Documento.setText("");
+        NacionalidadCliente.setText("");
+        passwordField.setText("");
+        ConfirmacionPassword.setText("");
+
+        // Limpiar selección de radio buttons
+        PasaporteRadioButton.setSelected(false);
+        CiRadioButton.setSelected(false);
+
+        // Resetear comboboxes de fecha
+        DiaNacimiento.setSelectedItem("Día");
+        MesNacimiento.setSelectedItem("Mes");
+        AnoNacimiento.setSelectedItem("Año");
+
+        // Volver al primer campo
+        NombreUsuario.requestFocus();
     }
 
     public Container getPanelDeSesion() {
         return PanelDeSesion;
+    }
+
+    // Método para inicializar componentes si usas diseñador de GUI
+    private void createUIComponents() {
+        // Inicialización de componentes si es necesario
+        passwordField = new JPasswordField();
+        ConfirmacionPassword = new JPasswordField();
     }
 }

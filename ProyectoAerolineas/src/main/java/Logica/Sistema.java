@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public class Sistema implements ISistema {
 
     private EntityManagerFactory emf;
@@ -22,8 +21,7 @@ public class Sistema implements ISistema {
     private ManejadorVuelo manejadorVuelo;
     private ManejadorPaquete manejadorPaquete;
     private ManejadorCategoria manejadorCategoria;
-    private static int idReservaCounter = 0; // Contador para generar IDs únicos de reserva
-
+    private static int idReservaCounter = 0;
 
     public Sistema() {
         this.emf = Persistence.createEntityManagerFactory("LAB_PA");
@@ -36,7 +34,8 @@ public class Sistema implements ISistema {
         this.manejadorCiudad = ManejadorCiudad.getInstance();
         this.manejadorCategoria = ManejadorCategoria.getInstance();
     }
-@Override
+
+    @Override
     public void cargarDesdeBd() {
         manejadorCliente.cargarClientesDesdeBD(em);
         manejadorAerolinea.cargarAerolineasDesdeBD(em);
@@ -46,17 +45,68 @@ public class Sistema implements ISistema {
         manejadorPaquete.cargarPaquetesDesdeBD(em);
     }
 
-    // --- USUARIOS ---
+    // =================== USUARIOS CON CONTRASEÑA ===================
+
     @Override
-    public void altaCliente(String nickname, String nombre, String apellido, String correo, LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc) {
+    public void altaCliente(String nickname, String nombre, String apellido, String correo,
+                            LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc,
+                            String numDoc, String password) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
-            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc);
+            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc, password);
             manejadorCliente.agregarCliente(c, em);
         } else {
-            throw new IllegalArgumentException("Ya existe con ese nickname");
+            throw new IllegalArgumentException("Ya existe un usuario con ese nickname");
         }
     }
+
+    // Método antiguo sin contraseña (para backward compatibility si es necesario)
+    public void altaCliente(String nickname, String nombre, String apellido, String correo,
+                            LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc) {
+        throw new UnsupportedOperationException("Use el método con contraseña: altaCliente(..., password)");
+    }
+
+    @Override
+    public void altaAerolinea(String nickname, String nombre, String descripcion,
+                              String email, String sitioWeb, String password) {
+        if (manejadorAerolinea.obtenerAerolinea(nickname) == null
+                && manejadorCliente.obtenerCliente(nickname) == null) {
+            Aerolinea a = new Aerolinea(nickname, nombre, email, descripcion, sitioWeb, password);
+            manejadorAerolinea.agregarAerolinea(a, em);
+        } else {
+            throw new IllegalArgumentException("Ya existe un usuario con ese nickname");
+        }
+    }
+
+    // Método antiguo sin contraseña (para backward compatibility si es necesario)
+    public void altaAerolinea(String nickname, String nombre, String descripcion,
+                              String email, String sitioWeb) {
+        throw new UnsupportedOperationException("Use el método con contraseña: altaAerolinea(..., password)");
+    }
+
+    // =================== LOGIN ===================
+
+    @Override
+    public boolean verificarLogin(String email, String password) {
+        // Primero buscar como cliente
+        if (manejadorCliente.verificarLogin(email, password)) {
+            return true;
+        }
+        // Si no es cliente, buscar como aerolínea
+        return manejadorAerolinea.verificarLogin(email, password);
+    }
+
+    @Override
+    public String obtenerTipoUsuario(String email) {
+        if (manejadorCliente.obtenerClientePorEmail(email) != null) {
+            return "CLIENTE";
+        } else if (manejadorAerolinea.obtenerAerolineaPorEmail(email) != null) {
+            return "AEROLINEA";
+        }
+        return null;
+    }
+
+    // ======================================
 
     @Override
     public List<DtCliente> listarClientes() {
@@ -78,17 +128,6 @@ public class Sistema implements ISistema {
     public DtCliente obtenerCliente(String nickname) {
         DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
         return cliente;
-    }
-
-    @Override
-    public void altaAerolinea(String nickname, String nombre, String descripcion, String email, String sitioWeb) {
-        if (manejadorAerolinea.obtenerAerolinea(nickname) == null
-                && manejadorCliente.obtenerCliente(nickname) == null) {
-            Aerolinea a = new Aerolinea(nickname, nombre, email, descripcion, sitioWeb);
-            manejadorAerolinea.agregarAerolinea(a, em);
-        } else {
-            throw new IllegalArgumentException("Ya existe con ese nickname");
-        }
     }
 
     @Override
@@ -174,7 +213,6 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    // Nuevos métodos para aceptar/rechazar rutas
     public List<DtAerolinea> obtenerAerolineasConRutasPendientes() {
         List<DtAerolinea> aerolineasConPendientes = new ArrayList<>();
         for (DtAerolinea aero : manejadorAerolinea.getDtAerolineas()) {
@@ -214,7 +252,7 @@ public class Sistema implements ISistema {
         return manejadorRutaVuelo.getRuta(nombreRuta);
     }
 
-
+    @Override
     public List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
         return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);
     }
@@ -229,7 +267,6 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("La ruta " + nombreRuta + " no existe.");
         }
 
-        // Verificar si en esa ruta ya existe un vuelo con el mismo nombre
         if (manejadorRutaVuelo.getVueloDeRuta(nombreRuta, nombreVuelo) != null) {
             throw new IllegalArgumentException("Ya existe un vuelo con el nombre " + nombreVuelo + " en la ruta " + nombreRuta);
         }
@@ -256,7 +293,7 @@ public class Sistema implements ISistema {
         if (vuelo == null) {
             throw new IllegalArgumentException("Vuelo no encontrado");
         }
-        return vuelo; // Asumiendo que Vuelo tiene métodos para obtener reservas y datos
+        return vuelo;
     }
 
     // --- RESERVA ---
@@ -269,7 +306,6 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("El vuelo no existe: " + nombreVuelo);
         }
 
-        // Validar que el cliente no tenga ya una reserva para este vuelo
         if (vuelo.getReservas().containsKey(nicknameCliente)) {
             throw new IllegalArgumentException(
                     "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
@@ -277,14 +313,12 @@ public class Sistema implements ISistema {
             );
         }
 
-        // Validar también en el manejador de reservas del cliente, si aplica
         DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
         if (cliente != null) {
             for (DtReserva r : cliente.getReservas()) {
                 if (r.getVuelo().equals(nombreVuelo)) {
                     throw new IllegalArgumentException(
-                            "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
-                                    "."
+                            "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo + "."
                     );
                 }
             }
@@ -320,7 +354,6 @@ public class Sistema implements ISistema {
         manejadorVuelo.actualizarVuelo(vuelo, em);
     }
 
-
     @Override
     public DtReserva obtenerReserva(String idReserva, String nicknameCliente) {
         DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
@@ -338,7 +371,6 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Error al obtener la reserva: " + e.getMessage());
         }
     }
-
 
     // --- PAQUETES ---
     @Override
@@ -364,9 +396,7 @@ public class Sistema implements ISistema {
     @Override
     public List<DtPaquete> listarPaquetes() {
         return (List<DtPaquete>) manejadorPaquete.getPaquetes();
-
     }
-
 
     @Override
     public void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento) {
@@ -396,6 +426,7 @@ public class Sistema implements ISistema {
         }
     }
 
+    @Override
     public List<DtPaquete> listarPaquetesDisp() {
         return manejadorPaquete.getPaquetesDisp();
     }
@@ -451,7 +482,6 @@ public class Sistema implements ISistema {
             }
         }
 
-
         try {
             manejadorPaquete.compraPaquete(p, c, validezDias, fechaC, costo, em);
             System.out.println("Paquete comprado correctamente.");
@@ -460,24 +490,23 @@ public class Sistema implements ISistema {
         }
     }
 
-
     @Override
     public void altaCategoria(String nomCat) {
         Categoria cat = manejadorCategoria.buscarCategorias(nomCat);
         if (cat != null) {
             throw new IllegalArgumentException("Error, la categoria ya existe.");
-            //Q aca de la opcion de elegir otro paquete o cancelar. no se donde va esta opcion
         }
 
         try {
             Categoria c = new Categoria(nomCat);
             manejadorCategoria.agregarCategoria(c, em);
-            System.out.println("Paquete comprado correctamente.");
+            System.out.println("Categoria creada correctamente.");
         } catch (IllegalStateException e) {
             System.out.println("ERROR.");
         }
     }
 
+    @Override
     public List<Object> obtenerDatosAdicionalesUsuario(String nickname) {
         List<Object> adicionales = new ArrayList<>();
         DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
@@ -505,7 +534,6 @@ public class Sistema implements ISistema {
 
     @Override
     public List<DtCategoria> listarCategorias() {
-        // Si getCategorias() retorna un Map<String, Categoria>
         List<DtCategoria> lista = new ArrayList<>();
         for (Categoria c : manejadorCategoria.getCategorias().values()) {
             lista.add(new DtCategoria(c.getNombre()));
@@ -529,15 +557,12 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("No se encontró la ruta con ese nombre.");
         }
 
-        // Verificar que la ruta esté confirmada
         if (ruta.getEstado() != RutaVuelo.EstadoRuta.CONFIRMADA) {
             throw new IllegalArgumentException("No se puede agregar una ruta que no esté CONFIRMADA al paquete. Ruta actual: " + ruta.getEstado());
         }
 
-        // Usar el manejador para agregar la ruta al paquete
         manejadorPaquete.agregarRutaAPaquete(p, ruta, cantidadAsientos, tipoAsiento, em);
 
-        // Actualizar DtPaquete si es necesario
         DtPaquete dtPaquete = obtenerDtPaquete(nombrePaquete);
         if (dtPaquete != null) {
             DtRutaVuelo dtRuta = ruta.getDtRutaVuelo();
@@ -557,6 +582,7 @@ public class Sistema implements ISistema {
         return paquete;
     }
 
+    @Override
     public DtPaquete obtenerDtPaquete(String nombrePaquete) {
         DtPaquete paquete = manejadorPaquete.obtenerDtPaquete(nombrePaquete);
         if (paquete == null) {
@@ -565,20 +591,22 @@ public class Sistema implements ISistema {
         return paquete;
     }
 
-
     @Override
     public List<DtAerolinea> getAerolineas() {
         return manejadorAerolinea.getDtAerolineas();
     }
 
+    @Override
     public List<DtPaquete> getPaquetesDisp() {
         return manejadorPaquete.getPaquetes();
     }
 
+    @Override
     public List<DtCliente> getClientes() {
         return manejadorCliente.getClientes();
     }
 
+    @Override
     public List<DtReserva> getReservasCliente(String nickname) {
         DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
         if (cliente != null) {
@@ -588,6 +616,7 @@ public class Sistema implements ISistema {
         }
     }
 
+    @Override
     public List<DtItemPaquete> getDtItemRutasPaquete(String nombrePaquete) {
         List<DtItemPaquete> items = manejadorPaquete.obtenerDtItemsPaquete(nombrePaquete);
         if (items != null && !items.isEmpty()) {

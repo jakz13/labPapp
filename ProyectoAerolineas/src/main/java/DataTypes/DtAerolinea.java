@@ -8,7 +8,7 @@ public class DtAerolinea {
     private String email;
     private String descripcion;
     private String sitioWeb;
-    private List<DtRutaVuelo> rutas; // solo nombres de rutas, no objetos
+    private List<DtRutaVuelo> rutas;
 
     public DtAerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb, List<DtRutaVuelo> rutas) {
         this.nickname = nickname;
@@ -29,8 +29,6 @@ public class DtAerolinea {
 
     @Override
     public String toString() {
-        return this.nombre;
+        return nombre + " (" + nickname + ")";
     }
-
 }
-

@@ -68,6 +68,21 @@ public class ManejadorAerolinea {
         return aerolineas.get(nickname);
     }
 
+    public Aerolinea obtenerAerolineaPorEmail(String email) {
+        return aerolineas.values().stream()
+                .filter(a -> a.getEmail().equals(email))
+                .findFirst().orElse(null);
+    }
+
+    // Método para verificar login
+    public boolean verificarLogin(String email, String password) {
+        Aerolinea aerolinea = obtenerAerolineaPorEmail(email);
+        if (aerolinea != null) {
+            return aerolinea.verificarPassword(password);
+        }
+        return false;
+    }
+
     public List<DtRutaVuelo> obtenerRutaVueloDeAerolinea(String nicknameAerolinea) {
         Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);
         if (aerolinea != null) {

@@ -6,23 +6,24 @@ import java.util.*;
 
 @Entity
 @Table(name = "aerolineas")
-@PrimaryKeyJoinColumn(name = "usuario_id") // porque hereda de Usuario
+@PrimaryKeyJoinColumn(name = "usuario_id")
 public class Aerolinea extends Usuario {
 
     private String descripcion;
     private String sitioWeb;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @MapKey(name = "nombre") // usamos el nombre de la ruta como clave
-    @JoinColumn(name = "aerolinea_id") // FK en la tabla de rutas
+    @MapKey(name = "nombre")
+    @JoinColumn(name = "aerolinea_id")
     private Map<String, RutaVuelo> rutasVuelo = new HashMap<>();
 
     public Aerolinea() {
         super();
     }
 
-    public Aerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb) {
-        super(nickname, nombre, email);
+    // Constructor actualizado con contraseña
+    public Aerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb, String password) {
+        super(nickname, nombre, email, password);
         this.descripcion = descripcion;
         this.sitioWeb = sitioWeb;
     }
@@ -42,7 +43,6 @@ public class Aerolinea extends Usuario {
     public List<DtRutaVuelo> getRutasVuelo() {
         return rutasVuelo.values().stream()
                 .map(ruta -> {
-                    // Manejar valores nulos
                     String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
                     String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
                     String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
@@ -50,8 +50,8 @@ public class Aerolinea extends Usuario {
                     return new DtRutaVuelo(
                             ruta.getNombre(),
                             ruta.getDescripcion(),
-                            descripcionCorta, // Campo manejado contra nulos
-                            nombreAerolinea,  // Campo manejado contra nulos
+                            descripcionCorta,
+                            nombreAerolinea,
                             ruta.getCiudadOrigen(),
                             ruta.getCiudadDestino(),
                             ruta.getHora(),
@@ -59,7 +59,7 @@ public class Aerolinea extends Usuario {
                             ruta.getCostoTurista(),
                             ruta.getCostoEjecutivo(),
                             ruta.getCostoEquipajeExtra(),
-                            estado, // Campo manejado contra nulos
+                            estado,
                             ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList<>(),
                             ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList<>()
                     );
@@ -71,7 +71,6 @@ public class Aerolinea extends Usuario {
         return new ArrayList<>(
                 rutasVuelo.values().stream()
                         .map(ruta -> {
-                            // Manejar valores nulos
                             String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
                             String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
                             String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
@@ -79,8 +78,8 @@ public class Aerolinea extends Usuario {
                             return new DtRutaVuelo(
                                     ruta.getNombre(),
                                     ruta.getDescripcion(),
-                                    descripcionCorta, // Campo manejado contra nulos
-                                    nombreAerolinea,  // Campo manejado contra nulos
+                                    descripcionCorta,
+                                    nombreAerolinea,
                                     ruta.getCiudadOrigen(),
                                     ruta.getCiudadDestino(),
                                     ruta.getHora(),
@@ -88,7 +87,7 @@ public class Aerolinea extends Usuario {
                                     ruta.getCostoTurista(),
                                     ruta.getCostoEjecutivo(),
                                     ruta.getCostoEquipajeExtra(),
-                                    estado, // Campo manejado contra nulos
+                                    estado,
                                     ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList<>(),
                                     ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList<>()
                             );

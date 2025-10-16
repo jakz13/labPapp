@@ -6,15 +6,14 @@ import Logica.TipoDoc;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DtCliente extends DtUsuario {
     private String apellido;
     private LocalDate fechaNacimiento;
     private String nacionalidad;
-    private TipoDoc tipoDocumento;   // lo paso a String para simplificar la transferencia
+    private TipoDoc tipoDocumento;
     private String numeroDocumento;
-    private List<DtReserva> reservas = new ArrayList<>(); // en DTO solo referencias, no objetos completos
+    private List<DtReserva> reservas = new ArrayList<>();
     private List<DtPaquete> paquetesComprados = new ArrayList<>();
 
     public DtCliente() {
@@ -88,7 +87,7 @@ public class DtCliente extends DtUsuario {
         return reservas;
     }
 
-    public void setReservasIds(List<DtReserva> reservas) {
+    public void setReservas(List<DtReserva> reservas) {
         this.reservas = reservas;
     }
 
@@ -99,7 +98,6 @@ public class DtCliente extends DtUsuario {
     public void setPaquetesComprados(List<DtPaquete> paquetesComprados) {
         this.paquetesComprados = paquetesComprados;
     }
-
 
     @Override
     public String toString() {

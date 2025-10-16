@@ -8,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "clientes")
-@PrimaryKeyJoinColumn(name = "usuario_id") // referencia a la PK de Usuario
+@PrimaryKeyJoinColumn(name = "usuario_id")
 public class Cliente extends Usuario {
 
     private String apellido;
@@ -26,19 +26,20 @@ public class Cliente extends Usuario {
     private String numeroDocumento;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cliente_nickname") // FK en tabla Reserva
+    @JoinColumn(name = "cliente_nickname")
     private List<Reserva> reservas = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompraPaqLogica> comprasPaquetes = new ArrayList<>();
 
     public Cliente() {
+        super();
     }
 
     public Cliente(String nickname, String nombre, String apellido,
                    String email, LocalDate fechaNac, String nacionalidad,
-                   TipoDoc tipoDoc, String numDoc) {
-        super(nickname, nombre, email);
+                   TipoDoc tipoDoc, String numDoc, String password) {
+        super(nickname, nombre, email, password); // Con contraseña
         this.apellido = apellido;
         this.fechaNacimiento = fechaNac;
         this.nacionalidad = nacionalidad;
@@ -68,10 +69,10 @@ public class Cliente extends Usuario {
     public List<CompraPaqLogica> getComprasPaquetes() { return comprasPaquetes; }
     public void setComprasPaquetes(List<CompraPaqLogica> comprasPaquetes) { this.comprasPaquetes = comprasPaquetes; }
 
-
     public void agregarReserva(Reserva reserva) {
         reservas.add(reserva);
     }
+
     @Override
     public String toString() {
         return this.getNombre();

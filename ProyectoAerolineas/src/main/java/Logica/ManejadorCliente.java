@@ -107,7 +107,18 @@ public class ManejadorCliente {
     }
 
     public Cliente obtenerClientePorEmail(String email) {
-        return null;
+        return clientes.values().stream()
+                .filter(c -> c.getEmail().equals(email))
+                .findFirst().orElse(null);
+    }
+
+    // Método para verificar login
+    public boolean verificarLogin(String email, String password) {
+        Cliente cliente = obtenerClientePorEmail(email);
+        if (cliente != null) {
+            return cliente.verificarPassword(password);
+        }
+        return false;
     }
 
     public List<DtCliente> getClientes() {
@@ -143,6 +154,4 @@ public class ManejadorCliente {
             throw new RuntimeException("Error al agregar la reserva: " + e.getMessage(), e);
         }
     }
-
-
 }
