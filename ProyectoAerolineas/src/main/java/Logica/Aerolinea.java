@@ -2,6 +2,8 @@ package Logica;
 
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -22,8 +24,8 @@ public class Aerolinea extends Usuario {
     }
 
     // Constructor actualizado con contraseña
-    public Aerolinea(String nickname, String nombre, String email, String descripcion, String sitioWeb, String password) {
-        super(nickname, nombre, email, password);
+    public Aerolinea(String nickname, String nombre, String email, String password, String descripcion, String sitioWeb, String imagenUrl) {
+        super(nickname, nombre, email, password, LocalDate.now(), imagenUrl);
         this.descripcion = descripcion;
         this.sitioWeb = sitioWeb;
     }

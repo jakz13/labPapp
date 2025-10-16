@@ -82,7 +82,7 @@ public class AltaAereolinea {
                 }
 
                 try {
-                    sistema.altaAerolinea(nickname, nombre, descripcion, correo, sitioWeb, password);
+                    sistema.altaAerolinea(nickname, nombre, descripcion, correo, sitioWeb, password, null);
 
                     JOptionPane.showMessageDialog(null,
                             "Aerolínea creada correctamente.\n\n" +

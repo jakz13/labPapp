@@ -74,7 +74,7 @@ public class Sistema implements ISistema {
                               String email, String sitioWeb, String password, String imagenUrl) {
         if (manejadorAerolinea.obtenerAerolinea(nickname) == null
                 && manejadorCliente.obtenerCliente(nickname) == null) {
-            Aerolinea a = new Aerolinea(nickname, nombre, email, descripcion, sitioWeb, password);
+            Aerolinea a = new Aerolinea(nickname, nombre, email, password, descripcion, sitioWeb, imagenUrl);
             manejadorAerolinea.agregarAerolinea(a, em);
         } else {
             throw new IllegalArgumentException("Ya existe un usuario con ese nickname");

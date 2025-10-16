@@ -44,7 +44,7 @@ public class DtCliente extends DtUsuario {
     }
 
     public DtCliente(Cliente cliente) {
-        super(cliente.getNickname(), cliente.getNombre(), cliente.getEmail(), cliente.getImagenUrl());
+        super(cliente.getNickname(), cliente.getNombre(), cliente.getEmail(), cliente.getImagenUrl(), cliente.getFechaAlta());
         this.apellido = cliente.getApellido();
         this.fechaNacimiento = cliente.getFechaNacimiento();
         this.nacionalidad = cliente.getNacionalidad();

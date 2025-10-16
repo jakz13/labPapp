@@ -12,7 +12,7 @@ public interface ISistema {
     // =================== Usuarios ===================
     void altaCliente(String nickname, String nombre, String apellido, String correo,
                      LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc,
-                     String numDoc, String password);
+                     String numDoc, String password, String imagenUrl);
 
     void altaAerolinea(String nickname, String nombre, String descripcion,
                        String email, String sitioWeb, String password, String imagenUrl);
