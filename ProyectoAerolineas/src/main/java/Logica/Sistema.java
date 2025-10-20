@@ -2,10 +2,12 @@ package Logica;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import DataTypes.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -398,9 +400,9 @@ public class Sistema implements ISistema {
             }
         }
 
-        String idReserva = "RES" + (++idReservaCounter);
+        // CREAR RESERVA SIN ID - se generará automáticamente
         Reserva reserva = new Reserva(
-                idReserva, costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
+                costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
         );
 
         registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
@@ -408,28 +410,45 @@ public class Sistema implements ISistema {
 
     @Override
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva) {
-        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
-        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
 
-        if (cliente == null) {
-            throw new IllegalArgumentException("Cliente no encontrado");
-        }
-        if (vuelo == null) {
-            throw new IllegalArgumentException("Vuelo no encontrado");
-        }
+            DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
+            Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
 
-        if (manejadorVuelo.tieneReservaDeCliente(nicknameCliente, vuelo)) {
-            throw new IllegalArgumentException("El cliente ya tiene una reserva para este vuelo");
-        }
-        String idReserva = reserva.getId();
-        vuelo.agregarReserva(idReserva, reserva);
-        manejadorCliente.agregarReserva(reserva, nicknameCliente, idReserva, em);
+            if (cliente == null) {
+                throw new IllegalArgumentException("Cliente no encontrado");
+            }
+            if (vuelo == null) {
+                throw new IllegalArgumentException("Vuelo no encontrado");
+            }
 
-        manejadorVuelo.actualizarVuelo(vuelo, em);
+            if (manejadorVuelo.tieneReservaDeCliente(nicknameCliente, vuelo)) {
+                throw new IllegalArgumentException("El cliente ya tiene una reserva para este vuelo");
+            }
+
+            // Persistir reserva para generar ID automático
+            em.persist(reserva);
+            em.flush(); // Forzar generación del ID
+
+            // Agregar reserva al vuelo y al cliente
+            vuelo.agregarReserva(reserva);
+            manejadorCliente.agregarReserva(reserva, nicknameCliente, reserva.getId(), em);
+            manejadorVuelo.actualizarVuelo(vuelo, em); // Ahora sin transacción interna
+
+            tx.commit();
+
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            throw new RuntimeException("Error al registrar reserva: " + e.getMessage(), e);
+        }
     }
 
     @Override
-    public DtReserva obtenerReserva(String idReserva, String nicknameCliente) {
+    public DtReserva obtenerReserva(Long idReserva, String nicknameCliente) { // Cambiado a Long
         DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
         try {
             if (cliente == null) {
@@ -699,5 +718,7 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Paquete no encontrado o sin rutas asociadas");
         }
     }
+
+
 }
 

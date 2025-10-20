@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class DtReserva {
-    private String id;
+    private Long id;  // Cambiado de String a Long
     private LocalDate fecha;
     private double costo;
     private TipoAsiento tipoAsiento;
@@ -15,7 +15,8 @@ public class DtReserva {
     private List<DtPasajero> pasajeros;
     private String vuelo; // nombre del vuelo, para no exponer la entidad completa
 
-    public DtReserva(String id, LocalDate fecha, double costo, TipoAsiento tipoAsiento,
+    // Constructor con Long id
+    public DtReserva(Long id, LocalDate fecha, double costo, TipoAsiento tipoAsiento,
                      int cantidadPasajes, int unidadesEquipajeExtra,
                      List<DtPasajero> pasajeros, String vuelo) {
         this.id = id;
@@ -28,8 +29,20 @@ public class DtReserva {
         this.vuelo = vuelo;
     }
 
-    // ===== Getters =====
+    // Constructor alternativo que acepta la entidad Reserva
+    public DtReserva(Logica.Reserva reserva) {
+        this.id = reserva.getId();
+        this.fecha = reserva.getFecha();
+        this.costo = reserva.getCosto();
+        this.tipoAsiento = reserva.getTipoAsiento();
+        this.cantidadPasajes = reserva.getCantidadPasajes();
+        this.unidadesEquipajeExtra = reserva.getUnidadesEquipajeExtra();
+        this.pasajeros = reserva.getDtPasajeros();
+        this.vuelo = reserva.getVuelo() != null ? reserva.getVuelo().getNombre() : "N/A";
+    }
 
+    // ===== Getters =====
+    public Long getId() { return id; }  // Cambiado a Long
     public LocalDate getFecha() { return fecha; }
     public double getCosto() { return costo; }
     public TipoAsiento getTipoAsiento() { return tipoAsiento; }
@@ -37,11 +50,10 @@ public class DtReserva {
     public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }
     public List<DtPasajero> getPasajeros() { return pasajeros; }
     public String getVuelo() { return vuelo; }
-    public String getId() { return id; } // usar el nombre del vuelo como ID
 
     @Override
     public String toString() {
-        return "Reserva #" +
+        return "Reserva #" + id +  // Ahora muestra el ID numérico
                 " | Vuelo: " + vuelo;
     }
 }

@@ -198,28 +198,19 @@ public class ManejadorCliente {
         }
     }
 
-    public void agregarReserva(Reserva reserva, String nicknameCliente, String idReserva, EntityManager em) {
+    public void agregarReserva(Reserva reserva, String nicknameCliente, Long idReserva, EntityManager em) {
         DtCliente cliente = obtenerCliente(nicknameCliente);
         Cliente clienteObj = clientes.get(nicknameCliente);
         if (cliente == null || clienteObj == null) {
             throw new IllegalArgumentException("Cliente no encontrado");
         }
 
-        EntityTransaction tx = em.getTransaction();
         try {
-            tx.begin();
-
-            em.persist(reserva);
-
             clienteObj.agregarReserva(reserva);
 
             em.merge(clienteObj);
 
-            tx.commit();
         } catch (Exception e) {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             throw new RuntimeException("Error al agregar la reserva: " + e.getMessage(), e);
         }
     }

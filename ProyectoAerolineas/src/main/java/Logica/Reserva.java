@@ -11,7 +11,8 @@ import java.util.List;
 public class Reserva {
 
     @Id
-    private String id; // asumimos que tu id ya es único y se genera externamente
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; //Long para auto-incremento
 
     private LocalDate fecha;
     private double costo;
@@ -36,8 +37,9 @@ public class Reserva {
 
     public Reserva() {} // Constructor vacío para JPA
 
-    public Reserva(String id, double costo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra, List<Pasajero> pasajeros, Vuelo vuelo) {
-        this.id = id;
+    // Constructor modificado - sin ID
+    public Reserva(double costo, TipoAsiento tipoAsiento, int cantidadPasajes,
+                   int unidadesEquipajeExtra, List<Pasajero> pasajeros, Vuelo vuelo) {
         this.fecha = LocalDate.now();
         this.costo = costo;
         this.tipoAsiento = tipoAsiento;
@@ -48,8 +50,8 @@ public class Reserva {
     }
 
     // ===== Getters y Setters =====
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public LocalDate getFecha() { return fecha; }
     public double getCosto() { return costo; }
     public TipoAsiento getTipoAsiento() { return tipoAsiento; }
@@ -58,6 +60,7 @@ public class Reserva {
     public List<Pasajero> getPasajeros() { return pasajeros; }
     public Vuelo getVuelo() { return vuelo; }
     public void setVuelo(Vuelo vuelo) { this.vuelo = vuelo; }
+
     public String toString() {
         return "Reserva #" + id +
                 " | Vuelo: " + (vuelo != null ? vuelo.getNombre() : "N/A");
