@@ -81,7 +81,16 @@ public class Cliente extends Usuario {
     public List<DtReserva> getDtReservas() {
         List<DtReserva> dtReservas = new ArrayList<>();
         for (Reserva r : reservas) {
-            dtReservas.add(new DtReserva(r.getId(), r.getFecha(), r.getCosto(), r.getTipoAsiento(), r.getCantidadPasajes(), r.getUnidadesEquipajeExtra(), r.getDtPasajeros(), r.getVuelo() != null ? r.getVuelo().getNombre() : "N/A"));
+            dtReservas.add(new DtReserva(
+                    r.getId(),
+                    r.getFecha(),
+                    r.getCosto(),
+                    r.getTipoAsiento(),
+                    r.getCantidadPasajes(),
+                    r.getUnidadesEquipajeExtra(),
+                    r.getDtPasajeros(),
+                    r.getVuelo() != null ? r.getVuelo().getNombre() : "N/A"
+            ));
         }
         return dtReservas;
     }

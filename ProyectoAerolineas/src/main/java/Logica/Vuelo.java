@@ -33,7 +33,7 @@ public class Vuelo {
     private List<Reserva> reservasList = new ArrayList<>();
 
     @Transient
-    private Map<String, Reserva> reservas = new HashMap<>();
+    private Map<Long, Reserva> reservas = new HashMap<>(); // Cambiado a Map<Long, Reserva>
 
     public Vuelo() {}
 
@@ -49,6 +49,7 @@ public class Vuelo {
     }
 
     // ===== Getters y Setters =====
+    public Long getId() { return id; } // Nuevo getter para el ID del vuelo
     public String getNombre() { return nombre; }
     public String getNombreAerolinea() { return NombreAereolinea; }
     public LocalDate getFecha() { return fecha; }
@@ -58,7 +59,7 @@ public class Vuelo {
     public LocalDate getFechaAlta() { return fechaAlta; }
     public RutaVuelo getRutaVuelo() { return rutaVuelo; }
 
-    public Map<String, Reserva> getReservas() {
+    public Map<Long, Reserva> getReservas() {
         reservas.clear();
         for (Reserva r : reservasList) {
             reservas.put(r.getId(), r);
@@ -66,9 +67,18 @@ public class Vuelo {
         return reservas;
     }
 
-    public void agregarReserva(String idReserva, Reserva reserva) {
+    // Método actualizado para usar Long
+    public void agregarReserva(Long idReserva, Reserva reserva) {
         reservasList.add(reserva);
         reservas.put(idReserva, reserva);
+    }
+
+    // Método sobrecargado que no requiere ID (usa el ID de la reserva)
+    public void agregarReserva(Reserva reserva) {
+        reservasList.add(reserva);
+        if (reserva.getId() != null) {
+            reservas.put(reserva.getId(), reserva);
+        }
     }
 
     public List<Reserva> getReservasList() { return reservasList; }
@@ -85,7 +95,7 @@ public class Vuelo {
     public List<DtReserva> getDtReservas() {
         return reservasList.stream()
                 .map(reserva -> new DtReserva(
-                        reserva.getId(),
+                        reserva.getId(), // Ahora pasa Long directamente
                         reserva.getFecha(),
                         reserva.getCosto(),
                         reserva.getTipoAsiento(),

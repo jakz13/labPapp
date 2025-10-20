@@ -70,7 +70,7 @@ public interface ISistema {
                                 List<Pasajero> pasajeros);
 
     void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva);
-    DtReserva obtenerReserva(String idReserva, String nicknameCliente);
+    DtReserva obtenerReserva(Long idReserva, String nicknameCliente);
     double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra);
 
     // =================== Paquetes ===================
