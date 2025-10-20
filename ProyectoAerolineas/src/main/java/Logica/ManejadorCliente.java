@@ -94,7 +94,7 @@ public class ManejadorCliente {
     // =================== Consultas en memoria ===================
     public DtCliente obtenerCliente(String nickname) {
         Cliente cliente = clientes.get(nickname);
-        return (cliente != null) ? new DtCliente(cliente) : null;
+        return (cliente != null) ? cliente.getDtCliente() : null;
     }
 
     public Cliente obtenerClienteReal(String nickname) {
@@ -174,7 +174,7 @@ public class ManejadorCliente {
     public List<DtCliente> getClientes() {
         List<DtCliente> lista = new ArrayList<>();
         for (Cliente c : clientes.values()) {
-            lista.add(new DtCliente(c));
+            lista.add(c.getDtCliente());
         }
         return lista;
     }

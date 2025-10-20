@@ -158,7 +158,7 @@ public class NuevaRutaVuelo {
                 sistema.altaRutaVuelo(nombreRuta, Descripcion, descripcionCorta,
                         sistema.obtenerAerolinea(aerolineaSeleccionada),
                         origen, destino, hora, fecha,
-                        costoTurista, costoEjecutivo, equipaje, categorias);
+                        costoTurista, costoEjecutivo, equipaje, categorias,null);
 
                 JOptionPane.showMessageDialog(null,
                         "Ruta creada correctamente.\nEstado: INGRESADA - Esperando aprobación del administrador.\n\n" +

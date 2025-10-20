@@ -44,7 +44,7 @@ public interface ISistema {
     void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta,
                        DtAerolinea aerolinea, String ciudadOrigen, String ciudadDestino,
                        String hora, LocalDate fechaAlta, double costoTurista,
-                       double costoEjecutivo, double costoEquipajeExtra, String[] categorias);
+                       double costoEjecutivo, double costoEquipajeExtra, String[] categorias, String imagenUrl);
 
     RutaVuelo obtenerRuta(String nombreRuta);
     List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);

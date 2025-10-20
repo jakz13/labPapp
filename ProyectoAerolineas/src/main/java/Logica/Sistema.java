@@ -46,6 +46,7 @@ public class Sistema implements ISistema {
         manejadorRutaVuelo.cargarRutasDesdeBD(em);
         manejadorVuelo.cargarVuelosDesdeBD(em);
         manejadorPaquete.cargarPaquetesDesdeBD(em);
+        manejadorCategoria.cargarCategoriasDesdeBD(em);
     }
 
     // =================== USUARIOS CON CONTRASEÑA ===================
@@ -251,7 +252,7 @@ public class Sistema implements ISistema {
     public void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta, DtAerolinea aerolinea,
                               String ciudadOrigen, String ciudadDestino, String hora,
                               LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
-                              double costoEquipajeExtra, String[] categorias) {
+                              double costoEquipajeExtra, String[] categorias,String imagenUrl ) {
 
         Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());
         if (aero == null) {
@@ -279,7 +280,7 @@ public class Sistema implements ISistema {
 
         RutaVuelo r = new RutaVuelo(nombre, descripcion, descripcionCorta, aero, ciudadOrigen, ciudadDestino,
                 hora, fechaAlta, costoTurista, costoEjecutivo,
-                costoEquipajeExtra, categoriaValida);
+                costoEquipajeExtra, categoriaValida,imagenUrl);
 
         manejadorRutaVuelo.agregarRutaVuelo(r, em);
         manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), r, em);

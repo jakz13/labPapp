@@ -1,5 +1,6 @@
 package Logica;
 
+import DataTypes.DtCliente;
 import DataTypes.DtPaquete;
 import DataTypes.DtReserva;
 import jakarta.persistence.*;
@@ -46,6 +47,28 @@ public class Cliente extends Usuario {
         this.tipoDocumento = tipoDoc;
         this.numeroDocumento = numDoc;
     }
+/*String nickname, String nombre, String email, String imagenUrl,
+                     String apellido, LocalDate fechaNacimiento,
+                     String nacionalidad, TipoDoc tipoDocumento,
+                     String numeroDocumento, LocalDate fechaAlta,List<DtReserva> reservas, List<DtPaquete> paquetesComprados)*/
+
+    public DtCliente getDtCliente() {
+        return new DtCliente(
+                this.getNickname(),
+                this.getNombre(),
+                this.getEmail(),
+                this.getImagenUrl(),
+                this.apellido,
+                this.fechaNacimiento,
+                this.nacionalidad,
+                this.tipoDocumento,
+                this.numeroDocumento,
+                this.getFechaAlta(),
+                this.getDtReservas(),
+                this.getDtPaquetesComprados()
+        );
+    }
+
 
     // --- Getters y Setters ---
     public String getApellido() { return apellido; }

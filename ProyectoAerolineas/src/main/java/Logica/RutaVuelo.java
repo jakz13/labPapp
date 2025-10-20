@@ -63,7 +63,7 @@ public class RutaVuelo {
     public RutaVuelo(String nombre, String descripcion, String descripcionCorta, Aerolinea aerolinea,
                      String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta,
                      double costoTurista, double costoEjecutivo, double costoEquipajeExtra,
-                     List<String> categorias) {
+                     List<String> categorias,String imagenUrl) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.descripcionCorta = descripcionCorta;
@@ -78,7 +78,7 @@ public class RutaVuelo {
         this.categorias = (categorias != null) ? categorias : new ArrayList<>();
         this.estado = EstadoRuta.INGRESADA;
         this.vuelos = new ArrayList<>();
-        this.imagenUrl = null;
+        this.imagenUrl = imagenUrl;
     }
 
     // ===== Getters y Setters =====

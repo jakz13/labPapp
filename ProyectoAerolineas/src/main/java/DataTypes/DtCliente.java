@@ -34,15 +34,17 @@ public class DtCliente extends DtUsuario {
     public DtCliente(String nickname, String nombre, String email, String imagenUrl,
                      String apellido, LocalDate fechaNacimiento,
                      String nacionalidad, TipoDoc tipoDocumento,
-                     String numeroDocumento, LocalDate fechaAlta) {
+                     String numeroDocumento, LocalDate fechaAlta,List<DtReserva> reservas, List<DtPaquete> paquetesComprados) {
         super(nickname, nombre, email, imagenUrl, fechaAlta);
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.nacionalidad = nacionalidad;
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
+        this.reservas = reservas;
+        this.paquetesComprados = paquetesComprados;
     }
-
+/*
     public DtCliente(Cliente cliente) {
         super(cliente.getNickname(), cliente.getNombre(), cliente.getEmail(), cliente.getImagenUrl(), cliente.getFechaAlta());
         this.apellido = cliente.getApellido();
@@ -53,7 +55,7 @@ public class DtCliente extends DtUsuario {
         this.reservas = cliente.getDtReservas();
         this.paquetesComprados = cliente.getDtPaquetesComprados();
     }
-
+*/
     // --- Getters y Setters ---
     public String getApellido() {
         return apellido;
