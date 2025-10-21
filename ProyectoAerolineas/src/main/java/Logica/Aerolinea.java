@@ -2,7 +2,6 @@ package Logica;
 
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.*;
 
@@ -26,6 +25,12 @@ public class Aerolinea extends Usuario {
     // Constructor actualizado con contraseña
     public Aerolinea(String nickname, String nombre, String email, String password, String descripcion, String sitioWeb, String imagenUrl) {
         super(nickname, nombre, email, password, LocalDate.now(), imagenUrl);
+        if (nombre == null) {
+            throw new IllegalArgumentException("El nombre de la ciudad no puede ser null");
+        }
+        if (nickname == null) {
+            throw new IllegalArgumentException("El nickname de la ciudad no puede ser null");
+        }
         this.descripcion = descripcion;
         this.sitioWeb = sitioWeb;
     }
@@ -38,7 +43,11 @@ public class Aerolinea extends Usuario {
     public void setSitioWeb(String sitioWeb) { this.sitioWeb = sitioWeb; }
 
     // --- Métodos de rutas ---
-    public void agregarRutaVuelo(RutaVuelo ruta) {
+    public void agregarRutaVuelo(RutaVuelo ruta)
+    {
+        if (ruta == null) {
+            throw new IllegalArgumentException("La ruta no puede ser null");
+        }
         rutasVuelo.put(ruta.getNombre(), ruta);
     }
 
@@ -101,4 +110,18 @@ public class Aerolinea extends Usuario {
     public Map<String, RutaVuelo> getRutasVueloMap() {
         return rutasVuelo;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aerolinea that = (Aerolinea) o;
+        return this.getNickname() != null && this.getNickname().equals(that.getNickname());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getNickname() != null ? this.getNickname().hashCode() : 0;
+    }
+
 }

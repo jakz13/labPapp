@@ -26,6 +26,15 @@ public class ItemPaquete {
     }
 
     public ItemPaquete(RutaVuelo rutaVuelo, int cantAsientos, TipoAsiento tipoAsiento) {
+        if (rutaVuelo == null) {
+            throw new IllegalArgumentException("La ruta de vuelo del item paquete no puede ser null");
+        }
+        if (cantAsientos <= 0) {
+            throw new IllegalArgumentException("La cantidad de asientos del item paquete debe ser mayor a cero");
+        }
+        if (tipoAsiento == null) {
+            throw new IllegalArgumentException("El tipo de asiento del item paquete no puede ser null");
+        }
         this.rutaVuelo = rutaVuelo;
         this.cantAsientos = cantAsientos;
         this.tipoAsiento = tipoAsiento;

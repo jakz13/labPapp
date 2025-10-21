@@ -41,16 +41,40 @@ public class Cliente extends Usuario {
                    String email, LocalDate fechaNac, String nacionalidad,
                    TipoDoc tipoDoc, String numDoc, String password, String imagenUrl) {
         super(nickname, nombre, email, password, LocalDate.now(), imagenUrl); //// Con contraseña
+        if (nickname == null) {
+            throw new IllegalArgumentException("El nickname del cliente no puede ser null");
+        }
+        if (nombre == null) {
+            throw new IllegalArgumentException("El nombre del cliente no puede ser null");
+        }
+        if (apellido == null) {
+            throw new IllegalArgumentException("El apellido del cliente no puede ser null");
+        }
+        if (email == null) {
+            throw new IllegalArgumentException("El emali del cliente no puede ser null");
+        }
+        if (fechaNac == null) {
+            throw new IllegalArgumentException("La fecha de nacimiento no puede ser null");
+        }
+        if (nacionalidad == null) {
+            throw new IllegalArgumentException("La nacionalidad no puede ser null");
+        }
+        if (tipoDoc == null) {
+            throw new IllegalArgumentException("El tipo de documento no puede ser null");
+        }
+        if (numDoc == null) {
+            throw new IllegalArgumentException("El numero de documento no puede ser null");
+        }
+        if (password == null) {
+            throw new IllegalArgumentException("La contraseña no puede ser null");
+        }
+
         this.apellido = apellido;
         this.fechaNacimiento = fechaNac;
         this.nacionalidad = nacionalidad;
         this.tipoDocumento = tipoDoc;
         this.numeroDocumento = numDoc;
     }
-/*String nickname, String nombre, String email, String imagenUrl,
-                     String apellido, LocalDate fechaNacimiento,
-                     String nacionalidad, TipoDoc tipoDocumento,
-                     String numeroDocumento, LocalDate fechaAlta,List<DtReserva> reservas, List<DtPaquete> paquetesComprados)*/
 
     public DtCliente getDtCliente() {
         return new DtCliente(
@@ -93,6 +117,9 @@ public class Cliente extends Usuario {
     public void setComprasPaquetes(List<CompraPaqLogica> comprasPaquetes) { this.comprasPaquetes = comprasPaquetes; }
 
     public void agregarReserva(Reserva reserva) {
+        if(reserva == null) {
+            throw new IllegalArgumentException("La ruta no puede ser null");
+        }
         reservas.add(reserva);
     }
 

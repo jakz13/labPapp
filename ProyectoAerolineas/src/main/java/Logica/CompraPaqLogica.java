@@ -30,6 +30,9 @@ public class CompraPaqLogica {
     public CompraPaqLogica() {}
 
     public CompraPaqLogica(Cliente cliente, Paquete paquete, LocalDate fechaCompra, int validezDias, double costo) {
+        if (costo < 0) {
+            throw new IllegalArgumentException("El costo no puede ser negativo");
+        }
         this.cliente = cliente;
         this.paquete = paquete;
         this.fechaCompra = fechaCompra;
@@ -50,7 +53,12 @@ public class CompraPaqLogica {
     public void setPaquete(Paquete paquete) { this.paquete = paquete; }
     public void setFechaCompra(LocalDate fechaCompra) { this.fechaCompra = fechaCompra; }
     public void setFechaVenc(LocalDate fechaVenc) { this.fechaVenc = fechaVenc; }
-    public void setCosto(double costo) { this.costo = costo; }
+    public void setCosto(double costo) {
+        if (costo < 0) {
+            throw new IllegalArgumentException("El costo no puede ser negativo");
+        }
+        this.costo = costo;
+    }
 }
 
 

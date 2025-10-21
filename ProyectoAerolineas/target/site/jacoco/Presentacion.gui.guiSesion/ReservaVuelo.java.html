@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservaVuelo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Presentacion.gui.guiSesion</a> &gt; <span class="el_source">ReservaVuelo.java</span></div><h1>ReservaVuelo.java</h1><pre class="source lang-java linenums">package Presentacion.gui.guiSesion;
+
+import DataTypes.DtAerolinea;
+import DataTypes.DtCliente;
+import DataTypes.DtRutaVuelo;
+import DataTypes.DtVuelo;
+import Logica.Fabrica;
+import Logica.ISistema;
+import Logica.Pasajero;
+import Logica.TipoAsiento;
+
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReservaVuelo {
+    private JPanel panelReserva;
+    private JList&lt;String&gt; ListaAereolineas;
+    private JList&lt;String&gt; ListaRutasDeVuelo;
+    private JList&lt;String&gt; ListaVuelos;
+    private JTextField campoAereolinea;
+    private JTextField campoRuta;
+    private JTextField campoVuelo;
+    private JTextField NOmVuelo;
+    private JComboBox&lt;String&gt; clienteElegido;
+    private JRadioButton ejecutivoRadioButton;
+    private JRadioButton turistaRadioButton;
+    private JTextField CantPasaje;
+    private JTextField cantEquipaje;
+    private JButton crearButton;
+    private JButton cancelarButton;
+    private JTextField Duracion;
+    private JPanel pasajerosPanel;
+    private JComboBox Dia;
+    private JComboBox Ano;
+    private JComboBox Mes;
+    private JTextField CantTuristas;
+    private JTextField CantEjecutivo;
+
+    private final ISistema sistema;
+    private String vueloSeleccionado;
+    private String aerolineaSeleccionada;
+    private String rutaSeleccionada;
+
+<span class="nc" id="L52">    private List&lt;JTextField&gt; listaNombres = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L53">    private List&lt;JTextField&gt; listaApellidos = new ArrayList&lt;&gt;();</span>
+
+    private JPanel dinamico;
+    private JPanel panel1;
+    private JScrollPane scrollPasajeros;
+
+<span class="nc" id="L59">    public ReservaVuelo() {</span>
+<span class="nc" id="L60">        sistema = Fabrica.getInstance().getISistema();</span>
+<span class="nc" id="L61">        ButtonGroup grupoTipo = new ButtonGroup();</span>
+<span class="nc" id="L62">        grupoTipo.add(turistaRadioButton);</span>
+<span class="nc" id="L63">        grupoTipo.add(ejecutivoRadioButton);</span>
+
+<span class="nc" id="L65">        DefaultListModel&lt;String&gt; modeloAerolineas = new DefaultListModel&lt;&gt;();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        for (DtAerolinea a : sistema.listarAerolineas()) {</span>
+<span class="nc" id="L67">            String item = a.getNickname() + &quot; (&quot; + a.getNombre() + &quot;)&quot;;</span>
+<span class="nc" id="L68">            modeloAerolineas.addElement(item);</span>
+<span class="nc" id="L69">        }</span>
+<span class="nc" id="L70">        ListaAereolineas.setModel(modeloAerolineas);</span>
+
+<span class="nc" id="L72">        ListaAereolineas.addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L74">                String item = ListaAereolineas.getSelectedValue();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                if (item != null) {</span>
+<span class="nc" id="L76">                    aerolineaSeleccionada = item.split(&quot; &quot;)[0];</span>
+<span class="nc" id="L77">                    campoAereolinea.setText(item);</span>
+
+<span class="nc" id="L79">                    DefaultListModel&lt;String&gt; modeloRutas = new DefaultListModel&lt;&gt;();</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                    for (DtRutaVuelo r : sistema.listarRutasPorAerolinea(aerolineaSeleccionada)) {</span>
+<span class="nc" id="L81">                        modeloRutas.addElement(r.getNombre());</span>
+<span class="nc" id="L82">                    }</span>
+<span class="nc" id="L83">                    ListaRutasDeVuelo.setModel(modeloRutas);</span>
+                }
+            }
+<span class="nc" id="L86">        });</span>
+
+<span class="nc" id="L88">        ListaRutasDeVuelo.addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L90">                rutaSeleccionada = ListaRutasDeVuelo.getSelectedValue();</span>
+<span class="nc" id="L91">                campoRuta.setText(rutaSeleccionada);</span>
+
+<span class="nc" id="L93">                DefaultListModel&lt;String&gt; modeloVuelos = new DefaultListModel&lt;&gt;();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                for (DtVuelo v : sistema.listarVuelosPorRuta(rutaSeleccionada)) {</span>
+<span class="nc" id="L95">                    modeloVuelos.addElement(v.getNombre());</span>
+<span class="nc" id="L96">                }</span>
+<span class="nc" id="L97">                ListaVuelos.setModel(modeloVuelos);</span>
+            }
+<span class="nc" id="L99">        });</span>
+
+<span class="nc" id="L101">        ListaVuelos.addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L103">                vueloSeleccionado = ListaVuelos.getSelectedValue();</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                if (vueloSeleccionado != null) {</span>
+<span class="nc" id="L105">                    campoVuelo.setText(vueloSeleccionado);</span>
+<span class="nc" id="L106">                    NOmVuelo.setText(vueloSeleccionado);</span>
+
+<span class="nc" id="L108">                    DtVuelo vuelo = sistema.obtenerVuelo(vueloSeleccionado).getDtVuelo();</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">                    if (vuelo != null) {</span>
+<span class="nc" id="L110">                        Duracion.setText(String.valueOf(vuelo.getDuracion()));</span>
+
+<span class="nc" id="L112">                        LocalDate fecha = vuelo.getFecha();</span>
+<span class="nc" id="L113">                        Dia.setSelectedItem(String.valueOf(fecha.getDayOfMonth()));</span>
+<span class="nc" id="L114">                        Mes.setSelectedItem(String.valueOf(fecha.getMonthValue()));</span>
+<span class="nc" id="L115">                        Ano.setSelectedItem(String.valueOf(fecha.getYear()));</span>
+
+                        // Asientos
+<span class="nc" id="L118">                        CantTuristas.setText(String.valueOf(vuelo.getAsientosTurista()));</span>
+<span class="nc" id="L119">                        CantEjecutivo.setText(String.valueOf(vuelo.getAsientosEjecutivo()));</span>
+                    }
+                }
+            }
+<span class="nc" id="L123">        });</span>
+
+<span class="nc" id="L125">        clienteElegido.removeAllItems();</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        for (DtCliente c : sistema.listarClientes()) {</span>
+<span class="nc" id="L127">            clienteElegido.addItem(c.getNickname() + &quot; (&quot; + c.getNombre() + &quot;)&quot;);</span>
+<span class="nc" id="L128">        }</span>
+
+<span class="nc" id="L130">        dinamico = new JPanel();</span>
+<span class="nc" id="L131">        dinamico.setLayout(new BoxLayout(dinamico, BoxLayout.Y_AXIS));</span>
+<span class="nc" id="L132">        pasajerosPanel.setLayout(new BorderLayout());</span>
+<span class="nc" id="L133">        pasajerosPanel.add(new JScrollPane(dinamico), BorderLayout.CENTER);</span>
+
+<span class="nc" id="L135">        CantPasaje.addActionListener(e -&gt; generarCamposPasajeros());</span>
+
+<span class="nc" id="L137">        cancelarButton.addActionListener(e -&gt; {</span>
+<span class="nc" id="L138">            JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panelReserva);</span>
+<span class="nc" id="L139">            topFrame.dispose();</span>
+<span class="nc" id="L140">        });</span>
+
+<span class="nc" id="L142">        ListaVuelos.addComponentListener(new ComponentAdapter() {});</span>
+
+<span class="nc" id="L144">        CantPasaje.getDocument().addDocumentListener(new DocumentListener() {</span>
+            @Override
+<span class="nc" id="L146">            public void insertUpdate(DocumentEvent e) { generarCamposPasajeros(); }</span>
+            @Override
+<span class="nc" id="L148">            public void removeUpdate(DocumentEvent e) { generarCamposPasajeros(); }</span>
+            @Override
+<span class="nc" id="L150">            public void changedUpdate(DocumentEvent e) { generarCamposPasajeros(); }</span>
+        });
+
+<span class="nc" id="L153">        crearButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+<span class="nc" id="L157">                    TipoAsiento tipoPasaje = null;</span>
+<span class="nc bnc" id="L158" title="All 4 branches missed.">                    if (vueloSeleccionado == null || clienteElegido.getSelectedItem() == null) {</span>
+<span class="nc" id="L159">                        JOptionPane.showMessageDialog(null, &quot;Debe seleccionar vuelo y cliente.&quot;);</span>
+<span class="nc" id="L160">                        return;</span>
+                    }
+
+<span class="nc bnc" id="L163" title="All 2 branches missed.">                    if (turistaRadioButton.isSelected()) {</span>
+<span class="nc" id="L164">                        tipoPasaje = TipoAsiento.TURISTA;</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">                    } else if (ejecutivoRadioButton.isSelected()) {</span>
+<span class="nc" id="L166">                        tipoPasaje = TipoAsiento.EJECUTIVO;</span>
+                    } else {
+<span class="nc" id="L168">                        JOptionPane.showMessageDialog(null,</span>
+                                &quot;Debe seleccionar el tipo de pasaje (Turista o Ejecutivo).&quot;,
+                                &quot;Error&quot;, JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L171">                        return;</span>
+                    }
+<span class="nc" id="L173">                    String clienteItem = (String) clienteElegido.getSelectedItem();</span>
+<span class="nc" id="L174">                    String nicknameCliente = clienteItem.split(&quot; &quot;)[0];</span>
+
+<span class="nc" id="L176">                    int cantidadPasajes = Integer.parseInt(CantPasaje.getText());</span>
+<span class="nc" id="L177">                    int equipajeExtra = Integer.parseInt(cantEquipaje.getText());</span>
+
+<span class="nc" id="L179">                    List&lt;Pasajero&gt; pasajeros = obtenerPasajeros();</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">                    if (pasajeros.isEmpty()) return;</span>
+
+<span class="nc" id="L182">                    LocalDate fechaReserva = LocalDate.now();</span>
+<span class="nc" id="L183">                    double costo = sistema.calcularCostoReserva(vueloSeleccionado, tipoPasaje, cantidadPasajes, equipajeExtra);</span>
+
+                    try {
+<span class="nc" id="L186">                        sistema.crearYRegistrarReserva(</span>
+                                nicknameCliente, vueloSeleccionado, fechaReserva,
+                                costo, tipoPasaje, cantidadPasajes, equipajeExtra, pasajeros
+                        );
+<span class="nc" id="L190">                    } catch (IllegalArgumentException ex) {</span>
+<span class="nc" id="L191">                        JOptionPane.showMessageDialog(null, ex.getMessage(), &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L192">                        return;</span>
+<span class="nc" id="L193">                    }</span>
+
+<span class="nc" id="L195">                    JOptionPane.showMessageDialog(null, &quot;Reserva creada con éxito.&quot;, &quot;Éxito&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L196">                } catch (Exception ex) {</span>
+<span class="nc" id="L197">                    JOptionPane.showMessageDialog(null, &quot;Error al crear reserva: &quot; + ex.getMessage(),</span>
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L199">                }</span>
+<span class="nc" id="L200">            }</span>
+        });
+<span class="nc" id="L202">    }</span>
+
+    private List&lt;Pasajero&gt; obtenerPasajeros() {
+<span class="nc" id="L205">        List&lt;Pasajero&gt; pasajeros = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        for (int i = 0; i &lt; listaNombres.size(); i++) {</span>
+<span class="nc" id="L207">            String nombre = listaNombres.get(i).getText().trim();</span>
+<span class="nc" id="L208">            String apellido = listaApellidos.get(i).getText().trim();</span>
+            try {
+<span class="nc" id="L210">                Pasajero p = sistema.crearPasajero(nombre, apellido);</span>
+<span class="nc" id="L211">                pasajeros.add(p);</span>
+<span class="nc" id="L212">            } catch (IllegalArgumentException ex) {</span>
+<span class="nc" id="L213">                JOptionPane.showMessageDialog(null, ex.getMessage());</span>
+<span class="nc" id="L214">                return new ArrayList&lt;&gt;(); // corto si hay error</span>
+<span class="nc" id="L215">            }</span>
+        }
+<span class="nc" id="L217">        return pasajeros;</span>
+    }
+
+    private void generarCamposPasajeros() {
+<span class="nc" id="L221">        listaNombres.clear();</span>
+<span class="nc" id="L222">        listaApellidos.clear();</span>
+<span class="nc" id="L223">        dinamico.removeAll();</span>
+
+        try {
+<span class="nc" id="L226">            String texto = CantPasaje.getText().trim();</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">            if (texto.isEmpty()) return;</span>
+
+<span class="nc" id="L229">            int cantidad = Integer.parseInt(texto);</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">            if (cantidad &lt;= 0) return;</span>
+
+<span class="nc bnc" id="L232" title="All 2 branches missed.">            for (int i = 0; i &lt; cantidad; i++) {</span>
+<span class="nc" id="L233">                JPanel fila = new JPanel(new FlowLayout(FlowLayout.LEFT));</span>
+<span class="nc" id="L234">                JTextField nombreField = new JTextField(10);</span>
+<span class="nc" id="L235">                JTextField apellidoField = new JTextField(10);</span>
+
+<span class="nc" id="L237">                fila.add(new JLabel(&quot;Pasajero &quot; + (i + 1) + &quot;:&quot;));</span>
+<span class="nc" id="L238">                fila.add(new JLabel(&quot;Nombre:&quot;));</span>
+<span class="nc" id="L239">                fila.add(nombreField);</span>
+<span class="nc" id="L240">                fila.add(new JLabel(&quot;Apellido:&quot;));</span>
+<span class="nc" id="L241">                fila.add(apellidoField);</span>
+
+<span class="nc" id="L243">                dinamico.add(fila);</span>
+
+<span class="nc" id="L245">                listaNombres.add(nombreField);</span>
+<span class="nc" id="L246">                listaApellidos.add(apellidoField);</span>
+            }
+
+<span class="nc" id="L249">            dinamico.revalidate();</span>
+<span class="nc" id="L250">            dinamico.repaint();</span>
+<span class="nc" id="L251">        } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L252">            dinamico.removeAll();</span>
+<span class="nc" id="L253">            dinamico.revalidate();</span>
+<span class="nc" id="L254">            dinamico.repaint();</span>
+<span class="nc" id="L255">        }</span>
+<span class="nc" id="L256">    }</span>
+
+    public JPanel getPanelReserva() {
+<span class="nc" id="L259">        return panelReserva;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

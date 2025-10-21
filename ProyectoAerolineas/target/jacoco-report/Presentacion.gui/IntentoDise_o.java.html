@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IntentoDiseño.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Presentacion.gui</a> &gt; <span class="el_source">IntentoDiseño.java</span></div><h1>IntentoDiseño.java</h1><pre class="source lang-java linenums">package Presentacion.gui;
+
+import Presentacion.gui.guiSesion.*;
+import Presentacion.gui.guiSesion.VerUsuarios;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class IntentoDiseño {
+    public JPanel Ventana;
+    public JPanel Recuadro1;
+    public JLabel NombreEmpresa;
+    public JPanel RecuadroCentral;
+    public JPanel PanelMedIzq;
+    public JLabel label1;
+    public JPanel PanelInferiorizq;
+    public JButton AltaClienteButton;
+    private JPanel PanelUsuarios;
+    private JButton AltaAereolinea;
+    private JButton ALTACIUDADButton;
+    private JButton AltaRutaVuelo;
+    private JButton ALTAVUELO;
+    private JButton MODIFICARUSUARIOS;
+    private JButton agregarRutaVuelo;
+    private JButton crearPaquete;
+    private JButton consultaVuelo;
+    private JButton HacerReservaVuelo;
+    private JButton ANIADIRPAQUETE;
+    private JButton CONSULTARUTA;
+    private JButton USUARIOS;
+    private JButton CREARCATEGORIA;
+    private JButton CONSULTARPAQUETE;
+    private JButton AceptarRuta;
+
+<span class="nc" id="L36">    public IntentoDiseño(JFrame framePrincipal) {</span>
+<span class="nc" id="L37">        AltaClienteButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L40">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L42">                InicioSesion IS = new InicioSesion();</span>
+<span class="nc" id="L43">                JFrame frameSesion = new JFrame(&quot;Inicio de Sesión&quot;);</span>
+<span class="nc" id="L44">                frameSesion.setContentPane(IS.getPanelDeSesion());</span>
+<span class="nc" id="L45">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L46">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+                // Escucha el cierre de la ventana de inicio de sesión
+<span class="nc" id="L49">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L52">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L53">                    }</span>
+                });
+
+<span class="nc" id="L56">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L57">            }</span>
+        });
+<span class="nc" id="L59">        AltaAereolinea.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L62">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L64">                AltaAereolinea AA = new AltaAereolinea();</span>
+<span class="nc" id="L65">                JFrame frameSesion = new JFrame(&quot;Alta Aereolinea&quot;);</span>
+<span class="nc" id="L66">                frameSesion.setContentPane(AA.getPanelDeSesion());</span>
+<span class="nc" id="L67">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L68">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L70">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L73">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L74">                    }</span>
+                });
+
+<span class="nc" id="L77">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L78">            }</span>
+        });
+<span class="nc" id="L80">        ALTACIUDADButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L83">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L85">                AltaCiudad AC = new AltaCiudad();</span>
+<span class="nc" id="L86">                JFrame frameSesion = new JFrame(&quot;Alta Aereolinea&quot;);</span>
+<span class="nc" id="L87">                frameSesion.setContentPane(AC.getPanelDeCiudad());</span>
+<span class="nc" id="L88">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L89">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L91">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L94">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L95">                    }</span>
+                });
+
+<span class="nc" id="L98">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L99">            }</span>
+        });
+<span class="nc" id="L101">        AltaRutaVuelo.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L104">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L106">                NuevaRutaVuelo NR = new NuevaRutaVuelo();</span>
+<span class="nc" id="L107">                JFrame frameSesion = new JFrame(&quot;Alta Ruta Vuelo&quot;);</span>
+<span class="nc" id="L108">                frameSesion.setContentPane(NR.getPanelAltaRuta());</span>
+<span class="nc" id="L109">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L110">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L112">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L115">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L116">                    }</span>
+                });
+
+<span class="nc" id="L119">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L120">            }</span>
+        });
+<span class="nc" id="L122">        ALTAVUELO.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L125">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L127">                AltaVuelo AVU = new AltaVuelo();</span>
+<span class="nc" id="L128">                JFrame frameSesion = new JFrame(&quot;Alta Vuelo&quot;);</span>
+<span class="nc" id="L129">                frameSesion.setContentPane(AVU.getpanelDeVuelo());</span>
+<span class="nc" id="L130">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L131">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L133">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L136">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L137">                    }</span>
+                });
+
+<span class="nc" id="L140">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L141">            }</span>
+        });
+<span class="nc" id="L143">        MODIFICARUSUARIOS.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L146">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L148">                EligeUsuario EG = new EligeUsuario();</span>
+<span class="nc" id="L149">                JFrame frameSesion = new JFrame(&quot;Modificar Usuario&quot;);</span>
+<span class="nc" id="L150">                frameSesion.setContentPane(EG.getpanelModificar());</span>
+<span class="nc" id="L151">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L152">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L154">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L157">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L158">                    }</span>
+                });
+
+<span class="nc" id="L161">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L162">            }</span>
+        });
+
+<span class="nc" id="L165">        agregarRutaVuelo.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L168">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L170">                AgregarRutaVuelo ARV = new AgregarRutaVuelo();</span>
+<span class="nc" id="L171">                JFrame frameSesion = new JFrame(&quot;Agregar Ruta Vuelo a Paquete&quot;);</span>
+<span class="nc" id="L172">                frameSesion.setContentPane(ARV.getPanelDeSesion());</span>
+<span class="nc" id="L173">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L174">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L176">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L179">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L180">                    }</span>
+                });
+
+<span class="nc" id="L183">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L184">            }</span>
+        });
+
+<span class="nc" id="L187">        crearPaquete.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L190">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L192">                AltaPaquete APQ = new AltaPaquete();</span>
+<span class="nc" id="L193">                JFrame frameSesion = new JFrame(&quot;Crear Paquete&quot;);</span>
+<span class="nc" id="L194">                frameSesion.setContentPane(APQ.getPanel1());</span>
+<span class="nc" id="L195">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L196">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L198">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L201">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L202">                    }</span>
+                });
+
+<span class="nc" id="L205">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L206">            }</span>
+        });
+
+<span class="nc" id="L209">        consultaVuelo.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L212">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L214">                ConsultaVuelo CV = new ConsultaVuelo();</span>
+<span class="nc" id="L215">                JFrame frameSesion = new JFrame(&quot;Consulta Vuelo&quot;);</span>
+<span class="nc" id="L216">                frameSesion.setContentPane(CV.getPanelConsultaVeulo());</span>
+<span class="nc" id="L217">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L218">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L220">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L223">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L224">                    }</span>
+                });
+
+<span class="nc" id="L227">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L228">            }</span>
+        });
+<span class="nc" id="L230">        HacerReservaVuelo.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L233">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L235">                ReservaVuelo RV = new ReservaVuelo();</span>
+<span class="nc" id="L236">                JFrame frameSesion = new JFrame(&quot;Reservar Vuelo&quot;);</span>
+<span class="nc" id="L237">                frameSesion.setContentPane(RV.getPanelReserva());</span>
+<span class="nc" id="L238">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L239">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L241">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L244">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L245">                    }</span>
+                });
+
+<span class="nc" id="L248">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L249">            }</span>
+        });
+<span class="nc" id="L251">        CONSULTARUTA.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L254">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L256">                ConsultaRutaVuelo CRV = new ConsultaRutaVuelo();</span>
+<span class="nc" id="L257">                JFrame frameSesion = new JFrame(&quot;Consulta de ruta de vuelo&quot;);</span>
+<span class="nc" id="L258">                frameSesion.setContentPane(CRV.getPanelConsultaRuta());</span>
+<span class="nc" id="L259">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L260">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L262">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L265">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L266">                    }</span>
+                });
+
+<span class="nc" id="L269">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L270">            }</span>
+        });
+<span class="nc" id="L272">        ANIADIRPAQUETE.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L275">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L277">                CompraPaquete CPQ = new CompraPaquete();</span>
+<span class="nc" id="L278">                JFrame frameSesion = new JFrame(&quot;Compra Paquete&quot;);</span>
+<span class="nc" id="L279">                frameSesion.setContentPane(CPQ.getPanelDeSesion());</span>
+<span class="nc" id="L280">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L281">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L283">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L286">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L287">                    }</span>
+                });
+
+<span class="nc" id="L290">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L291">            }</span>
+        });
+
+<span class="nc" id="L294">        USUARIOS.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L297">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L299">                VerUsuarios VU = new VerUsuarios();</span>
+<span class="nc" id="L300">                JFrame frameSesion = new JFrame(&quot;Consulta usuario&quot;);</span>
+<span class="nc" id="L301">                frameSesion.setContentPane(VU.getPanelConsulta());</span>
+<span class="nc" id="L302">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L303">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L305">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L308">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L309">                    }</span>
+                });
+
+<span class="nc" id="L312">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L313">            }</span>
+        });
+<span class="nc" id="L315">        CREARCATEGORIA.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+<span class="nc" id="L319">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L321">                AltaCategoria ACE = new AltaCategoria();</span>
+<span class="nc" id="L322">                JFrame frameSesion = new JFrame(&quot;Crear categoria&quot;);</span>
+<span class="nc" id="L323">                frameSesion.setContentPane(ACE.getPanel1());</span>
+<span class="nc" id="L324">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L325">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L327">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L330">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L331">                    }</span>
+                });
+
+<span class="nc" id="L334">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L335">            }</span>
+        });
+<span class="nc" id="L337">        CONSULTARPAQUETE.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+<span class="nc" id="L341">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L343">                ConsultaPaquete CPP = new ConsultaPaquete();</span>
+<span class="nc" id="L344">                JFrame frameSesion = new JFrame(&quot;Consulta paquete&quot;);</span>
+<span class="nc" id="L345">                frameSesion.setContentPane(CPP.getPanelConsultaPaquete());</span>
+<span class="nc" id="L346">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L347">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L349">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L352">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L353">                    }</span>
+                });
+
+<span class="nc" id="L356">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L357">            }</span>
+        });
+<span class="nc" id="L359">        CONSULTARPAQUETE.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+<span class="nc" id="L363">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L365">                ConsultaPaquete CPP = new ConsultaPaquete();</span>
+<span class="nc" id="L366">                JFrame frameSesion = new JFrame(&quot;Consulta paquete&quot;);</span>
+<span class="nc" id="L367">                frameSesion.setContentPane(CPP.getPanelConsultaPaquete());</span>
+<span class="nc" id="L368">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L369">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L371">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L374">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L375">                    }</span>
+                });
+
+<span class="nc" id="L378">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L379">            }</span>
+        });
+<span class="nc" id="L381">        AceptarRuta.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+<span class="nc" id="L385">                framePrincipal.setVisible(false);</span>
+
+<span class="nc" id="L387">                AceptarRuta AR = new AceptarRuta();</span>
+<span class="nc" id="L388">                JFrame frameSesion = new JFrame(&quot;Consulta paquete&quot;);</span>
+<span class="nc" id="L389">                frameSesion.setContentPane(AR.getPanel());</span>
+<span class="nc" id="L390">                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L391">                frameSesion.setBounds(framePrincipal.getBounds());</span>
+
+<span class="nc" id="L393">                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {</span>
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+<span class="nc" id="L396">                        framePrincipal.setVisible(true);</span>
+<span class="nc" id="L397">                    }</span>
+                });
+
+<span class="nc" id="L400">                frameSesion.setVisible(true);</span>
+<span class="nc" id="L401">            }</span>
+        });
+<span class="nc" id="L403">    }</span>
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+<span class="nc" id="L407">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

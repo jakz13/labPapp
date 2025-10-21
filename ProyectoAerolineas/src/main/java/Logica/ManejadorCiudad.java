@@ -60,4 +60,9 @@ public class ManejadorCiudad {
     public List<Ciudad> getCiudades() {
         return new ArrayList<>(ciudades.values());
     }
+
+    public void resetForTests() {
+        ciudades.clear();
+    }
+
 }

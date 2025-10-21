@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemPaquete.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ItemPaquete.java</span></div><h1>ItemPaquete.java</h1><pre class="source lang-java linenums">package Logica;
+
+import DataTypes.DtRutaVuelo;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = &quot;item_paquete&quot;)
+public class ItemPaquete {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = &quot;ruta_vuelo_id&quot;, nullable = false)
+    private RutaVuelo rutaVuelo;
+
+    @Column(nullable = false)
+    private int cantAsientos;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoAsiento tipoAsiento;
+
+<span class="nc" id="L25">    public ItemPaquete() {</span>
+<span class="nc" id="L26">    }</span>
+
+<span class="fc" id="L28">    public ItemPaquete(RutaVuelo rutaVuelo, int cantAsientos, TipoAsiento tipoAsiento) {</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (rutaVuelo == null) {</span>
+<span class="fc" id="L30">            throw new IllegalArgumentException(&quot;La ruta de vuelo del item paquete no puede ser null&quot;);</span>
+        }
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (cantAsientos &lt;= 0) {</span>
+<span class="fc" id="L33">            throw new IllegalArgumentException(&quot;La cantidad de asientos del item paquete debe ser mayor a cero&quot;);</span>
+        }
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (tipoAsiento == null) {</span>
+<span class="fc" id="L36">            throw new IllegalArgumentException(&quot;El tipo de asiento del item paquete no puede ser null&quot;);</span>
+        }
+<span class="fc" id="L38">        this.rutaVuelo = rutaVuelo;</span>
+<span class="fc" id="L39">        this.cantAsientos = cantAsientos;</span>
+<span class="fc" id="L40">        this.tipoAsiento = tipoAsiento;</span>
+<span class="fc" id="L41">    }</span>
+
+    public RutaVuelo getRutaVuelo() {
+<span class="fc" id="L44">        return rutaVuelo;</span>
+    }
+
+    public int getCantAsientos() {
+<span class="fc" id="L48">        return cantAsientos;</span>
+    }
+
+    public TipoAsiento getTipoAsiento() {
+<span class="fc" id="L52">        return tipoAsiento;</span>
+    }
+
+    public void incrementarCantidad(int cantidad) {
+<span class="fc" id="L56">        this.cantAsientos += cantidad;</span>
+<span class="fc" id="L57">    }</span>
+
+    public double calcularCostoItem() {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (rutaVuelo == null) {</span>
+<span class="nc" id="L61">            throw new IllegalStateException(&quot;Ruta de vuelo no definida para este item&quot;);</span>
+        }
+
+        double costoBase;
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (tipoAsiento == TipoAsiento.TURISTA) {</span>
+<span class="fc" id="L66">            costoBase = rutaVuelo.getCostoTurista();</span>
+        } else {
+<span class="fc" id="L68">            costoBase = rutaVuelo.getCostoEjecutivo();</span>
+        }
+
+<span class="fc" id="L71">        return costoBase * cantAsientos;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

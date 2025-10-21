@@ -1,6 +1,5 @@
 package Logica;
 
-import DataTypes.DtRutaVuelo;
 import DataTypes.DtVuelo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -106,9 +105,20 @@ public class RutaVuelo {
         return (vuelos != null) ? vuelos : new ArrayList<>();
     }
 
+
     public void setEstado(EstadoRuta estado) { this.estado = estado; }
     public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+    public void setNombre(String nombre) { this.nombre = nombre; };
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; };
+    public void setAerolinea(Aerolinea aerolinea) { this.aerolinea = aerolinea; };
+    public void setCiudadOrigen(String ciudadOrigen) { this.ciudadOrigen = ciudadOrigen; };
+    public void setCiudadDestino(String ciudadDestino) { this.ciudadDestino = ciudadDestino; };
+    public void setHora(String hora) { this.hora = hora; };
+    public void setFechaAlta(LocalDate fechaAlta) { this.fechaAlta = fechaAlta; };
+    public void setCostoTurista(double costoTurista) { this.costoTurista = costoTurista; };
+    public void setCostoEjecutivo(double costoEjecutivo) { this.costoEjecutivo = costoEjecutivo; };
+    public void setCostoEquipajeExtra(double costoEquipajeExtra) { this.costoEquipajeExtra = costoEquipajeExtra; };
 
     public void agregarVuelo(Vuelo vuelo) {
         if (vuelos == null) {

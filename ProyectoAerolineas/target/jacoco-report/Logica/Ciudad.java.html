@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ciudad.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Ciudad.java</span></div><h1>Ciudad.java</h1><pre class="source lang-java linenums">package Logica;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.Objects;
+
+@Entity
+@Table(name = &quot;ciudades&quot;)
+public class Ciudad {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // clave primaria autoincremental
+
+    @Column(nullable = false)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String pais;
+
+    private String aeropuerto;
+    private String descripcion;
+    private String sitioWeb;
+
+    @Column(name = &quot;fecha_alta&quot;)
+    private LocalDate fechaAlta;
+
+<span class="fc" id="L28">    public Ciudad() {</span>
+<span class="fc" id="L29">    }</span>
+
+<span class="fc" id="L31">    public Ciudad(String nombre, String pais, String aeropuerto, String descripcion, String sitioWeb, LocalDate fechaAlta) {</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if (nombre == null) {</span>
+<span class="nc" id="L33">            throw new IllegalArgumentException(&quot;El nombre de la ciudad no puede ser null&quot;);</span>
+        }
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (pais == null) {</span>
+<span class="nc" id="L36">            throw new IllegalArgumentException(&quot;El pais de la ciudad no puede ser null&quot;);</span>
+        }
+<span class="fc" id="L38">        this.nombre = nombre;</span>
+<span class="fc" id="L39">        this.pais = pais;</span>
+<span class="fc" id="L40">        this.aeropuerto = aeropuerto;</span>
+<span class="fc" id="L41">        this.descripcion = descripcion;</span>
+<span class="fc" id="L42">        this.sitioWeb = sitioWeb;</span>
+<span class="fc" id="L43">        this.fechaAlta = fechaAlta;</span>
+<span class="fc" id="L44">    }</span>
+
+<span class="fc" id="L46">    public Ciudad(String nombre, String pais) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (nombre == null) {</span>
+<span class="fc" id="L48">            throw new IllegalArgumentException(&quot;El nombre de la ciudad no puede ser null&quot;);</span>
+        }
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (pais == null) {</span>
+<span class="fc" id="L51">            throw new IllegalArgumentException(&quot;El pais de la ciudad no puede ser null&quot;);</span>
+        }
+<span class="fc" id="L53">        this.nombre = nombre;</span>
+<span class="fc" id="L54">        this.pais = pais;</span>
+<span class="fc" id="L55">    }</span>
+
+    // --- Getters y Setters ---
+<span class="fc" id="L58">    public Long getId() { return id; }</span>
+<span class="fc" id="L59">    public String getNombre() { return nombre; }</span>
+<span class="fc" id="L60">    public void setNombre(String nombre) { this.nombre = nombre; }</span>
+<span class="fc" id="L61">    public String getPais() { return pais; }</span>
+<span class="fc" id="L62">    public void setPais(String pais) { this.pais = pais; }</span>
+<span class="fc" id="L63">    public String getAeropuerto() { return aeropuerto; }</span>
+<span class="fc" id="L64">    public void setAeropuerto(String aeropuerto) { this.aeropuerto = aeropuerto; }</span>
+<span class="fc" id="L65">    public String getDescripcion() { return descripcion; }</span>
+<span class="fc" id="L66">    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }</span>
+<span class="fc" id="L67">    public String getSitioWeb() { return sitioWeb; }</span>
+<span class="fc" id="L68">    public void setSitioWeb(String sitioWeb) { this.sitioWeb = sitioWeb; }</span>
+<span class="fc" id="L69">    public LocalDate getFechaAlta() { return fechaAlta; }</span>
+<span class="fc" id="L70">    public void setFechaAlta(LocalDate fechaAlta) { this.fechaAlta = fechaAlta; }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (this == o) return true;           // misma referencia → iguales</span>
+<span class="pc bpc" id="L75" title="1 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L76">        Ciudad ciudad = (Ciudad) o;</span>
+<span class="fc" id="L77">        return Objects.equals(nombre, ciudad.nombre);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L82">        return Objects.hash(nombre);</span>
+    }
+
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

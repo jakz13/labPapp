@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RutaVuelo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">RutaVuelo.java</span></div><h1>RutaVuelo.java</h1><pre class="source lang-java linenums">package Logica;
+
+import DataTypes.DtRutaVuelo;
+import DataTypes.DtVuelo;
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = &quot;rutas_vuelo&quot;)
+public class RutaVuelo {
+
+<span class="fc" id="L14">    public enum EstadoRuta {</span>
+<span class="fc" id="L15">        INGRESADA,</span>
+<span class="fc" id="L16">        CONFIRMADA,</span>
+<span class="fc" id="L17">        RECHAZADA</span>
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+    private String descripcion;
+    private String descripcionCorta;
+
+    @Column(name = &quot;imagen_url&quot;)
+    private String imagenUrl;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;aerolinea_id&quot;)
+    private Aerolinea aerolinea;
+
+    private String ciudadOrigen;
+    private String ciudadDestino;
+    private String hora;
+    private LocalDate fechaAlta;
+
+    private double costoTurista;
+    private double costoEjecutivo;
+    private double costoEquipajeExtra;
+
+<span class="pc" id="L44">    @Enumerated(EnumType.STRING)</span>
+    private EstadoRuta estado = EstadoRuta.INGRESADA;
+
+<span class="pc" id="L47">    @ElementCollection</span>
+    @CollectionTable(name = &quot;ruta_categorias&quot;, joinColumns = @JoinColumn(name = &quot;ruta_id&quot;))
+    @Column(name = &quot;categoria&quot;)
+    private List&lt;String&gt; categorias = new ArrayList&lt;&gt;();
+
+<span class="pc" id="L52">    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)</span>
+    @JoinColumn(name = &quot;ruta_vuelo_id&quot;)
+    private List&lt;Vuelo&gt; vuelos = new ArrayList&lt;&gt;();
+
+<span class="fc" id="L56">    public RutaVuelo() {</span>
+<span class="fc" id="L57">        this.estado = EstadoRuta.INGRESADA;</span>
+<span class="fc" id="L58">        this.categorias = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L59">        this.vuelos = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L60">        this.imagenUrl = null;</span>
+<span class="fc" id="L61">    }</span>
+
+    public RutaVuelo(String nombre, String descripcion, String descripcionCorta, Aerolinea aerolinea,
+                     String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta,
+                     double costoTurista, double costoEjecutivo, double costoEquipajeExtra,
+<span class="nc" id="L66">                     List&lt;String&gt; categorias,String imagenUrl) {</span>
+<span class="nc" id="L67">        this.nombre = nombre;</span>
+<span class="nc" id="L68">        this.descripcion = descripcion;</span>
+<span class="nc" id="L69">        this.descripcionCorta = descripcionCorta;</span>
+<span class="nc" id="L70">        this.aerolinea = aerolinea;</span>
+<span class="nc" id="L71">        this.ciudadOrigen = ciudadOrigen;</span>
+<span class="nc" id="L72">        this.ciudadDestino = ciudadDestino;</span>
+<span class="nc" id="L73">        this.hora = hora;</span>
+<span class="nc" id="L74">        this.fechaAlta = fechaAlta;</span>
+<span class="nc" id="L75">        this.costoTurista = costoTurista;</span>
+<span class="nc" id="L76">        this.costoEjecutivo = costoEjecutivo;</span>
+<span class="nc" id="L77">        this.costoEquipajeExtra = costoEquipajeExtra;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        this.categorias = (categorias != null) ? categorias : new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L79">        this.estado = EstadoRuta.INGRESADA;</span>
+<span class="nc" id="L80">        this.vuelos = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L81">        this.imagenUrl = imagenUrl;</span>
+<span class="nc" id="L82">    }</span>
+
+    // ===== Getters y Setters =====
+<span class="fc" id="L85">    public String getNombre() { return nombre; }</span>
+<span class="fc" id="L86">    public String getDescripcion() { return descripcion; }</span>
+    public String getDescripcionCorta() {
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">        return (descripcionCorta != null) ? descripcionCorta : &quot;&quot;;</span>
+    }
+<span class="nc" id="L90">    public String getImagenUrl() { return imagenUrl; }</span>
+<span class="fc" id="L91">    public Aerolinea getAerolinea() { return aerolinea; }</span>
+<span class="fc" id="L92">    public String getCiudadOrigen() { return ciudadOrigen; }</span>
+<span class="fc" id="L93">    public String getCiudadDestino() { return ciudadDestino; }</span>
+<span class="fc" id="L94">    public String getHora() { return hora; }</span>
+<span class="fc" id="L95">    public LocalDate getFechaAlta() { return fechaAlta; }</span>
+<span class="fc" id="L96">    public double getCostoTurista() { return costoTurista; }</span>
+<span class="fc" id="L97">    public double getCostoEjecutivo() { return costoEjecutivo; }</span>
+<span class="fc" id="L98">    public double getCostoEquipajeExtra() { return costoEquipajeExtra; }</span>
+    public EstadoRuta getEstado() {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        return (estado != null) ? estado : EstadoRuta.INGRESADA;</span>
+    }
+    public List&lt;String&gt; getCategorias() {
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        return (categorias != null) ? categorias : new ArrayList&lt;&gt;();</span>
+    }
+    public List&lt;Vuelo&gt; getVuelos() {
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        return (vuelos != null) ? vuelos : new ArrayList&lt;&gt;();</span>
+    }
+
+
+<span class="nc" id="L110">    public void setEstado(EstadoRuta estado) { this.estado = estado; }</span>
+<span class="fc" id="L111">    public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }</span>
+<span class="nc" id="L112">    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }</span>
+<span class="fc" id="L113">    public void setNombre(String nombre) { this.nombre = nombre; };</span>
+<span class="fc" id="L114">    public void setDescripcion(String descripcion) { this.descripcion = descripcion; };</span>
+<span class="fc" id="L115">    public void setAerolinea(Aerolinea aerolinea) { this.aerolinea = aerolinea; };</span>
+<span class="fc" id="L116">    public void setCiudadOrigen(String ciudadOrigen) { this.ciudadOrigen = ciudadOrigen; };</span>
+<span class="fc" id="L117">    public void setCiudadDestino(String ciudadDestino) { this.ciudadDestino = ciudadDestino; };</span>
+<span class="fc" id="L118">    public void setHora(String hora) { this.hora = hora; };</span>
+<span class="fc" id="L119">    public void setFechaAlta(LocalDate fechaAlta) { this.fechaAlta = fechaAlta; };</span>
+<span class="fc" id="L120">    public void setCostoTurista(double costoTurista) { this.costoTurista = costoTurista; };</span>
+<span class="fc" id="L121">    public void setCostoEjecutivo(double costoEjecutivo) { this.costoEjecutivo = costoEjecutivo; };</span>
+<span class="fc" id="L122">    public void setCostoEquipajeExtra(double costoEquipajeExtra) { this.costoEquipajeExtra = costoEquipajeExtra; };</span>
+
+    public void agregarVuelo(Vuelo vuelo) {
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (vuelos == null) {</span>
+<span class="nc" id="L126">            vuelos = new ArrayList&lt;&gt;();</span>
+        }
+<span class="nc" id="L128">        vuelos.add(vuelo);</span>
+<span class="nc" id="L129">    }</span>
+
+    public Vuelo getVuelo(String nombreVuelo) {
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (vuelos == null) return null;</span>
+
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (Vuelo v : vuelos) {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (v.getNombre().equals(nombreVuelo)) return v;</span>
+<span class="nc" id="L136">        }</span>
+<span class="nc" id="L137">        return null;</span>
+    }
+
+    @Override
+<span class="nc" id="L141">    public String toString() { return nombre; }</span>
+
+    public List&lt;DtVuelo&gt; getDtVuelos() {
+<span class="fc" id="L144">        List&lt;DtVuelo&gt; dtVuelos = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        if (vuelos != null) {</span>
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">            for (Vuelo v : vuelos) {</span>
+<span class="nc" id="L147">                dtVuelos.add(v.getDtVueloSinRuta());</span>
+<span class="nc" id="L148">            }</span>
+        }
+<span class="fc" id="L150">        return dtVuelos;</span>
+    }
+
+    public DataTypes.DtRutaVuelo getDtRutaVuelo() {
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        String nombreAerolinea = (aerolinea != null) ? aerolinea.getNombre() : null;</span>
+<span class="nc" id="L155">        List&lt;DtVuelo&gt; dtVuelos = getDtVuelos();</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        String estadoStr = (estado != null) ? estado.toString() : &quot;INGRESADA&quot;;</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        String descCorta = (descripcionCorta != null) ? descripcionCorta : &quot;&quot;;</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        String imgUrl = (imagenUrl != null) ? imagenUrl : null;</span>
+
+<span class="nc" id="L160">        return new DataTypes.DtRutaVuelo(</span>
+                nombre,
+                descripcion,
+                descCorta,
+                imgUrl,
+                nombreAerolinea,
+                ciudadOrigen,
+                ciudadDestino,
+                hora,
+                fechaAlta,
+                costoTurista,
+                costoEjecutivo,
+                costoEquipajeExtra,
+                estadoStr,
+<span class="nc bnc" id="L174" title="All 2 branches missed.">                categorias != null ? categorias : new ArrayList&lt;&gt;(),</span>
+                dtVuelos
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

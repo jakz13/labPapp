@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorRutaVuelo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ManejadorRutaVuelo.java</span></div><h1>ManejadorRutaVuelo.java</h1><pre class="source lang-java linenums">package Logica;
+
+import DataTypes.DtVuelo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
+import java.util.*;
+
+public class ManejadorRutaVuelo {
+
+    private Map&lt;String, RutaVuelo&gt; rutasVuelo;
+<span class="fc" id="L12">    public static ManejadorRutaVuelo instancia = null;</span>
+
+<span class="fc" id="L14">    private ManejadorRutaVuelo() {</span>
+<span class="fc" id="L15">        rutasVuelo = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L16">    }</span>
+
+    public static ManejadorRutaVuelo getInstance() {
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L20">            instancia = new ManejadorRutaVuelo();</span>
+        }
+<span class="fc" id="L22">        return instancia;</span>
+    }
+
+    // =================== CRUD BD ===================
+    public void cargarRutasDesdeBD(EntityManager em) {
+<span class="fc" id="L27">        TypedQuery&lt;RutaVuelo&gt; query = em.createQuery(&quot;SELECT r FROM RutaVuelo r&quot;, RutaVuelo.class);</span>
+<span class="fc" id="L28">        List&lt;RutaVuelo&gt; rutasPersistidas = query.getResultList();</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        for (RutaVuelo r : rutasPersistidas) {</span>
+            // Inicializar estado si es nulo
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">            if (r.getEstado() == null) {</span>
+<span class="nc" id="L32">                r.setEstado(RutaVuelo.EstadoRuta.INGRESADA);</span>
+            }
+<span class="fc" id="L34">            rutasVuelo.put(r.getNombre(), r);</span>
+<span class="fc" id="L35">        }</span>
+<span class="fc" id="L36">    }</span>
+
+    public void agregarRutaVuelo(RutaVuelo ruta, EntityManager em) {
+<span class="fc" id="L39">        rutasVuelo.put(ruta.getNombre(), ruta);</span>
+<span class="fc" id="L40">        EntityTransaction tx = em.getTransaction();</span>
+        try {
+<span class="fc" id="L42">            tx.begin();</span>
+<span class="fc" id="L43">            em.persist(ruta);</span>
+<span class="fc" id="L44">            tx.commit();</span>
+<span class="fc" id="L45">        } catch (Exception e) {</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (tx.isActive()) tx.rollback();</span>
+<span class="fc" id="L47">            e.printStackTrace();</span>
+<span class="fc" id="L48">        }</span>
+<span class="fc" id="L49">    }</span>
+
+    public void agregarVueloARuta(String nombreRuta, Vuelo vuelo, EntityManager em) {
+<span class="fc" id="L52">        RutaVuelo ruta = rutasVuelo.get(nombreRuta);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (ruta != null) {</span>
+<span class="fc" id="L54">            ruta.agregarVuelo(vuelo);</span>
+<span class="fc" id="L55">            EntityTransaction tx = em.getTransaction();</span>
+            try {
+<span class="fc" id="L57">                tx.begin();</span>
+<span class="fc" id="L58">                em.merge(ruta);</span>
+<span class="fc" id="L59">                tx.commit();</span>
+<span class="nc" id="L60">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                if (tx.isActive()) tx.rollback();</span>
+<span class="nc" id="L62">                e.printStackTrace();</span>
+<span class="fc" id="L63">            }</span>
+<span class="fc" id="L64">        } else {</span>
+<span class="fc" id="L65">            System.out.println(&quot;Ruta de vuelo no encontrada.&quot;);</span>
+        }
+<span class="fc" id="L67">    }</span>
+
+    // =================== Consultas en memoria ===================
+    public RutaVuelo getRuta(String nombre) {
+<span class="fc" id="L71">        return rutasVuelo.get(nombre);</span>
+    }
+
+    public Vuelo getVueloDeRuta(String nombreRuta, String nombreVuelo) {
+<span class="nc" id="L75">        RutaVuelo ruta = rutasVuelo.get(nombreRuta);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (ruta != null) return ruta.getVuelo(nombreVuelo);</span>
+<span class="nc" id="L77">        return null;</span>
+    }
+
+    public List&lt;RutaVuelo&gt; getRutasPorAerolinea(String nombreAerolinea) {
+<span class="fc" id="L81">        List&lt;RutaVuelo&gt; rutas = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        for (RutaVuelo ruta : rutasVuelo.values()) {</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">            if (ruta.getAerolinea() != null &amp;&amp;</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                    ruta.getAerolinea().getNombre().equals(nombreAerolinea)) {</span>
+<span class="fc" id="L85">                rutas.add(ruta);</span>
+            }
+<span class="fc" id="L87">        }</span>
+<span class="fc" id="L88">        return rutas;</span>
+    }
+
+    // Nuevo método para obtener rutas por estado y aerolínea
+    public List&lt;RutaVuelo&gt; getRutasPorEstadoYAerolinea(String nombreAerolinea, RutaVuelo.EstadoRuta estado) {
+<span class="fc" id="L93">        List&lt;RutaVuelo&gt; rutasFiltradas = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (RutaVuelo ruta : rutasVuelo.values()) {</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            if (ruta.getAerolinea() != null &amp;&amp;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                    ruta.getAerolinea().getNombre().equals(nombreAerolinea) &amp;&amp;</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">                    ruta.getEstado() == estado) {</span>
+<span class="fc" id="L98">                rutasFiltradas.add(ruta);</span>
+            }
+<span class="fc" id="L100">        }</span>
+<span class="fc" id="L101">        return rutasFiltradas;</span>
+    }
+
+    // Método para cambiar estado de una ruta
+    public void cambiarEstadoRuta(String nombreRuta, RutaVuelo.EstadoRuta nuevoEstado, EntityManager em) {
+<span class="fc" id="L106">        RutaVuelo ruta = rutasVuelo.get(nombreRuta);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (ruta != null) {</span>
+<span class="fc" id="L108">            ruta.setEstado(nuevoEstado);</span>
+<span class="fc" id="L109">            EntityTransaction tx = em.getTransaction();</span>
+            try {
+<span class="fc" id="L111">                tx.begin();</span>
+<span class="fc" id="L112">                em.merge(ruta);</span>
+<span class="fc" id="L113">                tx.commit();</span>
+<span class="nc" id="L114">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                if (tx.isActive()) tx.rollback();</span>
+<span class="nc" id="L116">                e.printStackTrace();</span>
+<span class="fc" id="L117">            }</span>
+<span class="fc" id="L118">        } else {</span>
+<span class="fc" id="L119">            throw new IllegalArgumentException(&quot;Ruta de vuelo no encontrada: &quot; + nombreRuta);</span>
+        }
+<span class="fc" id="L121">    }</span>
+
+    public List&lt;RutaVuelo&gt; getRutas() {
+<span class="nc" id="L124">        return new ArrayList&lt;&gt;(rutasVuelo.values());</span>
+    }
+
+    public void actualizarImagenRuta(String nombreRuta, String imagenUrl, EntityManager em) {
+<span class="fc" id="L128">        RutaVuelo ruta = rutasVuelo.get(nombreRuta);</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (ruta != null) {</span>
+<span class="fc" id="L130">            ruta.setImagenUrl(imagenUrl);</span>
+<span class="fc" id="L131">            EntityTransaction tx = em.getTransaction();</span>
+            try {
+<span class="fc" id="L133">                tx.begin();</span>
+<span class="fc" id="L134">                em.merge(ruta);</span>
+<span class="fc" id="L135">                tx.commit();</span>
+<span class="fc" id="L136">                System.out.println(&quot;Imagen actualizada para ruta: &quot; + nombreRuta);</span>
+<span class="nc" id="L137">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                if (tx.isActive()) tx.rollback();</span>
+<span class="nc" id="L139">                throw new RuntimeException(&quot;Error actualizando imagen de la ruta: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L140">            }</span>
+<span class="fc" id="L141">        } else {</span>
+<span class="fc" id="L142">            throw new IllegalArgumentException(&quot;Ruta no encontrada: &quot; + nombreRuta);</span>
+        }
+<span class="fc" id="L144">    }</span>
+
+    public List&lt;DtVuelo&gt; obtenerVuelosPorRuta(String nombreRuta) {
+<span class="fc" id="L147">        RutaVuelo ruta = rutasVuelo.get(nombreRuta);</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        if (ruta != null) {</span>
+<span class="fc" id="L149">            List&lt;DtVuelo&gt; dtVuelos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">            for (Vuelo vuelo : ruta.getVuelos()) {</span>
+<span class="fc" id="L151">                dtVuelos.add(vuelo.getDtVuelo());</span>
+<span class="fc" id="L152">            }</span>
+<span class="fc" id="L153">            return dtVuelos;</span>
+        }
+<span class="nc" id="L155">        return Collections.emptyList();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

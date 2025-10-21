@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DtCiudad.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">DataTypes</a> &gt; <span class="el_source">DtCiudad.java</span></div><h1>DtCiudad.java</h1><pre class="source lang-java linenums">package DataTypes;
+
+import java.time.LocalDate;
+
+public class DtCiudad {
+    private String nombre;
+    private String pais;
+    private String aeropuerto;
+    private String descripcion;
+    private String sitioWeb;
+    private LocalDate fechaAlta;
+
+<span class="nc" id="L13">    public DtCiudad() {</span>
+<span class="nc" id="L14">    }</span>
+
+<span class="nc" id="L16">    public DtCiudad(Long id, String nombre, String pais, String aeropuerto, String descripcion, String sitioWeb, LocalDate fechaAlta) {</span>
+<span class="nc" id="L17">        this.nombre = nombre;</span>
+<span class="nc" id="L18">        this.pais = pais;</span>
+<span class="nc" id="L19">        this.aeropuerto = aeropuerto;</span>
+<span class="nc" id="L20">        this.descripcion = descripcion;</span>
+<span class="nc" id="L21">        this.sitioWeb = sitioWeb;</span>
+<span class="nc" id="L22">        this.fechaAlta = fechaAlta;</span>
+<span class="nc" id="L23">    }</span>
+
+<span class="nc" id="L25">    public DtCiudad(String nombre, String pais) {</span>
+<span class="nc" id="L26">        this.nombre = nombre;</span>
+<span class="nc" id="L27">        this.pais = pais;</span>
+<span class="nc" id="L28">    }</span>
+
+    // --- Getters y Setters ---
+
+
+
+
+    public String getNombre() {
+<span class="nc" id="L36">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L40">        this.nombre = nombre;</span>
+<span class="nc" id="L41">    }</span>
+
+    public String getPais() {
+<span class="nc" id="L44">        return pais;</span>
+    }
+
+    public void setPais(String pais) {
+<span class="nc" id="L48">        this.pais = pais;</span>
+<span class="nc" id="L49">    }</span>
+
+    public String getAeropuerto() {
+<span class="nc" id="L52">        return aeropuerto;</span>
+    }
+
+    public void setAeropuerto(String aeropuerto) {
+<span class="nc" id="L56">        this.aeropuerto = aeropuerto;</span>
+<span class="nc" id="L57">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L60">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L64">        this.descripcion = descripcion;</span>
+<span class="nc" id="L65">    }</span>
+
+    public String getSitioWeb() {
+<span class="nc" id="L68">        return sitioWeb;</span>
+    }
+
+    public void setSitioWeb(String sitioWeb) {
+<span class="nc" id="L72">        this.sitioWeb = sitioWeb;</span>
+<span class="nc" id="L73">    }</span>
+
+    public LocalDate getFechaAlta() {
+<span class="nc" id="L76">        return fechaAlta;</span>
+    }
+
+    public void setFechaAlta(LocalDate fechaAlta) {
+<span class="nc" id="L80">        this.fechaAlta = fechaAlta;</span>
+<span class="nc" id="L81">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L85">        return this.nombre;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

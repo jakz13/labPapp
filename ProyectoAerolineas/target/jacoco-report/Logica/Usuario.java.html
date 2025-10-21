@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Usuario.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Usuario.java</span></div><h1>Usuario.java</h1><pre class="source lang-java linenums">package Logica;
+
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+
+@MappedSuperclass
+public abstract class Usuario {
+
+    @Id
+    @Column(unique = true, nullable = false)
+    private String nickname;
+
+    private String nombre;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    private LocalDate fechaAlta;
+
+    @Column(name = &quot;password_hash&quot;)
+    private String passwordHash;
+
+    @Column(name = &quot;password_salt&quot;)
+    private String passwordSalt;
+
+    @Column(name = &quot;imagen_url&quot;)
+    private String imagenUrl;
+
+<span class="nc" id="L30">    public Usuario() {</span>
+<span class="nc" id="L31">        this.nickname = &quot;&quot;;</span>
+<span class="nc" id="L32">        this.nombre = &quot;&quot;;</span>
+<span class="nc" id="L33">        this.email = &quot;&quot;;</span>
+<span class="nc" id="L34">        this.imagenUrl = null; // Opcional - puede ser null</span>
+<span class="nc" id="L35">    }</span>
+
+<span class="fc" id="L37">    public Usuario(String nickname, String nombre, String email, String password, LocalDate fechaAlta, String imagenUrl) {</span>
+<span class="fc" id="L38">        this.nickname = nickname;</span>
+<span class="fc" id="L39">        this.nombre = nombre;</span>
+<span class="fc" id="L40">        this.email = email;</span>
+<span class="fc" id="L41">        this.imagenUrl = imagenUrl; // Por defecto sin imagen</span>
+<span class="fc" id="L42">        setPassword(password);</span>
+<span class="fc" id="L43">        this.fechaAlta = LocalDate.now();</span>
+<span class="fc" id="L44">    }</span>
+
+    // ===== Getters y Setters =====
+<span class="fc" id="L47">    public String getNickname() { return nickname; }</span>
+<span class="fc" id="L48">    public String getNombre() { return nombre; }</span>
+<span class="fc" id="L49">    public String getEmail() { return email; }</span>
+<span class="nc" id="L50">    public String getPasswordHash() { return passwordHash; }</span>
+<span class="nc" id="L51">    public String getPasswordSalt() { return passwordSalt; }</span>
+<span class="fc" id="L52">    public String getImagenUrl() { return imagenUrl; }</span>
+<span class="fc" id="L53">    public LocalDate getFechaAlta() { return fechaAlta; }</span>
+<span class="nc" id="L54">    public void setEmail(String email) { this.email = email; }</span>
+<span class="nc" id="L55">    public void setNombre(String nombre) { this.nombre = nombre; }</span>
+<span class="nc" id="L56">    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }</span>
+
+    public void setPassword(String password) {
+<span class="pc bpc" id="L59" title="1 of 4 branches missed.">        if (password == null || password.trim().isEmpty()) {</span>
+<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;La contraseña no puede estar vacía&quot;);</span>
+        }
+<span class="fc" id="L62">        this.passwordSalt = PasswordManager.generarSalt();</span>
+<span class="fc" id="L63">        this.passwordHash = PasswordManager.hashPassword(password, this.passwordSalt);</span>
+<span class="fc" id="L64">    }</span>
+
+    public boolean verificarPassword(String password) {
+<span class="nc" id="L67">        return PasswordManager.verificarPassword(password, this.passwordSalt, this.passwordHash);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L72">        return nickname;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

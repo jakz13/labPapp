@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AltaAereolinea.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Presentacion.gui.guiSesion</a> &gt; <span class="el_source">AltaAereolinea.java</span></div><h1>AltaAereolinea.java</h1><pre class="source lang-java linenums">package Presentacion.gui.guiSesion;
+
+import Logica.Fabrica;
+import Logica.ISistema;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AltaAereolinea {
+    private JPanel PanelDeSesion;
+    private JTextField NombreUsuario;   // -&gt; será el &quot;nickname&quot;
+    private JTextField NombreAereolinea;
+    private JTextArea Descripcion;
+    private JTextField EmailUsuario;
+    private JButton crearButton;
+    private JButton cancelarButton;
+    private JTextField Link;
+    private JPasswordField passwordField;
+    private JPasswordField Confirmacionpassword;
+
+<span class="nc" id="L23">    public AltaAereolinea() {</span>
+<span class="nc" id="L24">        ISistema sistema = Fabrica.getInstance().getISistema();</span>
+
+<span class="nc" id="L26">        crearButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L29">                String nickname   = NombreUsuario.getText().trim();</span>
+<span class="nc" id="L30">                String nombre     = NombreAereolinea.getText().trim();</span>
+<span class="nc" id="L31">                String descripcion = Descripcion.getText().trim();</span>
+<span class="nc" id="L32">                String correo     = EmailUsuario.getText().trim();</span>
+<span class="nc" id="L33">                String sitioWeb = Link.getText().trim();</span>
+<span class="nc" id="L34">                String password = new String(passwordField.getPassword()).trim();</span>
+<span class="nc" id="L35">                String confirmacion = new String(Confirmacionpassword.getPassword()).trim();</span>
+
+                // Validaciones de campos obligatorios
+<span class="nc bnc" id="L38" title="All 6 branches missed.">                if (nickname.isEmpty() || nombre.isEmpty() || correo.isEmpty() ||</span>
+<span class="nc bnc" id="L39" title="All 4 branches missed.">                        password.isEmpty() || confirmacion.isEmpty()) {</span>
+<span class="nc" id="L40">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Debe completar todos los campos.&quot;,
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L43">                    return;</span>
+                }
+
+                // Validación de formato de email
+<span class="nc bnc" id="L47" title="All 2 branches missed.">                if (!correo.matches(&quot;^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$&quot;)) {</span>
+<span class="nc" id="L48">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Correo electrónico no válido.&quot;,
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L51">                    return;</span>
+                }
+
+                // Validación de contraseñas
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (!password.equals(confirmacion)) {</span>
+<span class="nc" id="L56">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Las contraseñas no coinciden.&quot;,
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L59">                    passwordField.setText(&quot;&quot;);</span>
+<span class="nc" id="L60">                    Confirmacionpassword.setText(&quot;&quot;);</span>
+<span class="nc" id="L61">                    return;</span>
+                }
+
+                // Validación de fortaleza de contraseña (mínimo 6 caracteres)
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                if (password.length() &lt; 6) {</span>
+<span class="nc" id="L66">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;La contraseña debe tener al menos 6 caracteres.&quot;,
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L69">                    passwordField.setText(&quot;&quot;);</span>
+<span class="nc" id="L70">                    Confirmacionpassword.setText(&quot;&quot;);</span>
+<span class="nc" id="L71">                    return;</span>
+                }
+
+                // Validación de caracteres especiales en contraseña (opcional)
+<span class="nc bnc" id="L75" title="All 6 branches missed.">                if (!password.matches(&quot;.*[A-Z].*&quot;) || !password.matches(&quot;.*[a-z].*&quot;) || !password.matches(&quot;.*\\d.*&quot;)) {</span>
+<span class="nc" id="L76">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;La contraseña debe contener al menos una mayúscula, una minúscula y un número.&quot;,
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L79">                    passwordField.setText(&quot;&quot;);</span>
+<span class="nc" id="L80">                    Confirmacionpassword.setText(&quot;&quot;);</span>
+<span class="nc" id="L81">                    return;</span>
+                }
+
+                try {
+<span class="nc" id="L85">                    sistema.altaAerolinea(nickname, nombre, descripcion, correo, sitioWeb, password, null);</span>
+
+<span class="nc" id="L87">                    JOptionPane.showMessageDialog(null,</span>
+                            &quot;Aerolínea creada correctamente.\n\n&quot; +
+                                    &quot;Nickname: &quot; + nickname + &quot;\n&quot; +
+                                    &quot;Nombre: &quot; + nombre + &quot;\n&quot; +
+                                    &quot;Email: &quot; + correo + &quot;\n&quot; +
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                                    &quot;Sitio Web: &quot; + (sitioWeb.isEmpty() ? &quot;No especificado&quot; : sitioWeb),</span>
+                            &quot;Aerolínea Creada - Éxito&quot;,
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                    // Limpiar campos después de crear
+<span class="nc" id="L97">                    limpiarCampos();</span>
+
+<span class="nc" id="L99">                } catch (IllegalArgumentException ex) {</span>
+<span class="nc" id="L100">                    JOptionPane.showMessageDialog(null,</span>
+<span class="nc" id="L101">                            &quot;Error al crear la aerolínea:\n&quot; + ex.getMessage(),</span>
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L103">                }</span>
+<span class="nc" id="L104">            }</span>
+        });
+
+<span class="nc" id="L107">        cancelarButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L110">                Window window = SwingUtilities.getWindowAncestor(PanelDeSesion);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">                if (window != null) {</span>
+<span class="nc" id="L112">                    window.dispose();</span>
+                }
+<span class="nc" id="L114">            }</span>
+        });
+
+        // Agregar listener para limpiar campos de contraseña cuando se detecta error
+<span class="nc" id="L118">        passwordField.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L121">                Confirmacionpassword.requestFocus();</span>
+<span class="nc" id="L122">            }</span>
+        });
+
+<span class="nc" id="L125">        Confirmacionpassword.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L128">                crearButton.doClick(); // Simular click en crear al presionar Enter</span>
+<span class="nc" id="L129">            }</span>
+        });
+<span class="nc" id="L131">    }</span>
+
+    private void limpiarCampos() {
+<span class="nc" id="L134">        NombreUsuario.setText(&quot;&quot;);</span>
+<span class="nc" id="L135">        NombreAereolinea.setText(&quot;&quot;);</span>
+<span class="nc" id="L136">        Descripcion.setText(&quot;&quot;);</span>
+<span class="nc" id="L137">        EmailUsuario.setText(&quot;&quot;);</span>
+<span class="nc" id="L138">        Link.setText(&quot;&quot;);</span>
+<span class="nc" id="L139">        passwordField.setText(&quot;&quot;);</span>
+<span class="nc" id="L140">        Confirmacionpassword.setText(&quot;&quot;);</span>
+<span class="nc" id="L141">        NombreUsuario.requestFocus(); // Volver al primer campo</span>
+<span class="nc" id="L142">    }</span>
+
+    public Container getPanelDeSesion() {
+<span class="nc" id="L145">        return PanelDeSesion;</span>
+    }
+
+    private void createUIComponents() {
+        // Inicialización de componentes si es necesario
+<span class="nc" id="L150">        Descripcion = new JTextArea();</span>
+<span class="nc" id="L151">        Descripcion.setLineWrap(true);</span>
+<span class="nc" id="L152">        Descripcion.setWrapStyleWord(true);</span>
+<span class="nc" id="L153">        Descripcion.setRows(3);</span>
+
+<span class="nc" id="L155">        passwordField = new JPasswordField();</span>
+<span class="nc" id="L156">        Confirmacionpassword = new JPasswordField();</span>
+<span class="nc" id="L157">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

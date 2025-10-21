@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AceptarRuta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Presentacion.gui.guiSesion</a> &gt; <span class="el_source">AceptarRuta.java</span></div><h1>AceptarRuta.java</h1><pre class="source lang-java linenums">package Presentacion.gui.guiSesion;
+
+import Logica.Fabrica;
+import Logica.ISistema;
+import DataTypes.DtAerolinea;
+import DataTypes.DtRutaVuelo;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AceptarRuta {
+    private JPanel panel1;
+    private JComboBox&lt;DtAerolinea&gt; comboBoxAerolineas;
+    private JComboBox&lt;DtRutaVuelo&gt; comboBoxRutas;
+    private JButton aceptarButton;
+    private JButton rechazarButton;
+    private JButton cancelarButton;
+    private JTextArea infoRutaTextArea;
+
+    private ISistema sistema;
+
+<span class="nc" id="L24">    public AceptarRuta() {</span>
+<span class="nc" id="L25">        this.sistema = Fabrica.getInstance().getISistema();</span>
+
+        // Cargar aerolíneas con rutas pendientes
+<span class="nc" id="L28">        cargarAerolineasConRutasPendientes();</span>
+
+        // Configurar listeners
+<span class="nc" id="L31">        comboBoxAerolineas.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L34">                cargarRutasPendientes();</span>
+<span class="nc" id="L35">            }</span>
+        });
+
+<span class="nc" id="L38">        comboBoxRutas.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L41">                mostrarInfoRuta();</span>
+<span class="nc" id="L42">            }</span>
+        });
+
+<span class="nc" id="L45">        aceptarButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L48">                aceptarRutaSeleccionada();</span>
+<span class="nc" id="L49">            }</span>
+        });
+
+<span class="nc" id="L52">        rechazarButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L55">                rechazarRutaSeleccionada();</span>
+<span class="nc" id="L56">            }</span>
+        });
+
+<span class="nc" id="L59">        cancelarButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L62">                cerrarVentana();</span>
+<span class="nc" id="L63">            }</span>
+        });
+
+        // Estado inicial de los botones
+<span class="nc" id="L67">        actualizarEstadoBotones();</span>
+<span class="nc" id="L68">    }</span>
+
+    private void cargarAerolineasConRutasPendientes() {
+<span class="nc" id="L71">        DefaultComboBoxModel&lt;DtAerolinea&gt; modelo = new DefaultComboBoxModel&lt;&gt;();</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for (DtAerolinea aero : sistema.obtenerAerolineasConRutasPendientes()) {</span>
+<span class="nc" id="L73">            modelo.addElement(aero);</span>
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">        comboBoxAerolineas.setModel(modelo);</span>
+<span class="nc" id="L76">    }</span>
+
+    private void cargarRutasPendientes() {
+<span class="nc" id="L79">        DtAerolinea aerolineaSeleccionada = (DtAerolinea) comboBoxAerolineas.getSelectedItem();</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (aerolineaSeleccionada != null) {</span>
+<span class="nc" id="L81">            DefaultComboBoxModel&lt;DtRutaVuelo&gt; modelo = new DefaultComboBoxModel&lt;&gt;();</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">            for (DtRutaVuelo ruta : sistema.obtenerRutasPendientesPorAerolinea(aerolineaSeleccionada.getNombre())) {</span>
+<span class="nc" id="L83">                modelo.addElement(ruta);</span>
+<span class="nc" id="L84">            }</span>
+<span class="nc" id="L85">            comboBoxRutas.setModel(modelo);</span>
+        }
+<span class="nc" id="L87">        actualizarEstadoBotones();</span>
+<span class="nc" id="L88">    }</span>
+
+    private void mostrarInfoRuta() {
+<span class="nc" id="L91">        DtRutaVuelo rutaSeleccionada = (DtRutaVuelo) comboBoxRutas.getSelectedItem();</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (rutaSeleccionada != null) {</span>
+<span class="nc" id="L93">            StringBuilder info = new StringBuilder();</span>
+<span class="nc" id="L94">            info.append(&quot;Nombre: &quot;).append(rutaSeleccionada.getNombre()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L95">            info.append(&quot;Descripción: &quot;).append(rutaSeleccionada.getDescripcion()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L96">            info.append(&quot;Descripción Corta: &quot;).append(rutaSeleccionada.getDescripcionCorta()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L97">            info.append(&quot;Origen: &quot;).append(rutaSeleccionada.getCiudadOrigen()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L98">            info.append(&quot;Destino: &quot;).append(rutaSeleccionada.getCiudadDestino()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L99">            info.append(&quot;Costo Turista: $&quot;).append(rutaSeleccionada.getCostoTurista()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L100">            info.append(&quot;Costo Ejecutivo: $&quot;).append(rutaSeleccionada.getCostoEjecutivo()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L101">            info.append(&quot;Estado: &quot;).append(rutaSeleccionada.getEstado()).append(&quot;\n&quot;);</span>
+
+<span class="nc" id="L103">            infoRutaTextArea.setText(info.toString());</span>
+        }
+<span class="nc" id="L105">        actualizarEstadoBotones();</span>
+<span class="nc" id="L106">    }</span>
+
+    private void aceptarRutaSeleccionada() {
+<span class="nc" id="L109">        DtRutaVuelo rutaSeleccionada = (DtRutaVuelo) comboBoxRutas.getSelectedItem();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (rutaSeleccionada != null) {</span>
+<span class="nc" id="L111">            int confirmacion = JOptionPane.showConfirmDialog(</span>
+                    panel1,
+<span class="nc" id="L113">                    &quot;¿Está seguro que desea ACEPTAR la ruta: &quot; + rutaSeleccionada.getNombre() + &quot;?&quot;,</span>
+                    &quot;Confirmar Aceptación&quot;,
+                    JOptionPane.YES_NO_OPTION
+            );
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">            if (confirmacion == JOptionPane.YES_OPTION) {</span>
+                try {
+<span class="nc" id="L120">                    sistema.aceptarRutaVuelo(rutaSeleccionada.getNombre());</span>
+<span class="nc" id="L121">                    JOptionPane.showMessageDialog(panel1, &quot;Ruta aceptada correctamente&quot;);</span>
+<span class="nc" id="L122">                    cargarRutasPendientes(); // Recargar la lista</span>
+<span class="nc" id="L123">                } catch (Exception ex) {</span>
+<span class="nc" id="L124">                    JOptionPane.showMessageDialog(panel1, &quot;Error al aceptar la ruta: &quot; + ex.getMessage(),</span>
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L126">                }</span>
+            }
+        }
+<span class="nc" id="L129">    }</span>
+
+    private void rechazarRutaSeleccionada() {
+<span class="nc" id="L132">        DtRutaVuelo rutaSeleccionada = (DtRutaVuelo) comboBoxRutas.getSelectedItem();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (rutaSeleccionada != null) {</span>
+<span class="nc" id="L134">            int confirmacion = JOptionPane.showConfirmDialog(</span>
+                    panel1,
+<span class="nc" id="L136">                    &quot;¿Está seguro que desea RECHAZAR la ruta: &quot; + rutaSeleccionada.getNombre() + &quot;?&quot;,</span>
+                    &quot;Confirmar Rechazo&quot;,
+                    JOptionPane.YES_NO_OPTION
+            );
+
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if (confirmacion == JOptionPane.YES_OPTION) {</span>
+                try {
+<span class="nc" id="L143">                    sistema.rechazarRutaVuelo(rutaSeleccionada.getNombre());</span>
+<span class="nc" id="L144">                    JOptionPane.showMessageDialog(panel1, &quot;Ruta rechazada correctamente&quot;);</span>
+<span class="nc" id="L145">                    cargarRutasPendientes(); // Recargar la lista</span>
+<span class="nc" id="L146">                } catch (Exception ex) {</span>
+<span class="nc" id="L147">                    JOptionPane.showMessageDialog(panel1, &quot;Error al rechazar la ruta: &quot; + ex.getMessage(),</span>
+                            &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L149">                }</span>
+            }
+        }
+<span class="nc" id="L152">    }</span>
+
+    private void actualizarEstadoBotones() {
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        boolean tieneRutaSeleccionada = comboBoxRutas.getSelectedItem() != null;</span>
+<span class="nc" id="L156">        aceptarButton.setEnabled(tieneRutaSeleccionada);</span>
+<span class="nc" id="L157">        rechazarButton.setEnabled(tieneRutaSeleccionada);</span>
+<span class="nc" id="L158">    }</span>
+
+    private void cerrarVentana() {
+<span class="nc" id="L161">        JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(panel1);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (topFrame != null) {</span>
+<span class="nc" id="L163">            topFrame.dispose();</span>
+        }
+<span class="nc" id="L165">    }</span>
+
+    public JPanel getPanel() {
+<span class="nc" id="L168">        return panel1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DtReserva.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">DataTypes</a> &gt; <span class="el_source">DtReserva.java</span></div><h1>DtReserva.java</h1><pre class="source lang-java linenums">package DataTypes;
+
+import Logica.TipoAsiento;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class DtReserva {
+    private Long id;  // Cambiado de String a Long
+    private LocalDate fecha;
+    private double costo;
+    private TipoAsiento tipoAsiento;
+    private int cantidadPasajes;
+    private int unidadesEquipajeExtra;
+    private List&lt;DtPasajero&gt; pasajeros;
+    private String vuelo; // nombre del vuelo, para no exponer la entidad completa
+
+    // Constructor con Long id
+    public DtReserva(Long id, LocalDate fecha, double costo, TipoAsiento tipoAsiento,
+                     int cantidadPasajes, int unidadesEquipajeExtra,
+<span class="fc" id="L21">                     List&lt;DtPasajero&gt; pasajeros, String vuelo) {</span>
+<span class="fc" id="L22">        this.id = id;</span>
+<span class="fc" id="L23">        this.fecha = fecha;</span>
+<span class="fc" id="L24">        this.costo = costo;</span>
+<span class="fc" id="L25">        this.tipoAsiento = tipoAsiento;</span>
+<span class="fc" id="L26">        this.cantidadPasajes = cantidadPasajes;</span>
+<span class="fc" id="L27">        this.unidadesEquipajeExtra = unidadesEquipajeExtra;</span>
+<span class="fc" id="L28">        this.pasajeros = pasajeros;</span>
+<span class="fc" id="L29">        this.vuelo = vuelo;</span>
+<span class="fc" id="L30">    }</span>
+
+    // Constructor alternativo que acepta la entidad Reserva
+<span class="nc" id="L33">    public DtReserva(Logica.Reserva reserva) {</span>
+<span class="nc" id="L34">        this.id = reserva.getId();</span>
+<span class="nc" id="L35">        this.fecha = reserva.getFecha();</span>
+<span class="nc" id="L36">        this.costo = reserva.getCosto();</span>
+<span class="nc" id="L37">        this.tipoAsiento = reserva.getTipoAsiento();</span>
+<span class="nc" id="L38">        this.cantidadPasajes = reserva.getCantidadPasajes();</span>
+<span class="nc" id="L39">        this.unidadesEquipajeExtra = reserva.getUnidadesEquipajeExtra();</span>
+<span class="nc" id="L40">        this.pasajeros = reserva.getDtPasajeros();</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        this.vuelo = reserva.getVuelo() != null ? reserva.getVuelo().getNombre() : &quot;N/A&quot;;</span>
+<span class="nc" id="L42">    }</span>
+
+    // ===== Getters =====
+<span class="nc" id="L45">    public Long getId() { return id; }  // Cambiado a Long</span>
+<span class="nc" id="L46">    public LocalDate getFecha() { return fecha; }</span>
+<span class="nc" id="L47">    public double getCosto() { return costo; }</span>
+<span class="nc" id="L48">    public TipoAsiento getTipoAsiento() { return tipoAsiento; }</span>
+<span class="nc" id="L49">    public int getCantidadPasajes() { return cantidadPasajes; }</span>
+<span class="nc" id="L50">    public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }</span>
+<span class="nc" id="L51">    public List&lt;DtPasajero&gt; getPasajeros() { return pasajeros; }</span>
+<span class="nc" id="L52">    public String getVuelo() { return vuelo; }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L56">        return &quot;Reserva #&quot; + id +  // Ahora muestra el ID numérico</span>
+                &quot; | Vuelo: &quot; + vuelo;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
