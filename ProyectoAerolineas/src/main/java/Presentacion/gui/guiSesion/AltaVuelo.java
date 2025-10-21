@@ -100,7 +100,7 @@ public class AltaVuelo {
                 LocalDate fecha = LocalDate.of(anio, mes, dia);
 
                 try {
-                    sistema.altaVuelo(Vuelo, aereolinea, Ruta,fecha,  duracion, turista, ejecutivo, fechaAlta);
+                    sistema.altaVuelo(Vuelo, aereolinea, Ruta,fecha,  duracion, turista, ejecutivo, fechaAlta,null);
                     JOptionPane.showMessageDialog(null,
                             "Vuelo creado correctamente.",
                             "Éxito",

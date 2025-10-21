@@ -72,7 +72,14 @@ public class ManejadorVuelo {
     }
 
     public boolean tieneReservaDeCliente(String nicknameCliente, Vuelo vuelo) {
-        return vuelo.getReservas().containsKey(nicknameCliente);
+        if (vuelo == null) return false;
+        // Revisar lista de reservas y comparar por cliente.nickname
+        for (Reserva r : vuelo.getReservasList()) {
+            if (r.getCliente() != null && r.getCliente().getNickname().equals(nicknameCliente)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Vuelo getVuelo(String nombre) {

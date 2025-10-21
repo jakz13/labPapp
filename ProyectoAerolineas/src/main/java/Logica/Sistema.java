@@ -336,7 +336,7 @@ public class Sistema implements ISistema {
     @Override
     public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta,
                           LocalDate fecha, int duracion, int asientosTurista,
-                          int asientosEjecutivo, LocalDate fechaAlta) {
+                          int asientosEjecutivo, LocalDate fechaAlta, String imagenUrl) {
 
         RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
         if (ruta == null) {
@@ -348,7 +348,7 @@ public class Sistema implements ISistema {
         }
 
         Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, ruta, fecha, duracion,
-                asientosTurista, asientosEjecutivo, fechaAlta);
+                asientosTurista, asientosEjecutivo, fechaAlta, imagenUrl);
 
         manejadorVuelo.agregarVuelo(vuelo, em);
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo, em);
@@ -382,7 +382,8 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("El vuelo no existe: " + nombreVuelo);
         }
 
-        if (vuelo.getReservas().containsKey(nicknameCliente)) {
+        // Comprobar si el cliente ya tiene una reserva en ese vuelo (buscar por nickname en las reservas del vuelo)
+        if (ManejadorVuelo.getInstance().tieneReservaDeCliente(nicknameCliente, vuelo)) {
             throw new IllegalArgumentException(
                     "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
                             ". Debe elegir otro vuelo o ruta."
@@ -721,4 +722,3 @@ public class Sistema implements ISistema {
 
 
 }
-

@@ -58,7 +58,7 @@ public interface ISistema {
     // =================== Vuelos ===================
     void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta,
                    LocalDate fecha, int duracion, int asientosTurista,
-                   int asientosEjecutivo, LocalDate fechaAlta);
+                   int asientosEjecutivo, LocalDate fechaAlta, String imagenUrl);
 
     Vuelo obtenerVuelo(String nombreVuelo);
     List<DtVuelo> listarVuelosPorRuta(String nombreRuta);

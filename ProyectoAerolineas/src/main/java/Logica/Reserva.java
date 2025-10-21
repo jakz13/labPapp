@@ -23,7 +23,7 @@ public class Reserva {
     private int cantidadPasajes;
     private int unidadesEquipajeExtra;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "reserva_pasajeros",
             joinColumns = @JoinColumn(name = "reserva_id"),
@@ -34,6 +34,11 @@ public class Reserva {
     @ManyToOne
     @JoinColumn(name = "vuelo_id")
     private Vuelo vuelo;
+
+    // Nueva relación ManyToOne hacia Cliente para poder saber el dueño de la reserva
+    @ManyToOne
+    @JoinColumn(name = "cliente_nickname", referencedColumnName = "nickname")
+    private Cliente cliente;
 
     public Reserva() {} // Constructor vacío para JPA
 
@@ -60,6 +65,9 @@ public class Reserva {
     public List<Pasajero> getPasajeros() { return pasajeros; }
     public Vuelo getVuelo() { return vuelo; }
     public void setVuelo(Vuelo vuelo) { this.vuelo = vuelo; }
+
+    public Cliente getCliente() { return cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
 
     public String toString() {
         return "Reserva #" + id +

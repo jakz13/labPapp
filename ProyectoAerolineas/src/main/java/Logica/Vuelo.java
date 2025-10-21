@@ -24,6 +24,7 @@ public class Vuelo {
     private int asientosTurista;
     private int asientosEjecutivo;
     private LocalDate fechaAlta;
+    private String imagenUrl;
 
     @ManyToOne
     @JoinColumn(name = "ruta_vuelo_id")
@@ -37,7 +38,7 @@ public class Vuelo {
 
     public Vuelo() {}
 
-    public Vuelo(String nombre, String nombreAereolinea, RutaVuelo rutaVuelo, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta) {
+    public Vuelo(String nombre, String nombreAereolinea, RutaVuelo rutaVuelo, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta, String imagenUrl) {
         this.nombre = nombre;
         this.NombreAereolinea = nombreAereolinea;
         this.rutaVuelo = rutaVuelo;
@@ -46,6 +47,7 @@ public class Vuelo {
         this.asientosTurista = asientosTurista;
         this.asientosEjecutivo = asientosEjecutivo;
         this.fechaAlta = fechaAlta;
+        this.imagenUrl = imagenUrl;
     }
 
     // ===== Getters y Setters =====
@@ -58,6 +60,8 @@ public class Vuelo {
     public int getAsientosEjecutivo() { return asientosEjecutivo; }
     public LocalDate getFechaAlta() { return fechaAlta; }
     public RutaVuelo getRutaVuelo() { return rutaVuelo; }
+
+    public String getImagenUrl() { return imagenUrl; }
 
     public Map<Long, Reserva> getReservas() {
         reservas.clear();

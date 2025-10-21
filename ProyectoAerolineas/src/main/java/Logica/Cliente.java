@@ -26,8 +26,8 @@ public class Cliente extends Usuario {
     @Column(name = "numero_documento", unique = true)
     private String numeroDocumento;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cliente_nickname")
+    // Relación bidireccional: mappedBy apunta al campo 'cliente' en Reserva
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,6 +51,7 @@ public class Cliente extends Usuario {
                      String apellido, LocalDate fechaNacimiento,
                      String nacionalidad, TipoDoc tipoDocumento,
                      String numeroDocumento, LocalDate fechaAlta,List<DtReserva> reservas, List<DtPaquete> paquetesComprados)*/
+
 
     public DtCliente getDtCliente() {
         return new DtCliente(
@@ -93,6 +94,8 @@ public class Cliente extends Usuario {
     public void setComprasPaquetes(List<CompraPaqLogica> comprasPaquetes) { this.comprasPaquetes = comprasPaquetes; }
 
     public void agregarReserva(Reserva reserva) {
+        if (reserva == null) throw new IllegalArgumentException("Reserva no puede ser null");
+        reserva.setCliente(this); // mantener la referencia bidireccional
         reservas.add(reserva);
     }
 
