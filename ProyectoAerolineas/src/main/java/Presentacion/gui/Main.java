@@ -100,27 +100,27 @@ public class Main {
             sistema.altaRutaVuelo("SCL-MIA", "Santiago a Miami", "Directo",
                     sistema.obtenerAerolinea("latam001"),
                     "Santiago", "Miami", "08:00", LocalDate.now(),
-                    500.0, 900.0, 50.0, new String[]{"Turista", "Ejecutivo"});
+                    500.0, 900.0, 50.0, new String[]{"Turista", "Ejecutivo"}, null );
 
             sistema.altaRutaVuelo("SCL-EZE", "Santiago a Buenos Aires", "Directo",
                     sistema.obtenerAerolinea("latam001"),
                     "Santiago", "Buenos Aires", "14:00", LocalDate.now(),
-                    200.0, 350.0, 30.0, new String[]{"Turista", "Ejecutivo"});
+                    200.0, 350.0, 30.0, new String[]{"Turista", "Ejecutivo"}, null );
 
             sistema.altaRutaVuelo("MAD-LHR", "Madrid a Londres", "Directo",
                     sistema.obtenerAerolinea("iberia002"),
                     "Madrid", "Londres", "10:00", LocalDate.now(),
-                    150.0, 300.0, 20.0, new String[]{"Turista", "Ejecutivo"});
+                    150.0, 300.0, 20.0, new String[]{"Turista", "Ejecutivo"}, null);
 
             sistema.altaRutaVuelo("JFK-LAX", "Nueva York a Los Ángeles", "Directo",
                     sistema.obtenerAerolinea("aa003"),
                     "Nueva York", "Los Ángeles", "09:30", LocalDate.now(),
-                    400.0, 700.0, 40.0, new String[]{"Turista", "Ejecutivo"});
+                    400.0, 700.0, 40.0, new String[]{"Turista", "Ejecutivo"}, null);
 
             sistema.altaRutaVuelo("JFK-MIA", "Nueva York a Miami", "Directo",
                     sistema.obtenerAerolinea("aa003"),
                     "Nueva York", "Miami", "13:00", LocalDate.now(),
-                    300.0, 550.0, 35.0, new String[]{"Turista", "Ejecutivo"});
+                    300.0, 550.0, 35.0, new String[]{"Turista", "Ejecutivo"}, null);
             System.out.println("✅ Rutas de vuelo creadas");
 
             // ===== 6. CONFIRMAR RUTAS (para que estén activas) =====
