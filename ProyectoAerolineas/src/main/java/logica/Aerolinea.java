@@ -1,9 +1,24 @@
 package logica;
 
+//import DataTypes.DtRutaVuelo;
+//import jakarta.persistence.*;
+//import java.time.LocalDate;
+//import java.util.*;
+
 import DataTypes.DtRutaVuelo;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapKey;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  * Representa una aerolínea registrada en el sistema.

@@ -1,6 +1,12 @@
 package logica;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.JoinColumn;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

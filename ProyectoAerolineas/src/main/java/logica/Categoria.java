@@ -1,6 +1,9 @@
 package logica;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 /**
  * Representa una categoría utilizada para clasificar rutas o paquetes.

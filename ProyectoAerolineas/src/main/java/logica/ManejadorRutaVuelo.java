@@ -4,7 +4,11 @@ import DataTypes.DtVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Administra las rutas de vuelo en memoria y su persistencia.
@@ -13,7 +17,7 @@ import java.util.*;
 public final class ManejadorRutaVuelo {
 
     private Map<String, RutaVuelo> rutasVuelo;
-    public static ManejadorRutaVuelo instancia = null;
+    private static ManejadorRutaVuelo instancia = null;
 
     private ManejadorRutaVuelo() {
         rutasVuelo = new HashMap<>();

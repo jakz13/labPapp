@@ -1,7 +1,18 @@
 package logica;
 
-import jakarta.persistence.*;
+//import jakarta.persistence.*;
 import java.time.LocalDate;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Column;
+
+
 
 /**
  * Representa la compra de un paquete realizada por un cliente.
@@ -31,7 +42,7 @@ public class CompraPaqLogica {
 
     private double costo;
 
-    public CompraPaqLogica() {}
+    public CompraPaqLogica() { }
 
     /**
      * Crea una compra de paquete con validez y costo.

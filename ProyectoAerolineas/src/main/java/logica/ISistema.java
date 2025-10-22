@@ -1,6 +1,14 @@
 package logica;
 
-import DataTypes.*;
+import DataTypes.DtCliente;
+import DataTypes.DtAerolinea;
+import DataTypes.DtCiudad;
+import DataTypes.DtRutaVuelo;
+import DataTypes.DtVuelo;
+import DataTypes.DtPaquete;
+import DataTypes.DtCategoria;
+import DataTypes.DtItemPaquete;
+import DataTypes.DtReserva;
 import java.time.LocalDate;
 import java.util.List;
 

@@ -5,7 +5,10 @@ import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Gestiona en memoria y en BD las aerolíneas del sistema.
