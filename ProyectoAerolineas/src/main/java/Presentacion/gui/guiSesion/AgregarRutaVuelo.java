@@ -3,9 +3,9 @@ package Presentacion.gui.guiSesion;
 import DataTypes.DtAerolinea;
 import DataTypes.DtRutaVuelo;
 import DataTypes.DtPaquete;
-import Logica.Fabrica;
-import Logica.ISistema;
-import Logica.TipoAsiento;
+import logica.Fabrica;
+import logica.ISistema;
+import logica.TipoAsiento;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,10 +4,10 @@ import DataTypes.DtAerolinea;
 import DataTypes.DtCliente;
 import DataTypes.DtRutaVuelo;
 import DataTypes.DtVuelo;
-import Logica.Fabrica;
-import Logica.ISistema;
-import Logica.Pasajero;
-import Logica.TipoAsiento;
+import logica.Fabrica;
+import logica.ISistema;
+import logica.Pasajero;
+import logica.TipoAsiento;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

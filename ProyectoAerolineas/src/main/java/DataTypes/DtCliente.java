@@ -1,7 +1,6 @@
 package DataTypes;
 
-import Logica.Cliente;
-import Logica.TipoDoc;
+import logica.TipoDoc;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,18 +18,6 @@ public class DtCliente extends DtUsuario {
     public DtCliente() {
     }
 
-   /* public DtCliente(String nickname, String nombre, String email,
-                     String apellido, LocalDate fechaNacimiento,
-                     String nacionalidad, TipoDoc tipoDocumento,
-                     String numeroDocumento) {
-        super(nickname, nombre, email, );
-        this.apellido = apellido;
-        this.fechaNacimiento = fechaNacimiento;
-        this.nacionalidad = nacionalidad;
-        this.tipoDocumento = tipoDocumento;
-        this.numeroDocumento = numeroDocumento;
-    }
-*/
     public DtCliente(String nickname, String nombre, String email, String imagenUrl,
                      String apellido, LocalDate fechaNacimiento,
                      String nacionalidad, TipoDoc tipoDocumento,
@@ -44,18 +31,7 @@ public class DtCliente extends DtUsuario {
         this.reservas = reservas;
         this.paquetesComprados = paquetesComprados;
     }
-/*
-    public DtCliente(Cliente cliente) {
-        super(cliente.getNickname(), cliente.getNombre(), cliente.getEmail(), cliente.getImagenUrl(), cliente.getFechaAlta());
-        this.apellido = cliente.getApellido();
-        this.fechaNacimiento = cliente.getFechaNacimiento();
-        this.nacionalidad = cliente.getNacionalidad();
-        this.tipoDocumento = cliente.getTipoDocumento();
-        this.numeroDocumento = cliente.getNumeroDocumento();
-        this.reservas = cliente.getDtReservas();
-        this.paquetesComprados = cliente.getDtPaquetesComprados();
-    }
-*/
+
     // --- Getters y Setters ---
     public String getApellido() {
         return apellido;

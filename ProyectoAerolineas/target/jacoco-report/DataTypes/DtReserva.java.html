@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DtReserva.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">DataTypes</a> &gt; <span class="el_source">DtReserva.java</span></div><h1>DtReserva.java</h1><pre class="source lang-java linenums">package DataTypes;
 
-import Logica.TipoAsiento;
+import logica.TipoAsiento;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,7 +30,7 @@ public class DtReserva {
 <span class="fc" id="L30">    }</span>
 
     // Constructor alternativo que acepta la entidad Reserva
-<span class="nc" id="L33">    public DtReserva(Logica.Reserva reserva) {</span>
+<span class="nc" id="L33">    public DtReserva(logica.Reserva reserva) {</span>
 <span class="nc" id="L34">        this.id = reserva.getId();</span>
 <span class="nc" id="L35">        this.fecha = reserva.getFecha();</span>
 <span class="nc" id="L36">        this.costo = reserva.getCosto();</span>
@@ -42,14 +42,14 @@ public class DtReserva {
 <span class="nc" id="L42">    }</span>
 
     // ===== Getters =====
-<span class="nc" id="L45">    public Long getId() { return id; }  // Cambiado a Long</span>
+<span class="fc" id="L45">    public Long getId() { return id; }  // Cambiado a Long</span>
 <span class="nc" id="L46">    public LocalDate getFecha() { return fecha; }</span>
-<span class="nc" id="L47">    public double getCosto() { return costo; }</span>
-<span class="nc" id="L48">    public TipoAsiento getTipoAsiento() { return tipoAsiento; }</span>
-<span class="nc" id="L49">    public int getCantidadPasajes() { return cantidadPasajes; }</span>
+<span class="fc" id="L47">    public double getCosto() { return costo; }</span>
+<span class="fc" id="L48">    public TipoAsiento getTipoAsiento() { return tipoAsiento; }</span>
+<span class="fc" id="L49">    public int getCantidadPasajes() { return cantidadPasajes; }</span>
 <span class="nc" id="L50">    public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }</span>
 <span class="nc" id="L51">    public List&lt;DtPasajero&gt; getPasajeros() { return pasajeros; }</span>
-<span class="nc" id="L52">    public String getVuelo() { return vuelo; }</span>
+<span class="fc" id="L52">    public String getVuelo() { return vuelo; }</span>
 
     @Override
     public String toString() {

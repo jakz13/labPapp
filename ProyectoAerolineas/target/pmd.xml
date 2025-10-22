@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 https://pmd.github.io/schema/report_2_0_0.xsd" version="7.17.0" timestamp="2025-10-21T23:21:45.518">
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\IntentoDiseño.java">
+<violation beginline="19" endline="19" begincolumn="20" endcolumn="33" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui" class="IntentoDiseño" variable="PanelUsuarios" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'PanelUsuarios'.
+</violation>
+<violation beginline="405" endline="405" begincolumn="18" endcolumn="36" rule="UnusedPrivateMethod" ruleset="Best Practices" package="Presentacion.gui" class="IntentoDiseño" method="createUIComponents" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'createUIComponents()'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\Main.java">
+<violation beginline="37" endline="37" begincolumn="9" endcolumn="35" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" package="Presentacion.gui" class="Main" method="main" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary qualifier 'javax.swing': 'SwingUtilities' is already in scope because it is imported in this file
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\AltaAereolinea.java">
+<violation beginline="148" endline="148" begincolumn="18" endcolumn="36" rule="UnusedPrivateMethod" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaAereolinea" method="createUIComponents" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'createUIComponents()'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\AltaCiudad.java">
+<violation beginline="16" endline="16" begincolumn="20" endcolumn="26" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaCiudad" variable="Ciudad" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'Ciudad'.
+</violation>
+<violation beginline="17" endline="17" begincolumn="20" endcolumn="24" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaCiudad" variable="Pais" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'Pais'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\AltaPaquete.java">
+<violation beginline="13" endline="13" begincolumn="24" endcolumn="34" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaPaquete" variable="campoCosto" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'campoCosto'.
+</violation>
+<violation beginline="18" endline="18" begincolumn="20" endcolumn="26" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaPaquete" variable="Nombre" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'Nombre'.
+</violation>
+<violation beginline="19" endline="19" begincolumn="20" endcolumn="31" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaPaquete" variable="Descripcion" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'Descripcion'.
+</violation>
+<violation beginline="20" endline="20" begincolumn="20" endcolumn="29" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaPaquete" variable="Descuento" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'Descuento'.
+</violation>
+<violation beginline="21" endline="21" begincolumn="20" endcolumn="27" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="AltaPaquete" variable="Validez" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'Validez'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\ConsultaRutaVuelo.java">
+<violation beginline="13" endline="13" begincolumn="20" endcolumn="26" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="ConsultaRutaVuelo" variable="panel1" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'panel1'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\ConsultaVuelo.java">
+<violation beginline="22" endline="22" begincolumn="18" endcolumn="25" rule="UnusedLocalVariable" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="ConsultaVuelo" method="ConsultaVuelo" variable="sistema" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'sistema'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\EligeUsuario.java">
+<violation beginline="18" endline="18" begincolumn="21" endcolumn="30" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="EligeUsuario" variable="esCliente" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'esCliente'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\InicioSesion.java">
+<violation beginline="17" endline="17" begincolumn="21" endcolumn="36" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="InicioSesion" variable="ALTAVUELOButton" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'ALTAVUELOButton'.
+</violation>
+<violation beginline="18" endline="18" begincolumn="21" endcolumn="37" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="InicioSesion" variable="ALTACIUDADButton" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'ALTACIUDADButton'.
+</violation>
+<violation beginline="43" endline="43" begincolumn="25" endcolumn="39" rule="UselessOverridingMethod" ruleset="Design" package="Presentacion.gui.guiSesion" method="componentShown" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_design.html#uselessoverridingmethod" priority="3">
+Overriding method merely calls super
+</violation>
+<violation beginline="265" endline="265" begincolumn="18" endcolumn="36" rule="UnusedPrivateMethod" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="InicioSesion" method="createUIComponents" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'createUIComponents()'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\ModificarDatosAereolinea.java">
+<violation beginline="21" endline="21" begincolumn="26" endcolumn="34" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="ModificarDatosAereolinea" variable="nickname" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'nickname'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\ModificarDatosCliente.java">
+<violation beginline="30" endline="30" begincolumn="26" endcolumn="34" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="ModificarDatosCliente" variable="nickname" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'nickname'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\NuevaRutaVuelo.java">
+<violation beginline="26" endline="26" begincolumn="25" endcolumn="35" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="NuevaRutaVuelo" variable="scrollPane" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'scrollPane'.
+</violation>
+<violation beginline="209" endline="209" begincolumn="18" endcolumn="36" rule="UnusedPrivateMethod" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="NuevaRutaVuelo" method="createUIComponents" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatemethod" priority="3">
+Avoid unused private methods such as 'createUIComponents()'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\ReservaVuelo.java">
+<violation beginline="56" endline="56" begincolumn="20" endcolumn="26" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="ReservaVuelo" variable="panel1" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'panel1'.
+</violation>
+<violation beginline="57" endline="57" begincolumn="25" endcolumn="40" rule="UnusedPrivateField" ruleset="Best Practices" package="Presentacion.gui.guiSesion" class="ReservaVuelo" variable="scrollPasajeros" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'scrollPasajeros'.
+</violation>
+</file>
+<file name="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\src\main\java\logica\ManejadorRutaVuelo.java">
+<violation beginline="84" endline="86" begincolumn="16" endcolumn="10" rule="EmptyControlStatement" ruleset="Code Style" package="logica" class="ManejadorRutaVuelo" method="agregarVueloARuta" externalInfoUrl="https://docs.pmd-code.org/pmd-doc-7.17.0/pmd_rules_java_codestyle.html#emptycontrolstatement" priority="3">
+Empty else statement
+</violation>
+</file>
+</pmd>

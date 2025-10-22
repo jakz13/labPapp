@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorCliente.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ManejadorCliente.java</span></div><h1>ManejadorCliente.java</h1><pre class="source lang-java linenums">package Logica;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorCliente.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">logica</a> &gt; <span class="el_source">ManejadorCliente.java</span></div><h1>ManejadorCliente.java</h1><pre class="source lang-java linenums">package logica;
 
 import DataTypes.DtCliente;
 import jakarta.persistence.EntityManager;
@@ -8,211 +8,266 @@ import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.*;
 
-public class ManejadorCliente {
+/**
+ * Manejador singleton de clientes. Mantiene clientes en memoria y coordina
+ * operaciones de persistencia y consulta.
+ */
+public final class ManejadorCliente {
 
+    /** Mapa de clientes en memoria indexado por nickname. */
     private final Map&lt;String, Cliente&gt; clientes;
-<span class="fc" id="L14">    private static volatile ManejadorCliente instancia = null;</span>
+<span class="fc" id="L19">    private static volatile ManejadorCliente instancia = null;</span>
 
-<span class="nc" id="L16">    private ManejadorCliente() {</span>
-<span class="nc" id="L17">        clientes = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L18">    }</span>
+<span class="fc" id="L21">    private ManejadorCliente() {</span>
+<span class="fc" id="L22">        clientes = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L23">    }</span>
 
+    /**
+     * Obtiene la instancia singleton del manejador de clientes.
+     * @return instancia única de ManejadorCliente
+     */
     public static ManejadorCliente getInstance() {
-<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if (instancia == null) {</span>
-<span class="nc" id="L22">            synchronized (ManejadorCliente.class) {</span>
-<span class="nc bnc" id="L23" title="All 2 branches missed.">                if (instancia == null) {</span>
-<span class="nc" id="L24">                    instancia = new ManejadorCliente();</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L31">            synchronized (ManejadorCliente.class) {</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">                if (instancia == null) {</span>
+<span class="fc" id="L33">                    instancia = new ManejadorCliente();</span>
                 }
-<span class="nc" id="L26">            }</span>
+<span class="fc" id="L35">            }</span>
         }
-<span class="fc" id="L28">        return instancia;</span>
+<span class="fc" id="L37">        return instancia;</span>
     }
 
     // =================== CRUD BD ===================
-    public void cargarClientesDesdeBD(EntityManager em) {
-<span class="nc" id="L33">        TypedQuery&lt;Cliente&gt; query = em.createQuery(&quot;SELECT c FROM Cliente c&quot;, Cliente.class);</span>
-<span class="nc" id="L34">        List&lt;Cliente&gt; clientesPersistidos = query.getResultList();</span>
-<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (Cliente c : clientesPersistidos) {</span>
-<span class="nc" id="L36">            clientes.put(c.getNickname(), c);</span>
-<span class="nc" id="L37">        }</span>
-<span class="nc" id="L38">    }</span>
+    /**
+     * Carga todos los clientes desde la base de datos al mapa en memoria.
+     * @param entManager EntityManager usado para la consulta
+     */
+    public void cargarClientesDesdeBD(EntityManager entManager) {
+<span class="nc" id="L46">        TypedQuery&lt;Cliente&gt; query = entManager.createQuery(&quot;SELECT c FROM Cliente c&quot;, Cliente.class);</span>
+<span class="nc" id="L47">        List&lt;Cliente&gt; clientesPersistidos = query.getResultList();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (Cliente c : clientesPersistidos) {</span>
+<span class="nc" id="L49">            clientes.put(c.getNickname(), c);</span>
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">    }</span>
 
-    public void agregarCliente(Cliente c, EntityManager em) {
-<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (c == null) {</span>
-<span class="nc" id="L42">            throw new IllegalArgumentException(&quot;El cliente no puede ser null&quot;);</span>
+    /**
+     * Agrega un cliente nuevo validando unicidad y persistiendo en BD.
+     * @param cliente objeto Cliente a agregar
+     * @param entManager EntityManager utilizado para persistencia
+     */
+    public void agregarCliente(Cliente cliente, EntityManager entManager) {
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (cliente == null) {</span>
+<span class="nc" id="L60">            throw new IllegalArgumentException(&quot;El cliente no puede ser null&quot;);</span>
         }
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (this.obtenerCliente(c.getNickname()) == null &amp;&amp;</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">                this.obtenerClientePorDocumento(c.getNumeroDocumento()) == null &amp;&amp;</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">                this.obtenerClientePorEmail(c.getEmail()) == null) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (this.obtenerCliente(cliente.getNickname()) == null &amp;&amp;</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                this.obtenerClientePorDocumento(cliente.getNumeroDocumento()) == null &amp;&amp;</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">                this.obtenerClientePorEmail(cliente.getEmail()) == null) {</span>
 
-<span class="nc" id="L48">            EntityTransaction tx = em.getTransaction();</span>
+<span class="fc" id="L66">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="nc" id="L50">                tx.begin();</span>
-<span class="nc" id="L51">                em.persist(c);</span>
-<span class="nc" id="L52">                clientes.put(c.getNickname(), c);</span>
-<span class="nc" id="L53">                tx.commit();</span>
-<span class="nc" id="L54">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L55" title="All 2 branches missed.">                if (tx.isActive()) {</span>
-<span class="nc" id="L56">                    tx.rollback();</span>
+<span class="fc" id="L68">                entTransaction.begin();</span>
+<span class="fc" id="L69">                entManager.persist(cliente);</span>
+<span class="fc" id="L70">                clientes.put(cliente.getNickname(), cliente);</span>
+<span class="fc" id="L71">                entTransaction.commit();</span>
+<span class="nc" id="L72">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                if (entTransaction.isActive()) {</span>
+<span class="nc" id="L74">                    entTransaction.rollback();</span>
                 }
-<span class="nc" id="L58">                clientes.remove(c.getNickname());</span>
-<span class="nc" id="L59">                throw new RuntimeException(&quot;Error al persistir el cliente: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L60">            }</span>
+<span class="nc" id="L76">                clientes.remove(cliente.getNickname());</span>
+<span class="nc" id="L77">                throw new IllegalStateException(&quot;Error al persistir el cliente: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L78">            }</span>
 
-<span class="nc" id="L62">        } else {</span>
-<span class="nc" id="L63">            throw new IllegalArgumentException(&quot;Ya existe un cliente con el mismo nickname, documento o email.&quot;);</span>
+<span class="fc" id="L80">        } else {</span>
+<span class="fc" id="L81">            throw new IllegalArgumentException(&quot;Ya existe un cliente con el mismo nickname, documento o email.&quot;);</span>
         }
-<span class="nc" id="L65">    }</span>
+<span class="fc" id="L83">    }</span>
 
-    public void modificarDatosCliente(DtCliente clienteTemporal, EntityManager em) {
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (clienteTemporal == null) {</span>
-<span class="nc" id="L69">            throw new IllegalArgumentException(&quot;Los datos del cliente no pueden ser null&quot;);</span>
+    /**
+     * Modifica datos parciales de un cliente y persiste los cambios.
+     * @param clienteTemporal DTO con los datos a modificar
+     * @param entManager EntityManager para la operación
+     */
+    public void modificarDatosCliente(DtCliente clienteTemporal, EntityManager entManager) {
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        if (clienteTemporal == null) {</span>
+<span class="nc" id="L92">            throw new IllegalArgumentException(&quot;Los datos del cliente no pueden ser null&quot;);</span>
         }
-<span class="nc" id="L71">        Cliente clienteOriginal = obtenerClienteReal(clienteTemporal.getNickname());</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (clienteOriginal == null) throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+<span class="fc" id="L94">        Cliente clienteOriginal = obtenerClienteReal(clienteTemporal.getNickname());</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (clienteOriginal == null) throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
 
-<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (clienteTemporal.getNombre() != null) clienteOriginal.setNombre(clienteTemporal.getNombre());</span>
-<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (clienteTemporal.getApellido() != null) clienteOriginal.setApellido(clienteTemporal.getApellido());</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (clienteTemporal.getNacionalidad() != null) clienteOriginal.setNacionalidad(clienteTemporal.getNacionalidad());</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (clienteTemporal.getTipoDocumento() != null) clienteOriginal.setTipoDocumento(clienteTemporal.getTipoDocumento());</span>
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (clienteTemporal.getNumeroDocumento() != null) clienteOriginal.setNumeroDocumento(clienteTemporal.getNumeroDocumento());</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">        if (clienteTemporal.getFechaNacimiento() != null) clienteOriginal.setFechaNacimiento(clienteTemporal.getFechaNacimiento());</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        if (clienteTemporal.getNombre() != null) clienteOriginal.setNombre(clienteTemporal.getNombre());</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (clienteTemporal.getApellido() != null) clienteOriginal.setApellido(clienteTemporal.getApellido());</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">        if (clienteTemporal.getNacionalidad() != null) clienteOriginal.setNacionalidad(clienteTemporal.getNacionalidad());</span>
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">        if (clienteTemporal.getTipoDocumento() != null) clienteOriginal.setTipoDocumento(clienteTemporal.getTipoDocumento());</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (clienteTemporal.getNumeroDocumento() != null) clienteOriginal.setNumeroDocumento(clienteTemporal.getNumeroDocumento());</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if (clienteTemporal.getFechaNacimiento() != null) clienteOriginal.setFechaNacimiento(clienteTemporal.getFechaNacimiento());</span>
 
-<span class="nc" id="L81">        EntityTransaction tx = em.getTransaction();</span>
+<span class="fc" id="L104">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="nc" id="L83">            tx.begin();</span>
-<span class="nc" id="L84">            em.merge(clienteOriginal);</span>
-<span class="nc" id="L85">            tx.commit();</span>
-<span class="nc" id="L86">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L87" title="All 2 branches missed.">            if (tx.isActive()) {</span>
-<span class="nc" id="L88">                tx.rollback();</span>
+<span class="fc" id="L106">            entTransaction.begin();</span>
+<span class="fc" id="L107">            entManager.merge(clienteOriginal);</span>
+<span class="fc" id="L108">            entTransaction.commit();</span>
+<span class="nc" id="L109">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if (entTransaction.isActive()) {</span>
+<span class="nc" id="L111">                entTransaction.rollback();</span>
             }
-<span class="nc" id="L90">            throw new RuntimeException(&quot;Error al modificar el cliente: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L91">        }</span>
-<span class="nc" id="L92">    }</span>
+<span class="nc" id="L113">            throw new IllegalStateException(&quot;Error al modificar el cliente: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L114">        }</span>
+<span class="fc" id="L115">    }</span>
 
     // =================== Consultas en memoria ===================
+    /**
+     * Obtiene el DTO de un cliente por nickname.
+     * @param nickname identificador del cliente
+     * @return DtCliente o null si no existe
+     */
     public DtCliente obtenerCliente(String nickname) {
-<span class="nc" id="L96">        Cliente cliente = clientes.get(nickname);</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        return (cliente != null) ? cliente.getDtCliente() : null;</span>
+<span class="fc" id="L124">        Cliente cliente = clientes.get(nickname);</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        return (cliente != null) ? cliente.getDtCliente() : null;</span>
     }
 
+    /**
+     * Obtiene el objeto Cliente real (entidad) por nickname.
+     */
     public Cliente obtenerClienteReal(String nickname) {
-<span class="nc" id="L101">        Cliente cliente = clientes.get(nickname);</span>
-<span class="nc" id="L102">        return cliente;</span>
+<span class="fc" id="L132">        Cliente cliente = clientes.get(nickname);</span>
+<span class="fc" id="L133">        return cliente;</span>
     }
 
+    /**
+     * Busca un cliente por número de documento.
+     */
     public Cliente obtenerClientePorDocumento(String numeroDocumento) {
-<span class="nc" id="L106">        return clientes.values().stream()</span>
-<span class="nc" id="L107">                .filter(c -&gt; c.getNumeroDocumento().equals(numeroDocumento))</span>
-<span class="nc" id="L108">                .findFirst().orElse(null);</span>
+<span class="fc" id="L140">        return clientes.values().stream()</span>
+<span class="fc" id="L141">                .filter(c -&gt; Objects.equals(c.getNumeroDocumento(), numeroDocumento))</span>
+<span class="fc" id="L142">                .findFirst().orElse(null);</span>
     }
 
+    /**
+     * Busca un cliente por email.
+     */
     public Cliente obtenerClientePorEmail(String email) {
-<span class="nc" id="L112">        return clientes.values().stream()</span>
-<span class="nc" id="L113">                .filter(c -&gt; c.getEmail().equals(email))</span>
-<span class="nc" id="L114">                .findFirst().orElse(null);</span>
+<span class="fc" id="L149">        return clientes.values().stream()</span>
+<span class="fc" id="L150">                .filter(c -&gt; Objects.equals(c.getEmail(), email))</span>
+<span class="fc" id="L151">                .findFirst().orElse(null);</span>
     }
 
-    // Método para verificar login
+    // M todo para verificar login
+    /**
+     * Verifica las credenciales de un cliente por email y password.
+     */
     public boolean verificarLogin(String email, String password) {
-<span class="nc" id="L119">        Cliente cliente = obtenerClientePorEmail(email);</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (cliente != null) {</span>
-<span class="nc" id="L121">            return cliente.verificarPassword(password);</span>
+<span class="fc" id="L159">        Cliente cliente = obtenerClientePorEmail(email);</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        if (cliente != null) {</span>
+<span class="fc" id="L161">            return cliente.verificarPassword(password);</span>
         }
-<span class="nc" id="L123">        return false;</span>
+<span class="fc" id="L163">        return false;</span>
     }
 
-    public void actualizarPassword(String email, String nuevaPassword, EntityManager em) {
-<span class="nc" id="L127">        Cliente cliente = obtenerClientePorEmail(email);</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (cliente != null) {</span>
-<span class="nc" id="L129">            cliente.setPassword(nuevaPassword);</span>
-<span class="nc" id="L130">            EntityTransaction tx = em.getTransaction();</span>
+    /**
+     * Actualiza la contrase1a de un cliente identificado por email.
+     */
+    public void actualizarPassword(String email, String nuevaPassword, EntityManager entManager) {
+<span class="fc" id="L170">        Cliente cliente = obtenerClientePorEmail(email);</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        if (cliente != null) {</span>
+<span class="fc" id="L172">            cliente.setPassword(nuevaPassword);</span>
+<span class="fc" id="L173">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="nc" id="L132">                tx.begin();</span>
-<span class="nc" id="L133">                em.merge(cliente);</span>
-<span class="nc" id="L134">                tx.commit();</span>
-<span class="nc" id="L135">                System.out.println(&quot;Contraseña actualizada para cliente: &quot; + email);</span>
-<span class="nc" id="L136">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">                if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L138">                throw new RuntimeException(&quot;Error actualizando contraseña: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L139">            }</span>
-<span class="nc" id="L140">        } else {</span>
-<span class="nc" id="L141">            throw new IllegalArgumentException(&quot;Cliente no encontrado: &quot; + email);</span>
+<span class="fc" id="L175">                entTransaction.begin();</span>
+<span class="fc" id="L176">                entManager.merge(cliente);</span>
+<span class="fc" id="L177">                entTransaction.commit();</span>
+                //System.out.println(&quot;Contraseña actualizada para cliente: &quot; + email);
+<span class="nc" id="L179">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L181">                throw new IllegalStateException(&quot;Error actualizando contraseña: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L182">            }</span>
+<span class="fc" id="L183">        } else {</span>
+<span class="nc" id="L184">            throw new IllegalArgumentException(&quot;Cliente no encontrado: &quot; + email);</span>
         }
-<span class="nc" id="L143">    }</span>
+<span class="fc" id="L186">    }</span>
 
+    /**
+     * Modifica todos los datos del cliente y persiste los cambios.
+     */
     public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido,
                                               String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
-                                              String numeroDocumento, String password, String imagenUrl, EntityManager em) {
-<span class="nc" id="L148">        Cliente cliente = obtenerClienteReal(nickname);</span>
-<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (cliente == null) {</span>
-<span class="nc" id="L150">            throw new IllegalArgumentException(&quot;Cliente no encontrado: &quot; + nickname);</span>
+                                              String numeroDocumento, String password, String imagenUrl, EntityManager entManager) {
+<span class="fc" id="L194">        Cliente cliente = obtenerClienteReal(nickname);</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        if (cliente == null) {</span>
+<span class="nc" id="L196">            throw new IllegalArgumentException(&quot;Cliente no encontrado: &quot; + nickname);</span>
         }
 
-<span class="nc bnc" id="L153" title="All 2 branches missed.">        if (nombre != null) cliente.setNombre(nombre.trim());</span>
-<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (apellido != null) cliente.setApellido(apellido.trim());</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">        if (nacionalidad != null) cliente.setNacionalidad(nacionalidad.trim());</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (fechaNacimiento != null) cliente.setFechaNacimiento(fechaNacimiento);</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">        if (tipoDocumento != null) cliente.setTipoDocumento(tipoDocumento);</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">        if (numeroDocumento != null) cliente.setNumeroDocumento(numeroDocumento.trim());</span>
-<span class="nc bnc" id="L159" title="All 4 branches missed.">        if (password != null &amp;&amp; !password.trim().isEmpty()) cliente.setPassword(password.trim());</span>
-<span class="nc bnc" id="L160" title="All 4 branches missed.">        if (imagenUrl != null) cliente.setImagenUrl(imagenUrl.trim().isEmpty() ? null : imagenUrl.trim());</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if (nombre != null) cliente.setNombre(nombre.trim());</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">        if (apellido != null) cliente.setApellido(apellido.trim());</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if (nacionalidad != null) cliente.setNacionalidad(nacionalidad.trim());</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        if (fechaNacimiento != null) cliente.setFechaNacimiento(fechaNacimiento);</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">        if (tipoDocumento != null) cliente.setTipoDocumento(tipoDocumento);</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        if (numeroDocumento != null) cliente.setNumeroDocumento(numeroDocumento.trim());</span>
+<span class="pc bpc" id="L205" title="1 of 4 branches missed.">        if (password != null &amp;&amp; !password.trim().isEmpty()) cliente.setPassword(password.trim());</span>
+<span class="pc bpc" id="L206" title="1 of 4 branches missed.">        if (imagenUrl != null) cliente.setImagenUrl(imagenUrl.trim().isEmpty() ? null : imagenUrl.trim());</span>
 
-<span class="nc" id="L162">        EntityTransaction tx = em.getTransaction();</span>
+<span class="fc" id="L208">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="nc" id="L164">            tx.begin();</span>
-<span class="nc" id="L165">            em.merge(cliente);</span>
-<span class="nc" id="L166">            tx.commit();</span>
-<span class="nc" id="L167">            System.out.println(&quot;Todos los datos actualizados para cliente: &quot; + nickname);</span>
-<span class="nc" id="L168">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L169" title="All 2 branches missed.">            if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L170">            throw new RuntimeException(&quot;Error modificando datos completos del cliente: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L171">        }</span>
-<span class="nc" id="L172">    }</span>
+<span class="fc" id="L210">            entTransaction.begin();</span>
+<span class="fc" id="L211">            entManager.merge(cliente);</span>
+<span class="fc" id="L212">            entTransaction.commit();</span>
+            //System.out.println(&quot;Todos los datos actualizados para cliente: &quot; + nickname);
+<span class="nc" id="L214">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L216">            throw new IllegalStateException(&quot;Error modificando datos completos del cliente: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L217">        }</span>
+<span class="fc" id="L218">    }</span>
 
+    /**
+     * Devuelve la lista de clientes en forma de DTO.
+     */
     public List&lt;DtCliente&gt; getClientes() {
-<span class="nc" id="L175">        List&lt;DtCliente&gt; lista = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L176" title="All 2 branches missed.">        for (Cliente c : clientes.values()) {</span>
-<span class="nc" id="L177">            lista.add(c.getDtCliente());</span>
-<span class="nc" id="L178">        }</span>
-<span class="nc" id="L179">        return lista;</span>
+<span class="nc" id="L224">        List&lt;DtCliente&gt; lista = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        for (Cliente c : clientes.values()) {</span>
+<span class="nc" id="L226">            lista.add(c.getDtCliente());</span>
+<span class="nc" id="L227">        }</span>
+<span class="nc" id="L228">        return lista;</span>
     }
 
-    public void actualizarImagenCliente(String nickname, String imagenUrl, EntityManager em) {
-<span class="nc" id="L183">        Cliente cliente = clientes.get(nickname);</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">        if (cliente != null) {</span>
-<span class="nc" id="L185">            cliente.setImagenUrl(imagenUrl);</span>
-<span class="nc" id="L186">            EntityTransaction tx = em.getTransaction();</span>
+    /**
+     * Actualiza la URL de la imagen de un cliente y persiste el cambio.
+     */
+    public void actualizarImagenCliente(String nickname, String imagenUrl, EntityManager entManager) {
+<span class="fc" id="L235">        Cliente cliente = clientes.get(nickname);</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        if (cliente != null) {</span>
+<span class="fc" id="L237">            cliente.setImagenUrl(imagenUrl);</span>
+<span class="fc" id="L238">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="nc" id="L188">                tx.begin();</span>
-<span class="nc" id="L189">                em.merge(cliente);</span>
-<span class="nc" id="L190">                tx.commit();</span>
-<span class="nc" id="L191">                System.out.println(&quot;Imagen actualizada para cliente: &quot; + nickname);</span>
-<span class="nc" id="L192">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L193" title="All 2 branches missed.">                if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L194">                throw new RuntimeException(&quot;Error actualizando imagen del cliente: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L195">            }</span>
-<span class="nc" id="L196">        } else {</span>
-<span class="nc" id="L197">            throw new IllegalArgumentException(&quot;Cliente no encontrado: &quot; + nickname);</span>
+<span class="fc" id="L240">                entTransaction.begin();</span>
+<span class="fc" id="L241">                entManager.merge(cliente);</span>
+<span class="fc" id="L242">                entTransaction.commit();</span>
+                //System.out.println(&quot;Imagen actualizada para cliente: &quot; + nickname);
+<span class="nc" id="L244">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L246">                throw new IllegalStateException(&quot;Error actualizando imagen del cliente: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L247">            }</span>
+<span class="fc" id="L248">        } else {</span>
+<span class="fc" id="L249">            throw new IllegalArgumentException(&quot;Cliente no encontrado: &quot; + nickname);</span>
         }
-<span class="nc" id="L199">    }</span>
+<span class="fc" id="L251">    }</span>
 
-    public void agregarReserva(Reserva reserva, String nicknameCliente, Long idReserva, EntityManager em) {
-<span class="nc" id="L202">        DtCliente cliente = obtenerCliente(nicknameCliente);</span>
-<span class="nc" id="L203">        Cliente clienteObj = clientes.get(nicknameCliente);</span>
-<span class="nc bnc" id="L204" title="All 4 branches missed.">        if (cliente == null || clienteObj == null) {</span>
-<span class="nc" id="L205">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+    /**
+     * Agrega una reserva a la entidad Cliente y la persiste.
+     */
+    public void agregarReserva(Reserva reserva, String nicknameCliente, Long idReserva, EntityManager entManager) {
+<span class="fc" id="L257">        DtCliente cliente = obtenerCliente(nicknameCliente);</span>
+<span class="fc" id="L258">        Cliente clienteObj = clientes.get(nicknameCliente);</span>
+<span class="pc bpc" id="L259" title="1 of 4 branches missed.">        if (cliente == null || clienteObj == null) {</span>
+<span class="fc" id="L260">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
         }
 
         try {
-<span class="nc" id="L209">            clienteObj.agregarReserva(reserva);</span>
+<span class="fc" id="L264">            clienteObj.agregarReserva(reserva);</span>
 
-<span class="nc" id="L211">            em.merge(clienteObj);</span>
+<span class="fc" id="L266">            entManager.merge(clienteObj);</span>
 
-<span class="nc" id="L213">        } catch (Exception e) {</span>
-<span class="nc" id="L214">            throw new RuntimeException(&quot;Error al agregar la reserva: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L215">        }</span>
-<span class="nc" id="L216">    }</span>
+<span class="nc" id="L268">        } catch (Exception e) {</span>
+<span class="nc" id="L269">            throw new IllegalStateException(&quot;Error al agregar la reserva: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L270">        }</span>
+<span class="fc" id="L271">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

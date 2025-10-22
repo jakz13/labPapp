@@ -1,12 +1,11 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.Fabrica;
-import Logica.ISistema;
+import logica.Fabrica;
+import logica.ISistema;
 import DataTypes.DtAerolinea;
 import DataTypes.DtRutaVuelo;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

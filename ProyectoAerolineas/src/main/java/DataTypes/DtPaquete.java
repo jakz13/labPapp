@@ -1,6 +1,6 @@
 package DataTypes;
 
-import Logica.Paquete;
+import logica.Paquete;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ public class DtPaquete {
         this.periodoValidezDias = p.getPeriodoValidezDias();
 
         if (p.getItemPaquetes() != null) {
-            for (Logica.ItemPaquete item : p.getItemPaquetes()) {
-                Logica.RutaVuelo ruta = item.getRutaVuelo();
+            for (logica.ItemPaquete item : p.getItemPaquetes()) {
+                logica.RutaVuelo ruta = item.getRutaVuelo();
 
                 // Manejar valores nulos
                 String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Reserva.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Reserva.java</span></div><h1>Reserva.java</h1><pre class="source lang-java linenums">package Logica;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Reserva.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">logica</a> &gt; <span class="el_source">Reserva.java</span></div><h1>Reserva.java</h1><pre class="source lang-java linenums">package logica;
 
 import DataTypes.DtPasajero;
 import jakarta.persistence.*;
@@ -6,24 +6,35 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa una reserva realizada por un cliente para un vuelo, con datos de
+ * pasajeros, costo, tipo de asiento y equipaje extra.
+ */
 @Entity
 @Table(name = &quot;reservas&quot;)
 public class Reserva {
 
+    /** Identificador único de la reserva generado por la BD. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //Long para auto-incremento
+    private Long idReserva; //Long para auto-incremento
 
+    /** Fecha en que se realizó la reserva. */
     private LocalDate fecha;
+    /** Costo total de la reserva. */
     private double costo;
 
+    /** Tipo de asiento reservado (TURISTA/EJECUTIVO). */
     @Enumerated(EnumType.STRING)
     private TipoAsiento tipoAsiento;
 
+    /** Cantidad de pasajes incluidos en la reserva. */
     private int cantidadPasajes;
+    /** Unidades de equipaje extra incluidas en la reserva. */
     private int unidadesEquipajeExtra;
 
-<span class="fc" id="L26">    @ManyToMany(cascade = CascadeType.ALL)</span>
+    /** Lista de pasajeros vinculados a la reserva. */
+<span class="fc" id="L37">    @ManyToMany(cascade = CascadeType.ALL)</span>
     @JoinTable(
             name = &quot;reserva_pasajeros&quot;,
             joinColumns = @JoinColumn(name = &quot;reserva_id&quot;),
@@ -31,47 +42,62 @@ public class Reserva {
     )
     private List&lt;Pasajero&gt; pasajeros = new ArrayList&lt;&gt;();
 
+    /** Vuelo asociado a la reserva. */
     @ManyToOne
     @JoinColumn(name = &quot;vuelo_id&quot;)
     private Vuelo vuelo;
 
-<span class="fc" id="L38">    public Reserva() {} // Constructor vacío para JPA</span>
+<span class="fc" id="L50">    public Reserva() {} // Constructor vacío para JPA</span>
 
-    // Constructor modificado - sin ID
+    /**
+     * Constructor principal para crear una reserva (sin id, que generará la BD).
+     */
     public Reserva(double costo, TipoAsiento tipoAsiento, int cantidadPasajes,
-<span class="fc" id="L42">                   int unidadesEquipajeExtra, List&lt;Pasajero&gt; pasajeros, Vuelo vuelo) {</span>
-<span class="fc" id="L43">        this.fecha = LocalDate.now();</span>
-<span class="fc" id="L44">        this.costo = costo;</span>
-<span class="fc" id="L45">        this.tipoAsiento = tipoAsiento;</span>
-<span class="fc" id="L46">        this.cantidadPasajes = cantidadPasajes;</span>
-<span class="fc" id="L47">        this.unidadesEquipajeExtra = unidadesEquipajeExtra;</span>
-<span class="fc" id="L48">        this.pasajeros = pasajeros;</span>
-<span class="fc" id="L49">        this.vuelo = vuelo;</span>
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L56">                   int unidadesEquipajeExtra, List&lt;Pasajero&gt; pasajeros, Vuelo vuelo) {</span>
+<span class="fc" id="L57">        this.fecha = LocalDate.now();</span>
+<span class="fc" id="L58">        this.costo = costo;</span>
+<span class="fc" id="L59">        this.tipoAsiento = tipoAsiento;</span>
+<span class="fc" id="L60">        this.cantidadPasajes = cantidadPasajes;</span>
+<span class="fc" id="L61">        this.unidadesEquipajeExtra = unidadesEquipajeExtra;</span>
+<span class="fc" id="L62">        this.pasajeros = pasajeros;</span>
+<span class="fc" id="L63">        this.vuelo = vuelo;</span>
+<span class="fc" id="L64">    }</span>
 
     // ===== Getters y Setters =====
-<span class="fc" id="L53">    public Long getId() { return id; }</span>
-<span class="nc" id="L54">    public void setId(Long id) { this.id = id; }</span>
-<span class="fc" id="L55">    public LocalDate getFecha() { return fecha; }</span>
-<span class="fc" id="L56">    public double getCosto() { return costo; }</span>
-<span class="fc" id="L57">    public TipoAsiento getTipoAsiento() { return tipoAsiento; }</span>
-<span class="fc" id="L58">    public int getCantidadPasajes() { return cantidadPasajes; }</span>
-<span class="fc" id="L59">    public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }</span>
-<span class="nc" id="L60">    public List&lt;Pasajero&gt; getPasajeros() { return pasajeros; }</span>
-<span class="fc" id="L61">    public Vuelo getVuelo() { return vuelo; }</span>
-<span class="nc" id="L62">    public void setVuelo(Vuelo vuelo) { this.vuelo = vuelo; }</span>
+    /** Devuelve el ID de la reserva. */
+<span class="fc" id="L68">    public Long getId() { return idReserva; }</span>
+    /** Establece el ID de la reserva. */
+<span class="nc" id="L70">    public void setId(Long idReserva) { this.idReserva = idReserva; }</span>
+    /** Devuelve la fecha de la reserva. */
+<span class="fc" id="L72">    public LocalDate getFecha() { return fecha; }</span>
+    /** Devuelve el costo de la reserva. */
+<span class="fc" id="L74">    public double getCosto() { return costo; }</span>
+    /** Devuelve el tipo de asiento. */
+<span class="fc" id="L76">    public TipoAsiento getTipoAsiento() { return tipoAsiento; }</span>
+    /** Devuelve la cantidad de pasajes. */
+<span class="fc" id="L78">    public int getCantidadPasajes() { return cantidadPasajes; }</span>
+    /** Devuelve las unidades de equipaje extra. */
+<span class="fc" id="L80">    public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }</span>
+    /** Devuelve la lista de pasajeros. */
+<span class="nc" id="L82">    public List&lt;Pasajero&gt; getPasajeros() { return pasajeros; }</span>
+    /** Devuelve el vuelo asociado. */
+<span class="fc" id="L84">    public Vuelo getVuelo() { return vuelo; }</span>
+    /** Establece el vuelo asociado a la reserva. */
+<span class="nc" id="L86">    public void setVuelo(Vuelo vuelo) { this.vuelo = vuelo; }</span>
 
+    @Override
     public String toString() {
-<span class="nc" id="L65">        return &quot;Reserva #&quot; + id +</span>
-<span class="nc bnc" id="L66" title="All 2 branches missed.">                &quot; | Vuelo: &quot; + (vuelo != null ? vuelo.getNombre() : &quot;N/A&quot;);</span>
+<span class="nc" id="L90">        return &quot;Reserva #&quot; + idReserva +</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                &quot; | Vuelo: &quot; + (vuelo != null ? vuelo.getNombre() : &quot;N/A&quot;);</span>
     }
 
+    /** Devuelve la lista de pasajeros en formato DTO. */
     public List&lt;DtPasajero&gt; getDtPasajeros() {
-<span class="fc" id="L70">        List&lt;DtPasajero&gt; dtPasajeros = new ArrayList&lt;&gt;();</span>
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        for (Pasajero p : pasajeros) {</span>
-<span class="nc" id="L72">            dtPasajeros.add(new DtPasajero(p.getNombre(), p.getApellido()));</span>
-<span class="nc" id="L73">        }</span>
-<span class="fc" id="L74">        return dtPasajeros;</span>
+<span class="fc" id="L96">        List&lt;DtPasajero&gt; dtPasajeros = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        for (Pasajero p : pasajeros) {</span>
+<span class="nc" id="L98">            dtPasajeros.add(new DtPasajero(p.getNombre(), p.getApellido()));</span>
+<span class="nc" id="L99">        }</span>
+<span class="fc" id="L100">        return dtPasajeros;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorPaquete.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ManejadorPaquete.java</span></div><h1>ManejadorPaquete.java</h1><pre class="source lang-java linenums">package Logica;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorPaquete.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">logica</a> &gt; <span class="el_source">ManejadorPaquete.java</span></div><h1>ManejadorPaquete.java</h1><pre class="source lang-java linenums">package logica;
 
 import DataTypes.DtCliente;
 import DataTypes.DtItemPaquete;
@@ -10,179 +10,223 @@ import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.*;
 
-public class ManejadorPaquete {
+/**
+ * Manejador singleton responsable de la gestión en memoria y persistencia de los paquetes.
+ * Provee operaciones para cargar, agregar, modificar y consultar paquetes y sus ítems.
+ */
+public final class ManejadorPaquete {
 
+    /** Mapa en memoria de paquetes indexado por nombre. */
     private Map&lt;String, Paquete&gt; paquetes;
-<span class="fc" id="L16">    private static ManejadorPaquete instancia = null;</span>
+<span class="fc" id="L21">    private static ManejadorPaquete instancia = null;</span>
 
-<span class="fc" id="L18">    private ManejadorPaquete() {</span>
-<span class="fc" id="L19">        paquetes = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L23">    private ManejadorPaquete() {</span>
+<span class="fc" id="L24">        paquetes = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L25">    }</span>
 
+    /**
+     * Devuelve la instancia singleton del manejador de paquetes.
+     * @return instancia única de ManejadorPaquete
+     */
     public static ManejadorPaquete getInstance() {
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (instancia == null) {</span>
-<span class="fc" id="L24">            instancia = new ManejadorPaquete();</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L33">            instancia = new ManejadorPaquete();</span>
         }
-<span class="fc" id="L26">        return instancia;</span>
+<span class="fc" id="L35">        return instancia;</span>
     }
 
     // =================== CRUD BD ===================
-    public void cargarPaquetesDesdeBD(EntityManager em) {
-<span class="fc" id="L31">        TypedQuery&lt;Paquete&gt; query = em.createQuery(&quot;SELECT p FROM Paquete p&quot;, Paquete.class);</span>
-<span class="fc" id="L32">        List&lt;Paquete&gt; paquetesPersistidos = query.getResultList();</span>
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (Paquete p : paquetesPersistidos) {</span>
-<span class="fc" id="L34">            paquetes.put(p.getNombre(), p);</span>
-<span class="fc" id="L35">        }</span>
-<span class="fc" id="L36">    }</span>
+    /**
+     * Carga todos los paquetes persistidos desde la base de datos al mapa en memoria.
+     * @param entManager EntityManager usado para la consulta
+     */
+    public void cargarPaquetesDesdeBD(EntityManager entManager) {
+<span class="fc" id="L44">        TypedQuery&lt;Paquete&gt; query = entManager.createQuery(&quot;SELECT p FROM Paquete p&quot;, Paquete.class);</span>
+<span class="fc" id="L45">        List&lt;Paquete&gt; paquetesPersistidos = query.getResultList();</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for (Paquete p : paquetesPersistidos) {</span>
+<span class="fc" id="L47">            paquetes.put(p.getNombre(), p);</span>
+<span class="fc" id="L48">        }</span>
+<span class="fc" id="L49">    }</span>
 
-    public void agregarPaquete(Paquete p, EntityManager em) {
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (!paquetes.containsKey(p.getNombre())) {</span>
-<span class="fc" id="L40">            paquetes.put(p.getNombre(), p);</span>
-<span class="fc" id="L41">            EntityTransaction tx = em.getTransaction();</span>
+    /**
+     * Agrega un paquete nuevo en memoria y lo persiste en la base de datos.
+     * @param paquete objeto Paquete a agregar
+     * @param entManager EntityManager de persistencia
+     */
+    public void agregarPaquete(Paquete paquete, EntityManager entManager) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (!paquetes.containsKey(paquete.getNombre())) {</span>
+<span class="fc" id="L58">            paquetes.put(paquete.getNombre(), paquete);</span>
+<span class="fc" id="L59">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="fc" id="L43">                tx.begin();</span>
-<span class="fc" id="L44">                em.persist(p);</span>
-<span class="fc" id="L45">                tx.commit();</span>
-<span class="nc" id="L46">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L47" title="All 2 branches missed.">                if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L48">                e.printStackTrace();</span>
-<span class="fc" id="L49">            }</span>
-<span class="fc" id="L50">        } else {</span>
-<span class="fc" id="L51">            throw new IllegalArgumentException(&quot;El paquete con el nombre &quot; + p.getNombre() + &quot; ya existe.&quot;);</span>
+<span class="fc" id="L61">                entTransaction.begin();</span>
+<span class="fc" id="L62">                entManager.persist(paquete);</span>
+<span class="fc" id="L63">                entTransaction.commit();</span>
+<span class="nc" id="L64">            } catch (Exception e) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L66">                e.printStackTrace();</span>
+<span class="fc" id="L67">            }</span>
+<span class="fc" id="L68">        } else {</span>
+<span class="fc" id="L69">            throw new IllegalArgumentException(&quot;El paquete con el nombre &quot; + paquete.getNombre() + &quot; ya existe.&quot;);</span>
         }
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L71">    }</span>
 
-    public void agregarRutaAPaquete(Paquete paquete, RutaVuelo ruta, int cantidadAsientos, TipoAsiento tipoAsiento, EntityManager em) {
+    /**
+     * Agrega una ruta como ItemPaquete dentro de un paquete y persiste el cambio.
+     * Valida que no exista previamente el mismo item con el mismo tipo de asiento.
+     */
+    public void agregarRutaAPaquete(Paquete paquete, RutaVuelo ruta, int cantidadAsientos, TipoAsiento tipoAsiento, EntityManager entManager) {
         // Verificar que la ruta no esté ya en el paquete con el mismo tipo de asiento
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        for (ItemPaquete item : paquete.getItemPaquetes()) {</span>
-<span class="pc bpc" id="L58" title="2 of 4 branches missed.">            if (item.getRutaVuelo().equals(ruta) &amp;&amp; item.getTipoAsiento() == tipoAsiento) {</span>
-<span class="fc" id="L59">                throw new IllegalArgumentException(&quot;La ruta ya fue agregada previamente al paquete con ese tipo de asiento.&quot;);</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (ItemPaquete item : paquete.getItemPaquetes()) {</span>
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">            if (item.getRutaVuelo().equals(ruta) &amp;&amp; item.getTipoAsiento() == tipoAsiento) {</span>
+<span class="fc" id="L81">                throw new IllegalArgumentException(&quot;La ruta ya fue agregada previamente al paquete con ese tipo de asiento.&quot;);</span>
             }
-<span class="nc" id="L61">        }</span>
+<span class="nc" id="L83">        }</span>
 
         // Crear y agregar el nuevo item
-<span class="fc" id="L64">        ItemPaquete nuevoItem = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);</span>
-<span class="fc" id="L65">        paquete.getItemPaquetes().add(nuevoItem);</span>
+<span class="fc" id="L86">        ItemPaquete nuevoItem = new ItemPaquete(ruta, cantidadAsientos, tipoAsiento);</span>
+<span class="fc" id="L87">        paquete.getItemPaquetes().add(nuevoItem);</span>
 
         // Recalcular costo
-<span class="fc" id="L68">        double costoTotal = 0;</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">        for (ItemPaquete item : paquete.getItemPaquetes()) {</span>
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            double costoRuta = item.getTipoAsiento() == TipoAsiento.TURISTA</span>
-<span class="fc" id="L71">                    ? item.getRutaVuelo().getCostoTurista()</span>
-<span class="pc" id="L72">                    : item.getRutaVuelo().getCostoEjecutivo();</span>
-<span class="fc" id="L73">            costoTotal += costoRuta * item.getCantAsientos();</span>
-<span class="fc" id="L74">        }</span>
-<span class="fc" id="L75">        double costoConDescuento = costoTotal * (1 - paquete.getDescuentoPorc() / 100.0);</span>
-<span class="fc" id="L76">        paquete.setCosto(costoConDescuento);</span>
+<span class="fc" id="L90">        double costoTotal = 0;</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        for (ItemPaquete item : paquete.getItemPaquetes()) {</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">            double costoRuta = item.getTipoAsiento() == TipoAsiento.TURISTA</span>
+<span class="fc" id="L93">                    ? item.getRutaVuelo().getCostoTurista()</span>
+<span class="pc" id="L94">                    : item.getRutaVuelo().getCostoEjecutivo();</span>
+<span class="fc" id="L95">            costoTotal += costoRuta * item.getCantAsientos();</span>
+<span class="fc" id="L96">        }</span>
+<span class="fc" id="L97">        double costoConDescuento = costoTotal * (1 - paquete.getDescuentoPorc() / 100.0);</span>
+<span class="fc" id="L98">        paquete.setCosto(costoConDescuento);</span>
 
         // Persistir en BD
-<span class="fc" id="L79">        EntityTransaction tx = em.getTransaction();</span>
+<span class="fc" id="L101">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="fc" id="L81">            tx.begin();</span>
-<span class="fc" id="L82">            em.merge(paquete);</span>
-<span class="fc" id="L83">            tx.commit();</span>
-<span class="nc" id="L84">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L86">            throw new IllegalArgumentException(&quot;Error al guardar la ruta en el paquete: &quot; + e.getMessage());</span>
-<span class="fc" id="L87">        }</span>
-<span class="fc" id="L88">    }</span>
+<span class="fc" id="L103">            entTransaction.begin();</span>
+<span class="fc" id="L104">            entManager.merge(paquete);</span>
+<span class="fc" id="L105">            entTransaction.commit();</span>
+<span class="nc" id="L106">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L108">            throw new IllegalArgumentException(&quot;Error al guardar la ruta en el paquete: &quot; + e.getMessage());</span>
+<span class="fc" id="L109">        }</span>
+<span class="fc" id="L110">    }</span>
 
-    public void compraPaquete(Paquete p, DtCliente dtCliente, int validezDias, LocalDate fechaC, double costo, EntityManager em) {
+    /**
+     * Registra la compra de un paquete por un cliente: crea la compra, la persiste
+     * y actualiza las listas relacionadas.
+     */
+    public void compraPaquete(Paquete paquete, DtCliente dtCliente, int validezDias, LocalDate fechaC, double costo, EntityManager entManager) {
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if (paquete == null) {</span>
+<span class="nc" id="L118">            throw new IllegalArgumentException(&quot;El paquete no puede ser null&quot;);</span>
+        }
         // Obtener el objeto Cliente real, no DtCliente
-<span class="fc" id="L92">        Cliente clienteObj = ManejadorCliente.getInstance().obtenerClienteReal(dtCliente.getNickname());</span>
-<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (clienteObj == null) {</span>
-<span class="fc" id="L94">            throw new IllegalArgumentException(&quot;El cliente con nickname &quot; + dtCliente.getNickname() + &quot; no existe.&quot;);</span>
+<span class="fc" id="L121">        Cliente clienteObj = ManejadorCliente.getInstance().obtenerClienteReal(dtCliente.getNickname());</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (clienteObj == null) {</span>
+<span class="fc" id="L123">            throw new IllegalArgumentException(&quot;El cliente con nickname &quot; + dtCliente.getNickname() + &quot; no existe.&quot;);</span>
         }
 
-<span class="fc" id="L97">        CompraPaqLogica nuevaCompra = new CompraPaqLogica(clienteObj, p, fechaC, validezDias, costo);</span>
+<span class="fc" id="L126">        CompraPaqLogica nuevaCompra = new CompraPaqLogica(clienteObj, paquete, fechaC, validezDias, costo);</span>
 
-<span class="fc" id="L99">        EntityTransaction tx = em.getTransaction();</span>
+<span class="fc" id="L128">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="fc" id="L101">            tx.begin();</span>
+<span class="fc" id="L130">            entTransaction.begin();</span>
 
             // Persistir la compra
-<span class="fc" id="L104">            em.persist(nuevaCompra);</span>
+<span class="fc" id="L133">            entManager.persist(nuevaCompra);</span>
 
             // Agregar a las listas
-<span class="fc" id="L107">            p.getCompras().add(nuevaCompra);</span>
-<span class="fc" id="L108">            clienteObj.getComprasPaquetes().add(nuevaCompra);</span>
+<span class="fc" id="L136">            paquete.getCompras().add(nuevaCompra);</span>
+<span class="fc" id="L137">            clienteObj.getComprasPaquetes().add(nuevaCompra);</span>
 
-<span class="fc" id="L110">            em.merge(p);</span>
-<span class="fc" id="L111">            em.merge(clienteObj);</span>
-<span class="fc" id="L112">            tx.commit();</span>
-<span class="nc" id="L113">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">            if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L115">            throw new RuntimeException(&quot;Error al comprar el paquete: &quot; + e.getMessage(), e);</span>
-<span class="fc" id="L116">        }</span>
-<span class="fc" id="L117">    }</span>
+<span class="fc" id="L139">            entManager.merge(paquete);</span>
+<span class="fc" id="L140">            entManager.merge(clienteObj);</span>
+<span class="fc" id="L141">            entTransaction.commit();</span>
+<span class="nc" id="L142">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L144">            throw new IllegalStateException(&quot;Error al comprar el paquete: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L145">        }</span>
+<span class="fc" id="L146">    }</span>
 
     // =================== Consultas en memoria ===================
-<span class="fc" id="L120">    public Paquete obtenerPaquete(String nombre) { return paquetes.get(nombre); }</span>
+    /**
+     * Obtiene el paquete por su nombre.
+     * @param nombre nombre identificador del paquete
+     * @return instancia de Paquete o null si no existe
+     */
+<span class="fc" id="L154">    public Paquete obtenerPaquete(String nombre) { return paquetes.get(nombre); }</span>
 
-
+    /**
+     * Devuelve la lista de paquetes en forma de DTO.
+     */
     public List&lt;DtPaquete&gt; getPaquetes() {
-<span class="fc" id="L124">        List&lt;DtPaquete&gt; lista = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">        for (Paquete p : paquetes.values()) {</span>
-<span class="fc" id="L126">            lista.add(new DtPaquete(p)); // Asegúrate de que exista un constructor adecuado en DtPaquete</span>
-<span class="fc" id="L127">        }</span>
-<span class="fc" id="L128">        return lista;</span>
+<span class="fc" id="L160">        List&lt;DtPaquete&gt; lista = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        for (Paquete p : paquetes.values()) {</span>
+<span class="fc" id="L162">            lista.add(new DtPaquete(p)); // Asegúrate de que exista un constructor adecuado en DtPaquete</span>
+<span class="fc" id="L163">        }</span>
+<span class="fc" id="L164">        return lista;</span>
     }
 
-
+    /**
+     * Devuelve la lista de paquetes disponibles (no comprados) en forma de DTO.
+     */
     public List&lt;DtPaquete&gt; getPaquetesDisp() {
-<span class="fc" id="L133">        List&lt;DtPaquete&gt; disponibles = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L134" title="All 2 branches covered.">        for (Paquete p : paquetes.values()) {</span>
-<span class="fc bfc" id="L135" title="All 2 branches covered.">            if (!p.estaComprado()) {</span>
-<span class="fc" id="L136">                disponibles.add(new DtPaquete(p));</span>
+<span class="fc" id="L171">        List&lt;DtPaquete&gt; disponibles = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">        for (Paquete p : paquetes.values()) {</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">            if (!p.estaComprado()) {</span>
+<span class="fc" id="L174">                disponibles.add(new DtPaquete(p));</span>
             }
-<span class="fc" id="L138">        }</span>
-<span class="fc" id="L139">        return disponibles;</span>
+<span class="fc" id="L176">        }</span>
+<span class="fc" id="L177">        return disponibles;</span>
     }
 
+    /**
+     * Devuelve el DTO de un paquete por nombre.
+     */
     public DtPaquete obtenerDtPaquete(String nombrePaquete) {
-<span class="nc" id="L143">        Paquete p = paquetes.get(nombrePaquete);</span>
-<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (p != null) {</span>
-<span class="nc" id="L145">            return new DtPaquete(p);</span>
+<span class="nc" id="L184">        Paquete paquete = paquetes.get(nombrePaquete);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (paquete != null) {</span>
+<span class="nc" id="L186">            return new DtPaquete(paquete);</span>
         }
-<span class="nc" id="L147">        return null;</span>
+<span class="nc" id="L188">        return null;</span>
     }
 
+    /**
+     * Devuelve los DTs de los items asociados a un paquete.
+     */
     public List&lt;DtItemPaquete&gt; obtenerDtItemsPaquete(String nombrePaquete) {
-<span class="fc" id="L151">        Paquete p = paquetes.get(nombrePaquete);</span>
-<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if (p != null) {</span>
-<span class="fc" id="L153">            List&lt;DtItemPaquete&gt; items = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">            for (ItemPaquete item : p.getItemPaquetes()) {</span>
+<span class="fc" id="L195">        Paquete paquete = paquetes.get(nombrePaquete);</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        if (paquete != null) {</span>
+<span class="fc" id="L197">            List&lt;DtItemPaquete&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            for (ItemPaquete item : paquete.getItemPaquetes()) {</span>
                 // Crear el DtRutaVuelo correspondiente al Item
-<span class="fc" id="L156">                RutaVuelo ruta = item.getRutaVuelo();</span>
-<span class="fc" id="L157">                DtRutaVuelo dtRuta = new DtRutaVuelo(</span>
-<span class="fc" id="L158">                        ruta.getNombre(),</span>
-<span class="fc" id="L159">                        ruta.getDescripcion(),</span>
-<span class="fc" id="L160">                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta</span>
-<span class="fc" id="L161">                        ruta.getAerolinea().getNombre(),</span>
-<span class="fc" id="L162">                        ruta.getCiudadOrigen(),</span>
-<span class="fc" id="L163">                        ruta.getCiudadDestino(),</span>
-<span class="fc" id="L164">                        ruta.getHora(),</span>
-<span class="fc" id="L165">                        ruta.getFechaAlta(),</span>
-<span class="fc" id="L166">                        ruta.getCostoTurista(),</span>
-<span class="fc" id="L167">                        ruta.getCostoEjecutivo(),</span>
-<span class="fc" id="L168">                        ruta.getCostoEquipajeExtra(),</span>
-<span class="fc" id="L169">                        ruta.getEstado().toString(),</span>
-<span class="fc" id="L170">                        ruta.getCategorias(),</span>
-<span class="fc" id="L171">                        ruta.getDtVuelos()</span>
+<span class="fc" id="L200">                RutaVuelo ruta = item.getRutaVuelo();</span>
+<span class="fc" id="L201">                DtRutaVuelo dtRuta = new DtRutaVuelo(</span>
+<span class="fc" id="L202">                        ruta.getNombre(),</span>
+<span class="fc" id="L203">                        ruta.getDescripcion(),</span>
+<span class="fc" id="L204">                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta</span>
+<span class="fc" id="L205">                        ruta.getAerolinea().getNombre(),</span>
+<span class="fc" id="L206">                        ruta.getCiudadOrigen(),</span>
+<span class="fc" id="L207">                        ruta.getCiudadDestino(),</span>
+<span class="fc" id="L208">                        ruta.getHora(),</span>
+<span class="fc" id="L209">                        ruta.getFechaAlta(),</span>
+<span class="fc" id="L210">                        ruta.getCostoTurista(),</span>
+<span class="fc" id="L211">                        ruta.getCostoEjecutivo(),</span>
+<span class="fc" id="L212">                        ruta.getCostoEquipajeExtra(),</span>
+<span class="fc" id="L213">                        ruta.getEstado().toString(),</span>
+<span class="fc" id="L214">                        ruta.getCategorias(),</span>
+<span class="fc" id="L215">                        ruta.getDtVuelos()</span>
                 );
 
                 // Crear el DtItemPaquete con la ruta, cantidad y tipo
-<span class="fc" id="L175">                DtItemPaquete dtItem = new DtItemPaquete(</span>
+<span class="fc" id="L219">                DtItemPaquete dtItem = new DtItemPaquete(</span>
                         dtRuta,
-<span class="fc" id="L177">                        item.getCantAsientos(),</span>
-<span class="fc" id="L178">                        item.getTipoAsiento().toString()</span>
+<span class="fc" id="L221">                        item.getCantAsientos(),</span>
+<span class="fc" id="L222">                        item.getTipoAsiento().toString()</span>
                 );
 
-<span class="fc" id="L181">                items.add(dtItem);</span>
-<span class="fc" id="L182">            }</span>
-<span class="fc" id="L183">            return items;</span>
+<span class="fc" id="L225">                items.add(dtItem);</span>
+<span class="fc" id="L226">            }</span>
+<span class="fc" id="L227">            return items;</span>
         }
-<span class="nc" id="L185">        return new ArrayList&lt;&gt;(); // devolver lista vacía si no existe</span>
+<span class="nc" id="L229">        return new ArrayList&lt;&gt;(); // devolver lista vacía si no existe</span>
     }
 
 }

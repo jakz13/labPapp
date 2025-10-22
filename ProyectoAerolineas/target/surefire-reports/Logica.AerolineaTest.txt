@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: Logica.AerolineaTest
+Test set: logica.AerolineaTest
 -------------------------------------------------------------------------------
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.151 s -- in Logica.AerolineaTest
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.158 s -- in logica.AerolineaTest

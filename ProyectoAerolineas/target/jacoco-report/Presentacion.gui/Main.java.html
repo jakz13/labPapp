@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Presentacion.gui</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package Presentacion.gui;
 
-import Logica.Fabrica;
-import Logica.ISistema;
-import Logica.TipoAsiento;
-import Logica.TipoDoc;
+import logica.Fabrica;
+import logica.ISistema;
+import logica.TipoAsiento;
+import logica.TipoDoc;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -66,7 +66,7 @@ import java.util.Arrays;
 
             // ===== 3. PRECARGAR CLIENTES =====
 <span class="nc" id="L68">            sistema.altaCliente(&quot;juan123&quot;, &quot;Juan&quot;, &quot;Callero&quot;, &quot;juan@mail.com&quot;,</span>
-<span class="nc" id="L69">                    LocalDate.of(1990, 5, 10), &quot;Uruguayo&quot;, TipoDoc.CI,</span>
+<span class="nc" id="L69">                    LocalDate.of(1990, 5, 10), &quot;Uruguayo&quot;, TipoDoc.CEDULAIDENTIDAD,</span>
                     &quot;12345678&quot;, &quot;pwdJuan&quot;, null);
 
 <span class="nc" id="L72">            sistema.altaCliente(&quot;ana456&quot;, &quot;Aglae&quot;, &quot;Locher&quot;, &quot;aglae@mail.com&quot;,</span>
@@ -74,7 +74,7 @@ import java.util.Arrays;
                     &quot;A9876543&quot;, &quot;pwdAna&quot;, null);
 
 <span class="nc" id="L76">            sistema.altaCliente(&quot;luis789&quot;, &quot;Luis&quot;, &quot;Martínez&quot;, &quot;luis@mail.com&quot;,</span>
-<span class="nc" id="L77">                    LocalDate.of(1992, 12, 3), &quot;Chileno&quot;, TipoDoc.CI,</span>
+<span class="nc" id="L77">                    LocalDate.of(1992, 12, 3), &quot;Chileno&quot;, TipoDoc.CEDULAIDENTIDAD,</span>
                     &quot;87654321&quot;, &quot;pwdLuis&quot;, null);
 <span class="nc" id="L79">            System.out.println(&quot;✅ Clientes creados&quot;);</span>
 

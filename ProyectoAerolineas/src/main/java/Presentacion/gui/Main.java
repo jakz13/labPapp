@@ -1,9 +1,9 @@
 package Presentacion.gui;
 
-import Logica.Fabrica;
-import Logica.ISistema;
-import Logica.TipoAsiento;
-import Logica.TipoDoc;
+import logica.Fabrica;
+import logica.ISistema;
+import logica.TipoAsiento;
+import logica.TipoDoc;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -66,7 +66,7 @@ public class Main {
 
             // ===== 3. PRECARGAR CLIENTES =====
             sistema.altaCliente("juan123", "Juan", "Callero", "juan@mail.com",
-                    LocalDate.of(1990, 5, 10), "Uruguayo", TipoDoc.CI,
+                    LocalDate.of(1990, 5, 10), "Uruguayo", TipoDoc.CEDULAIDENTIDAD,
                     "12345678", "pwdJuan", null);
 
             sistema.altaCliente("ana456", "Aglae", "Locher", "aglae@mail.com",
@@ -74,7 +74,7 @@ public class Main {
                     "A9876543", "pwdAna", null);
 
             sistema.altaCliente("luis789", "Luis", "Martínez", "luis@mail.com",
-                    LocalDate.of(1992, 12, 3), "Chileno", TipoDoc.CI,
+                    LocalDate.of(1992, 12, 3), "Chileno", TipoDoc.CEDULAIDENTIDAD,
                     "87654321", "pwdLuis", null);
             System.out.println("✅ Clientes creados");
 

@@ -1,6 +1,6 @@
 package guiSesion;
 
-import Logica.*;
+import logica.*;
 
 import javax.swing.*;
 import java.awt.*;

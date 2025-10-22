@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Aerolinea.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Aerolinea.java</span></div><h1>Aerolinea.java</h1><pre class="source lang-java linenums">package Logica;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Aerolinea.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">logica</a> &gt; <span class="el_source">Aerolinea.java</span></div><h1>Aerolinea.java</h1><pre class="source lang-java linenums">package logica;
 
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Representa una aerolínea registrada en el sistema.
+ * Contiene sus rutas y datos básicos como descripción y sitio web.
+ */
 @Entity
 @Table(name = &quot;aerolineas&quot;)
 @PrimaryKeyJoinColumn(name = &quot;usuario_id&quot;)
@@ -13,115 +17,132 @@ public class Aerolinea extends Usuario {
     private String descripcion;
     private String sitioWeb;
 
-<span class="pc" id="L16">    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)</span>
+<span class="pc" id="L20">    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)</span>
     @MapKey(name = &quot;nombre&quot;)
     @JoinColumn(name = &quot;aerolinea_id&quot;)
     private Map&lt;String, RutaVuelo&gt; rutasVuelo = new HashMap&lt;&gt;();
 
     public Aerolinea() {
-<span class="nc" id="L22">        super();</span>
-<span class="nc" id="L23">    }</span>
+<span class="nc" id="L26">        super();</span>
+<span class="nc" id="L27">    }</span>
 
+    /**
+     * Crea una aerolínea con datos básicos y contraseña.
+     */
     // Constructor actualizado con contraseña
     public Aerolinea(String nickname, String nombre, String email, String password, String descripcion, String sitioWeb, String imagenUrl) {
-<span class="fc" id="L27">        super(nickname, nombre, email, password, LocalDate.now(), imagenUrl);</span>
-<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (nombre == null) {</span>
-<span class="fc" id="L29">            throw new IllegalArgumentException(&quot;El nombre de la ciudad no puede ser null&quot;);</span>
+<span class="fc" id="L34">        super(nickname, nombre, email, password, LocalDate.now(), imagenUrl);</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (nombre == null) {</span>
+<span class="fc" id="L36">            throw new IllegalArgumentException(&quot;El nombre de la ciudad no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (nickname == null) {</span>
-<span class="fc" id="L32">            throw new IllegalArgumentException(&quot;El nickname de la ciudad no puede ser null&quot;);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (nickname == null) {</span>
+<span class="fc" id="L39">            throw new IllegalArgumentException(&quot;El nickname de la ciudad no puede ser null&quot;);</span>
         }
-<span class="fc" id="L34">        this.descripcion = descripcion;</span>
-<span class="fc" id="L35">        this.sitioWeb = sitioWeb;</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L41">        this.descripcion = descripcion;</span>
+<span class="fc" id="L42">        this.sitioWeb = sitioWeb;</span>
+<span class="fc" id="L43">    }</span>
 
     // --- Getters y Setters ---
-<span class="fc" id="L39">    public String getDescripcion() { return descripcion; }</span>
-<span class="fc" id="L40">    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }</span>
+    /** Devuelve la descripción de la aerolínea. */
+<span class="fc" id="L47">    public String getDescripcion() { return descripcion; }</span>
+    /** Actualiza la descripción de la aerolínea. */
+<span class="fc" id="L49">    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }</span>
 
-<span class="fc" id="L42">    public String getSitioWeb() { return sitioWeb; }</span>
-<span class="fc" id="L43">    public void setSitioWeb(String sitioWeb) { this.sitioWeb = sitioWeb; }</span>
+    /** Devuelve la URL del sitio web de la aerolínea. */
+<span class="fc" id="L52">    public String getSitioWeb() { return sitioWeb; }</span>
+    /** Actualiza la URL del sitio web de la aerolínea. */
+<span class="fc" id="L54">    public void setSitioWeb(String sitioWeb) { this.sitioWeb = sitioWeb; }</span>
 
     // --- Métodos de rutas ---
+    /**
+     * Agrega una ruta de vuelo a la aerolínea.
+     */
     public void agregarRutaVuelo(RutaVuelo ruta)
     {
-<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (ruta == null) {</span>
-<span class="fc" id="L49">            throw new IllegalArgumentException(&quot;La ruta no puede ser null&quot;);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (ruta == null) {</span>
+<span class="fc" id="L63">            throw new IllegalArgumentException(&quot;La ruta no puede ser null&quot;);</span>
         }
-<span class="fc" id="L51">        rutasVuelo.put(ruta.getNombre(), ruta);</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L65">        rutasVuelo.put(ruta.getNombre(), ruta);</span>
+<span class="fc" id="L66">    }</span>
 
+    /**
+     * Devuelve una lista con los datos de las rutas de la aerolínea.
+     */
     public List&lt;DtRutaVuelo&gt; getRutasVuelo() {
-<span class="fc" id="L55">        return rutasVuelo.values().stream()</span>
-<span class="fc" id="L56">                .map(ruta -&gt; {</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                    String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : &quot;&quot;;</span>
-<span class="pc bpc" id="L58" title="1 of 2 branches missed.">                    String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : &quot;INGRESADA&quot;;</span>
-<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                    String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;</span>
+<span class="fc" id="L72">        return rutasVuelo.values().stream()</span>
+<span class="fc" id="L73">                .map(ruta -&gt; {</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">                    String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : &quot;&quot;;</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">                    String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : &quot;INGRESADA&quot;;</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">                    String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;</span>
 
-<span class="fc" id="L61">                    return new DtRutaVuelo(</span>
-<span class="fc" id="L62">                            ruta.getNombre(),</span>
-<span class="fc" id="L63">                            ruta.getDescripcion(),</span>
+<span class="fc" id="L78">                    return new DtRutaVuelo(</span>
+<span class="fc" id="L79">                            ruta.getNombre(),</span>
+<span class="fc" id="L80">                            ruta.getDescripcion(),</span>
                             descripcionCorta,
                             nombreAerolinea,
-<span class="fc" id="L66">                            ruta.getCiudadOrigen(),</span>
-<span class="fc" id="L67">                            ruta.getCiudadDestino(),</span>
-<span class="fc" id="L68">                            ruta.getHora(),</span>
-<span class="fc" id="L69">                            ruta.getFechaAlta(),</span>
-<span class="fc" id="L70">                            ruta.getCostoTurista(),</span>
-<span class="fc" id="L71">                            ruta.getCostoEjecutivo(),</span>
-<span class="fc" id="L72">                            ruta.getCostoEquipajeExtra(),</span>
+<span class="fc" id="L83">                            ruta.getCiudadOrigen(),</span>
+<span class="fc" id="L84">                            ruta.getCiudadDestino(),</span>
+<span class="fc" id="L85">                            ruta.getHora(),</span>
+<span class="fc" id="L86">                            ruta.getFechaAlta(),</span>
+<span class="fc" id="L87">                            ruta.getCostoTurista(),</span>
+<span class="fc" id="L88">                            ruta.getCostoEjecutivo(),</span>
+<span class="fc" id="L89">                            ruta.getCostoEquipajeExtra(),</span>
                             estado,
-<span class="pc bpc" id="L74" title="1 of 2 branches missed.">                            ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList&lt;&gt;(),</span>
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">                            ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList&lt;&gt;()</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">                            ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList&lt;&gt;(),</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                            ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList&lt;&gt;()</span>
                     );
                 })
-<span class="fc" id="L78">                .toList();</span>
+<span class="fc" id="L95">                .toList();</span>
     }
 
+    /**
+     * Devuelve una copia de los datos de las rutas (versión alternativa).
+     */
     public List&lt;DtRutaVuelo&gt; getDtRutasVuelo() {
-<span class="fc" id="L82">        return new ArrayList&lt;&gt;(</span>
-<span class="fc" id="L83">                rutasVuelo.values().stream()</span>
-<span class="fc" id="L84">                        .map(ruta -&gt; {</span>
-<span class="pc bpc" id="L85" title="1 of 2 branches missed.">                            String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : &quot;&quot;;</span>
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">                            String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : &quot;INGRESADA&quot;;</span>
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">                            String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;</span>
+<span class="fc" id="L102">        return new ArrayList&lt;&gt;(</span>
+<span class="fc" id="L103">                rutasVuelo.values().stream()</span>
+<span class="fc" id="L104">                        .map(ruta -&gt; {</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">                            String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : &quot;&quot;;</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">                            String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : &quot;INGRESADA&quot;;</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">                            String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;</span>
 
-<span class="fc" id="L89">                            return new DtRutaVuelo(</span>
-<span class="fc" id="L90">                                    ruta.getNombre(),</span>
-<span class="fc" id="L91">                                    ruta.getDescripcion(),</span>
+<span class="fc" id="L109">                            return new DtRutaVuelo(</span>
+<span class="fc" id="L110">                                    ruta.getNombre(),</span>
+<span class="fc" id="L111">                                    ruta.getDescripcion(),</span>
                                     descripcionCorta,
                                     nombreAerolinea,
-<span class="fc" id="L94">                                    ruta.getCiudadOrigen(),</span>
-<span class="fc" id="L95">                                    ruta.getCiudadDestino(),</span>
-<span class="fc" id="L96">                                    ruta.getHora(),</span>
-<span class="fc" id="L97">                                    ruta.getFechaAlta(),</span>
-<span class="fc" id="L98">                                    ruta.getCostoTurista(),</span>
-<span class="fc" id="L99">                                    ruta.getCostoEjecutivo(),</span>
-<span class="fc" id="L100">                                    ruta.getCostoEquipajeExtra(),</span>
+<span class="fc" id="L114">                                    ruta.getCiudadOrigen(),</span>
+<span class="fc" id="L115">                                    ruta.getCiudadDestino(),</span>
+<span class="fc" id="L116">                                    ruta.getHora(),</span>
+<span class="fc" id="L117">                                    ruta.getFechaAlta(),</span>
+<span class="fc" id="L118">                                    ruta.getCostoTurista(),</span>
+<span class="fc" id="L119">                                    ruta.getCostoEjecutivo(),</span>
+<span class="fc" id="L120">                                    ruta.getCostoEquipajeExtra(),</span>
                                     estado,
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">                                    ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList&lt;&gt;(),</span>
-<span class="pc bpc" id="L103" title="1 of 2 branches missed.">                                    ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList&lt;&gt;()</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">                                    ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList&lt;&gt;(),</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">                                    ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList&lt;&gt;()</span>
                             );
                         })
-<span class="fc" id="L106">                        .toList()</span>
+<span class="fc" id="L126">                        .toList()</span>
         );
     }
 
+    /** Devuelve el mapa interno de rutas. */
     public Map&lt;String, RutaVuelo&gt; getRutasVueloMap() {
-<span class="fc" id="L111">        return rutasVuelo;</span>
+<span class="fc" id="L132">        return rutasVuelo;</span>
     }
 
     @Override
-    public boolean equals(Object o) {
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if (this == o) return true;</span>
-<span class="pc bpc" id="L117" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="fc" id="L118">        Aerolinea that = (Aerolinea) o;</span>
-<span class="pc bpc" id="L119" title="2 of 4 branches missed.">        return this.getNickname() != null &amp;&amp; this.getNickname().equals(that.getNickname());</span>
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        if (this == obj) return true;</span>
+<span class="pc bpc" id="L138" title="2 of 4 branches missed.">        if (obj == null || getClass() != obj.getClass()) return false;</span>
+<span class="fc" id="L139">        Aerolinea that = (Aerolinea) obj;</span>
+<span class="pc bpc" id="L140" title="2 of 4 branches missed.">        return this.getNickname() != null &amp;&amp; this.getNickname().equals(that.getNickname());</span>
     }
 
     @Override
     public int hashCode() {
-<span class="pc bpc" id="L124" title="1 of 2 branches missed.">        return this.getNickname() != null ? this.getNickname().hashCode() : 0;</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">        return this.getNickname() != null ? this.getNickname().hashCode() : 0;</span>
     }
 
 }

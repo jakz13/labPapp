@@ -1,8 +1,8 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.Fabrica;
-import Logica.ISistema;
-import Logica.TipoDoc;
+import logica.Fabrica;
+import logica.ISistema;
+import logica.TipoDoc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -137,7 +137,7 @@ public class InicioSesion {
                                 "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    tipoDoc = TipoDoc.CI;
+                    tipoDoc = TipoDoc.CEDULAIDENTIDAD;
                 } else {
                     if (!documento.matches("[A-Z]{2}\\d{6}")) {
                         JOptionPane.showMessageDialog(null,

@@ -1,8 +1,8 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.Fabrica;
-import Logica.ISistema;
-import Logica.TipoDoc;
+import logica.Fabrica;
+import logica.ISistema;
+import logica.TipoDoc;
 
 import javax.swing.*;
 import java.awt.*;
@@ -136,7 +136,7 @@ public class ModificarDatosCliente {
         Nacionalidad.setText(cliente.getNacionalidad());
         Documento.setText(cliente.getNumeroDocumento());
 
-        if (cliente.getTipoDocumento() == TipoDoc.CI) {
+        if (cliente.getTipoDocumento() == TipoDoc.CEDULAIDENTIDAD) {
             CiRadioButton.setSelected(true);
         } else if (cliente.getTipoDocumento() == TipoDoc.PASAPORTE) {
             PasaporteRadioButton.setSelected(true);
@@ -264,7 +264,7 @@ public class ModificarDatosCliente {
                         "Error", JOptionPane.ERROR_MESSAGE);
                 return null;
             }
-            return TipoDoc.CI;
+            return TipoDoc.CEDULAIDENTIDAD;
         } else if (PasaporteRadioButton.isSelected()) {
             if (!Documento.getText().matches("[A-Z]{2}\\d{6}")) {
                 JOptionPane.showMessageDialog(null,

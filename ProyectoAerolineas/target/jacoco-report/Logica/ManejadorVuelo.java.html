@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorVuelo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ManejadorVuelo.java</span></div><h1>ManejadorVuelo.java</h1><pre class="source lang-java linenums">package Logica;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManejadorVuelo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">logica</a> &gt; <span class="el_source">ManejadorVuelo.java</span></div><h1>ManejadorVuelo.java</h1><pre class="source lang-java linenums">package logica;
 
 import DataTypes.DtVuelo;
 import jakarta.persistence.EntityManager;
@@ -6,139 +6,151 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import java.util.*;
 
-public class ManejadorVuelo {
+/**
+ * Gestiona en memoria y en BD los vuelos del sistema.
+ * Permite cargar, agregar, actualizar y eliminar vuelos, así como obtener DTs.
+ */
+public final class ManejadorVuelo {
 
+    /** Mapa en memoria de vuelos indexado por nombre. */
     private Map&lt;String, Vuelo&gt; vuelos;
-<span class="fc" id="L12">    public static ManejadorVuelo instancia = null;</span>
+    /** Instancia singleton del manejador. */
+<span class="fc" id="L18">    public static ManejadorVuelo instancia = null;</span>
 
-<span class="nc" id="L14">    private ManejadorVuelo() {</span>
-<span class="nc" id="L15">        vuelos = new HashMap&lt;&gt;();</span>
-<span class="nc" id="L16">    }</span>
+<span class="fc" id="L20">    private ManejadorVuelo() {</span>
+<span class="fc" id="L21">        vuelos = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L22">    }</span>
 
+    /** Obtiene la instancia singleton del manejador de vuelos. */
     public static ManejadorVuelo getInstance() {
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if (instancia == null) {</span>
-<span class="nc" id="L20">            instancia = new ManejadorVuelo();</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L27">            instancia = new ManejadorVuelo();</span>
         }
-<span class="fc" id="L22">        return instancia;</span>
+<span class="fc" id="L29">        return instancia;</span>
     }
 
     // =================== CRUD BD ===================
-    public void cargarVuelosDesdeBD(EntityManager em) {
-<span class="nc" id="L27">        TypedQuery&lt;Vuelo&gt; query = em.createQuery(&quot;SELECT v FROM Vuelo v LEFT JOIN FETCH v.reservasList&quot;, Vuelo.class);</span>
-<span class="nc" id="L28">        List&lt;Vuelo&gt; vuelosPersistidos = query.getResultList();</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">        for (Vuelo v : vuelosPersistidos) {</span>
+    /** Carga los vuelos desde la base de datos */
+    public void cargarVuelosDesdeBD(EntityManager entManager) {
+<span class="fc" id="L35">        TypedQuery&lt;Vuelo&gt; query = entManager.createQuery(&quot;SELECT v FROM Vuelo v LEFT JOIN FETCH v.reservasList&quot;, Vuelo.class);</span>
+<span class="fc" id="L36">        List&lt;Vuelo&gt; vuelosPersistidos = query.getResultList();</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        for (Vuelo v : vuelosPersistidos) {</span>
             // Sincronizar el Map con las reservas cargadas
-<span class="nc" id="L31">            v.getReservas(); // Esto sincroniza el Map</span>
-<span class="nc" id="L32">            vuelos.put(v.getNombre(), v);</span>
-<span class="nc" id="L33">        }</span>
-<span class="nc" id="L34">    }</span>
+<span class="nc" id="L39">            v.getReservas(); // Esto sincroniza el Map</span>
+<span class="nc" id="L40">            vuelos.put(v.getNombre(), v);</span>
+<span class="nc" id="L41">        }</span>
+<span class="fc" id="L42">    }</span>
 
-    // Método para uso interno (sin transacción)
-    public void agregarVuelo(Vuelo vuelo, EntityManager em) {
-<span class="nc" id="L38">        em.persist(vuelo);</span>
-<span class="nc" id="L39">        vuelos.put(vuelo.getNombre(), vuelo);</span>
-<span class="nc" id="L40">    }</span>
+    /** Método para uso interno (sin transacción) */
+    public void agregarVuelo(Vuelo vuelo, EntityManager entManager) {
+<span class="fc" id="L46">        entManager.persist(vuelo);</span>
+<span class="fc" id="L47">        vuelos.put(vuelo.getNombre(), vuelo);</span>
+<span class="fc" id="L48">    }</span>
 
-    // Método para uso externo (con transacción)
-    public void agregarVueloConTransaccion(Vuelo vuelo, EntityManager em) {
-<span class="nc" id="L44">        EntityTransaction tx = em.getTransaction();</span>
+    /** Método para uso externo (con transacción) */
+    public void agregarVueloConTransaccion(Vuelo vuelo, EntityManager entManager) {
+<span class="fc" id="L52">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="nc" id="L46">            tx.begin();</span>
-<span class="nc" id="L47">            em.persist(vuelo);</span>
-<span class="nc" id="L48">            vuelos.put(vuelo.getNombre(), vuelo);</span>
-<span class="nc" id="L49">            tx.commit();</span>
-<span class="nc" id="L50">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L52">            throw new RuntimeException(&quot;Error al agregar el vuelo: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L53">        }</span>
-<span class="nc" id="L54">    }</span>
+<span class="fc" id="L54">            entTransaction.begin();</span>
+<span class="fc" id="L55">            entManager.persist(vuelo);</span>
+<span class="fc" id="L56">            vuelos.put(vuelo.getNombre(), vuelo);</span>
+<span class="fc" id="L57">            entTransaction.commit();</span>
+<span class="fc" id="L58">        } catch (Exception e) {</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="fc" id="L60">            throw new IllegalStateException(&quot;Error al agregar el vuelo: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L61">        }</span>
+<span class="fc" id="L62">    }</span>
 
-    // Método para uso interno (sin transacción) - usado por registrarReservaVuelo
-    public void actualizarVuelo(Vuelo vuelo, EntityManager em) {
-<span class="nc" id="L58">        em.merge(vuelo);</span>
-<span class="nc" id="L59">    }</span>
+    /** Método para uso interno (sin transacción) - usado por registrarReservaVuelo */
+    public void actualizarVuelo(Vuelo vuelo, EntityManager entManager) {
+<span class="nc" id="L66">        entManager.merge(vuelo);</span>
+<span class="nc" id="L67">    }</span>
 
-    // Método para uso externo (con transacción)
-    public void actualizarVueloConTransaccion(Vuelo vuelo, EntityManager em) {
-<span class="nc" id="L63">        EntityTransaction tx = em.getTransaction();</span>
+    /** Método para uso externo (con transacción) */
+    public void actualizarVueloConTransaccion(Vuelo vuelo, EntityManager entManager) {
+<span class="nc" id="L71">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="nc" id="L65">            tx.begin();</span>
-<span class="nc" id="L66">            em.merge(vuelo);</span>
-<span class="nc" id="L67">            tx.commit();</span>
-<span class="nc" id="L68">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L70">            throw new RuntimeException(&quot;Error al actualizar el vuelo: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L71">        }</span>
-<span class="nc" id="L72">    }</span>
+<span class="nc" id="L73">            entTransaction.begin();</span>
+<span class="nc" id="L74">            entManager.merge(vuelo);</span>
+<span class="nc" id="L75">            entTransaction.commit();</span>
+<span class="nc" id="L76">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L78">            throw new IllegalStateException(&quot;Error al actualizar el vuelo: &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L79">        }</span>
+<span class="nc" id="L80">    }</span>
 
+    /** Verifica si un vuelo tiene reserva de un cliente */
     public boolean tieneReservaDeCliente(String nicknameCliente, Vuelo vuelo) {
-<span class="nc" id="L75">        return vuelo.getReservas().containsKey(nicknameCliente);</span>
+<span class="fc" id="L84">        return vuelo.getReservas().containsKey(nicknameCliente);</span>
     }
 
+    /** Obtiene un vuelo por su nombre */
     public Vuelo getVuelo(String nombre) {
-<span class="nc" id="L79">        return vuelos.get(nombre);</span>
+<span class="fc" id="L89">        return vuelos.get(nombre);</span>
     }
 
+    /** Obtiene la lista de vuelos */
     public List&lt;Vuelo&gt; getVuelos() {
-<span class="nc" id="L83">        return new ArrayList&lt;&gt;(vuelos.values());</span>
+<span class="fc" id="L94">        return new ArrayList&lt;&gt;(vuelos.values());</span>
     }
 
+    /** Obtiene la lista de DTs de vuelos */
     public List&lt;DtVuelo&gt; getDtVuelos() {
-<span class="nc" id="L87">        List&lt;DtVuelo&gt; dtVuelos = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L88" title="All 2 branches missed.">        for (Vuelo vuelo : vuelos.values()) {</span>
-<span class="nc" id="L89">            dtVuelos.add(vuelo.getDtVuelo());</span>
-<span class="nc" id="L90">        }</span>
-<span class="nc" id="L91">        return dtVuelos;</span>
+<span class="fc" id="L99">        List&lt;DtVuelo&gt; dtVuelos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        for (Vuelo vuelo : vuelos.values()) {</span>
+<span class="fc" id="L101">            dtVuelos.add(vuelo.getDtVuelo());</span>
+<span class="fc" id="L102">        }</span>
+<span class="fc" id="L103">        return dtVuelos;</span>
     }
 
-    // Método para obtener vuelos por aerolínea
+    /** Método para obtener vuelos por aerolínea */
     public List&lt;Vuelo&gt; getVuelosPorAerolinea(String nombreAerolinea) {
-<span class="nc" id="L96">        List&lt;Vuelo&gt; vuelosAerolinea = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        for (Vuelo vuelo : vuelos.values()) {</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (vuelo.getNombreAerolinea().equals(nombreAerolinea)) {</span>
-<span class="nc" id="L99">                vuelosAerolinea.add(vuelo);</span>
+<span class="fc" id="L108">        List&lt;Vuelo&gt; vuelosAerolinea = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        for (Vuelo vuelo : vuelos.values()) {</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">            if (vuelo.getNombreAerolinea().equals(nombreAerolinea)) {</span>
+<span class="fc" id="L111">                vuelosAerolinea.add(vuelo);</span>
             }
-<span class="nc" id="L101">        }</span>
-<span class="nc" id="L102">        return vuelosAerolinea;</span>
+<span class="fc" id="L113">        }</span>
+<span class="fc" id="L114">        return vuelosAerolinea;</span>
     }
 
-    // Método para obtener vuelos por ruta
+    /** Método para obtener vuelos por ruta */
     public List&lt;Vuelo&gt; getVuelosPorRuta(String nombreRuta) {
-<span class="nc" id="L107">        List&lt;Vuelo&gt; vuelosRuta = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">        for (Vuelo vuelo : vuelos.values()) {</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (vuelo.getRutaVuelo() != null &amp;&amp;</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">                    vuelo.getRutaVuelo().getNombre().equals(nombreRuta)) {</span>
-<span class="nc" id="L111">                vuelosRuta.add(vuelo);</span>
+<span class="fc" id="L119">        List&lt;Vuelo&gt; vuelosRuta = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        for (Vuelo vuelo : vuelos.values()) {</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">            if (vuelo.getRutaVuelo() != null &amp;&amp;</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">                    vuelo.getRutaVuelo().getNombre().equals(nombreRuta)) {</span>
+<span class="fc" id="L123">                vuelosRuta.add(vuelo);</span>
             }
-<span class="nc" id="L113">        }</span>
-<span class="nc" id="L114">        return vuelosRuta;</span>
+<span class="fc" id="L125">        }</span>
+<span class="fc" id="L126">        return vuelosRuta;</span>
     }
 
-    // Método para verificar si existe un vuelo
+    /** Método para verificar si existe un vuelo */
     public boolean existeVuelo(String nombreVuelo) {
-<span class="nc" id="L119">        return vuelos.containsKey(nombreVuelo);</span>
+<span class="fc" id="L131">        return vuelos.containsKey(nombreVuelo);</span>
     }
 
-    // Método para eliminar vuelo (con transacción)
-    public void eliminarVuelo(String nombreVuelo, EntityManager em) {
-<span class="nc" id="L124">        EntityTransaction tx = em.getTransaction();</span>
+    /** Método para eliminar vuelo (con transacción) */
+    public void eliminarVuelo(String nombreVuelo, EntityManager entManager) {
+<span class="fc" id="L136">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="nc" id="L126">            tx.begin();</span>
-<span class="nc" id="L127">            Vuelo vuelo = vuelos.get(nombreVuelo);</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">            if (vuelo != null) {</span>
-<span class="nc" id="L129">                em.remove(vuelo);</span>
-<span class="nc" id="L130">                vuelos.remove(nombreVuelo);</span>
+<span class="fc" id="L138">            entTransaction.begin();</span>
+<span class="fc" id="L139">            Vuelo vuelo = vuelos.get(nombreVuelo);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">            if (vuelo != null) {</span>
+<span class="fc" id="L141">                entManager.remove(vuelo);</span>
+<span class="fc" id="L142">                vuelos.remove(nombreVuelo);</span>
             }
-<span class="nc" id="L132">            tx.commit();</span>
-<span class="nc" id="L133">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L134" title="All 2 branches missed.">            if (tx.isActive()) tx.rollback();</span>
-<span class="nc" id="L135">            throw new RuntimeException(&quot;Error al eliminar el vuelo: &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L136">        }</span>
-<span class="nc" id="L137">    }</span>
+<span class="fc" id="L144">            entTransaction.commit();</span>
+<span class="nc" id="L145">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L147">            throw new IllegalStateException(&quot;Error al eliminar el vuelo: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L148">        }</span>
+<span class="fc" id="L149">    }</span>
 
-    // Método para limpiar cache en memoria (útil para testing)
+    /** Método para limpiar cache en memoria (útil para testing) */
     public void limpiarCache() {
-<span class="nc" id="L141">        vuelos.clear();</span>
-<span class="nc" id="L142">    }</span>
+<span class="fc" id="L153">        vuelos.clear();</span>
+<span class="fc" id="L154">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

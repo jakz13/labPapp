@@ -1,7 +1,7 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.ISistema;
-import Logica.Fabrica;
+import logica.ISistema;
+import logica.Fabrica;
 import DataTypes.*;
 
 import java.util.List;

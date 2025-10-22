@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cliente.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">Cliente.java</span></div><h1>Cliente.java</h1><pre class="source lang-java linenums">package Logica;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cliente.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MiProyectoSwing</a> &gt; <a href="index.source.html" class="el_package">logica</a> &gt; <span class="el_source">Cliente.java</span></div><h1>Cliente.java</h1><pre class="source lang-java linenums">package logica;
 
 import DataTypes.DtCliente;
 import DataTypes.DtPaquete;
@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Representa a un cliente del sistema con sus datos personales y reservas.
+ */
 @Entity
 @Table(name = &quot;clientes&quot;)
 @PrimaryKeyJoinColumn(name = &quot;usuario_id&quot;)
@@ -26,131 +29,154 @@ public class Cliente extends Usuario {
     @Column(name = &quot;numero_documento&quot;, unique = true)
     private String numeroDocumento;
 
-<span class="pc" id="L29">    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)</span>
+<span class="pc" id="L32">    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)</span>
     @JoinColumn(name = &quot;cliente_nickname&quot;)
     private List&lt;Reserva&gt; reservas = new ArrayList&lt;&gt;();
 
-<span class="pc" id="L33">    @OneToMany(mappedBy = &quot;cliente&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</span>
+<span class="pc" id="L36">    @OneToMany(mappedBy = &quot;cliente&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</span>
     private List&lt;CompraPaqLogica&gt; comprasPaquetes = new ArrayList&lt;&gt;();
 
     public Cliente() {
-<span class="nc" id="L37">        super();</span>
-<span class="nc" id="L38">    }</span>
+<span class="nc" id="L40">        super();</span>
+<span class="nc" id="L41">    }</span>
 
+    /**
+     * Crea un cliente con todos los datos requeridos.
+     */
     public Cliente(String nickname, String nombre, String apellido,
                    String email, LocalDate fechaNac, String nacionalidad,
                    TipoDoc tipoDoc, String numDoc, String password, String imagenUrl) {
-<span class="fc" id="L43">        super(nickname, nombre, email, password, LocalDate.now(), imagenUrl); //// Con contraseña</span>
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (nickname == null) {</span>
-<span class="fc" id="L45">            throw new IllegalArgumentException(&quot;El nickname del cliente no puede ser null&quot;);</span>
+<span class="fc" id="L49">        super(nickname, nombre, email, password, LocalDate.now(), imagenUrl); //// Con contraseña</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (nickname == null) {</span>
+<span class="fc" id="L51">            throw new IllegalArgumentException(&quot;El nickname del cliente no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (nombre == null) {</span>
-<span class="fc" id="L48">            throw new IllegalArgumentException(&quot;El nombre del cliente no puede ser null&quot;);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (nombre == null) {</span>
+<span class="fc" id="L54">            throw new IllegalArgumentException(&quot;El nombre del cliente no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (apellido == null) {</span>
-<span class="fc" id="L51">            throw new IllegalArgumentException(&quot;El apellido del cliente no puede ser null&quot;);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (apellido == null) {</span>
+<span class="fc" id="L57">            throw new IllegalArgumentException(&quot;El apellido del cliente no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (email == null) {</span>
-<span class="fc" id="L54">            throw new IllegalArgumentException(&quot;El emali del cliente no puede ser null&quot;);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (email == null) {</span>
+<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;El emali del cliente no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (fechaNac == null) {</span>
-<span class="fc" id="L57">            throw new IllegalArgumentException(&quot;La fecha de nacimiento no puede ser null&quot;);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (fechaNac == null) {</span>
+<span class="fc" id="L63">            throw new IllegalArgumentException(&quot;La fecha de nacimiento no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (nacionalidad == null) {</span>
-<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;La nacionalidad no puede ser null&quot;);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (nacionalidad == null) {</span>
+<span class="fc" id="L66">            throw new IllegalArgumentException(&quot;La nacionalidad no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (tipoDoc == null) {</span>
-<span class="fc" id="L63">            throw new IllegalArgumentException(&quot;El tipo de documento no puede ser null&quot;);</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (tipoDoc == null) {</span>
+<span class="fc" id="L69">            throw new IllegalArgumentException(&quot;El tipo de documento no puede ser null&quot;);</span>
         }
-<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (numDoc == null) {</span>
-<span class="fc" id="L66">            throw new IllegalArgumentException(&quot;El numero de documento no puede ser null&quot;);</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (numDoc == null) {</span>
+<span class="fc" id="L72">            throw new IllegalArgumentException(&quot;El numero de documento no puede ser null&quot;);</span>
         }
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (password == null) {</span>
-<span class="nc" id="L69">            throw new IllegalArgumentException(&quot;La contraseña no puede ser null&quot;);</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (password == null) {</span>
+<span class="nc" id="L75">            throw new IllegalArgumentException(&quot;La contraseña no puede ser null&quot;);</span>
         }
 
-<span class="fc" id="L72">        this.apellido = apellido;</span>
-<span class="fc" id="L73">        this.fechaNacimiento = fechaNac;</span>
-<span class="fc" id="L74">        this.nacionalidad = nacionalidad;</span>
-<span class="fc" id="L75">        this.tipoDocumento = tipoDoc;</span>
-<span class="fc" id="L76">        this.numeroDocumento = numDoc;</span>
-<span class="fc" id="L77">    }</span>
+<span class="fc" id="L78">        this.apellido = apellido;</span>
+<span class="fc" id="L79">        this.fechaNacimiento = fechaNac;</span>
+<span class="fc" id="L80">        this.nacionalidad = nacionalidad;</span>
+<span class="fc" id="L81">        this.tipoDocumento = tipoDoc;</span>
+<span class="fc" id="L82">        this.numeroDocumento = numDoc;</span>
+<span class="fc" id="L83">    }</span>
 
+    /** Devuelve un objeto de transferencia con los datos del cliente. */
     public DtCliente getDtCliente() {
-<span class="fc" id="L80">        return new DtCliente(</span>
-<span class="fc" id="L81">                this.getNickname(),</span>
-<span class="fc" id="L82">                this.getNombre(),</span>
-<span class="fc" id="L83">                this.getEmail(),</span>
-<span class="fc" id="L84">                this.getImagenUrl(),</span>
+<span class="fc" id="L87">        return new DtCliente(</span>
+<span class="fc" id="L88">                this.getNickname(),</span>
+<span class="fc" id="L89">                this.getNombre(),</span>
+<span class="fc" id="L90">                this.getEmail(),</span>
+<span class="fc" id="L91">                this.getImagenUrl(),</span>
                 this.apellido,
                 this.fechaNacimiento,
                 this.nacionalidad,
                 this.tipoDocumento,
                 this.numeroDocumento,
-<span class="fc" id="L90">                this.getFechaAlta(),</span>
-<span class="fc" id="L91">                this.getDtReservas(),</span>
-<span class="fc" id="L92">                this.getDtPaquetesComprados()</span>
+<span class="fc" id="L97">                this.getFechaAlta(),</span>
+<span class="fc" id="L98">                this.getDtReservas(),</span>
+<span class="fc" id="L99">                this.getDtPaquetesComprados()</span>
         );
     }
 
 
     // --- Getters y Setters ---
-<span class="fc" id="L98">    public String getApellido() { return apellido; }</span>
-<span class="fc" id="L99">    public void setApellido(String apellido) { this.apellido = apellido; }</span>
+    /** Devuelve el apellido del cliente. */
+<span class="fc" id="L106">    public String getApellido() { return apellido; }</span>
+    /** Actualiza el apellido del cliente. */
+<span class="fc" id="L108">    public void setApellido(String apellido) { this.apellido = apellido; }</span>
 
-<span class="fc" id="L101">    public LocalDate getFechaNacimiento() { return fechaNacimiento; }</span>
-<span class="nc" id="L102">    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }</span>
+    /** Devuelve la fecha de nacimiento. */
+<span class="fc" id="L111">    public LocalDate getFechaNacimiento() { return fechaNacimiento; }</span>
+    /** Actualiza la fecha de nacimiento. */
+<span class="nc" id="L113">    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }</span>
 
-<span class="fc" id="L104">    public String getNacionalidad() { return nacionalidad; }</span>
-<span class="fc" id="L105">    public void setNacionalidad(String nacionalidad) { this.nacionalidad = nacionalidad; }</span>
+    /** Devuelve la nacionalidad. */
+<span class="fc" id="L116">    public String getNacionalidad() { return nacionalidad; }</span>
+    /** Actualiza la nacionalidad. */
+<span class="fc" id="L118">    public void setNacionalidad(String nacionalidad) { this.nacionalidad = nacionalidad; }</span>
 
-<span class="fc" id="L107">    public TipoDoc getTipoDocumento() { return tipoDocumento; }</span>
-<span class="nc" id="L108">    public void setTipoDocumento(TipoDoc tipoDocumento) { this.tipoDocumento = tipoDocumento; }</span>
+    /** Devuelve el tipo de documento. */
+<span class="fc" id="L121">    public TipoDoc getTipoDocumento() { return tipoDocumento; }</span>
+    /** Actualiza el tipo de documento. */
+<span class="nc" id="L123">    public void setTipoDocumento(TipoDoc tipoDocumento) { this.tipoDocumento = tipoDocumento; }</span>
 
-<span class="fc" id="L110">    public String getNumeroDocumento() { return numeroDocumento; }</span>
-<span class="fc" id="L111">    public void setNumeroDocumento(String numeroDocumento) { this.numeroDocumento = numeroDocumento; }</span>
+    /** Devuelve el número de documento. */
+<span class="fc" id="L126">    public String getNumeroDocumento() { return numeroDocumento; }</span>
+    /** Actualiza el número de documento. */
+<span class="fc" id="L128">    public void setNumeroDocumento(String numeroDocumento) { this.numeroDocumento = numeroDocumento; }</span>
 
-<span class="fc" id="L113">    public List&lt;Reserva&gt; getReservas() { return reservas; }</span>
-<span class="nc" id="L114">    public void setReservas(List&lt;Reserva&gt; reservas) { this.reservas = reservas; }</span>
+    /** Devuelve la lista de reservas del cliente. */
+<span class="fc" id="L131">    public List&lt;Reserva&gt; getReservas() { return reservas; }</span>
+    /** Reemplaza la lista de reservas del cliente. */
+<span class="nc" id="L133">    public void setReservas(List&lt;Reserva&gt; reservas) { this.reservas = reservas; }</span>
 
-<span class="fc" id="L116">    public List&lt;CompraPaqLogica&gt; getComprasPaquetes() { return comprasPaquetes; }</span>
-<span class="nc" id="L117">    public void setComprasPaquetes(List&lt;CompraPaqLogica&gt; comprasPaquetes) { this.comprasPaquetes = comprasPaquetes; }</span>
+    /** Devuelve las compras de paquetes realizadas por el cliente. */
+<span class="fc" id="L136">    public List&lt;CompraPaqLogica&gt; getComprasPaquetes() { return comprasPaquetes; }</span>
+    /** Actualiza las compras de paquetes del cliente. */
+<span class="nc" id="L138">    public void setComprasPaquetes(List&lt;CompraPaqLogica&gt; comprasPaquetes) { this.comprasPaquetes = comprasPaquetes; }</span>
 
+    /**
+     * Agrega una reserva a la lista del cliente.
+     */
     public void agregarReserva(Reserva reserva) {
-<span class="fc bfc" id="L120" title="All 2 branches covered.">        if(reserva == null) {</span>
-<span class="fc" id="L121">            throw new IllegalArgumentException(&quot;La ruta no puede ser null&quot;);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">        if(reserva == null) {</span>
+<span class="fc" id="L145">            throw new IllegalArgumentException(&quot;La ruta no puede ser null&quot;);</span>
         }
-<span class="fc" id="L123">        reservas.add(reserva);</span>
-<span class="fc" id="L124">    }</span>
+<span class="fc" id="L147">        reservas.add(reserva);</span>
+<span class="fc" id="L148">    }</span>
 
     @Override
     public String toString() {
-<span class="fc" id="L128">        return this.getNombre();</span>
+<span class="fc" id="L152">        return this.getNombre();</span>
     }
 
+    /** Devuelve una lista de DTs con las reservas del cliente. */
     public List&lt;DtReserva&gt; getDtReservas() {
-<span class="fc" id="L132">        List&lt;DtReserva&gt; dtReservas = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (Reserva r : reservas) {</span>
-<span class="fc" id="L134">            dtReservas.add(new DtReserva(</span>
-<span class="fc" id="L135">                    r.getId(),</span>
-<span class="fc" id="L136">                    r.getFecha(),</span>
-<span class="fc" id="L137">                    r.getCosto(),</span>
-<span class="fc" id="L138">                    r.getTipoAsiento(),</span>
-<span class="fc" id="L139">                    r.getCantidadPasajes(),</span>
-<span class="fc" id="L140">                    r.getUnidadesEquipajeExtra(),</span>
-<span class="fc" id="L141">                    r.getDtPasajeros(),</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                    r.getVuelo() != null ? r.getVuelo().getNombre() : &quot;N/A&quot;</span>
+<span class="fc" id="L157">        List&lt;DtReserva&gt; dtReservas = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        for (Reserva r : reservas) {</span>
+<span class="fc" id="L159">            dtReservas.add(new DtReserva(</span>
+<span class="fc" id="L160">                    r.getId(),</span>
+<span class="fc" id="L161">                    r.getFecha(),</span>
+<span class="fc" id="L162">                    r.getCosto(),</span>
+<span class="fc" id="L163">                    r.getTipoAsiento(),</span>
+<span class="fc" id="L164">                    r.getCantidadPasajes(),</span>
+<span class="fc" id="L165">                    r.getUnidadesEquipajeExtra(),</span>
+<span class="fc" id="L166">                    r.getDtPasajeros(),</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">                    r.getVuelo() != null ? r.getVuelo().getNombre() : &quot;N/A&quot;</span>
             ));
-<span class="fc" id="L144">        }</span>
-<span class="fc" id="L145">        return dtReservas;</span>
+<span class="fc" id="L169">        }</span>
+<span class="fc" id="L170">        return dtReservas;</span>
     }
 
+    /** Devuelve una lista de DTs con los paquetes comprados por el cliente. */
     public List&lt;DtPaquete&gt; getDtPaquetesComprados() {
-<span class="fc" id="L149">        List&lt;DtPaquete&gt; dtPaquetes = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">        for (CompraPaqLogica compra : comprasPaquetes) {</span>
-<span class="fc" id="L151">            dtPaquetes.add(new DtPaquete(compra.getPaquete()));</span>
-<span class="fc" id="L152">        }</span>
-<span class="fc" id="L153">        return dtPaquetes;</span>
+<span class="fc" id="L175">        List&lt;DtPaquete&gt; dtPaquetes = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        for (CompraPaqLogica compra : comprasPaquetes) {</span>
+<span class="fc" id="L177">            dtPaquetes.add(new DtPaquete(compra.getPaquete()));</span>
+<span class="fc" id="L178">        }</span>
+<span class="fc" id="L179">        return dtPaquetes;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

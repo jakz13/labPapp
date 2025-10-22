@@ -3,25 +3,25 @@
     <persistence-unit name="LAB_PA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>Logica.Aerolinea</class>
-        <class>Logica.Categoria</class>
-        <class>Logica.Ciudad</class>
-        <class>Logica.Cliente</class>
-        <class>Logica.CompraPaqLogica</class>
-        <class>Logica.ItemPaquete</class>
-        <class>Logica.ManejadorAerolinea</class>
-        <class>Logica.ManejadorCategoria</class>
-        <class>Logica.ManejadorCiudad</class>
-        <class>Logica.ManejadorCliente</class>
-        <class>Logica.ManejadorPaquete</class>
-        <class>Logica.ManejadorVuelo</class>
-        <class>Logica.ManejadorRutaVuelo</class>
-        <class>Logica.Paquete</class>
-        <class>Logica.Pasajero</class>
-        <class>Logica.Reserva</class>
-        <class>Logica.RutaVuelo</class>
-        <class>Logica.Usuario</class>
-        <class>Logica.Vuelo</class>
+        <class>logica.Aerolinea</class>
+        <class>logica.Categoria</class>
+        <class>logica.Ciudad</class>
+        <class>logica.Cliente</class>
+        <class>logica.CompraPaqLogica</class>
+        <class>logica.ItemPaquete</class>
+        <class>logica.ManejadorAerolinea</class>
+        <class>logica.ManejadorCategoria</class>
+        <class>logica.ManejadorCiudad</class>
+        <class>logica.ManejadorCliente</class>
+        <class>logica.ManejadorPaquete</class>
+        <class>logica.ManejadorVuelo</class>
+        <class>logica.ManejadorRutaVuelo</class>
+        <class>logica.Paquete</class>
+        <class>logica.Pasajero</class>
+        <class>logica.Reserva</class>
+        <class>logica.RutaVuelo</class>
+        <class>logica.Usuario</class>
+        <class>logica.Vuelo</class>
 
 
         <properties>

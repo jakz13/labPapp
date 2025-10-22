@@ -4,11 +4,10 @@ import DataTypes.DtAerolinea;
 import DataTypes.DtReserva;
 import DataTypes.DtRutaVuelo;
 import DataTypes.DtVuelo;
-import Logica.Fabrica;
-import Logica.ISistema;
+import logica.Fabrica;
+import logica.ISistema;
 
 import javax.swing.*;
-import java.util.Map;
 
 public class ConsultaRutaVuelo {
     private JPanel panel1;

@@ -1,7 +1,7 @@
 package Presentacion.gui.guiSesion;
 
-import Logica.Fabrica;
-import Logica.ISistema;
+import logica.Fabrica;
+import logica.ISistema;
 
 import javax.swing.*;
 

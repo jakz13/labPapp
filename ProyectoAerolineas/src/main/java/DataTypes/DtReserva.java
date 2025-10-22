@@ -1,6 +1,6 @@
 package DataTypes;
 
-import Logica.TipoAsiento;
+import logica.TipoAsiento;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,7 +30,7 @@ public class DtReserva {
     }
 
     // Constructor alternativo que acepta la entidad Reserva
-    public DtReserva(Logica.Reserva reserva) {
+    public DtReserva(logica.Reserva reserva) {
         this.id = reserva.getId();
         this.fecha = reserva.getFecha();
         this.costo = reserva.getCosto();
