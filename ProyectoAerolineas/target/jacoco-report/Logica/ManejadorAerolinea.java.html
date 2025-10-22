@@ -4,8 +4,12 @@ import DataTypes.DtAerolinea;
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Gestiona en memoria y en BD las aerolíneas del sistema.
@@ -14,191 +18,191 @@ import java.util.*;
 public final class ManejadorAerolinea {
 
     private Map&lt;String, Aerolinea&gt; aerolineas;
-<span class="fc" id="L17">    private static ManejadorAerolinea instancia = null;</span>
+<span class="fc" id="L21">    private static ManejadorAerolinea instancia = null;</span>
 
-<span class="fc" id="L19">    private ManejadorAerolinea() {</span>
-<span class="fc" id="L20">        aerolineas = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L21">    }</span>
+<span class="fc" id="L23">    private ManejadorAerolinea() {</span>
+<span class="fc" id="L24">        aerolineas = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L25">    }</span>
 
     /** Devuelve la instancia singleton del manejador. */
     public static ManejadorAerolinea getInstance() {
-<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (instancia == null) {</span>
-<span class="fc" id="L26">            instancia = new ManejadorAerolinea();</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L30">            instancia = new ManejadorAerolinea();</span>
         }
-<span class="fc" id="L28">        return instancia;</span>
+<span class="fc" id="L32">        return instancia;</span>
     }
 
     // =================== CRUD BD ===================
     /** Carga todas las aerolíneas desde la base de datos. */
     public void cargarAerolineasDesdeBD(EntityManager entManager) {
-<span class="fc" id="L34">        TypedQuery&lt;Aerolinea&gt; query = entManager.createQuery(&quot;SELECT a FROM Aerolinea a&quot;, Aerolinea.class);</span>
-<span class="fc" id="L35">        List&lt;Aerolinea&gt; aerolineasPersistidas = query.getResultList();</span>
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (Aerolinea a : aerolineasPersistidas) {</span>
-<span class="fc" id="L37">            aerolineas.put(a.getNickname(), a);</span>
-<span class="fc" id="L38">        }</span>
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L38">        TypedQuery&lt;Aerolinea&gt; query = entManager.createQuery(&quot;SELECT a FROM Aerolinea a&quot;, Aerolinea.class);</span>
+<span class="fc" id="L39">        List&lt;Aerolinea&gt; aerolineasPersistidas = query.getResultList();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (Aerolinea a : aerolineasPersistidas) {</span>
+<span class="fc" id="L41">            aerolineas.put(a.getNickname(), a);</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">    }</span>
 
     /** Agrega una aerolínea en memoria y persiste en BD. */
     public void agregarAerolinea(Aerolinea aerolinea, EntityManager entManager) {
-<span class="fc" id="L43">        aerolineas.put(aerolinea.getNickname(), aerolinea);</span>
-<span class="fc" id="L44">        EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L47">        aerolineas.put(aerolinea.getNickname(), aerolinea);</span>
+<span class="fc" id="L48">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="fc" id="L46">            entTransaction.begin();</span>
-<span class="fc" id="L47">            entManager.persist(aerolinea);</span>
-<span class="fc" id="L48">            entTransaction.commit();</span>
-<span class="nc" id="L49">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="nc" id="L51">            e.printStackTrace();</span>
-<span class="fc" id="L52">        }</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L50">            entTransaction.begin();</span>
+<span class="fc" id="L51">            entManager.persist(aerolinea);</span>
+<span class="fc" id="L52">            entTransaction.commit();</span>
+<span class="nc" id="L53">        } catch (PersistenceException e) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L55">            e.printStackTrace();</span>
+<span class="fc" id="L56">        }</span>
+<span class="fc" id="L57">    }</span>
 
     /** Agrega una ruta a la aerolínea indicada y actualiza en BD. */
     public void agregarRutaVueloAAerolinea(String nicknameAerolinea, RutaVuelo ruta, EntityManager entManager) {
-<span class="fc" id="L57">        Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);</span>
-<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L59">            aerolinea.agregarRutaVuelo(ruta);</span>
-<span class="fc" id="L60">            EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L61">        Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L63">            aerolinea.agregarRutaVuelo(ruta);</span>
+<span class="fc" id="L64">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="fc" id="L62">                entTransaction.begin();</span>
-<span class="fc" id="L63">                entManager.merge(aerolinea);</span>
-<span class="fc" id="L64">                entTransaction.commit();</span>
-<span class="nc" id="L65">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L66" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="nc" id="L67">                throw new IllegalStateException(&quot;Error al agregar la ruta a la aerolínea&quot;, e);</span>
-<span class="fc" id="L68">            }</span>
+<span class="fc" id="L66">                entTransaction.begin();</span>
+<span class="fc" id="L67">                entManager.merge(aerolinea);</span>
+<span class="fc" id="L68">                entTransaction.commit();</span>
+<span class="nc" id="L69">            } catch (PersistenceException  e) {</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L71">                throw new IllegalStateException(&quot;Error al agregar la ruta a la aerolínea&quot;, e);</span>
+<span class="fc" id="L72">            }</span>
         }
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L74">    }</span>
 
     // =================== Consultas en memoria ===================
     /** Devuelve la aerolínea por su nickname (en memoria). */
     public Aerolinea obtenerAerolinea(String nickname) {
-<span class="fc" id="L75">        return aerolineas.get(nickname);</span>
+<span class="fc" id="L79">        return aerolineas.get(nickname);</span>
     }
 
     /** Busca una aerolínea por su email. */
     public Aerolinea obtenerAerolineaPorEmail(String email) {
-<span class="fc" id="L80">        return aerolineas.values().stream()</span>
-<span class="fc" id="L81">                .filter(a -&gt; a.getEmail().equals(email))</span>
-<span class="fc" id="L82">                .findFirst().orElse(null);</span>
+<span class="fc" id="L84">        return aerolineas.values().stream()</span>
+<span class="fc" id="L85">                .filter(a -&gt; a.getEmail().equals(email))</span>
+<span class="fc" id="L86">                .findFirst().orElse(null);</span>
     }
 
     /** Verifica las credenciales de una aerolínea. */
     public boolean verificarLogin(String email, String password) {
-<span class="fc" id="L87">        Aerolinea aerolinea = obtenerAerolineaPorEmail(email);</span>
-<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L89">            return aerolinea.verificarPassword(password);</span>
+<span class="fc" id="L91">        Aerolinea aerolinea = obtenerAerolineaPorEmail(email);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L93">            return aerolinea.verificarPassword(password);</span>
         }
-<span class="fc" id="L91">        return false;</span>
+<span class="fc" id="L95">        return false;</span>
     }
 
     /** Devuelve las rutas (DT) de la aerolínea indicada. */
     public List&lt;DtRutaVuelo&gt; obtenerRutaVueloDeAerolinea(String nicknameAerolinea) {
-<span class="fc" id="L96">        Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);</span>
-<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L98">            return aerolinea.getDtRutasVuelo();</span>
+<span class="fc" id="L100">        Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L102">            return aerolinea.getDtRutasVuelo();</span>
         }
-<span class="fc" id="L100">        return new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L104">        return new ArrayList&lt;&gt;();</span>
     }
 
     /** Devuelve una lista de aerolíneas en forma de DTO. */
     public List&lt;DtAerolinea&gt; getDtAerolineas() {
-<span class="fc" id="L105">        List&lt;DtAerolinea&gt; dtAerolineas = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (Aerolinea a : aerolineas.values()) {</span>
-<span class="fc" id="L107">            dtAerolineas.add(new DtAerolinea(</span>
-<span class="fc" id="L108">                    a.getNickname(),</span>
-<span class="fc" id="L109">                    a.getNombre(),</span>
-<span class="fc" id="L110">                    a.getEmail(),</span>
-<span class="fc" id="L111">                    a.getDescripcion(),</span>
-<span class="fc" id="L112">                    a.getSitioWeb(),</span>
-<span class="fc" id="L113">                    a.getDtRutasVuelo()</span>
+<span class="fc" id="L109">        List&lt;DtAerolinea&gt; dtAerolineas = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (Aerolinea a : aerolineas.values()) {</span>
+<span class="fc" id="L111">            dtAerolineas.add(new DtAerolinea(</span>
+<span class="fc" id="L112">                    a.getNickname(),</span>
+<span class="fc" id="L113">                    a.getNombre(),</span>
+<span class="fc" id="L114">                    a.getEmail(),</span>
+<span class="fc" id="L115">                    a.getDescripcion(),</span>
+<span class="fc" id="L116">                    a.getSitioWeb(),</span>
+<span class="fc" id="L117">                    a.getDtRutasVuelo()</span>
             ));
-<span class="fc" id="L115">        }</span>
-<span class="fc" id="L116">        return dtAerolineas;</span>
+<span class="fc" id="L119">        }</span>
+<span class="fc" id="L120">        return dtAerolineas;</span>
     }
 
     /** Actualiza la contraseña de una aerolínea y persiste el cambio. */
     public void actualizarPassword(String email, String nuevaPassword, EntityManager entManager) {
-<span class="fc" id="L121">        Aerolinea aerolinea = obtenerAerolineaPorEmail(email);</span>
-<span class="fc bfc" id="L122" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L123">            aerolinea.setPassword(nuevaPassword);</span>
-<span class="fc" id="L124">            EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L125">        Aerolinea aerolinea = obtenerAerolineaPorEmail(email);</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L127">            aerolinea.setPassword(nuevaPassword);</span>
+<span class="fc" id="L128">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="fc" id="L126">                entTransaction.begin();</span>
-<span class="fc" id="L127">                entManager.merge(aerolinea);</span>
-<span class="fc" id="L128">                entTransaction.commit();</span>
-<span class="nc" id="L129">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L130" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="nc" id="L131">                throw new IllegalStateException(&quot;Error actualizando contraseña: &quot; + e.getMessage(), e);</span>
-<span class="fc" id="L132">            }</span>
-<span class="fc" id="L133">        } else {</span>
-<span class="fc" id="L134">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada: &quot; + email);</span>
+<span class="fc" id="L130">                entTransaction.begin();</span>
+<span class="fc" id="L131">                entManager.merge(aerolinea);</span>
+<span class="fc" id="L132">                entTransaction.commit();</span>
+<span class="nc" id="L133">            } catch (PersistenceException  e) {</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L135">                throw new IllegalStateException(&quot;Error actualizando contraseña: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L136">            }</span>
+<span class="fc" id="L137">        } else {</span>
+<span class="fc" id="L138">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada: &quot; + email);</span>
         }
-<span class="fc" id="L136">    }</span>
+<span class="fc" id="L140">    }</span>
 
     /** Modifica datos completos de una aerolínea y persiste el cambio. */
     public void modificarDatosAerolineaCompleto(String nickname, String nombre, String descripcion,
                                                 String sitioWeb, String password, String imagenUrl, EntityManager entManager) {
-<span class="fc" id="L141">        Aerolinea aerolinea = obtenerAerolinea(nickname);</span>
-<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (aerolinea == null) {</span>
-<span class="fc" id="L143">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada: &quot; + nickname);</span>
+<span class="fc" id="L145">        Aerolinea aerolinea = obtenerAerolinea(nickname);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (aerolinea == null) {</span>
+<span class="fc" id="L147">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada: &quot; + nickname);</span>
         }
 
-<span class="pc bpc" id="L146" title="1 of 2 branches missed.">        if (nombre != null) aerolinea.setNombre(nombre.trim());</span>
-<span class="pc bpc" id="L147" title="1 of 2 branches missed.">        if (descripcion != null) aerolinea.setDescripcion(descripcion.trim());</span>
-<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        if (sitioWeb != null) aerolinea.setSitioWeb(sitioWeb.trim());</span>
-<span class="pc bpc" id="L149" title="1 of 4 branches missed.">        if (password != null &amp;&amp; !password.trim().isEmpty()) aerolinea.setPassword(password.trim());</span>
-<span class="pc bpc" id="L150" title="1 of 4 branches missed.">        if (imagenUrl != null) aerolinea.setImagenUrl(imagenUrl.trim().isEmpty() ? null : imagenUrl.trim());</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if (nombre != null) aerolinea.setNombre(nombre.trim());</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if (descripcion != null) aerolinea.setDescripcion(descripcion.trim());</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if (sitioWeb != null) aerolinea.setSitioWeb(sitioWeb.trim());</span>
+<span class="pc bpc" id="L153" title="1 of 4 branches missed.">        if (password != null &amp;&amp; !password.trim().isEmpty()) aerolinea.setPassword(password.trim());</span>
+<span class="pc bpc" id="L154" title="1 of 4 branches missed.">        if (imagenUrl != null) aerolinea.setImagenUrl(imagenUrl.trim().isEmpty() ? null : imagenUrl.trim());</span>
 
-<span class="fc" id="L152">        EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L156">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="fc" id="L154">            entTransaction.begin();</span>
-<span class="fc" id="L155">            entManager.merge(aerolinea);</span>
-<span class="fc" id="L156">            entTransaction.commit();</span>
-<span class="nc" id="L157">        } catch (Exception e) {</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="nc" id="L159">            throw new IllegalStateException(&quot;Error modificando datos completos de la aerolínea: &quot; + e.getMessage(), e);</span>
-<span class="fc" id="L160">        }</span>
-<span class="fc" id="L161">    }</span>
+<span class="fc" id="L158">            entTransaction.begin();</span>
+<span class="fc" id="L159">            entManager.merge(aerolinea);</span>
+<span class="fc" id="L160">            entTransaction.commit();</span>
+<span class="nc" id="L161">        } catch (PersistenceException  e) {</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L163">            throw new IllegalStateException(&quot;Error modificando datos completos de la aerolínea: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L164">        }</span>
+<span class="fc" id="L165">    }</span>
 
     /** Actualiza la imagen de la aerolínea y persiste el cambio. */
     public void actualizarImagenAerolinea(String nickname, String imagenUrl, EntityManager entManager) {
-<span class="fc" id="L165">        Aerolinea aerolinea = aerolineas.get(nickname);</span>
-<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L167">            aerolinea.setImagenUrl(imagenUrl);</span>
-<span class="fc" id="L168">            EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L169">        Aerolinea aerolinea = aerolineas.get(nickname);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L171">            aerolinea.setImagenUrl(imagenUrl);</span>
+<span class="fc" id="L172">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="fc" id="L170">                entTransaction.begin();</span>
-<span class="fc" id="L171">                entManager.merge(aerolinea);</span>
-<span class="fc" id="L172">                entTransaction.commit();</span>
-<span class="nc" id="L173">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L174" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="nc" id="L175">                throw new IllegalStateException(&quot;Error actualizando imagen de la aerolínea: &quot; + e.getMessage(), e);</span>
-<span class="fc" id="L176">            }</span>
-<span class="fc" id="L177">        } else {</span>
-<span class="fc" id="L178">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada: &quot; + nickname);</span>
+<span class="fc" id="L174">                entTransaction.begin();</span>
+<span class="fc" id="L175">                entManager.merge(aerolinea);</span>
+<span class="fc" id="L176">                entTransaction.commit();</span>
+<span class="nc" id="L177">            } catch (PersistenceException  e) {</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L179">                throw new IllegalStateException(&quot;Error actualizando imagen de la aerolínea: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L180">            }</span>
+<span class="fc" id="L181">        } else {</span>
+<span class="fc" id="L182">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada: &quot; + nickname);</span>
         }
-<span class="fc" id="L180">    }</span>
+<span class="fc" id="L184">    }</span>
 
     /** Persiste una aerolínea modificada. */
     public void modificarDatosAerolinea(Aerolinea aerolinea, EntityManager entManager) {
-<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L185">            EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L189">            EntityTransaction entTransaction = entManager.getTransaction();</span>
             try {
-<span class="fc" id="L187">                entTransaction.begin();</span>
-<span class="fc" id="L188">                entManager.merge(aerolinea);</span>
-<span class="fc" id="L189">                entTransaction.commit();</span>
-<span class="nc" id="L190">            } catch (Exception e) {</span>
-<span class="nc bnc" id="L191" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="nc" id="L192">                e.printStackTrace();</span>
-<span class="fc" id="L193">            }</span>
-<span class="fc" id="L194">        } else {</span>
-<span class="fc" id="L195">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
+<span class="fc" id="L191">                entTransaction.begin();</span>
+<span class="fc" id="L192">                entManager.merge(aerolinea);</span>
+<span class="fc" id="L193">                entTransaction.commit();</span>
+<span class="nc" id="L194">            } catch (PersistenceException  e) {</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">                if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="nc" id="L196">                e.printStackTrace();</span>
+<span class="fc" id="L197">            }</span>
+<span class="fc" id="L198">        } else {</span>
+<span class="fc" id="L199">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
         }
-<span class="fc" id="L197">    }</span>
+<span class="fc" id="L201">    }</span>
 
     /** Devuelve la lista actual de aerolíneas en memoria. */
     public List&lt;Aerolinea&gt; getAerolineas() {
-<span class="fc" id="L201">        return new ArrayList&lt;&gt;(aerolineas.values());</span>
+<span class="fc" id="L205">        return new ArrayList&lt;&gt;(aerolineas.values());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

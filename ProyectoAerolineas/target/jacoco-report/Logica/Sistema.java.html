@@ -4,7 +4,18 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import DataTypes.*;
+import jakarta.persistence.PersistenceException;
+
+import DataTypes.DtCliente;
+import DataTypes.DtAerolinea;
+import DataTypes.DtCiudad;
+import DataTypes.DtCategoria;
+import DataTypes.DtVuelo;
+import DataTypes.DtReserva;
+import DataTypes.DtPaquete;
+import DataTypes.DtRutaVuelo;
+import DataTypes.DtItemPaquete;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,7 +31,7 @@ import java.util.logging.Logger;
  */
 public class Sistema implements ISistema {
 
-<span class="fc" id="L23">    private static final Logger LOGGER = Logger.getLogger(Sistema.class.getName());</span>
+<span class="fc" id="L34">    private static final Logger LOGGER = Logger.getLogger(Sistema.class.getName());</span>
 
     private EntityManagerFactory emf;
     private EntityManager entManager;
@@ -33,32 +44,32 @@ public class Sistema implements ISistema {
     private ManejadorPaquete manejadorPaquete;
     private ManejadorCategoria manejadorCategoria;
 
-<span class="fc" id="L36">    public Sistema() {</span>
-<span class="fc" id="L37">        this.emf = Persistence.createEntityManagerFactory(&quot;LAB_PA&quot;);</span>
-<span class="fc" id="L38">        this.entManager = emf.createEntityManager();</span>
-<span class="fc" id="L39">        this.manejadorCliente = ManejadorCliente.getInstance();</span>
-<span class="fc" id="L40">        this.manejadorPaquete = ManejadorPaquete.getInstance();</span>
-<span class="fc" id="L41">        this.manejadorAerolinea = ManejadorAerolinea.getInstance();</span>
-<span class="fc" id="L42">        this.manejadorRutaVuelo = ManejadorRutaVuelo.getInstance();</span>
-<span class="fc" id="L43">        this.manejadorVuelo = ManejadorVuelo.getInstance();</span>
-<span class="fc" id="L44">        this.manejadorCiudad = ManejadorCiudad.getInstance();</span>
-<span class="fc" id="L45">        this.manejadorCategoria = ManejadorCategoria.getInstance();</span>
+<span class="fc" id="L47">    public Sistema() {</span>
+<span class="fc" id="L48">        this.emf = Persistence.createEntityManagerFactory(&quot;LAB_PA&quot;);</span>
+<span class="fc" id="L49">        this.entManager = emf.createEntityManager();</span>
+<span class="fc" id="L50">        this.manejadorCliente = ManejadorCliente.getInstance();</span>
+<span class="fc" id="L51">        this.manejadorPaquete = ManejadorPaquete.getInstance();</span>
+<span class="fc" id="L52">        this.manejadorAerolinea = ManejadorAerolinea.getInstance();</span>
+<span class="fc" id="L53">        this.manejadorRutaVuelo = ManejadorRutaVuelo.getInstance();</span>
+<span class="fc" id="L54">        this.manejadorVuelo = ManejadorVuelo.getInstance();</span>
+<span class="fc" id="L55">        this.manejadorCiudad = ManejadorCiudad.getInstance();</span>
+<span class="fc" id="L56">        this.manejadorCategoria = ManejadorCategoria.getInstance();</span>
 
         // Precargar datos si la base está vacía
 
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L60">    }</span>
 
     /** Carga todos los datos desde la base de datos a los manejadores en memoria. */
     @Override
     public void cargarDesdeBd() {
-<span class="fc" id="L54">        manejadorCliente.cargarClientesDesdeBD(entManager);</span>
-<span class="fc" id="L55">        manejadorAerolinea.cargarAerolineasDesdeBD(entManager);</span>
-<span class="fc" id="L56">        manejadorCiudad.cargarCiudadesDesdeBD(entManager);</span>
-<span class="fc" id="L57">        manejadorRutaVuelo.cargarRutasDesdeBD(entManager);</span>
-<span class="fc" id="L58">        manejadorVuelo.cargarVuelosDesdeBD(entManager);</span>
-<span class="fc" id="L59">        manejadorPaquete.cargarPaquetesDesdeBD(entManager);</span>
-<span class="fc" id="L60">        manejadorCategoria.cargarCategoriasDesdeBD(entManager);</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L65">        manejadorCliente.cargarClientesDesdeBD(entManager);</span>
+<span class="fc" id="L66">        manejadorAerolinea.cargarAerolineasDesdeBD(entManager);</span>
+<span class="fc" id="L67">        manejadorCiudad.cargarCiudadesDesdeBD(entManager);</span>
+<span class="fc" id="L68">        manejadorRutaVuelo.cargarRutasDesdeBD(entManager);</span>
+<span class="fc" id="L69">        manejadorVuelo.cargarVuelosDesdeBD(entManager);</span>
+<span class="fc" id="L70">        manejadorPaquete.cargarPaquetesDesdeBD(entManager);</span>
+<span class="fc" id="L71">        manejadorCategoria.cargarCategoriasDesdeBD(entManager);</span>
+<span class="fc" id="L72">    }</span>
 
     // =================== USUARIOS CON CONTRASEÑA ===================
 
@@ -69,38 +80,38 @@ public class Sistema implements ISistema {
     public void altaCliente(String nickname, String nombre, String apellido, String correo,
                             LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc,
                             String numDoc, String password, String imagenUrl) {
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (manejadorAerolinea.obtenerAerolinea(nickname) == null</span>
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">                &amp;&amp; manejadorCliente.obtenerCliente(nickname) == null) {</span>
-<span class="fc" id="L74">            Cliente cliente = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc, password, imagenUrl);</span>
-<span class="fc" id="L75">            manejadorCliente.agregarCliente(cliente, entManager);</span>
-<span class="fc" id="L76">        } else {</span>
-<span class="fc" id="L77">            throw new IllegalArgumentException(&quot;Ya existe un usuario con ese nickname&quot;);</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (manejadorAerolinea.obtenerAerolinea(nickname) == null</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                &amp;&amp; manejadorCliente.obtenerCliente(nickname) == null) {</span>
+<span class="fc" id="L85">            Cliente cliente = new Cliente(nickname, nombre, apellido, correo, fechaNac, nacionalidad, tipoDoc, numDoc, password, imagenUrl);</span>
+<span class="fc" id="L86">            manejadorCliente.agregarCliente(cliente, entManager);</span>
+<span class="fc" id="L87">        } else {</span>
+<span class="fc" id="L88">            throw new IllegalArgumentException(&quot;Ya existe un usuario con ese nickname&quot;);</span>
         }
-<span class="fc" id="L79">    }</span>
+<span class="fc" id="L90">    }</span>
 
     /** Método de compatibilidad: indica que se debe usar la versión con contraseña. */
     public void altaCliente(String nickname, String nombre, String apellido, String correo,
                             LocalDate fechaNac, String nacionalidad, TipoDoc tipoDoc, String numDoc) {
-<span class="fc" id="L84">        throw new UnsupportedOperationException(&quot;Use el método con contraseña: altaCliente(..., password)&quot;);</span>
+<span class="fc" id="L95">        throw new UnsupportedOperationException(&quot;Use el método con contraseña: altaCliente(..., password)&quot;);</span>
     }
 
     /** Alta de aerolínea con contraseña y persistencia. */
     @Override
     public void altaAerolinea(String nickname, String nombre, String descripcion,
                               String email, String sitioWeb, String password, String imagenUrl) {
-<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (manejadorAerolinea.obtenerAerolinea(nickname) == null</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                &amp;&amp; manejadorCliente.obtenerCliente(nickname) == null) {</span>
-<span class="fc" id="L93">            Aerolinea aerolinea = new Aerolinea(nickname, nombre, email, password, descripcion, sitioWeb, imagenUrl);</span>
-<span class="fc" id="L94">            manejadorAerolinea.agregarAerolinea(aerolinea, entManager);</span>
-<span class="fc" id="L95">        } else {</span>
-<span class="fc" id="L96">            throw new IllegalArgumentException(&quot;Ya existe un usuario con ese nickname&quot;);</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (manejadorAerolinea.obtenerAerolinea(nickname) == null</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">                &amp;&amp; manejadorCliente.obtenerCliente(nickname) == null) {</span>
+<span class="fc" id="L104">            Aerolinea aerolinea = new Aerolinea(nickname, nombre, email, password, descripcion, sitioWeb, imagenUrl);</span>
+<span class="fc" id="L105">            manejadorAerolinea.agregarAerolinea(aerolinea, entManager);</span>
+<span class="fc" id="L106">        } else {</span>
+<span class="fc" id="L107">            throw new IllegalArgumentException(&quot;Ya existe un usuario con ese nickname&quot;);</span>
         }
-<span class="fc" id="L98">    }</span>
+<span class="fc" id="L109">    }</span>
 
     /** Método de compatibilidad para alta de aerolínea sin contraseña (no soportado). */
     public void altaAerolinea(String nickname, String nombre, String descripcion,
                               String email, String sitioWeb) {
-<span class="fc" id="L103">        throw new UnsupportedOperationException(&quot;Use el método con contraseña: altaAerolinea(..., password)&quot;);</span>
+<span class="fc" id="L114">        throw new UnsupportedOperationException(&quot;Use el método con contraseña: altaAerolinea(..., password)&quot;);</span>
     }
 
     /**
@@ -109,23 +120,23 @@ public class Sistema implements ISistema {
     @Override
     public void actualizarPassword(String email, String nuevaPassword) {
         try {
-<span class="fc" id="L112">            manejadorCliente.actualizarPassword(email, nuevaPassword, entManager);</span>
-<span class="fc" id="L113">            LOGGER.info(() -&gt; &quot;Contraseña actualizada para cliente: &quot; + email);</span>
-<span class="fc" id="L114">            return;</span>
-<span class="fc" id="L115">        } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L123">            manejadorCliente.actualizarPassword(email, nuevaPassword, entManager);</span>
+<span class="fc" id="L124">            LOGGER.info(() -&gt; &quot;Contraseña actualizada para cliente: &quot; + email);</span>
+<span class="fc" id="L125">            return;</span>
+<span class="fc" id="L126">        } catch (IllegalArgumentException e) {</span>
             // Si no es cliente, continuar
-<span class="pc" id="L117">            LOGGER.log(Level.FINE, () -&gt; &quot;El usuario con email &quot; + email + &quot; no es un cliente. Intentando con aerolínea...&quot;);</span>
+<span class="pc" id="L128">            LOGGER.log(Level.FINE, () -&gt; &quot;El usuario con email &quot; + email + &quot; no es un cliente. Intentando con aerolínea...&quot;);</span>
         }
 
         try {
-<span class="fc" id="L121">            manejadorAerolinea.actualizarPassword(email, nuevaPassword, entManager);</span>
-<span class="fc" id="L122">            LOGGER.info(() -&gt; &quot;Contraseña actualizada para aerolínea: &quot; + email);</span>
-<span class="fc" id="L123">            return;</span>
-<span class="fc" id="L124">        } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L132">            manejadorAerolinea.actualizarPassword(email, nuevaPassword, entManager);</span>
+<span class="fc" id="L133">            LOGGER.info(() -&gt; &quot;Contraseña actualizada para aerolínea: &quot; + email);</span>
+<span class="fc" id="L134">            return;</span>
+<span class="fc" id="L135">        } catch (IllegalArgumentException e) {</span>
             // Si no es aerolínea, lanzar error
-<span class="pc" id="L126">            LOGGER.log(Level.FINE, () -&gt; &quot;El usuario con email &quot; + email + &quot; no es una aerolínea.&quot;);</span>
+<span class="pc" id="L137">            LOGGER.log(Level.FINE, () -&gt; &quot;El usuario con email &quot; + email + &quot; no es una aerolínea.&quot;);</span>
         }
-<span class="fc" id="L128">        throw new IllegalArgumentException(&quot;Usuario no encontrado: &quot; + email);</span>
+<span class="fc" id="L139">        throw new IllegalArgumentException(&quot;Usuario no encontrado: &quot; + email);</span>
     }
 
     /** Modifica los datos completos de un cliente y persiste los cambios. */
@@ -133,16 +144,16 @@ public class Sistema implements ISistema {
     public void modificarDatosClienteCompleto(String nickname, String nombre, String apellido,
                                               String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDocumento,
                                               String numeroDocumento, String password, String imagenUrl) {
-<span class="fc" id="L136">        manejadorCliente.modificarDatosClienteCompleto(nickname, nombre, apellido, nacionalidad, fechaNacimiento,</span>
+<span class="fc" id="L147">        manejadorCliente.modificarDatosClienteCompleto(nickname, nombre, apellido, nacionalidad, fechaNacimiento,</span>
                 tipoDocumento, numeroDocumento, password, imagenUrl, entManager);
-<span class="fc" id="L138">    }</span>
+<span class="fc" id="L149">    }</span>
 
     /** Modifica los datos completos de una aerolínea y persiste los cambios. */
     @Override
     public void modificarDatosAerolineaCompleto(String nickname, String nombre, String descripcion,
                                                 String sitioWeb, String password, String imagenUrl) {
-<span class="fc" id="L144">        manejadorAerolinea.modificarDatosAerolineaCompleto(nickname, nombre, descripcion, sitioWeb, password, imagenUrl, entManager);</span>
-<span class="fc" id="L145">    }</span>
+<span class="fc" id="L155">        manejadorAerolinea.modificarDatosAerolineaCompleto(nickname, nombre, descripcion, sitioWeb, password, imagenUrl, entManager);</span>
+<span class="fc" id="L156">    }</span>
 
     // =================== LOGIN ===================
 
@@ -150,60 +161,60 @@ public class Sistema implements ISistema {
     @Override
     public boolean verificarLogin(String email, String password) {
         // Primero buscar como cliente
-<span class="fc bfc" id="L153" title="All 2 branches covered.">        if (manejadorCliente.verificarLogin(email, password)) {</span>
-<span class="fc" id="L154">            return true;</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (manejadorCliente.verificarLogin(email, password)) {</span>
+<span class="fc" id="L165">            return true;</span>
         }
         // Si no es cliente, buscar como aerolínea
-<span class="fc" id="L157">        return manejadorAerolinea.verificarLogin(email, password);</span>
+<span class="fc" id="L168">        return manejadorAerolinea.verificarLogin(email, password);</span>
     }
 
     /** Devuelve el tipo de usuario ('CLIENTE' o 'AEROLINEA') según el email. */
     @Override
     public String obtenerTipoUsuario(String email) {
-<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (manejadorCliente.obtenerClientePorEmail(email) != null) {</span>
-<span class="fc" id="L164">            return &quot;CLIENTE&quot;;</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">        } else if (manejadorAerolinea.obtenerAerolineaPorEmail(email) != null) {</span>
-<span class="fc" id="L166">            return &quot;AEROLINEA&quot;;</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (manejadorCliente.obtenerClientePorEmail(email) != null) {</span>
+<span class="fc" id="L175">            return &quot;CLIENTE&quot;;</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        } else if (manejadorAerolinea.obtenerAerolineaPorEmail(email) != null) {</span>
+<span class="fc" id="L177">            return &quot;AEROLINEA&quot;;</span>
         }
-<span class="fc" id="L168">        return null;</span>
+<span class="fc" id="L179">        return null;</span>
     }
 // =================== MÉTODOS PARA IMÁGENES ===================
 
     /** Actualiza la URL de la imagen de un cliente. */
     @Override
     public void actualizarImagenCliente(String nickname, String imagenUrl) {
-<span class="fc" id="L175">        manejadorCliente.actualizarImagenCliente(nickname, imagenUrl, entManager);</span>
-<span class="fc" id="L176">    }</span>
+<span class="fc" id="L186">        manejadorCliente.actualizarImagenCliente(nickname, imagenUrl, entManager);</span>
+<span class="fc" id="L187">    }</span>
 
     /** Actualiza la URL de la imagen de una aerolínea. */
     @Override
     public void actualizarImagenAerolinea(String nickname, String imagenUrl) {
-<span class="fc" id="L181">        manejadorAerolinea.actualizarImagenAerolinea(nickname, imagenUrl, entManager);</span>
-<span class="fc" id="L182">    }</span>
+<span class="fc" id="L192">        manejadorAerolinea.actualizarImagenAerolinea(nickname, imagenUrl, entManager);</span>
+<span class="fc" id="L193">    }</span>
 
     /** Actualiza la imagen de una ruta y persiste el cambio. */
     @Override
     public void actualizarImagenRuta(String nombreRuta, String imagenUrl) {
-<span class="fc" id="L187">        manejadorRutaVuelo.actualizarImagenRuta(nombreRuta, imagenUrl, entManager);</span>
-<span class="fc" id="L188">    }</span>
+<span class="fc" id="L198">        manejadorRutaVuelo.actualizarImagenRuta(nombreRuta, imagenUrl, entManager);</span>
+<span class="fc" id="L199">    }</span>
 
     // Métodos para obtener URLs de imagen (si los necesitan)
     public String obtenerImagenCliente(String nickname) {
-<span class="fc" id="L192">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
-<span class="pc bpc" id="L193" title="1 of 2 branches missed.">        return cliente != null ? cliente.getImagenUrl() : null;</span>
+<span class="fc" id="L203">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
+<span class="pc bpc" id="L204" title="1 of 2 branches missed.">        return cliente != null ? cliente.getImagenUrl() : null;</span>
     }
 
     public String obtenerImagenAerolinea(String nickname) {
-<span class="fc" id="L197">        DtAerolinea aerolinea = manejadorAerolinea.getDtAerolineas().stream()</span>
-<span class="fc" id="L198">                .filter(a -&gt; a.getNickname().equals(nickname))</span>
-<span class="fc" id="L199">                .findFirst()</span>
-<span class="fc" id="L200">                .orElse(null);</span>
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        return aerolinea != null ? aerolinea.getImagenUrl() : null;</span>
+<span class="fc" id="L208">        DtAerolinea aerolinea = manejadorAerolinea.getDtAerolineas().stream()</span>
+<span class="fc" id="L209">                .filter(a -&gt; a.getNickname().equals(nickname))</span>
+<span class="fc" id="L210">                .findFirst()</span>
+<span class="fc" id="L211">                .orElse(null);</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">        return aerolinea != null ? aerolinea.getImagenUrl() : null;</span>
     }
 
     public String obtenerImagenRuta(String nombreRuta) {
-<span class="fc" id="L205">        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);</span>
-<span class="pc bpc" id="L206" title="1 of 2 branches missed.">        return ruta != null ? ruta.getImagenUrl() : null;</span>
+<span class="fc" id="L216">        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">        return ruta != null ? ruta.getImagenUrl() : null;</span>
     }
 
     // ======================================
@@ -211,153 +222,153 @@ public class Sistema implements ISistema {
 
     @Override
     public List&lt;DtCliente&gt; listarClientes() {
-<span class="fc" id="L214">        return manejadorCliente.getClientes();</span>
+<span class="fc" id="L225">        return manejadorCliente.getClientes();</span>
     }
 
     @Override
     public Cliente verInfoCliente(String nickname) {
-<span class="fc" id="L219">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
-<span class="fc" id="L220">        Cliente cliente1 = manejadorCliente.obtenerClientePorEmail(cliente.getEmail());</span>
-<span class="fc bfc" id="L221" title="All 2 branches covered.">        if (cliente1 != null) {</span>
-<span class="fc" id="L222">            return cliente1;</span>
+<span class="fc" id="L230">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
+<span class="fc" id="L231">        Cliente cliente1 = manejadorCliente.obtenerClientePorEmail(cliente.getEmail());</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">        if (cliente1 != null) {</span>
+<span class="fc" id="L233">            return cliente1;</span>
         } else {
-<span class="fc" id="L224">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+<span class="fc" id="L235">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
         }
     }
 
     @Override
     public DtCliente obtenerCliente(String nickname) {
-<span class="fc" id="L230">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
-<span class="fc" id="L231">        return cliente;</span>
+<span class="fc" id="L241">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
+<span class="fc" id="L242">        return cliente;</span>
     }
 
     @Override
     public Aerolinea verInfoAerolinea(String nickname) {
-<span class="fc" id="L236">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
-<span class="fc bfc" id="L237" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L238">            return aerolinea;</span>
+<span class="fc" id="L247">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L249">            return aerolinea;</span>
         } else {
-<span class="fc" id="L240">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
+<span class="fc" id="L251">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
         }
     }
 
     @Override
     public DtAerolinea obtenerAerolinea(String nickname) {
-<span class="fc" id="L246">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
-<span class="fc bfc" id="L247" title="All 2 branches covered.">        if (aerolinea == null) {</span>
-<span class="fc" id="L248">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
+<span class="fc" id="L257">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">        if (aerolinea == null) {</span>
+<span class="fc" id="L259">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
         }
-<span class="fc" id="L250">        return new DtAerolinea(</span>
-<span class="fc" id="L251">                aerolinea.getNickname(),</span>
-<span class="fc" id="L252">                aerolinea.getNombre(),</span>
-<span class="fc" id="L253">                aerolinea.getEmail(),</span>
-<span class="fc" id="L254">                aerolinea.getDescripcion(),</span>
-<span class="fc" id="L255">                aerolinea.getSitioWeb(),</span>
-<span class="fc" id="L256">                aerolinea.getImagenUrl(),</span>
-<span class="fc" id="L257">                aerolinea.getRutasVuelo()</span>
+<span class="fc" id="L261">        return new DtAerolinea(</span>
+<span class="fc" id="L262">                aerolinea.getNickname(),</span>
+<span class="fc" id="L263">                aerolinea.getNombre(),</span>
+<span class="fc" id="L264">                aerolinea.getEmail(),</span>
+<span class="fc" id="L265">                aerolinea.getDescripcion(),</span>
+<span class="fc" id="L266">                aerolinea.getSitioWeb(),</span>
+<span class="fc" id="L267">                aerolinea.getImagenUrl(),</span>
+<span class="fc" id="L268">                aerolinea.getRutasVuelo()</span>
         );
     }
 
     @Override
     public List&lt;DtAerolinea&gt; listarAerolineas() {
-<span class="fc" id="L263">        return manejadorAerolinea.getDtAerolineas();</span>
+<span class="fc" id="L274">        return manejadorAerolinea.getDtAerolineas();</span>
     }
 
     // --- CIUDADES ---
     @Override
     public void altaCiudad(String nombre, String pais) {
-<span class="fc" id="L269">        String clave = nombre.trim().toLowerCase();</span>
+<span class="fc" id="L280">        String clave = nombre.trim().toLowerCase();</span>
 
-<span class="fc bfc" id="L271" title="All 2 branches covered.">        if (manejadorCiudad.obtenerCiudad(clave) != null) {</span>
-<span class="fc" id="L272">            throw new IllegalArgumentException(&quot;Ya existe una ciudad con el nombre: &quot; + nombre);</span>
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        if (manejadorCiudad.obtenerCiudad(clave) != null) {</span>
+<span class="fc" id="L283">            throw new IllegalArgumentException(&quot;Ya existe una ciudad con el nombre: &quot; + nombre);</span>
         }
 
-<span class="fc" id="L275">        Ciudad ciudad = new Ciudad(nombre, pais);</span>
-<span class="fc" id="L276">        manejadorCiudad.agregarCiudad(ciudad, entManager);</span>
-<span class="fc" id="L277">    }</span>
+<span class="fc" id="L286">        Ciudad ciudad = new Ciudad(nombre, pais);</span>
+<span class="fc" id="L287">        manejadorCiudad.agregarCiudad(ciudad, entManager);</span>
+<span class="fc" id="L288">    }</span>
 
     @Override
     public void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta, DtAerolinea aerolinea,
                               String ciudadOrigen, String ciudadDestino, String hora,
                               LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
-                              double costoEquipajeExtra, String[] categorias,String imagenUrl ) {
+                              double costoEquipajeExtra, String[] categorias, String imagenUrl ) {
 
-<span class="fc" id="L285">        Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());</span>
-<span class="fc bfc" id="L286" title="All 2 branches covered.">        if (aero == null) {</span>
-<span class="fc" id="L287">            throw new IllegalArgumentException(&quot;No existe Aerolínea con nickname: &quot; + aerolinea.getNickname());</span>
+<span class="fc" id="L296">        Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">        if (aero == null) {</span>
+<span class="fc" id="L298">            throw new IllegalArgumentException(&quot;No existe Aerolínea con nickname: &quot; + aerolinea.getNickname());</span>
         }
 
-<span class="pc bpc" id="L290" title="1 of 2 branches missed.">        if (manejadorRutaVuelo.getRuta(nombre) != null) {</span>
-<span class="nc" id="L291">            throw new IllegalArgumentException(&quot;Ya existe una ruta de vuelo con el nombre: &quot; + nombre);</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">        if (manejadorRutaVuelo.getRuta(nombre) != null) {</span>
+<span class="nc" id="L302">            throw new IllegalArgumentException(&quot;Ya existe una ruta de vuelo con el nombre: &quot; + nombre);</span>
         }
 
-<span class="fc bfc" id="L294" title="All 2 branches covered.">        if (ciudadOrigen.equalsIgnoreCase(ciudadDestino)) {</span>
-<span class="fc" id="L295">            throw new IllegalArgumentException(&quot;La ciudad de origen y destino no pueden ser iguales.&quot;);</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">        if (ciudadOrigen.equalsIgnoreCase(ciudadDestino)) {</span>
+<span class="fc" id="L306">            throw new IllegalArgumentException(&quot;La ciudad de origen y destino no pueden ser iguales.&quot;);</span>
         }
 
-<span class="fc" id="L298">        List&lt;String&gt; categoriaValida = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L299" title="All 2 branches covered.">        for (String cat : categorias) {</span>
-<span class="fc" id="L300">            Categoria categoria = manejadorCategoria.buscarCategorias(cat);</span>
-<span class="fc bfc" id="L301" title="All 2 branches covered.">            if (categoria != null) {</span>
-<span class="fc" id="L302">                categoriaValida.add(cat);</span>
+<span class="fc" id="L309">        List&lt;String&gt; categoriaValida = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L310" title="All 2 branches covered.">        for (String cat : categorias) {</span>
+<span class="fc" id="L311">            Categoria categoria = manejadorCategoria.buscarCategorias(cat);</span>
+<span class="fc bfc" id="L312" title="All 2 branches covered.">            if (categoria != null) {</span>
+<span class="fc" id="L313">                categoriaValida.add(cat);</span>
             }
         }
-<span class="fc bfc" id="L305" title="All 2 branches covered.">        if (categoriaValida.isEmpty()) {</span>
-<span class="fc" id="L306">            throw new IllegalArgumentException(&quot;La ruta debe pertenecer a al menos una categoría válida.&quot;);</span>
+<span class="fc bfc" id="L316" title="All 2 branches covered.">        if (categoriaValida.isEmpty()) {</span>
+<span class="fc" id="L317">            throw new IllegalArgumentException(&quot;La ruta debe pertenecer a al menos una categoría válida.&quot;);</span>
         }
 
-<span class="fc" id="L309">        RutaVuelo rutaVuelo = new RutaVuelo(nombre, descripcion, descripcionCorta, aero, ciudadOrigen, ciudadDestino,</span>
+<span class="fc" id="L320">        RutaVuelo rutaVuelo = new RutaVuelo(nombre, descripcion, descripcionCorta, aero, ciudadOrigen, ciudadDestino,</span>
                 hora, fechaAlta, costoTurista, costoEjecutivo,
-                costoEquipajeExtra, categoriaValida,imagenUrl);
+                costoEquipajeExtra, categoriaValida, imagenUrl);
 
-<span class="fc" id="L313">        manejadorRutaVuelo.agregarRutaVuelo(rutaVuelo, entManager);</span>
-<span class="fc" id="L314">        manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), rutaVuelo, entManager);</span>
-<span class="fc" id="L315">    }</span>
+<span class="fc" id="L324">        manejadorRutaVuelo.agregarRutaVuelo(rutaVuelo, entManager);</span>
+<span class="fc" id="L325">        manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), rutaVuelo, entManager);</span>
+<span class="fc" id="L326">    }</span>
 
     @Override
     public List&lt;DtAerolinea&gt; obtenerAerolineasConRutasPendientes() {
-<span class="fc" id="L319">        List&lt;DtAerolinea&gt; aerolineasConPendientes = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L320" title="All 2 branches covered.">        for (DtAerolinea aero : manejadorAerolinea.getDtAerolineas()) {</span>
-<span class="fc" id="L321">            List&lt;RutaVuelo&gt; rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(</span>
-<span class="fc" id="L322">                    aero.getNombre(), RutaVuelo.EstadoRuta.INGRESADA);</span>
-<span class="pc bpc" id="L323" title="1 of 2 branches missed.">            if (!rutasPendientes.isEmpty()) {</span>
-<span class="fc" id="L324">                aerolineasConPendientes.add(aero);</span>
+<span class="fc" id="L330">        List&lt;DtAerolinea&gt; aerolineasConPendientes = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">        for (DtAerolinea aero : manejadorAerolinea.getDtAerolineas()) {</span>
+<span class="fc" id="L332">            List&lt;RutaVuelo&gt; rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(</span>
+<span class="fc" id="L333">                    aero.getNombre(), RutaVuelo.EstadoRuta.INGRESADA);</span>
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">            if (!rutasPendientes.isEmpty()) {</span>
+<span class="fc" id="L335">                aerolineasConPendientes.add(aero);</span>
             }
-<span class="fc" id="L326">        }</span>
+<span class="fc" id="L337">        }</span>
 
-<span class="fc" id="L328">        return aerolineasConPendientes;</span>
+<span class="fc" id="L339">        return aerolineasConPendientes;</span>
     }
 
     @Override
     public List&lt;DtRutaVuelo&gt; obtenerRutasPendientesPorAerolinea(String nombreAerolinea) {
-<span class="fc" id="L333">        List&lt;RutaVuelo&gt; rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(</span>
+<span class="fc" id="L344">        List&lt;RutaVuelo&gt; rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(</span>
                 nombreAerolinea, RutaVuelo.EstadoRuta.INGRESADA);
 
-<span class="fc" id="L336">        List&lt;DtRutaVuelo&gt; dtRutasPendientes = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L337" title="All 2 branches covered.">        for (RutaVuelo ruta : rutasPendientes) {</span>
-<span class="fc" id="L338">            dtRutasPendientes.add(ruta.getDtRutaVuelo());</span>
-<span class="fc" id="L339">        }</span>
-<span class="fc" id="L340">        return dtRutasPendientes;</span>
+<span class="fc" id="L347">        List&lt;DtRutaVuelo&gt; dtRutasPendientes = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L348" title="All 2 branches covered.">        for (RutaVuelo ruta : rutasPendientes) {</span>
+<span class="fc" id="L349">            dtRutasPendientes.add(ruta.getDtRutaVuelo());</span>
+<span class="fc" id="L350">        }</span>
+<span class="fc" id="L351">        return dtRutasPendientes;</span>
     }
 
     @Override
     public void aceptarRutaVuelo(String nombreRuta) {
-<span class="fc" id="L345">        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.CONFIRMADA, entManager);</span>
-<span class="fc" id="L346">    }</span>
+<span class="fc" id="L356">        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.CONFIRMADA, entManager);</span>
+<span class="fc" id="L357">    }</span>
 
     @Override
     public void rechazarRutaVuelo(String nombreRuta) {
-<span class="fc" id="L350">        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.RECHAZADA, entManager);</span>
-<span class="fc" id="L351">    }</span>
+<span class="fc" id="L361">        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.RECHAZADA, entManager);</span>
+<span class="fc" id="L362">    }</span>
 
     @Override
     public RutaVuelo obtenerRuta(String nombreRuta) {
-<span class="fc" id="L355">        return manejadorRutaVuelo.getRuta(nombreRuta);</span>
+<span class="fc" id="L366">        return manejadorRutaVuelo.getRuta(nombreRuta);</span>
     }
 
     @Override
     public List&lt;DtRutaVuelo&gt; listarRutasPorAerolinea(String nombreAerolinea) {
-<span class="fc" id="L360">        return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);</span>
+<span class="fc" id="L371">        return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);</span>
     }
 
     @Override
@@ -365,38 +376,38 @@ public class Sistema implements ISistema {
                           LocalDate fecha, int duracion, int asientosTurista,
                           int asientosEjecutivo, LocalDate fechaAlta) {
 
-<span class="fc" id="L368">        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);</span>
-<span class="fc bfc" id="L369" title="All 2 branches covered.">        if (ruta == null) {</span>
-<span class="fc" id="L370">            throw new IllegalArgumentException(&quot;La ruta &quot; + nombreRuta + &quot; no existe.&quot;);</span>
+<span class="fc" id="L379">        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);</span>
+<span class="fc bfc" id="L380" title="All 2 branches covered.">        if (ruta == null) {</span>
+<span class="fc" id="L381">            throw new IllegalArgumentException(&quot;La ruta &quot; + nombreRuta + &quot; no existe.&quot;);</span>
         }
 
-<span class="pc bpc" id="L373" title="1 of 2 branches missed.">        if (manejadorRutaVuelo.getVueloDeRuta(nombreRuta, nombreVuelo) != null) {</span>
-<span class="nc" id="L374">            throw new IllegalArgumentException(&quot;Ya existe un vuelo con el nombre &quot; + nombreVuelo + &quot; en la ruta &quot; + nombreRuta);</span>
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">        if (manejadorRutaVuelo.getVueloDeRuta(nombreRuta, nombreVuelo) != null) {</span>
+<span class="nc" id="L385">            throw new IllegalArgumentException(&quot;Ya existe un vuelo con el nombre &quot; + nombreVuelo + &quot; en la ruta &quot; + nombreRuta);</span>
         }
 
-<span class="fc" id="L377">        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, ruta, fecha, duracion,</span>
+<span class="fc" id="L388">        Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, ruta, fecha, duracion,</span>
                 asientosTurista, asientosEjecutivo, fechaAlta);
 
-<span class="fc" id="L380">        manejadorVuelo.agregarVuelo(vuelo, entManager);</span>
-<span class="fc" id="L381">        manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo, entManager);</span>
-<span class="fc" id="L382">    }</span>
+<span class="fc" id="L391">        manejadorVuelo.agregarVuelo(vuelo, entManager);</span>
+<span class="fc" id="L392">        manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo, entManager);</span>
+<span class="fc" id="L393">    }</span>
 
     public Vuelo obtenerVuelo(String nombreVuelo) {
-<span class="fc" id="L385">        return manejadorVuelo.getVuelo(nombreVuelo);</span>
+<span class="fc" id="L396">        return manejadorVuelo.getVuelo(nombreVuelo);</span>
     }
 
     @Override
     public List&lt;DtVuelo&gt; listarVuelosPorRuta(String nombreRuta) {
-<span class="fc" id="L390">        return manejadorRutaVuelo.obtenerVuelosPorRuta(nombreRuta);</span>
+<span class="fc" id="L401">        return manejadorRutaVuelo.obtenerVuelosPorRuta(nombreRuta);</span>
     }
 
     @Override
     public Vuelo verInfoVuelo(String nombreVuelo) {
-<span class="fc" id="L395">        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
-<span class="fc bfc" id="L396" title="All 2 branches covered.">        if (vuelo == null) {</span>
-<span class="fc" id="L397">            throw new IllegalArgumentException(&quot;Vuelo no encontrado&quot;);</span>
+<span class="fc" id="L406">        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">        if (vuelo == null) {</span>
+<span class="fc" id="L408">            throw new IllegalArgumentException(&quot;Vuelo no encontrado&quot;);</span>
         }
-<span class="fc" id="L399">        return vuelo;</span>
+<span class="fc" id="L410">        return vuelo;</span>
     }
 
     // --- RESERVA ---
@@ -404,346 +415,346 @@ public class Sistema implements ISistema {
     public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva, double costo,
                                        TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra,
                                        List&lt;Pasajero&gt; pasajeros) {
-<span class="fc" id="L407">        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
-<span class="fc bfc" id="L408" title="All 2 branches covered.">        if (vuelo == null) {</span>
-<span class="fc" id="L409">            throw new IllegalArgumentException(&quot;El vuelo no existe: &quot; + nombreVuelo);</span>
+<span class="fc" id="L418">        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
+<span class="fc bfc" id="L419" title="All 2 branches covered.">        if (vuelo == null) {</span>
+<span class="fc" id="L420">            throw new IllegalArgumentException(&quot;El vuelo no existe: &quot; + nombreVuelo);</span>
         }
 
-<span class="pc bpc" id="L412" title="1 of 2 branches missed.">        if (vuelo.getReservas().containsKey(nicknameCliente)) {</span>
-<span class="fc" id="L413">            throw new IllegalArgumentException(</span>
+<span class="pc bpc" id="L423" title="1 of 2 branches missed.">        if (vuelo.getReservas().containsKey(nicknameCliente)) {</span>
+<span class="fc" id="L424">            throw new IllegalArgumentException(</span>
                     &quot;El cliente &quot; + nicknameCliente + &quot; ya tiene una reserva para el vuelo &quot; + nombreVuelo +
                             &quot;. Debe elegir otro vuelo o ruta.&quot;
             );
         }
 
-<span class="nc" id="L419">        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
-<span class="nc bnc" id="L420" title="All 2 branches missed.">        if (cliente != null) {</span>
-<span class="nc bnc" id="L421" title="All 2 branches missed.">            for (DtReserva r : cliente.getReservas()) {</span>
-<span class="nc bnc" id="L422" title="All 2 branches missed.">                if (r.getVuelo().equals(nombreVuelo)) {</span>
-<span class="nc" id="L423">                    throw new IllegalArgumentException(</span>
+<span class="nc" id="L430">        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
+<span class="nc bnc" id="L431" title="All 2 branches missed.">        if (cliente != null) {</span>
+<span class="nc bnc" id="L432" title="All 2 branches missed.">            for (DtReserva r : cliente.getReservas()) {</span>
+<span class="nc bnc" id="L433" title="All 2 branches missed.">                if (r.getVuelo().equals(nombreVuelo)) {</span>
+<span class="nc" id="L434">                    throw new IllegalArgumentException(</span>
                             &quot;El cliente &quot; + nicknameCliente + &quot; ya tiene una reserva para el vuelo &quot; + nombreVuelo + &quot;.&quot;
                     );
                 }
-<span class="nc" id="L427">            }</span>
+<span class="nc" id="L438">            }</span>
         }
 
         // CREAR RESERVA SIN ID - se generará automáticamente
-<span class="nc" id="L431">        Reserva reserva = new Reserva(</span>
+<span class="nc" id="L442">        Reserva reserva = new Reserva(</span>
                 costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
         );
 
-<span class="nc" id="L435">        registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);</span>
-<span class="nc" id="L436">    }</span>
+<span class="nc" id="L446">        registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);</span>
+<span class="nc" id="L447">    }</span>
 
     @Override
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva) {
-<span class="fc" id="L440">        EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L451">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="fc" id="L442">            entTransaction.begin();</span>
+<span class="fc" id="L453">            entTransaction.begin();</span>
 
-<span class="fc" id="L444">            DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
-<span class="fc" id="L445">            Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
+<span class="fc" id="L455">            DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
+<span class="fc" id="L456">            Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
 
-<span class="fc bfc" id="L447" title="All 2 branches covered.">            if (cliente == null) {</span>
-<span class="fc" id="L448">                throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+<span class="fc bfc" id="L458" title="All 2 branches covered.">            if (cliente == null) {</span>
+<span class="fc" id="L459">                throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
             }
-<span class="fc bfc" id="L450" title="All 2 branches covered.">            if (vuelo == null) {</span>
-<span class="fc" id="L451">                throw new IllegalArgumentException(&quot;Vuelo no encontrado&quot;);</span>
+<span class="fc bfc" id="L461" title="All 2 branches covered.">            if (vuelo == null) {</span>
+<span class="fc" id="L462">                throw new IllegalArgumentException(&quot;Vuelo no encontrado&quot;);</span>
             }
 
-<span class="pc bpc" id="L454" title="1 of 2 branches missed.">            if (manejadorVuelo.tieneReservaDeCliente(nicknameCliente, vuelo)) {</span>
-<span class="nc" id="L455">                throw new IllegalArgumentException(&quot;El cliente ya tiene una reserva para este vuelo&quot;);</span>
+<span class="pc bpc" id="L465" title="1 of 2 branches missed.">            if (manejadorVuelo.tieneReservaDeCliente(nicknameCliente, vuelo)) {</span>
+<span class="nc" id="L466">                throw new IllegalArgumentException(&quot;El cliente ya tiene una reserva para este vuelo&quot;);</span>
             }
 
             // Persistir reserva para generar ID automático
-<span class="fc" id="L459">            entManager.persist(reserva);</span>
-<span class="fc" id="L460">            entManager.flush(); // Forzar generación del ID</span>
+<span class="fc" id="L470">            entManager.persist(reserva);</span>
+<span class="fc" id="L471">            entManager.flush(); // Forzar generación del ID</span>
 
             // Agregar reserva al vuelo y al cliente
-<span class="fc" id="L463">            vuelo.agregarReserva(reserva);</span>
-<span class="fc" id="L464">            manejadorCliente.agregarReserva(reserva, nicknameCliente, reserva.getId(), entManager);</span>
-<span class="fc" id="L465">            manejadorVuelo.actualizarVuelo(vuelo, entManager); // Ahora sin transacción interna</span>
+<span class="fc" id="L474">            vuelo.agregarReserva(reserva);</span>
+<span class="fc" id="L475">            manejadorCliente.agregarReserva(reserva, nicknameCliente, reserva.getId(), entManager);</span>
+<span class="fc" id="L476">            manejadorVuelo.actualizarVuelo(vuelo, entManager); // Ahora sin transacción interna</span>
 
-<span class="fc" id="L467">            entTransaction.commit();</span>
+<span class="fc" id="L478">            entTransaction.commit();</span>
 
-<span class="fc" id="L469">        } catch (Exception e) {</span>
-<span class="pc bpc" id="L470" title="1 of 2 branches missed.">            if (entTransaction.isActive()) {</span>
-<span class="fc" id="L471">                entTransaction.rollback();</span>
+<span class="nc" id="L480">        } catch (PersistenceException e) {</span>
+<span class="nc bnc" id="L481" title="All 2 branches missed.">            if (entTransaction.isActive()) {</span>
+<span class="nc" id="L482">                entTransaction.rollback();</span>
             }
-<span class="fc" id="L473">            throw new IllegalStateException(&quot;Error al registrar reserva: &quot; + e.getMessage(), e);</span>
-<span class="fc" id="L474">        }</span>
-<span class="fc" id="L475">    }</span>
+<span class="nc" id="L484">            throw new IllegalStateException(&quot;Error al registrar reserva: &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L485">        }</span>
+<span class="fc" id="L486">    }</span>
 
     @Override
     public DtReserva obtenerReserva(Long idReserva, String nicknameCliente) { // Cambiado a Long
-<span class="fc" id="L479">        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
+<span class="fc" id="L490">        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
         try {
-<span class="fc bfc" id="L481" title="All 2 branches covered.">            if (cliente == null) {</span>
-<span class="fc" id="L482">                throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+<span class="fc bfc" id="L492" title="All 2 branches covered.">            if (cliente == null) {</span>
+<span class="fc" id="L493">                throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
             }
-<span class="pc bpc" id="L484" title="1 of 2 branches missed.">            for (DtReserva r : cliente.getReservas()) {</span>
-<span class="pc bpc" id="L485" title="1 of 2 branches missed.">                if (r.getId().equals(idReserva)) {</span>
-<span class="fc" id="L486">                    return r;</span>
+<span class="pc bpc" id="L495" title="1 of 2 branches missed.">            for (DtReserva r : cliente.getReservas()) {</span>
+<span class="pc bpc" id="L496" title="1 of 2 branches missed.">                if (r.getId().equals(idReserva)) {</span>
+<span class="fc" id="L497">                    return r;</span>
                 }
-<span class="nc" id="L488">            }</span>
-<span class="nc" id="L489">            throw new IllegalArgumentException(&quot;Reserva no encontrada&quot;);</span>
-<span class="fc" id="L490">        } catch (Exception e) {</span>
-<span class="fc" id="L491">            throw new IllegalArgumentException(&quot;Error al obtener la reserva: &quot; + e.getMessage());</span>
+<span class="nc" id="L499">            }</span>
+<span class="nc" id="L500">            throw new IllegalArgumentException(&quot;Reserva no encontrada&quot;);</span>
+<span class="nc" id="L501">        } catch (PersistenceException e) {</span>
+<span class="nc" id="L502">            throw new IllegalArgumentException(&quot;Error al obtener la reserva: &quot; + e.getMessage());</span>
         }
     }
 
     // --- PAQUETES ---
     @Override
     public void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias) {
-<span class="pc bpc" id="L498" title="1 of 2 branches missed.">        if (manejadorPaquete.obtenerPaquete(nombre) != null) {</span>
-<span class="nc" id="L499">            throw new IllegalArgumentException(&quot;Ya existe un paquete con el nombre: &quot; + nombre);</span>
+<span class="pc bpc" id="L509" title="1 of 2 branches missed.">        if (manejadorPaquete.obtenerPaquete(nombre) != null) {</span>
+<span class="nc" id="L510">            throw new IllegalArgumentException(&quot;Ya existe un paquete con el nombre: &quot; + nombre);</span>
         }
 
-<span class="pc bpc" id="L502" title="1 of 4 branches missed.">        if (nombre == null || nombre.trim().isEmpty()) {</span>
-<span class="fc" id="L503">            throw new IllegalArgumentException(&quot;El nombre del paquete no puede estar vacío.&quot;);</span>
+<span class="pc bpc" id="L513" title="1 of 4 branches missed.">        if (nombre == null || nombre.trim().isEmpty()) {</span>
+<span class="fc" id="L514">            throw new IllegalArgumentException(&quot;El nombre del paquete no puede estar vacío.&quot;);</span>
         }
-<span class="fc bfc" id="L505" title="All 4 branches covered.">        if (descuentoPorc &lt; 0 || descuentoPorc &gt; 100) {</span>
-<span class="fc" id="L506">            throw new IllegalArgumentException(&quot;El descuento debe estar entre 0 y 100 por ciento.&quot;);</span>
+<span class="fc bfc" id="L516" title="All 4 branches covered.">        if (descuentoPorc &lt; 0 || descuentoPorc &gt; 100) {</span>
+<span class="fc" id="L517">            throw new IllegalArgumentException(&quot;El descuento debe estar entre 0 y 100 por ciento.&quot;);</span>
         }
-<span class="fc bfc" id="L508" title="All 2 branches covered.">        if (periodoValidezDias &lt; 0) {</span>
-<span class="fc" id="L509">            throw new IllegalArgumentException(&quot;El período de validez no puede ser negativo.&quot;);</span>
+<span class="fc bfc" id="L519" title="All 2 branches covered.">        if (periodoValidezDias &lt; 0) {</span>
+<span class="fc" id="L520">            throw new IllegalArgumentException(&quot;El período de validez no puede ser negativo.&quot;);</span>
         }
 
-<span class="fc" id="L512">        Paquete paquete = new Paquete(nombre.trim(), descripcion, descuentoPorc, periodoValidezDias);</span>
-<span class="fc" id="L513">        manejadorPaquete.agregarPaquete(paquete, entManager);</span>
-<span class="fc" id="L514">    }</span>
+<span class="fc" id="L523">        Paquete paquete = new Paquete(nombre.trim(), descripcion, descuentoPorc, periodoValidezDias);</span>
+<span class="fc" id="L524">        manejadorPaquete.agregarPaquete(paquete, entManager);</span>
+<span class="fc" id="L525">    }</span>
 
     @Override
     public List&lt;DtPaquete&gt; listarPaquetes() {
-<span class="fc" id="L518">        return (List&lt;DtPaquete&gt;) manejadorPaquete.getPaquetes();</span>
+<span class="fc" id="L529">        return (List&lt;DtPaquete&gt;) manejadorPaquete.getPaquetes();</span>
     }
 
     @Override
     public void modificarDatosDeCliente(String nickname, String nombre, String apellido, String nacionalidad, LocalDate fechaNacimiento, TipoDoc tipoDoc, String numeroDocumento) {
-<span class="fc" id="L523">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
-<span class="pc bpc" id="L524" title="1 of 2 branches missed.">        if (cliente != null) {</span>
-<span class="fc" id="L525">            cliente.setApellido(apellido);</span>
-<span class="fc" id="L526">            cliente.setNombre(nombre);</span>
-<span class="fc" id="L527">            cliente.setNacionalidad(nacionalidad);</span>
-<span class="fc" id="L528">            cliente.setFechaNacimiento(fechaNacimiento);</span>
-<span class="fc" id="L529">            cliente.setTipoDocumento(tipoDoc);</span>
-<span class="fc" id="L530">            cliente.setNumeroDocumento(numeroDocumento);</span>
-<span class="fc" id="L531">            manejadorCliente.modificarDatosCliente(cliente, entManager);</span>
+<span class="fc" id="L534">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
+<span class="pc bpc" id="L535" title="1 of 2 branches missed.">        if (cliente != null) {</span>
+<span class="fc" id="L536">            cliente.setApellido(apellido);</span>
+<span class="fc" id="L537">            cliente.setNombre(nombre);</span>
+<span class="fc" id="L538">            cliente.setNacionalidad(nacionalidad);</span>
+<span class="fc" id="L539">            cliente.setFechaNacimiento(fechaNacimiento);</span>
+<span class="fc" id="L540">            cliente.setTipoDocumento(tipoDoc);</span>
+<span class="fc" id="L541">            cliente.setNumeroDocumento(numeroDocumento);</span>
+<span class="fc" id="L542">            manejadorCliente.modificarDatosCliente(cliente, entManager);</span>
         } else {
-<span class="nc" id="L533">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+<span class="nc" id="L544">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
         }
-<span class="fc" id="L535">    }</span>
+<span class="fc" id="L546">    }</span>
 
     @Override
     public void modificarDatosAerolinea(String nickname, String descripcion, String url) {
-<span class="fc" id="L539">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
-<span class="fc bfc" id="L540" title="All 2 branches covered.">        if (aerolinea != null) {</span>
-<span class="fc" id="L541">            aerolinea.setDescripcion(descripcion);</span>
-<span class="fc" id="L542">            aerolinea.setSitioWeb(url);</span>
-<span class="fc" id="L543">            manejadorAerolinea.modificarDatosAerolinea(aerolinea, entManager);</span>
+<span class="fc" id="L550">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
+<span class="fc bfc" id="L551" title="All 2 branches covered.">        if (aerolinea != null) {</span>
+<span class="fc" id="L552">            aerolinea.setDescripcion(descripcion);</span>
+<span class="fc" id="L553">            aerolinea.setSitioWeb(url);</span>
+<span class="fc" id="L554">            manejadorAerolinea.modificarDatosAerolinea(aerolinea, entManager);</span>
         } else {
-<span class="fc" id="L545">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
+<span class="fc" id="L556">            throw new IllegalArgumentException(&quot;Aerolínea no encontrada&quot;);</span>
         }
-<span class="fc" id="L547">    }</span>
+<span class="fc" id="L558">    }</span>
 
     @Override
     public List&lt;DtPaquete&gt; listarPaquetesDisp() {
-<span class="fc" id="L551">        return manejadorPaquete.getPaquetesDisp();</span>
+<span class="fc" id="L562">        return manejadorPaquete.getPaquetesDisp();</span>
     }
 
     @Override
     public double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra) {
-<span class="fc" id="L556">        ManejadorVuelo manejadorVuelo = ManejadorVuelo.getInstance();</span>
-<span class="fc" id="L557">        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
+<span class="fc" id="L567">        ManejadorVuelo manejadorVuelo = ManejadorVuelo.getInstance();</span>
+<span class="fc" id="L568">        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);</span>
 
-<span class="fc bfc" id="L559" title="All 2 branches covered.">        if (vuelo == null) {</span>
-<span class="fc" id="L560">            throw new IllegalArgumentException(&quot;Vuelo no encontrado: &quot; + nombreVuelo);</span>
+<span class="fc bfc" id="L570" title="All 2 branches covered.">        if (vuelo == null) {</span>
+<span class="fc" id="L571">            throw new IllegalArgumentException(&quot;Vuelo no encontrado: &quot; + nombreVuelo);</span>
         }
 
         double costoBase;
-<span class="fc bfc" id="L564" title="All 2 branches covered.">        if (tipoAsiento == TipoAsiento.TURISTA) {</span>
-<span class="fc" id="L565">            costoBase = 100.0;</span>
+<span class="fc bfc" id="L575" title="All 2 branches covered.">        if (tipoAsiento == TipoAsiento.TURISTA) {</span>
+<span class="fc" id="L576">            costoBase = 100.0;</span>
         } else {
-<span class="fc" id="L567">            costoBase = 200.0;</span>
+<span class="fc" id="L578">            costoBase = 200.0;</span>
         }
 
-<span class="fc" id="L570">        double costoPasajes = costoBase * cantidadPasajes;</span>
-<span class="fc" id="L571">        double costoEquipaje = 30.0 * unidadesEquipajeExtra;</span>
+<span class="fc" id="L581">        double costoPasajes = costoBase * cantidadPasajes;</span>
+<span class="fc" id="L582">        double costoEquipaje = 30.0 * unidadesEquipajeExtra;</span>
 
-<span class="fc" id="L573">        return costoPasajes + costoEquipaje;</span>
+<span class="fc" id="L584">        return costoPasajes + costoEquipaje;</span>
     }
 
     @Override
     public Pasajero crearPasajero(String nombre, String apellido) {
-<span class="pc bpc" id="L578" title="1 of 4 branches missed.">        if (nombre == null || nombre.trim().isEmpty()) {</span>
-<span class="fc" id="L579">            throw new IllegalArgumentException(&quot;El nombre del pasajero no puede estar vacío.&quot;);</span>
+<span class="pc bpc" id="L589" title="1 of 4 branches missed.">        if (nombre == null || nombre.trim().isEmpty()) {</span>
+<span class="fc" id="L590">            throw new IllegalArgumentException(&quot;El nombre del pasajero no puede estar vacío.&quot;);</span>
         }
-<span class="pc bpc" id="L581" title="1 of 4 branches missed.">        if (apellido == null || apellido.trim().isEmpty()) {</span>
-<span class="fc" id="L582">            throw new IllegalArgumentException(&quot;El apellido del pasajero no puede estar vacío.&quot;);</span>
+<span class="pc bpc" id="L592" title="1 of 4 branches missed.">        if (apellido == null || apellido.trim().isEmpty()) {</span>
+<span class="fc" id="L593">            throw new IllegalArgumentException(&quot;El apellido del pasajero no puede estar vacío.&quot;);</span>
         }
-<span class="fc" id="L584">        return new Pasajero(nombre.trim(), apellido.trim());</span>
+<span class="fc" id="L595">        return new Pasajero(nombre.trim(), apellido.trim());</span>
     }
 
     @Override
     public void compraPaquete(String nomPaquete, String nomCliente, int validezDias, LocalDate fechaC, double costo) {
-<span class="fc" id="L589">        Paquete paquete = manejadorPaquete.obtenerPaquete(nomPaquete);</span>
-<span class="fc bfc" id="L590" title="All 2 branches covered.">        if (paquete == null) {</span>
-<span class="fc" id="L591">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
+<span class="fc" id="L600">        Paquete paquete = manejadorPaquete.obtenerPaquete(nomPaquete);</span>
+<span class="fc bfc" id="L601" title="All 2 branches covered.">        if (paquete == null) {</span>
+<span class="fc" id="L602">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
         }
 
-<span class="fc" id="L594">        DtCliente dtCliente = manejadorCliente.obtenerCliente(nomCliente);</span>
-<span class="fc bfc" id="L595" title="All 2 branches covered.">        if (dtCliente == null) {</span>
-<span class="fc" id="L596">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+<span class="fc" id="L605">        DtCliente dtCliente = manejadorCliente.obtenerCliente(nomCliente);</span>
+<span class="fc bfc" id="L606" title="All 2 branches covered.">        if (dtCliente == null) {</span>
+<span class="fc" id="L607">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
         }
 
-<span class="fc bfc" id="L599" title="All 2 branches covered.">        for (CompraPaqLogica cp : paquete.getCompras()) {</span>
-<span class="pc bpc" id="L600" title="1 of 2 branches missed.">            if (cp.getCliente().getNickname().equals(dtCliente.getNickname())) {</span>
-<span class="fc" id="L601">                throw new IllegalArgumentException(&quot;Error, el cliente &quot; + dtCliente.getNombre() + &quot; ya compró el paquete &quot; + paquete.getNombre() + &quot;. Elija otro o cancele.&quot;);</span>
+<span class="fc bfc" id="L610" title="All 2 branches covered.">        for (CompraPaqLogica cp : paquete.getCompras()) {</span>
+<span class="pc bpc" id="L611" title="1 of 2 branches missed.">            if (cp.getCliente().getNickname().equals(dtCliente.getNickname())) {</span>
+<span class="fc" id="L612">                throw new IllegalArgumentException(&quot;Error, el cliente &quot; + dtCliente.getNombre() + &quot; ya compró el paquete &quot; + paquete.getNombre() + &quot;. Elija otro o cancele.&quot;);</span>
             }
-<span class="nc" id="L603">        }</span>
+<span class="nc" id="L614">        }</span>
 
         try {
-<span class="fc" id="L606">            manejadorPaquete.compraPaquete(paquete, dtCliente, validezDias, fechaC, costo, entManager);</span>
-<span class="fc" id="L607">            LOGGER.info(() -&gt; &quot;Paquete comprado correctamente para cliente: &quot; + dtCliente.getNickname() + &quot;, paquete: &quot; + paquete.getNombre());</span>
-<span class="nc" id="L608">        } catch (IllegalStateException e) {</span>
-<span class="nc" id="L609">            LOGGER.log(Level.SEVERE, () -&gt; &quot;Error comprando paquete: &quot; + e.getMessage());</span>
-<span class="nc" id="L610">            throw e;</span>
-<span class="fc" id="L611">        }</span>
-<span class="fc" id="L612">    }</span>
+<span class="fc" id="L617">            manejadorPaquete.compraPaquete(paquete, dtCliente, validezDias, fechaC, costo, entManager);</span>
+<span class="fc" id="L618">            LOGGER.info(() -&gt; &quot;Paquete comprado correctamente para cliente: &quot; + dtCliente.getNickname() + &quot;, paquete: &quot; + paquete.getNombre());</span>
+<span class="nc" id="L619">        } catch (IllegalStateException e) {</span>
+<span class="nc" id="L620">            LOGGER.log(Level.SEVERE, () -&gt; &quot;Error comprando paquete: &quot; + e.getMessage());</span>
+<span class="nc" id="L621">            throw e;</span>
+<span class="fc" id="L622">        }</span>
+<span class="fc" id="L623">    }</span>
 
     @Override
     public void altaCategoria(String nomCat) {
-<span class="fc" id="L616">        Categoria cat = manejadorCategoria.buscarCategorias(nomCat);</span>
-<span class="fc bfc" id="L617" title="All 2 branches covered.">        if (cat != null) {</span>
-<span class="fc" id="L618">            throw new IllegalArgumentException(&quot;Error, la categoria ya existe.&quot;);</span>
+<span class="fc" id="L627">        Categoria cat = manejadorCategoria.buscarCategorias(nomCat);</span>
+<span class="fc bfc" id="L628" title="All 2 branches covered.">        if (cat != null) {</span>
+<span class="fc" id="L629">            throw new IllegalArgumentException(&quot;Error, la categoria ya existe.&quot;);</span>
         }
 
         try {
-<span class="fc" id="L622">            Categoria categoria = new Categoria(nomCat);</span>
-<span class="fc" id="L623">            manejadorCategoria.agregarCategoria(categoria, entManager);</span>
-<span class="fc" id="L624">            LOGGER.info(() -&gt; &quot;Categoría creada correctamente: &quot; + nomCat);</span>
-<span class="nc" id="L625">        } catch (IllegalStateException e) {</span>
-<span class="nc" id="L626">            LOGGER.log(Level.SEVERE, () -&gt; &quot;Error creando categoría: &quot; + e.getMessage());</span>
-<span class="nc" id="L627">            throw e;</span>
-<span class="fc" id="L628">        }</span>
-<span class="fc" id="L629">    }</span>
+<span class="fc" id="L633">            Categoria categoria = new Categoria(nomCat);</span>
+<span class="fc" id="L634">            manejadorCategoria.agregarCategoria(categoria, entManager);</span>
+<span class="fc" id="L635">            LOGGER.info(() -&gt; &quot;Categoría creada correctamente: &quot; + nomCat);</span>
+<span class="nc" id="L636">        } catch (IllegalStateException e) {</span>
+<span class="nc" id="L637">            LOGGER.log(Level.SEVERE, () -&gt; &quot;Error creando categoría: &quot; + e.getMessage());</span>
+<span class="nc" id="L638">            throw e;</span>
+<span class="fc" id="L639">        }</span>
+<span class="fc" id="L640">    }</span>
 
     @Override
     public List&lt;Object&gt; obtenerDatosAdicionalesUsuario(String nickname) {
-<span class="fc" id="L633">        List&lt;Object&gt; adicionales = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L634">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
-<span class="fc bfc" id="L635" title="All 2 branches covered.">        if (cliente != null) {</span>
-<span class="fc" id="L636">            adicionales.addAll(cliente.getReservas());</span>
-<span class="fc" id="L637">            adicionales.addAll(cliente.getPaquetesComprados());</span>
-<span class="fc" id="L638">            return adicionales;</span>
+<span class="fc" id="L644">        List&lt;Object&gt; adicionales = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L645">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
+<span class="fc bfc" id="L646" title="All 2 branches covered.">        if (cliente != null) {</span>
+<span class="fc" id="L647">            adicionales.addAll(cliente.getReservas());</span>
+<span class="fc" id="L648">            adicionales.addAll(cliente.getPaquetesComprados());</span>
+<span class="fc" id="L649">            return adicionales;</span>
         }
-<span class="fc" id="L640">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
-<span class="pc bpc" id="L641" title="1 of 2 branches missed.">        if (aerolinea != null) {</span>
-<span class="fc" id="L642">            adicionales.addAll(aerolinea.getRutasVuelo());</span>
-<span class="fc" id="L643">            return adicionales;</span>
+<span class="fc" id="L651">        Aerolinea aerolinea = manejadorAerolinea.obtenerAerolinea(nickname);</span>
+<span class="pc bpc" id="L652" title="1 of 2 branches missed.">        if (aerolinea != null) {</span>
+<span class="fc" id="L653">            adicionales.addAll(aerolinea.getRutasVuelo());</span>
+<span class="fc" id="L654">            return adicionales;</span>
         }
-<span class="nc" id="L645">        return adicionales;</span>
+<span class="nc" id="L656">        return adicionales;</span>
     }
 
     @Override
     public List&lt;DtCiudad&gt; listarCiudades() {
-<span class="fc" id="L650">        List&lt;DtCiudad&gt; dtCiudades = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L651" title="All 2 branches covered.">        for (Ciudad ciudad : manejadorCiudad.getCiudades()) {</span>
-<span class="fc" id="L652">            dtCiudades.add(new DtCiudad(ciudad.getNombre(), ciudad.getPais()));</span>
-<span class="fc" id="L653">        }</span>
-<span class="fc" id="L654">        return dtCiudades;</span>
+<span class="fc" id="L661">        List&lt;DtCiudad&gt; dtCiudades = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L662" title="All 2 branches covered.">        for (Ciudad ciudad : manejadorCiudad.getCiudades()) {</span>
+<span class="fc" id="L663">            dtCiudades.add(new DtCiudad(ciudad.getNombre(), ciudad.getPais()));</span>
+<span class="fc" id="L664">        }</span>
+<span class="fc" id="L665">        return dtCiudades;</span>
     }
 
     @Override
     public List&lt;DtCategoria&gt; listarCategorias() {
-<span class="fc" id="L659">        List&lt;DtCategoria&gt; lista = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L660" title="All 2 branches covered.">        for (Categoria c : manejadorCategoria.getCategorias().values()) {</span>
-<span class="fc" id="L661">            lista.add(new DtCategoria(c.getNombre()));</span>
-<span class="fc" id="L662">        }</span>
-<span class="fc" id="L663">        return lista;</span>
+<span class="fc" id="L670">        List&lt;DtCategoria&gt; lista = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L671" title="All 2 branches covered.">        for (Categoria c : manejadorCategoria.getCategorias().values()) {</span>
+<span class="fc" id="L672">            lista.add(new DtCategoria(c.getNombre()));</span>
+<span class="fc" id="L673">        }</span>
+<span class="fc" id="L674">        return lista;</span>
     }
 
     @Override
     public void altaRutaPaquete(String nombrePaquete, String nomRuta, int cantidadAsientos, TipoAsiento tipoAsiento) {
-<span class="fc" id="L668">        Paquete paquete = manejadorPaquete.obtenerPaquete(nombrePaquete);</span>
-<span class="fc bfc" id="L669" title="All 2 branches covered.">        if (paquete == null) {</span>
-<span class="fc" id="L670">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
+<span class="fc" id="L679">        Paquete paquete = manejadorPaquete.obtenerPaquete(nombrePaquete);</span>
+<span class="fc bfc" id="L680" title="All 2 branches covered.">        if (paquete == null) {</span>
+<span class="fc" id="L681">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
         }
 
-<span class="fc bfc" id="L673" title="All 2 branches covered.">        if (paquete.estaComprado()) {</span>
-<span class="fc" id="L674">            throw new IllegalArgumentException(&quot;No se pueden agregar rutas a un paquete que ya ha sido comprado.&quot;);</span>
+<span class="fc bfc" id="L684" title="All 2 branches covered.">        if (paquete.estaComprado()) {</span>
+<span class="fc" id="L685">            throw new IllegalArgumentException(&quot;No se pueden agregar rutas a un paquete que ya ha sido comprado.&quot;);</span>
         }
 
-<span class="fc" id="L677">        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nomRuta);</span>
-<span class="pc bpc" id="L678" title="1 of 2 branches missed.">        if (ruta == null) {</span>
-<span class="nc" id="L679">            throw new IllegalArgumentException(&quot;No se encontró la ruta con ese nombre.&quot;);</span>
+<span class="fc" id="L688">        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nomRuta);</span>
+<span class="pc bpc" id="L689" title="1 of 2 branches missed.">        if (ruta == null) {</span>
+<span class="nc" id="L690">            throw new IllegalArgumentException(&quot;No se encontró la ruta con ese nombre.&quot;);</span>
         }
 
-<span class="pc bpc" id="L682" title="1 of 2 branches missed.">        if (ruta.getEstado() != RutaVuelo.EstadoRuta.CONFIRMADA) {</span>
-<span class="nc" id="L683">            throw new IllegalArgumentException(&quot;No se puede agregar una ruta que no esté CONFIRMADA al paquete. Ruta actual: &quot; + ruta.getEstado());</span>
+<span class="pc bpc" id="L693" title="1 of 2 branches missed.">        if (ruta.getEstado() != RutaVuelo.EstadoRuta.CONFIRMADA) {</span>
+<span class="nc" id="L694">            throw new IllegalArgumentException(&quot;No se puede agregar una ruta que no esté CONFIRMADA al paquete. Ruta actual: &quot; + ruta.getEstado());</span>
         }
 
-<span class="fc" id="L686">        manejadorPaquete.agregarRutaAPaquete(paquete, ruta, cantidadAsientos, tipoAsiento, entManager);</span>
+<span class="fc" id="L697">        manejadorPaquete.agregarRutaAPaquete(paquete, ruta, cantidadAsientos, tipoAsiento, entManager);</span>
 
-<span class="fc" id="L688">        DtPaquete dtPaquete = obtenerDtPaquete(nombrePaquete);</span>
-<span class="pc bpc" id="L689" title="1 of 2 branches missed.">        if (dtPaquete != null) {</span>
-<span class="fc" id="L690">            DtRutaVuelo dtRuta = ruta.getDtRutaVuelo();</span>
-<span class="fc" id="L691">            DtItemPaquete dtItem = new DtItemPaquete(dtRuta, cantidadAsientos, tipoAsiento.toString());</span>
-<span class="fc" id="L692">            dtPaquete.getItems().add(dtItem);</span>
+<span class="fc" id="L699">        DtPaquete dtPaquete = obtenerDtPaquete(nombrePaquete);</span>
+<span class="pc bpc" id="L700" title="1 of 2 branches missed.">        if (dtPaquete != null) {</span>
+<span class="fc" id="L701">            DtRutaVuelo dtRuta = ruta.getDtRutaVuelo();</span>
+<span class="fc" id="L702">            DtItemPaquete dtItem = new DtItemPaquete(dtRuta, cantidadAsientos, tipoAsiento.toString());</span>
+<span class="fc" id="L703">            dtPaquete.getItems().add(dtItem);</span>
         }
-<span class="fc" id="L694">        LOGGER.info(() -&gt; &quot;Ruta agregada al paquete correctamente: &quot; + nombrePaquete + &quot;, ruta: &quot; + nomRuta);</span>
-<span class="fc" id="L695">    }</span>
+<span class="fc" id="L705">        LOGGER.info(() -&gt; &quot;Ruta agregada al paquete correctamente: &quot; + nombrePaquete + &quot;, ruta: &quot; + nomRuta);</span>
+<span class="fc" id="L706">    }</span>
 
     @Override
     public Paquete obtenerPaquete(String nombrePaquete) {
-<span class="fc" id="L699">        Paquete paquete = manejadorPaquete.obtenerPaquete(nombrePaquete);</span>
-<span class="fc bfc" id="L700" title="All 2 branches covered.">        if (paquete == null) {</span>
-<span class="fc" id="L701">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
+<span class="fc" id="L710">        Paquete paquete = manejadorPaquete.obtenerPaquete(nombrePaquete);</span>
+<span class="fc bfc" id="L711" title="All 2 branches covered.">        if (paquete == null) {</span>
+<span class="fc" id="L712">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
         }
-<span class="fc" id="L703">        return paquete;</span>
+<span class="fc" id="L714">        return paquete;</span>
     }
 
     @Override
     public DtPaquete obtenerDtPaquete(String nombrePaquete) {
-<span class="fc" id="L708">        DtPaquete paquete = manejadorPaquete.obtenerDtPaquete(nombrePaquete);</span>
-<span class="fc bfc" id="L709" title="All 2 branches covered.">        if (paquete == null) {</span>
-<span class="fc" id="L710">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
+<span class="fc" id="L719">        DtPaquete paquete = manejadorPaquete.obtenerDtPaquete(nombrePaquete);</span>
+<span class="fc bfc" id="L720" title="All 2 branches covered.">        if (paquete == null) {</span>
+<span class="fc" id="L721">            throw new IllegalArgumentException(&quot;Paquete no encontrado&quot;);</span>
         }
-<span class="fc" id="L712">        return paquete;</span>
+<span class="fc" id="L723">        return paquete;</span>
     }
 
     @Override
     public List&lt;DtAerolinea&gt; getAerolineas() {
-<span class="nc" id="L717">        return manejadorAerolinea.getDtAerolineas();</span>
+<span class="nc" id="L728">        return manejadorAerolinea.getDtAerolineas();</span>
     }
 
     @Override
     public List&lt;DtPaquete&gt; getPaquetesDisp() {
-<span class="nc" id="L722">        return manejadorPaquete.getPaquetes();</span>
+<span class="nc" id="L733">        return manejadorPaquete.getPaquetes();</span>
     }
 
     @Override
     public List&lt;DtCliente&gt; getClientes() {
-<span class="nc" id="L727">        return manejadorCliente.getClientes();</span>
+<span class="nc" id="L738">        return manejadorCliente.getClientes();</span>
     }
 
     @Override
     public List&lt;DtReserva&gt; getReservasCliente(String nickname) {
-<span class="fc" id="L732">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
-<span class="fc bfc" id="L733" title="All 2 branches covered.">        if (cliente != null) {</span>
-<span class="fc" id="L734">            return cliente.getReservas();</span>
+<span class="fc" id="L743">        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);</span>
+<span class="fc bfc" id="L744" title="All 2 branches covered.">        if (cliente != null) {</span>
+<span class="fc" id="L745">            return cliente.getReservas();</span>
         } else {
-<span class="fc" id="L736">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
+<span class="fc" id="L747">            throw new IllegalArgumentException(&quot;Cliente no encontrado&quot;);</span>
         }
     }
 
     @Override
     public List&lt;DtItemPaquete&gt; getDtItemRutasPaquete(String nombrePaquete) {
-<span class="fc" id="L742">        List&lt;DtItemPaquete&gt; items = manejadorPaquete.obtenerDtItemsPaquete(nombrePaquete);</span>
-<span class="pc bpc" id="L743" title="1 of 4 branches missed.">        if (items != null &amp;&amp; !items.isEmpty()) {</span>
-<span class="fc" id="L744">            return items;</span>
+<span class="fc" id="L753">        List&lt;DtItemPaquete&gt; items = manejadorPaquete.obtenerDtItemsPaquete(nombrePaquete);</span>
+<span class="pc bpc" id="L754" title="1 of 4 branches missed.">        if (items != null &amp;&amp; !items.isEmpty()) {</span>
+<span class="fc" id="L755">            return items;</span>
         } else {
-<span class="fc" id="L746">            throw new IllegalArgumentException(&quot;Paquete no encontrado o sin rutas asociadas&quot;);</span>
+<span class="fc" id="L757">            throw new IllegalArgumentException(&quot;Paquete no encontrado o sin rutas asociadas&quot;);</span>
         }
     }
 

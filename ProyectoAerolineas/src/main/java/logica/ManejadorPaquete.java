@@ -6,6 +6,7 @@ import DataTypes.DtPaquete;
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public final class ManejadorPaquete {
                 entTransaction.begin();
                 entManager.persist(paquete);
                 entTransaction.commit();
-            } catch (Exception e) {
+            } catch (PersistenceException e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 e.printStackTrace();
             }
@@ -106,7 +107,7 @@ public final class ManejadorPaquete {
             entTransaction.begin();
             entManager.merge(paquete);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             throw new IllegalArgumentException("Error al guardar la ruta en el paquete: " + e.getMessage());
         }
@@ -142,7 +143,7 @@ public final class ManejadorPaquete {
             entManager.merge(paquete);
             entManager.merge(clienteObj);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             throw new IllegalStateException("Error al comprar el paquete: " + e.getMessage(), e);
         }

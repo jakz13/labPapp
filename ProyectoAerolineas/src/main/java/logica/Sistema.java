@@ -4,7 +4,18 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import DataTypes.*;
+import jakarta.persistence.PersistenceException;
+
+import DataTypes.DtCliente;
+import DataTypes.DtAerolinea;
+import DataTypes.DtCiudad;
+import DataTypes.DtCategoria;
+import DataTypes.DtVuelo;
+import DataTypes.DtReserva;
+import DataTypes.DtPaquete;
+import DataTypes.DtRutaVuelo;
+import DataTypes.DtItemPaquete;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -280,7 +291,7 @@ public class Sistema implements ISistema {
     public void altaRutaVuelo(String nombre, String descripcion, String descripcionCorta, DtAerolinea aerolinea,
                               String ciudadOrigen, String ciudadDestino, String hora,
                               LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
-                              double costoEquipajeExtra, String[] categorias,String imagenUrl ) {
+                              double costoEquipajeExtra, String[] categorias, String imagenUrl ) {
 
         Aerolinea aero = manejadorAerolinea.obtenerAerolinea(aerolinea.getNickname());
         if (aero == null) {
@@ -308,7 +319,7 @@ public class Sistema implements ISistema {
 
         RutaVuelo rutaVuelo = new RutaVuelo(nombre, descripcion, descripcionCorta, aero, ciudadOrigen, ciudadDestino,
                 hora, fechaAlta, costoTurista, costoEjecutivo,
-                costoEquipajeExtra, categoriaValida,imagenUrl);
+                costoEquipajeExtra, categoriaValida, imagenUrl);
 
         manejadorRutaVuelo.agregarRutaVuelo(rutaVuelo, entManager);
         manejadorAerolinea.agregarRutaVueloAAerolinea(aero.getNickname(), rutaVuelo, entManager);
@@ -466,7 +477,7 @@ public class Sistema implements ISistema {
 
             entTransaction.commit();
 
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) {
                 entTransaction.rollback();
             }
@@ -487,7 +498,7 @@ public class Sistema implements ISistema {
                 }
             }
             throw new IllegalArgumentException("Reserva no encontrada");
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             throw new IllegalArgumentException("Error al obtener la reserva: " + e.getMessage());
         }
     }

@@ -151,7 +151,7 @@ public class Cliente extends Usuario {
      * Agrega una reserva a la lista del cliente.
      */
     public void agregarReserva(Reserva reserva) {
-        if(reserva == null) {
+        if (reserva == null) {
             throw new IllegalArgumentException("La ruta no puede ser null");
         }
         reservas.add(reserva);

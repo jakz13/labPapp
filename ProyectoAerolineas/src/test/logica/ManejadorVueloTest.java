@@ -2,6 +2,8 @@ package logica;
 
 import DataTypes.DtVuelo;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,22 +59,37 @@ class ManejadorVueloTest {
 
     @Test
     void agregarConTransaccionRollbackOnException() {
+        // Crear un vuelo mock
         Vuelo v = mock(Vuelo.class);
         when(v.getNombre()).thenReturn("VX2");
 
+        // Mockear EntityManager y EntityTransaction
         EntityManager em = mock(EntityManager.class);
-        var tx = mock(jakarta.persistence.EntityTransaction.class);
+        EntityTransaction tx = mock(EntityTransaction.class);
         when(em.getTransaction()).thenReturn(tx);
-        // Simular que la transacción está activa para que el catch haga rollback
         when(tx.isActive()).thenReturn(true);
-        doThrow(new RuntimeException("boom")).when(em).persist(v);
 
-        RuntimeException ex = assertThrows(RuntimeException.class, () -> mgr.agregarVueloConTransaccion(v, em));
-        assertTrue(ex.getMessage().contains("Error al agregar el vuelo"));
+        // Simular que persist lanza excepción
+        //doThrow(new RuntimeException("boom")).when(em).persist(v);
+        //doThrow(new PersistenceException()).when(em).persist(any(Vuelo.class));
+        doThrow(new PersistenceException("boom")).when(em).persist(any(Vuelo.class));
+
+        // Ejecutar y verificar que lanza la RuntimeException con el mensaje esperado
+        RuntimeException ex = assertThrows(RuntimeException.class,
+                () -> mgr.agregarVueloConTransaccion(v, em));
+
+        assertTrue(ex.getMessage().contains("Error al agregar el vuelo"),
+                "El mensaje de la excepción debe contener 'Error al agregar el vuelo'");
+
+        // Verificar transacción: begin y rollback
         verify(tx).begin();
         verify(tx).rollback();
-        assertFalse(mgr.existeVuelo("VX2"));
+
+        // Verificar que no quedó el vuelo en el mapa
+        assertFalse(mgr.existeVuelo("VX2"),
+                "El vuelo no debe existir en el mapa si hubo rollback");
     }
+
 
 
     @Test

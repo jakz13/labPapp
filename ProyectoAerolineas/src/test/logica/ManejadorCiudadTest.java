@@ -2,6 +2,7 @@ package logica;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,7 +62,7 @@ class ManejadorCiudadTest {
         Ciudad ciudad = new Ciudad("Salto", "Uruguay");
 
         // Simula que persist lanza excepción
-        doThrow(new RuntimeException()).when(em).persist(any(Ciudad.class));
+        doThrow(new PersistenceException()).when(em).persist(any(Ciudad.class));
 
         RuntimeException e = assertThrows(RuntimeException.class, () ->
                 manejador.agregarCiudad(ciudad, em)
@@ -70,22 +71,7 @@ class ManejadorCiudadTest {
         verify(tx).begin();
         verify(tx).rollback();
     }
-/*
-    @Test
-    void cargarCiudadesDesdeBDDeberiaCargarTodas() {
-        Ciudad c1 = new Ciudad("Maldonado", "Uruguay");
-        Ciudad c2 = new Ciudad("Canelones", "Uruguay");
 
-        TypedQuery<Ciudad> query = mock(TypedQuery.class);
-        when(em.createQuery("SELECT c FROM Ciudad c", Ciudad.class)).thenReturn(query);
-        when(query.getResultList()).thenReturn(Arrays.asList(c1, c2));
-
-        manejador.cargarCiudadesDesdeBD(em);
-
-        assertEquals(c1, manejador.obtenerCiudad("Maldonado"));
-        assertEquals(c2, manejador.obtenerCiudad("Canelones"));
-    }
-*/
     @Test
     void getCiudadesDeberiaDevolverLista() {
         Ciudad c1 = new Ciudad("Artigas", "Uruguay");

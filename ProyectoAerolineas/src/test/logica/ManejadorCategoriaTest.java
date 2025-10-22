@@ -2,6 +2,7 @@ package logica;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -96,7 +97,7 @@ class ManejadorCategoriaTest {
 
         when(em.getTransaction()).thenReturn(tx);
         when(tx.isActive()).thenReturn(true);
-        doThrow(new RuntimeException()).when(em).persist(any(Categoria.class));
+        doThrow(new PersistenceException()).when(em).persist(any(Categoria.class));
 
         ManejadorCategoria manejador = ManejadorCategoria.getInstance();
 

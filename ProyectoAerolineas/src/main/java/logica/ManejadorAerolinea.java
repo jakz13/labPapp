@@ -4,6 +4,7 @@ import DataTypes.DtAerolinea;
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import java.util.Map;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public final class ManejadorAerolinea {
             entTransaction.begin();
             entManager.persist(aerolinea);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             e.printStackTrace();
         }
@@ -65,7 +66,7 @@ public final class ManejadorAerolinea {
                 entTransaction.begin();
                 entManager.merge(aerolinea);
                 entTransaction.commit();
-            } catch (Exception e) {
+            } catch (PersistenceException  e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 throw new IllegalStateException("Error al agregar la ruta a la aerolínea", e);
             }
@@ -129,7 +130,7 @@ public final class ManejadorAerolinea {
                 entTransaction.begin();
                 entManager.merge(aerolinea);
                 entTransaction.commit();
-            } catch (Exception e) {
+            } catch (PersistenceException  e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 throw new IllegalStateException("Error actualizando contraseña: " + e.getMessage(), e);
             }
@@ -157,7 +158,7 @@ public final class ManejadorAerolinea {
             entTransaction.begin();
             entManager.merge(aerolinea);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException  e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             throw new IllegalStateException("Error modificando datos completos de la aerolínea: " + e.getMessage(), e);
         }
@@ -173,7 +174,7 @@ public final class ManejadorAerolinea {
                 entTransaction.begin();
                 entManager.merge(aerolinea);
                 entTransaction.commit();
-            } catch (Exception e) {
+            } catch (PersistenceException  e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 throw new IllegalStateException("Error actualizando imagen de la aerolínea: " + e.getMessage(), e);
             }
@@ -190,7 +191,7 @@ public final class ManejadorAerolinea {
                 entTransaction.begin();
                 entManager.merge(aerolinea);
                 entTransaction.commit();
-            } catch (Exception e) {
+            } catch (PersistenceException  e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 e.printStackTrace();
             }

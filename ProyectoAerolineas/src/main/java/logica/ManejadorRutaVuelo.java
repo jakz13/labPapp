@@ -3,6 +3,7 @@ package logica;
 import DataTypes.DtVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public final class ManejadorRutaVuelo {
             entTransaction.begin();
             entManager.persist(ruta);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             e.printStackTrace();
         }
@@ -81,7 +82,7 @@ public final class ManejadorRutaVuelo {
                 entTransaction.begin();
                 entManager.merge(ruta);
                 entTransaction.commit();
-            } catch (Exception e) {
+            } catch (PersistenceException e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 e.printStackTrace();
             }
@@ -155,7 +156,7 @@ public final class ManejadorRutaVuelo {
                 entTransaction.begin();
                 entManager.merge(ruta);
                 entTransaction.commit();
-            } catch (Exception e) {
+            } catch (PersistenceException e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 e.printStackTrace();
             }
@@ -184,7 +185,7 @@ public final class ManejadorRutaVuelo {
                 entManager.merge(ruta);
                 entTransaction.commit();
                 //System.out.println("Imagen actualizada para ruta: " + nombreRuta);
-            } catch (Exception e) {
+            } catch (PersistenceException e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 throw new IllegalStateException("Error actualizando imagen de la ruta: " + e.getMessage(), e);
             }

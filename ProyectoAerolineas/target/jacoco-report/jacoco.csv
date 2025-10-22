@@ -1,8 +1,8 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 MiProyectoSwing,logica,PasswordManager,18,31,0,0,5,8,2,2,2,2
-MiProyectoSwing,logica,Sistema,143,1348,30,112,29,306,34,106,7,62
+MiProyectoSwing,logica,Sistema,165,1326,31,111,35,300,34,106,7,62
 MiProyectoSwing,logica,Aerolinea,32,238,16,22,2,60,17,16,1,13
-MiProyectoSwing,logica,Paquete,77,104,9,5,19,26,10,13,5,11
+MiProyectoSwing,logica,Paquete,23,168,2,14,4,43,3,22,2,15
 MiProyectoSwing,logica,RutaVuelo,106,258,20,12,13,64,17,34,2,33
 MiProyectoSwing,logica,RutaVuelo.EstadoRuta,0,21,0,0,0,4,0,1,0,1
 MiProyectoSwing,logica,Vuelo,21,260,3,9,2,65,5,22,2,19

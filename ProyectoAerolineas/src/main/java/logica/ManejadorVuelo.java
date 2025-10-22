@@ -3,6 +3,7 @@ package logica;
 import DataTypes.DtVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public final class ManejadorVuelo {
             entManager.persist(vuelo);
             vuelos.put(vuelo.getNombre(), vuelo);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             throw new IllegalStateException("Error al agregar el vuelo: " + e.getMessage(), e);
         }
@@ -76,7 +77,7 @@ public final class ManejadorVuelo {
             entTransaction.begin();
             entManager.merge(vuelo);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             throw new IllegalStateException("Error al actualizar el vuelo: " + e.getMessage(), e);
         }
@@ -145,7 +146,7 @@ public final class ManejadorVuelo {
                 vuelos.remove(nombreVuelo);
             }
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             throw new IllegalStateException("Error al eliminar el vuelo: " + e.getMessage(), e);
         }

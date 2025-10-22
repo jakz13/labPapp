@@ -3,6 +3,7 @@ package logica;
 import DataTypes.DtVuelo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +78,7 @@ class ManejadorRutaVueloTest {
 
         // simular excepción en persist para ruta2
         RutaVuelo ruta2 = new RutaVuelo("R2","d2","dc2",aero,"O2","D2","11:00", LocalDate.now(),60,90,5,List.of(), null);
-        doThrow(new RuntimeException("boom")).when(em).persist(ruta2);
+        doThrow(new PersistenceException()).when(em).persist(any(RutaVuelo.class));
         mr.agregarRutaVuelo(ruta2, em);
         // se intentó rollback
         verify(tx, atLeastOnce()).rollback();

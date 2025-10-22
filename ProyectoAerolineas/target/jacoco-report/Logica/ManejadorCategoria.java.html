@@ -2,6 +2,7 @@
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 
 import java.util.HashMap;
@@ -17,49 +18,50 @@ public final class ManejadorCategoria {
     private Map&lt;String, Categoria&gt; categorias;
     private static ManejadorCategoria instancia;
 
-<span class="fc" id="L20">    private ManejadorCategoria() {</span>
-<span class="fc" id="L21">        categorias = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L22">    }</span>
+<span class="fc" id="L21">    private ManejadorCategoria() {</span>
+<span class="fc" id="L22">        categorias = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L23">    }</span>
 
     public static ManejadorCategoria getInstance() {
-<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (instancia == null) {</span>
-<span class="fc" id="L26">            instancia = new ManejadorCategoria();</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L27">            instancia = new ManejadorCategoria();</span>
         }
-<span class="fc" id="L28">        return instancia;</span>
+<span class="fc" id="L29">        return instancia;</span>
     }
 
     // === Cargar todas las categorías desde la BD a memoria ===
     public void cargarCategoriasDesdeBD(EntityManager entManager) {
-<span class="fc" id="L33">        TypedQuery&lt;Categoria&gt; query = entManager.createQuery(&quot;SELECT c FROM Categoria c&quot;, Categoria.class);</span>
-<span class="fc" id="L34">        List&lt;Categoria&gt; categoriasPersistidas = query.getResultList();</span>
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (Categoria c : categoriasPersistidas) {</span>
-<span class="fc" id="L36">            categorias.put(c.getNombre(), c);</span>
-<span class="fc" id="L37">        }</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L34">        TypedQuery&lt;Categoria&gt; query = entManager.createQuery(&quot;SELECT c FROM Categoria c&quot;, Categoria.class);</span>
+<span class="fc" id="L35">        List&lt;Categoria&gt; categoriasPersistidas = query.getResultList();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (Categoria c : categoriasPersistidas) {</span>
+<span class="fc" id="L37">            categorias.put(c.getNombre(), c);</span>
+<span class="fc" id="L38">        }</span>
+<span class="fc" id="L39">    }</span>
 
     // === Agregar categoría en memoria y en BD ===
     public void agregarCategoria(Categoria categoria, EntityManager entManager) {
-<span class="fc" id="L42">        categorias.put(categoria.getNombre(), categoria);</span>
+<span class="fc" id="L43">        categorias.put(categoria.getNombre(), categoria);</span>
 
-<span class="fc" id="L44">        EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L45">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="fc" id="L46">            entTransaction.begin();</span>
-<span class="fc" id="L47">            entManager.persist(categoria);</span>
-<span class="fc" id="L48">            entTransaction.commit();</span>
-<span class="fc" id="L49">        } catch (Exception e) {</span>
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="fc" id="L51">            e.printStackTrace();</span>
-<span class="fc" id="L52">        }</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L47">            entTransaction.begin();</span>
+<span class="fc" id="L48">            entManager.persist(categoria);</span>
+<span class="fc" id="L49">            entTransaction.commit();</span>
+
+<span class="fc" id="L51">        } catch (PersistenceException e) {</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="fc" id="L53">            e.printStackTrace();</span>
+<span class="fc" id="L54">        }</span>
+<span class="fc" id="L55">    }</span>
 
     // === Buscar categoría en memoria ===
     public Categoria buscarCategorias(String nombre) {
-<span class="fc" id="L57">        return categorias.get(nombre);</span>
+<span class="fc" id="L59">        return categorias.get(nombre);</span>
     }
 
     // === Obtener todas las categorías ===
     public Map&lt;String, Categoria&gt; getCategorias() {
-<span class="fc" id="L62">        return categorias;</span>
+<span class="fc" id="L64">        return categorias;</span>
     }
 
 }

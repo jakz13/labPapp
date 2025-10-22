@@ -1,6 +1,8 @@
 package logica;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 import java.time.LocalDate;
 

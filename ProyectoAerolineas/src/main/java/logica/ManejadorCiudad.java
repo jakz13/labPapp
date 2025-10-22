@@ -2,6 +2,7 @@ package logica;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 
 import java.util.Map;
@@ -65,7 +66,7 @@ public final class ManejadorCiudad {
             entTransaction.begin();
             entManager.persist(ciudad);
             entTransaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             throw e;
         }

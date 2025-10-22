@@ -21,7 +21,7 @@ public class DtCliente extends DtUsuario {
     public DtCliente(String nickname, String nombre, String email, String imagenUrl,
                      String apellido, LocalDate fechaNacimiento,
                      String nacionalidad, TipoDoc tipoDocumento,
-                     String numeroDocumento, LocalDate fechaAlta,List<DtReserva> reservas, List<DtPaquete> paquetesComprados) {
+                     String numeroDocumento, LocalDate fechaAlta, List<DtReserva> reservas, List<DtPaquete> paquetesComprados) {
         super(nickname, nombre, email, imagenUrl, fechaAlta);
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;

@@ -2,6 +2,7 @@
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 
 import java.util.Map;
@@ -19,19 +20,19 @@ public final class ManejadorCiudad {
     /** Mapa en memoria de ciudades indexado por nombre normalizado. */
     private Map&lt;String, Ciudad&gt; ciudades;
 
-<span class="fc" id="L22">    private ManejadorCiudad() {</span>
-<span class="fc" id="L23">        ciudades = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L23">    private ManejadorCiudad() {</span>
+<span class="fc" id="L24">        ciudades = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L25">    }</span>
 
     /**
      * Obtiene la instancia singleton del manejador de ciudades.
      * @return instancia única de ManejadorCiudad
      */
     public static ManejadorCiudad getInstance() {
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (instancia == null) {</span>
-<span class="fc" id="L32">            instancia = new ManejadorCiudad();</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (instancia == null) {</span>
+<span class="fc" id="L33">            instancia = new ManejadorCiudad();</span>
         }
-<span class="fc" id="L34">        return instancia;</span>
+<span class="fc" id="L35">        return instancia;</span>
     }
 
     // === Cargar todas las ciudades desde la BD a memoria ===
@@ -40,12 +41,12 @@ public final class ManejadorCiudad {
      * @param entManager EntityManager para la consulta
      */
     public void cargarCiudadesDesdeBD(EntityManager entManager) {
-<span class="nc" id="L43">        TypedQuery&lt;Ciudad&gt; query = entManager.createQuery(&quot;SELECT c FROM Ciudad c&quot;, Ciudad.class);</span>
-<span class="nc" id="L44">        List&lt;Ciudad&gt; ciudadesPersistidas = query.getResultList();</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (Ciudad c : ciudadesPersistidas) {</span>
-<span class="nc" id="L46">            ciudades.put(c.getNombre(), c);</span>
-<span class="nc" id="L47">        }</span>
-<span class="nc" id="L48">    }</span>
+<span class="nc" id="L44">        TypedQuery&lt;Ciudad&gt; query = entManager.createQuery(&quot;SELECT c FROM Ciudad c&quot;, Ciudad.class);</span>
+<span class="nc" id="L45">        List&lt;Ciudad&gt; ciudadesPersistidas = query.getResultList();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (Ciudad c : ciudadesPersistidas) {</span>
+<span class="nc" id="L47">            ciudades.put(c.getNombre(), c);</span>
+<span class="nc" id="L48">        }</span>
+<span class="nc" id="L49">    }</span>
 
     // === Agregar ciudad en memoria y en BD ===
     /**
@@ -54,22 +55,22 @@ public final class ManejadorCiudad {
      * @param entManager EntityManager usado para persistencia
      */
     public void agregarCiudad(Ciudad ciudad, EntityManager entManager) {
-<span class="fc" id="L57">        String clave = ciudad.getNombre().trim().toLowerCase();</span>
+<span class="fc" id="L58">        String clave = ciudad.getNombre().trim().toLowerCase();</span>
 
-<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (ciudades.containsKey(clave)) {</span>
-<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;La ciudad '&quot; + ciudad.getNombre() + &quot;' ya existe.&quot;);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (ciudades.containsKey(clave)) {</span>
+<span class="fc" id="L61">            throw new IllegalArgumentException(&quot;La ciudad '&quot; + ciudad.getNombre() + &quot;' ya existe.&quot;);</span>
         }
-<span class="fc" id="L62">        ciudades.put(clave, ciudad);</span>
-<span class="fc" id="L63">        EntityTransaction entTransaction = entManager.getTransaction();</span>
+<span class="fc" id="L63">        ciudades.put(clave, ciudad);</span>
+<span class="fc" id="L64">        EntityTransaction entTransaction = entManager.getTransaction();</span>
         try {
-<span class="fc" id="L65">            entTransaction.begin();</span>
-<span class="fc" id="L66">            entManager.persist(ciudad);</span>
-<span class="fc" id="L67">            entTransaction.commit();</span>
-<span class="fc" id="L68">        } catch (Exception e) {</span>
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
-<span class="fc" id="L70">            throw e;</span>
-<span class="fc" id="L71">        }</span>
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L66">            entTransaction.begin();</span>
+<span class="fc" id="L67">            entManager.persist(ciudad);</span>
+<span class="fc" id="L68">            entTransaction.commit();</span>
+<span class="fc" id="L69">        } catch (PersistenceException e) {</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            if (entTransaction.isActive()) entTransaction.rollback();</span>
+<span class="fc" id="L71">            throw e;</span>
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">    }</span>
 
     // === Obtener ciudad por nombre (normalizado) ===
     /**
@@ -78,22 +79,22 @@ public final class ManejadorCiudad {
      * @return objeto Ciudad o null si no existe
      */
     public Ciudad obtenerCiudad(String nombre) {
-<span class="fc" id="L81">        return ciudades.get(nombre.trim().toLowerCase());</span>
+<span class="fc" id="L82">        return ciudades.get(nombre.trim().toLowerCase());</span>
     }
     // === Listar todas las ciudades ===
     /**
      * Devuelve la lista de ciudades en memoria.
      */
     public List&lt;Ciudad&gt; getCiudades() {
-<span class="fc" id="L88">        return new ArrayList&lt;&gt;(ciudades.values());</span>
+<span class="fc" id="L89">        return new ArrayList&lt;&gt;(ciudades.values());</span>
     }
 
     /**
      * Resetea el manejador para pruebas (vacía la cache en memoria).
      */
     public void resetForTests() {
-<span class="fc" id="L95">        ciudades.clear();</span>
-<span class="fc" id="L96">    }</span>
+<span class="fc" id="L96">        ciudades.clear();</span>
+<span class="fc" id="L97">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -4,8 +4,8 @@ package logica;
  * Enum que representa los tipos de documento soportados en el sistema.
  */
 public enum TipoDoc {
-        CEDULAIDENTIDAD,
-        PASAPORTE;
+    CEDULAIDENTIDAD,
+    PASAPORTE;
 
     /**
      * Indica si el valor del enum es considerado vacío. Este método está
@@ -15,8 +15,7 @@ public enum TipoDoc {
     public boolean isEmpty() {
         if (this == null) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

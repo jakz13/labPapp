@@ -2,7 +2,17 @@
 
 import DataTypes.DtReserva;
 import DataTypes.DtVuelo;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Transient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,104 +52,104 @@ public class Vuelo {
     private RutaVuelo rutaVuelo;
 
     /** Lista persistente de reservas asociadas al vuelo. */
-<span class="pc" id="L45">    @OneToMany(mappedBy = &quot;vuelo&quot;, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)</span>
+<span class="pc" id="L55">    @OneToMany(mappedBy = &quot;vuelo&quot;, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)</span>
     private List&lt;Reserva&gt; reservasList = new ArrayList&lt;&gt;();
 
     /** Mapa en memoria de reservas indexado por ID (no persistido). */
-<span class="pc" id="L49">    @Transient</span>
+<span class="pc" id="L59">    @Transient</span>
     private Map&lt;Long, Reserva&gt; reservas = new HashMap&lt;&gt;(); // Cambiado a Map&lt;Long, Reserva&gt;
 
-<span class="nc" id="L52">    public Vuelo() {}</span>
+<span class="nc" id="L62">    public Vuelo() {}</span>
 
     /**
      * Crea un vuelo con sus parámetros principales.
      */
-<span class="fc" id="L57">    public Vuelo(String nombre, String nombreAereolinea, RutaVuelo rutaVuelo, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta) {</span>
-<span class="fc" id="L58">        this.nombre = nombre;</span>
-<span class="fc" id="L59">        this.nombreAereolinea = nombreAereolinea;</span>
-<span class="fc" id="L60">        this.rutaVuelo = rutaVuelo;</span>
-<span class="fc" id="L61">        this.fecha = fecha;</span>
-<span class="fc" id="L62">        this.duracion = duracion;</span>
-<span class="fc" id="L63">        this.asientosTurista = asientosTurista;</span>
-<span class="fc" id="L64">        this.asientosEjecutivo = asientosEjecutivo;</span>
-<span class="fc" id="L65">        this.fechaAlta = fechaAlta;</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L67">    public Vuelo(String nombre, String nombreAereolinea, RutaVuelo rutaVuelo, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta) {</span>
+<span class="fc" id="L68">        this.nombre = nombre;</span>
+<span class="fc" id="L69">        this.nombreAereolinea = nombreAereolinea;</span>
+<span class="fc" id="L70">        this.rutaVuelo = rutaVuelo;</span>
+<span class="fc" id="L71">        this.fecha = fecha;</span>
+<span class="fc" id="L72">        this.duracion = duracion;</span>
+<span class="fc" id="L73">        this.asientosTurista = asientosTurista;</span>
+<span class="fc" id="L74">        this.asientosEjecutivo = asientosEjecutivo;</span>
+<span class="fc" id="L75">        this.fechaAlta = fechaAlta;</span>
+<span class="fc" id="L76">    }</span>
 
     // ===== Getters y Setters =====
     /** Devuelve el ID del vuelo. */
-<span class="nc" id="L70">    public Long getId() { return idVuelo; } // Nuevo getter para el ID del vuelo</span>
+<span class="nc" id="L80">    public Long getId() { return idVuelo; } // Nuevo getter para el ID del vuelo</span>
     /** Devuelve el nombre del vuelo. */
-<span class="fc" id="L72">    public String getNombre() { return nombre; }</span>
+<span class="fc" id="L82">    public String getNombre() { return nombre; }</span>
     /** Devuelve el nickname de la aerolínea. */
-<span class="fc" id="L74">    public String getNombreAerolinea() { return nombreAereolinea; }</span>
+<span class="fc" id="L84">    public String getNombreAerolinea() { return nombreAereolinea; }</span>
     /** Devuelve la fecha programada del vuelo. */
-<span class="fc" id="L76">    public LocalDate getFecha() { return fecha; }</span>
+<span class="fc" id="L86">    public LocalDate getFecha() { return fecha; }</span>
     /** Devuelve la duración del vuelo. */
-<span class="fc" id="L78">    public int getDuracion() { return duracion; }</span>
+<span class="fc" id="L88">    public int getDuracion() { return duracion; }</span>
     /** Devuelve la cantidad de asientos en turista. */
-<span class="fc" id="L80">    public int getAsientosTurista() { return asientosTurista; }</span>
+<span class="fc" id="L90">    public int getAsientosTurista() { return asientosTurista; }</span>
     /** Devuelve la cantidad de asientos en ejecutivo. */
-<span class="fc" id="L82">    public int getAsientosEjecutivo() { return asientosEjecutivo; }</span>
+<span class="fc" id="L92">    public int getAsientosEjecutivo() { return asientosEjecutivo; }</span>
     /** Devuelve la fecha de alta del vuelo. */
-<span class="fc" id="L84">    public LocalDate getFechaAlta() { return fechaAlta; }</span>
+<span class="fc" id="L94">    public LocalDate getFechaAlta() { return fechaAlta; }</span>
     /** Devuelve la ruta asociada al vuelo. */
-<span class="fc" id="L86">    public RutaVuelo getRutaVuelo() { return rutaVuelo; }</span>
+<span class="fc" id="L96">    public RutaVuelo getRutaVuelo() { return rutaVuelo; }</span>
 
     /**
      * Sincroniza y devuelve el mapa de reservas (ID -&gt; Reserva).
      * @return mapa con reservas indexadas por su ID
      */
     public Map&lt;Long, Reserva&gt; getReservas() {
-<span class="fc" id="L93">        reservas.clear();</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (Reserva r : reservasList) {</span>
-<span class="fc bfc" id="L95" title="All 2 branches covered.">            if (r.getId() != null) {</span>
-<span class="fc" id="L96">                reservas.put(r.getId(), r);</span>
+<span class="fc" id="L103">        reservas.clear();</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        for (Reserva r : reservasList) {</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            if (r.getId() != null) {</span>
+<span class="fc" id="L106">                reservas.put(r.getId(), r);</span>
             }
-<span class="fc" id="L98">        }</span>
-<span class="fc" id="L99">        return reservas;</span>
+<span class="fc" id="L108">        }</span>
+<span class="fc" id="L109">        return reservas;</span>
     }
 
     /** Agrega una reserva con ID explícito. */
     public void agregarReserva(Long idReserva, Reserva reserva) {
-<span class="fc" id="L104">        reservasList.add(reserva);</span>
-<span class="fc" id="L105">        reservas.put(idReserva, reserva);</span>
-<span class="fc" id="L106">    }</span>
+<span class="fc" id="L114">        reservasList.add(reserva);</span>
+<span class="fc" id="L115">        reservas.put(idReserva, reserva);</span>
+<span class="fc" id="L116">    }</span>
 
     /** Agrega una reserva; si la reserva tiene ID, la indexa en el mapa. */
     public void agregarReserva(Reserva reserva) {
-<span class="fc" id="L110">        reservasList.add(reserva);</span>
-<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (reserva.getId() != null) {</span>
-<span class="fc" id="L112">            reservas.put(reserva.getId(), reserva);</span>
+<span class="fc" id="L120">        reservasList.add(reserva);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (reserva.getId() != null) {</span>
+<span class="fc" id="L122">            reservas.put(reserva.getId(), reserva);</span>
         }
-<span class="fc" id="L114">    }</span>
+<span class="fc" id="L124">    }</span>
 
     /** Devuelve la lista persistente de reservas. */
-<span class="fc" id="L117">    public List&lt;Reserva&gt; getReservasList() { return reservasList; }</span>
+<span class="fc" id="L127">    public List&lt;Reserva&gt; getReservasList() { return reservasList; }</span>
 
     /** Devuelve el nombre de la ruta asociada al vuelo. */
     public String getRutaVueloNombre() {
-<span class="fc" id="L121">        return rutaVuelo.getNombre();</span>
+<span class="fc" id="L131">        return rutaVuelo.getNombre();</span>
     }
 
     @Override
     public String toString() {
-<span class="fc" id="L126">        return nombre;</span>
+<span class="fc" id="L136">        return nombre;</span>
     }
 
     /** Convierte las reservas a DTOs para transferencia. */
     public List&lt;DtReserva&gt; getDtReservas() {
-<span class="fc" id="L131">        return reservasList.stream()</span>
-<span class="fc" id="L132">                .map(reserva -&gt; new DtReserva(</span>
-<span class="fc" id="L133">                        reserva.getId(), // Ahora pasa Long directamente</span>
-<span class="fc" id="L134">                        reserva.getFecha(),</span>
-<span class="fc" id="L135">                        reserva.getCosto(),</span>
-<span class="fc" id="L136">                        reserva.getTipoAsiento(),</span>
-<span class="fc" id="L137">                        reserva.getCantidadPasajes(),</span>
-<span class="fc" id="L138">                        reserva.getUnidadesEquipajeExtra(),</span>
-<span class="fc" id="L139">                        reserva.getDtPasajeros(),</span>
-<span class="fc" id="L140">                        this.getNombre()</span>
+<span class="fc" id="L141">        return reservasList.stream()</span>
+<span class="fc" id="L142">                .map(reserva -&gt; new DtReserva(</span>
+<span class="fc" id="L143">                        reserva.getId(), // Ahora pasa Long directamente</span>
+<span class="fc" id="L144">                        reserva.getFecha(),</span>
+<span class="fc" id="L145">                        reserva.getCosto(),</span>
+<span class="fc" id="L146">                        reserva.getTipoAsiento(),</span>
+<span class="fc" id="L147">                        reserva.getCantidadPasajes(),</span>
+<span class="fc" id="L148">                        reserva.getUnidadesEquipajeExtra(),</span>
+<span class="fc" id="L149">                        reserva.getDtPasajeros(),</span>
+<span class="fc" id="L150">                        this.getNombre()</span>
                 ))
-<span class="fc" id="L142">                .toList();</span>
+<span class="fc" id="L152">                .toList();</span>
     }
 
     /**
@@ -148,24 +158,24 @@ public class Vuelo {
      */
     public DtVuelo getDtVuelo() {
         // Crear un DtRutaVuelo simplificado sin vuelos para evitar recursión
-<span class="fc" id="L151">        DataTypes.DtRutaVuelo dtRutaSimplificada = new DataTypes.DtRutaVuelo(</span>
-<span class="fc" id="L152">                rutaVuelo.getNombre(),</span>
-<span class="fc" id="L153">                rutaVuelo.getDescripcion(),</span>
-<span class="fc" id="L154">                rutaVuelo.getDescripcionCorta(),</span>
-<span class="pc bpc" id="L155" title="1 of 2 branches missed.">                rutaVuelo.getAerolinea() != null ? rutaVuelo.getAerolinea().getNombre() : null,</span>
-<span class="fc" id="L156">                rutaVuelo.getCiudadOrigen(),</span>
-<span class="fc" id="L157">                rutaVuelo.getCiudadDestino(),</span>
-<span class="fc" id="L158">                rutaVuelo.getHora(),</span>
-<span class="fc" id="L159">                rutaVuelo.getFechaAlta(),</span>
-<span class="fc" id="L160">                rutaVuelo.getCostoTurista(),</span>
-<span class="fc" id="L161">                rutaVuelo.getCostoEjecutivo(),</span>
-<span class="fc" id="L162">                rutaVuelo.getCostoEquipajeExtra(),</span>
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">                rutaVuelo.getEstado() != null ? rutaVuelo.getEstado().toString() : &quot;INGRESADA&quot;,</span>
-<span class="pc bpc" id="L164" title="1 of 2 branches missed.">                rutaVuelo.getCategorias() != null ? rutaVuelo.getCategorias() : new ArrayList&lt;&gt;(),</span>
+<span class="fc" id="L161">        DataTypes.DtRutaVuelo dtRutaSimplificada = new DataTypes.DtRutaVuelo(</span>
+<span class="fc" id="L162">                rutaVuelo.getNombre(),</span>
+<span class="fc" id="L163">                rutaVuelo.getDescripcion(),</span>
+<span class="fc" id="L164">                rutaVuelo.getDescripcionCorta(),</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">                rutaVuelo.getAerolinea() != null ? rutaVuelo.getAerolinea().getNombre() : null,</span>
+<span class="fc" id="L166">                rutaVuelo.getCiudadOrigen(),</span>
+<span class="fc" id="L167">                rutaVuelo.getCiudadDestino(),</span>
+<span class="fc" id="L168">                rutaVuelo.getHora(),</span>
+<span class="fc" id="L169">                rutaVuelo.getFechaAlta(),</span>
+<span class="fc" id="L170">                rutaVuelo.getCostoTurista(),</span>
+<span class="fc" id="L171">                rutaVuelo.getCostoEjecutivo(),</span>
+<span class="fc" id="L172">                rutaVuelo.getCostoEquipajeExtra(),</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">                rutaVuelo.getEstado() != null ? rutaVuelo.getEstado().toString() : &quot;INGRESADA&quot;,</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">                rutaVuelo.getCategorias() != null ? rutaVuelo.getCategorias() : new ArrayList&lt;&gt;(),</span>
                 new ArrayList&lt;&gt;() // Lista vacía de vuelos para evitar recursión
         );
 
-<span class="fc" id="L168">        return new DtVuelo(</span>
+<span class="fc" id="L178">        return new DtVuelo(</span>
                 this.nombre,
                 this.nombreAereolinea,
                 this.fecha,
@@ -174,13 +184,13 @@ public class Vuelo {
                 this.asientosEjecutivo,
                 this.fechaAlta,
                 dtRutaSimplificada, // Usar la versión simplificada
-<span class="fc" id="L177">                this.getDtReservas()</span>
+<span class="fc" id="L187">                this.getDtReservas()</span>
         );
     }
 
     /** Devuelve un DTO del vuelo sin información de la ruta (para evitar detalles). */
     public DtVuelo getDtVueloSinRuta() {
-<span class="fc" id="L183">        return new DtVuelo(</span>
+<span class="fc" id="L193">        return new DtVuelo(</span>
                 this.nombre,
                 this.nombreAereolinea,
                 this.fecha,
@@ -189,7 +199,7 @@ public class Vuelo {
                 this.asientosEjecutivo,
                 this.fechaAlta,
                 null, // Sin información de ruta
-<span class="fc" id="L192">                this.getDtReservas()</span>
+<span class="fc" id="L202">                this.getDtReservas()</span>
         );
     }
 }
