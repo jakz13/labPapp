@@ -39,7 +39,10 @@ public class Cliente extends Usuario {
     @Column(name = "numero_documento", unique = true)
     private String numeroDocumento;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     @JoinColumn(name = "cliente_nickname")
     private List<Reserva> reservas = new ArrayList<>();
 
@@ -152,9 +155,11 @@ public class Cliente extends Usuario {
      */
     public void agregarReserva(Reserva reserva) {
         if (reserva == null) {
-            throw new IllegalArgumentException("La ruta no puede ser null");
+            throw new IllegalArgumentException("Reserva no puede ser null");
+        } else {
+            reserva.setCliente(this);
+            this.reservas.add(reserva);
         }
-        reservas.add(reserva);
     }
 
     @Override

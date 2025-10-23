@@ -18,15 +18,15 @@ public class AltaVuelo {
     private JTextField campoRuta;
     private JButton crearButton;
     private JButton cancelarButton;
-    private JList ListaAereolineas;
-    private JList ListaRutasDeVuelo;
-    private JTextField NOmVuelo;
-    private JComboBox Dia;
-    private JComboBox Ano;
-    private JComboBox Mes;
-    private JTextField Duracion;
-    private JTextField CantTuristas;
-    private JTextField CantEjecutivo;
+    private JList listaAereolineas;
+    private JList listaRutasDeVuelo;
+    private JTextField nomVuelo;
+    private JComboBox dia;
+    private JComboBox ano;
+    private JComboBox mes;
+    private JTextField duracion;
+    private JTextField cantTuristas;
+    private JTextField cantEjecutivo;
 
 <span class="nc" id="L31">    public AltaVuelo() {</span>
 <span class="nc" id="L32">        ISistema sistema = Fabrica.getInstance().getISistema();</span>
@@ -35,11 +35,11 @@ public class AltaVuelo {
 <span class="nc" id="L35">            String item = a.getNickname() + &quot; (&quot; + a.getNombre() + &quot;)&quot;;</span>
 <span class="nc" id="L36">            modeloAerolineas.addElement(item);</span>
 <span class="nc" id="L37">        }</span>
-<span class="nc" id="L38">        ListaAereolineas.setModel(modeloAerolineas);</span>
+<span class="nc" id="L38">        listaAereolineas.setModel(modeloAerolineas);</span>
 
-<span class="nc" id="L40">        ListaAereolineas.addListSelectionListener(e -&gt; {</span>
+<span class="nc" id="L40">        listaAereolineas.addListSelectionListener(e -&gt; {</span>
 <span class="nc bnc" id="L41" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
-<span class="nc" id="L42">                String item = (String) ListaAereolineas.getSelectedValue();</span>
+<span class="nc" id="L42">                String item = (String) listaAereolineas.getSelectedValue();</span>
 <span class="nc bnc" id="L43" title="All 2 branches missed.">                if (item != null) {</span>
 <span class="nc" id="L44">                    String nickname = item.split(&quot; &quot;)[0];</span>
 <span class="nc" id="L45">                    String nombre = item.substring(item.indexOf(&quot;(&quot;) + 1, item.indexOf(&quot;)&quot;));</span>
@@ -51,13 +51,13 @@ public class AltaVuelo {
 <span class="nc bnc" id="L51" title="All 2 branches missed.">                    for (DtRutaVuelo r : rutas) {</span>
 <span class="nc" id="L52">                        modeloRutas.addElement(r.getNombre());</span>
 <span class="nc" id="L53">                    }</span>
-<span class="nc" id="L54">                    ListaRutasDeVuelo.setModel(modeloRutas);</span>
+<span class="nc" id="L54">                    listaRutasDeVuelo.setModel(modeloRutas);</span>
                 }
             }
 <span class="nc" id="L57">        });</span>
-<span class="nc" id="L58">        ListaRutasDeVuelo.addListSelectionListener(e -&gt; {</span>
+<span class="nc" id="L58">        listaRutasDeVuelo.addListSelectionListener(e -&gt; {</span>
 <span class="nc bnc" id="L59" title="All 2 branches missed.">            if (!e.getValueIsAdjusting()) {</span>
-<span class="nc" id="L60">                String rutaSeleccionada = (String) ListaRutasDeVuelo.getSelectedValue();</span>
+<span class="nc" id="L60">                String rutaSeleccionada = (String) listaRutasDeVuelo.getSelectedValue();</span>
 <span class="nc bnc" id="L61" title="All 2 branches missed.">                if (rutaSeleccionada != null) {</span>
 <span class="nc" id="L62">                    campoRuta.setText(rutaSeleccionada);</span>
                 }
@@ -67,19 +67,19 @@ public class AltaVuelo {
 <span class="nc" id="L67">        crearButton.addActionListener(new ActionListener() {</span>
             @Override
             public void actionPerformed(ActionEvent e) {
-<span class="nc" id="L70">                String aereolinea = (String) ListaAereolineas.getSelectedValue();</span>
-<span class="nc" id="L71">                int duracion = Integer.parseInt(Duracion.getText());</span>
-<span class="nc" id="L72">                String Vuelo = NOmVuelo.getText();</span>
-<span class="nc" id="L73">                int turista = Integer.parseInt(CantTuristas.getText());</span>
-<span class="nc" id="L74">                int ejecutivo = Integer.parseInt(CantEjecutivo.getText());</span>
-<span class="nc" id="L75">                String Ruta = (String) ListaRutasDeVuelo.getSelectedValue();</span>
-<span class="nc" id="L76">                String diaStr = (String) Dia.getSelectedItem();</span>
-<span class="nc" id="L77">                String mesStr = (String) Mes.getSelectedItem();</span>
-<span class="nc" id="L78">                String anioStr = (String) Ano.getSelectedItem();</span>
+<span class="nc" id="L70">                String aereolinea = (String) listaAereolineas.getSelectedValue();</span>
+<span class="nc" id="L71">                int dur = Integer.parseInt(duracion.getText());</span>
+<span class="nc" id="L72">                String Vuelo = nomVuelo.getText();</span>
+<span class="nc" id="L73">                int turista = Integer.parseInt(cantTuristas.getText());</span>
+<span class="nc" id="L74">                int ejecutivo = Integer.parseInt(cantEjecutivo.getText());</span>
+<span class="nc" id="L75">                String Ruta = (String) listaRutasDeVuelo.getSelectedValue();</span>
+<span class="nc" id="L76">                String diaStr = (String) dia.getSelectedItem();</span>
+<span class="nc" id="L77">                String mesStr = (String) mes.getSelectedItem();</span>
+<span class="nc" id="L78">                String anioStr = (String) ano.getSelectedItem();</span>
 
 <span class="nc" id="L80">                LocalDate fechaAlta = LocalDate.now();</span>
 
-<span class="nc bnc" id="L82" title="All 8 branches missed.">                if (Vuelo.isEmpty() || turista &lt;= 0 || duracion &lt;= 0 || ejecutivo &lt;= 0) {</span>
+<span class="nc bnc" id="L82" title="All 8 branches missed.">                if (Vuelo.isEmpty() || turista &lt;= 0 || dur &lt;= 0 || ejecutivo &lt;= 0) {</span>
 <span class="nc" id="L83">                    JOptionPane.showMessageDialog(null,</span>
                             &quot;Debe completar todos los campos.&quot;,
                             &quot;Error de salame&quot;, JOptionPane.ERROR_MESSAGE);
@@ -100,7 +100,7 @@ public class AltaVuelo {
 <span class="nc" id="L100">                LocalDate fecha = LocalDate.of(anio, mes, dia);</span>
 
                 try {
-<span class="nc" id="L103">                    sistema.altaVuelo(Vuelo, aereolinea, Ruta,fecha,  duracion, turista, ejecutivo, fechaAlta);</span>
+<span class="nc" id="L103">                    sistema.altaVuelo(Vuelo, aereolinea, Ruta, fecha, dur, turista, ejecutivo, fechaAlta, null);</span>
 <span class="nc" id="L104">                    JOptionPane.showMessageDialog(null,</span>
                             &quot;Vuelo creado correctamente.&quot;,
                             &quot;Éxito&quot;,
@@ -125,5 +125,4 @@ public class AltaVuelo {
 <span class="nc" id="L125">        return panelDeVuelo;</span>
     }
 }
-
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

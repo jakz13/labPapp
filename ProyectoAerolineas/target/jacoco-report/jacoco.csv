@@ -1,12 +1,12 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 MiProyectoSwing,logica,PasswordManager,18,31,0,0,5,8,2,2,2,2
-MiProyectoSwing,logica,Sistema,165,1326,31,111,35,300,34,106,7,62
-MiProyectoSwing,logica,Aerolinea,35,238,16,22,3,60,18,16,2,13
+MiProyectoSwing,logica,Sistema,163,1398,31,121,36,318,35,112,8,63
+MiProyectoSwing,logica,Aerolinea,35,240,16,22,3,61,18,16,2,13
 MiProyectoSwing,logica,Paquete,23,168,2,14,4,43,3,22,2,15
 MiProyectoSwing,logica,RutaVuelo,106,258,20,12,13,64,17,34,2,33
 MiProyectoSwing,logica,RutaVuelo.EstadoRuta,0,21,0,0,0,4,0,1,0,1
-MiProyectoSwing,logica,Vuelo,21,260,3,9,2,65,5,22,2,19
-MiProyectoSwing,logica,Cliente,38,237,2,24,7,67,7,27,5,16
+MiProyectoSwing,logica,Vuelo,21,267,3,9,2,66,5,22,2,19
+MiProyectoSwing,logica,Cliente,38,240,2,24,7,68,7,27,5,16
 MiProyectoSwing,logica,CompraPaqLogica,3,77,0,4,1,23,1,14,1,12
 MiProyectoSwing,logica,Usuario,61,53,5,3,17,16,11,7,8,6
 MiProyectoSwing,logica,ManejadorPaquete,63,366,13,25,16,96,10,21,1,11
@@ -18,12 +18,12 @@ MiProyectoSwing,logica,TipoDoc,6,15,2,0,3,3,2,1,1,1
 MiProyectoSwing,logica,Ciudad,12,126,4,10,2,38,4,21,0,18
 MiProyectoSwing,logica,Fabrica,22,0,2,0,8,0,5,0,4,0
 MiProyectoSwing,logica,Pasajero,11,15,0,0,3,6,3,3,3,3
-MiProyectoSwing,logica,Reserva,38,71,3,1,7,21,6,10,4,10
+MiProyectoSwing,logica,Reserva,41,75,3,1,8,22,7,11,5,11
 MiProyectoSwing,logica,ManejadorCategoria,0,79,1,5,0,24,1,8,0,6
 MiProyectoSwing,logica,TipoAsiento,0,15,0,0,0,3,0,1,0,1
 MiProyectoSwing,logica,ManejadorRutaVuelo,56,267,15,25,15,78,13,21,2,12
 MiProyectoSwing,logica,ManejadorCiudad,27,78,3,5,6,23,3,8,1,6
-MiProyectoSwing,logica,ManejadorVuelo,61,214,8,16,17,57,8,21,2,15
+MiProyectoSwing,logica,ManejadorVuelo,90,209,16,16,23,56,13,20,3,14
 MiProyectoSwing,Presentacion.gui.guiSesion,InicioSesion.new ComponentAdapter() {...},7,0,0,0,3,0,2,0,2,0
 MiProyectoSwing,Presentacion.gui.guiSesion,InicioSesion.new ActionListener() {...},350,0,48,0,75,0,26,0,2,0
 MiProyectoSwing,Presentacion.gui.guiSesion,ConsultaVuelo,271,0,20,0,64,0,19,0,9,0
@@ -39,7 +39,7 @@ MiProyectoSwing,Presentacion.gui.guiSesion,ConsultaPaquete,302,0,14,0,65,0,15,0,
 MiProyectoSwing,Presentacion.gui.guiSesion,ModificarDatosAereolinea,325,0,34,0,86,0,26,0,9,0
 MiProyectoSwing,Presentacion.gui.guiSesion,CompraPaquete,272,0,28,0,73,0,22,0,8,0
 MiProyectoSwing,Presentacion.gui.guiSesion,AltaAereolinea.new ActionListener() {...},193,0,24,0,39,0,14,0,2,0
-MiProyectoSwing,Presentacion.gui.guiSesion,AltaVuelo.new ActionListener() {...},136,0,14,0,28,0,9,0,2,0
+MiProyectoSwing,Presentacion.gui.guiSesion,AltaVuelo.new ActionListener() {...},137,0,14,0,28,0,9,0,2,0
 MiProyectoSwing,Presentacion.gui.guiSesion,AltaVuelo.new ActionListener() {...},15,0,0,0,4,0,2,0,2,0
 MiProyectoSwing,Presentacion.gui.guiSesion,AltaCategoria,64,0,2,0,22,0,5,0,4,0
 MiProyectoSwing,Presentacion.gui.guiSesion,AltaAereolinea,98,0,0,0,24,0,4,0,4,0
@@ -92,7 +92,7 @@ MiProyectoSwing,Presentacion.gui,IntentoDiseño.12.new WindowAdapter() {...},12,
 MiProyectoSwing,Presentacion.gui,IntentoDiseño.1.new WindowAdapter() {...},12,0,0,0,3,0,2,0,2,0
 MiProyectoSwing,Presentacion.gui,IntentoDiseño.5.new WindowAdapter() {...},12,0,0,0,3,0,2,0,2,0
 MiProyectoSwing,Presentacion.gui,IntentoDiseño.9.new WindowAdapter() {...},12,0,0,0,3,0,2,0,2,0
-MiProyectoSwing,Presentacion.gui,Main,517,0,2,0,104,0,5,0,4,0
+MiProyectoSwing,Presentacion.gui,Main,522,0,2,0,104,0,5,0,4,0
 MiProyectoSwing,Presentacion.gui,IntentoDiseño.17.new WindowAdapter() {...},12,0,0,0,3,0,2,0,2,0
 MiProyectoSwing,Presentacion.gui,IntentoDiseño.13.new WindowAdapter() {...},12,0,0,0,3,0,2,0,2,0
 MiProyectoSwing,Presentacion.gui,IntentoDiseño.4.new WindowAdapter() {...},12,0,0,0,3,0,2,0,2,0
@@ -114,11 +114,11 @@ MiProyectoSwing,Presentacion.gui,IntentoDiseño.new ActionListener() {...},41,0,
 MiProyectoSwing,DataTypes,DtCliente,53,51,0,0,20,15,12,5,12,5
 MiProyectoSwing,DataTypes,DtCiudad,66,12,0,0,28,5,14,2,14,2
 MiProyectoSwing,DataTypes,DtAerolinea,18,57,0,0,5,21,5,5,5,5
-MiProyectoSwing,DataTypes,DtVuelo,9,57,0,0,1,20,1,10,1,10
+MiProyectoSwing,DataTypes,DtVuelo,12,60,0,0,2,21,2,10,2,10
 MiProyectoSwing,DataTypes,DtUsuario,56,21,0,0,19,8,12,2,12,2
 MiProyectoSwing,DataTypes,DtReserva,56,42,2,0,14,15,6,6,5,6
 MiProyectoSwing,DataTypes,DtPasajero,32,0,0,0,13,0,7,0,7,0
 MiProyectoSwing,DataTypes,DtCategoria,10,9,0,0,5,4,3,2,3,2
 MiProyectoSwing,DataTypes,DtPaquete,89,130,8,8,31,33,22,3,15,2
-MiProyectoSwing,DataTypes,DtRutaVuelo,85,66,0,0,27,23,11,7,11,7
+MiProyectoSwing,DataTypes,DtRutaVuelo,37,114,0,0,10,40,10,8,10,8
 MiProyectoSwing,DataTypes,DtItemPaquete,27,15,0,0,11,6,7,2,7,2

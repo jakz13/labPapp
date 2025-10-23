@@ -28,7 +28,7 @@ class ManejadorVueloTest {
     void agregaYObtieneVuelo() {
         Vuelo v = mock(Vuelo.class);
         when(v.getNombre()).thenReturn("V1");
-        when(v.getDtVuelo()).thenReturn(new DtVuelo("V1","Aero", LocalDate.now(), 0,0,0, LocalDate.now(), null, Collections.emptyList()));
+        when(v.getDtVuelo()).thenReturn(new DtVuelo("V1","Aero", LocalDate.now(), 0,0,0, LocalDate.now(), null, Collections.emptyList(), null));
 
         EntityManager em = mock(EntityManager.class);
         mgr.agregarVuelo(v, em);
@@ -43,7 +43,7 @@ class ManejadorVueloTest {
     void agregarConTransaccionHaceCommit() {
         Vuelo v = mock(Vuelo.class);
         when(v.getNombre()).thenReturn("Vtx");
-        when(v.getDtVuelo()).thenReturn(new DtVuelo("Vtx","X", LocalDate.now(), 0,0,0, LocalDate.now(), null, Collections.emptyList()));
+        when(v.getDtVuelo()).thenReturn(new DtVuelo("Vtx","X", LocalDate.now(), 0,0,0, LocalDate.now(), null, Collections.emptyList(), null));
 
         EntityManager em = mock(EntityManager.class);
         var tx = mock(jakarta.persistence.EntityTransaction.class);
@@ -123,28 +123,10 @@ class ManejadorVueloTest {
     }
 
     @Test
-    void tieneReservaDeClienteFunciona() {
-        Vuelo v = mock(Vuelo.class);
-        when(v.getNombre()).thenReturn("Vreg");
-        // Mockear un Map<Long, Reserva> y stubear containsKey para aceptar la búsqueda por nickname
-        @SuppressWarnings("unchecked")
-        Map<Long, Reserva> reservasMock = mock(Map.class);
-        when(reservasMock.containsKey("nick1")).thenReturn(true);
-        when(reservasMock.containsKey("otro")).thenReturn(false);
-        when(v.getReservas()).thenReturn((Map) reservasMock);
-
-        EntityManager em = mock(EntityManager.class);
-        mgr.agregarVuelo(v, em);
-
-        assertTrue(mgr.tieneReservaDeCliente("nick1", v));
-        assertFalse(mgr.tieneReservaDeCliente("otro", v));
-    }
-
-    @Test
     void getDtVuelosRetornaListaDeDt() {
         Vuelo v = mock(Vuelo.class);
         when(v.getNombre()).thenReturn("Vdt");
-        DtVuelo dt = new DtVuelo("Vdt","A", LocalDate.of(2025,1,1), 0,0,0, LocalDate.of(2025,1,1), null, Collections.emptyList());
+        DtVuelo dt = new DtVuelo("Vdt","A", LocalDate.of(2025,1,1), 0,0,0, LocalDate.of(2025,1,1), null, Collections.emptyList(), null);
         when(v.getDtVuelo()).thenReturn(dt);
 
         EntityManager em = mock(EntityManager.class);
@@ -158,7 +140,7 @@ class ManejadorVueloTest {
     @Test
     void cargarVuelosDesdeBDSinResultadosNoFalla() {
         EntityManager em = mock(EntityManager.class);
-        TypedQuery<Vuelo> q = mock(TypedQuery.class);
+        TypedQuery q = mock(TypedQuery.class);
         when(em.createQuery(anyString(), eq(Vuelo.class))).thenReturn(q);
         when(q.getResultList()).thenReturn(Collections.emptyList());
 

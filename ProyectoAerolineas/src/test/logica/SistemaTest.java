@@ -348,7 +348,7 @@ class SistemaTest {
         // Stub ruta inexistente
         when(mrMock.getRuta(anyString())).thenReturn(null);
         Sistema s = new Sistema();
-        assertThrows(IllegalArgumentException.class, () -> s.altaVuelo("v1","a","no-r", LocalDate.now(), 60, 100, 10, LocalDate.now()));
+        assertThrows(IllegalArgumentException.class, () -> s.altaVuelo("v1","a","no-r", LocalDate.now(), 60, 100, 10, LocalDate.now(), null));
 
         // success path
         RutaVuelo ruta = mock(RutaVuelo.class);
@@ -356,7 +356,7 @@ class SistemaTest {
         when(mrMock.getVueloDeRuta(anyString(), anyString())).thenReturn(null);
         doNothing().when(mvMock).agregarVuelo(any(), eq(em));
         doNothing().when(mrMock).agregarVueloARuta(anyString(), any(), eq(em));
-        s.altaVuelo("v2","a","r1", LocalDate.now(), 60, 100, 10, LocalDate.now());
+        s.altaVuelo("v2","a","r1", LocalDate.now(), 60, 100, 10, LocalDate.now(), null);
         verify(mvMock).agregarVuelo(any(), eq(em));
         verify(mrMock).agregarVueloARuta(eq("r1"), any(), eq(em));
     }
@@ -781,6 +781,82 @@ class SistemaTest {
 
         doThrow(new IllegalArgumentException("Ruta no encontrada")).when(mrMock).actualizarImagenRuta(eq("noR"), anyString(), eq(em));
         assertThrows(IllegalArgumentException.class, () -> new Sistema().actualizarImagenRuta("noR","u"));
+    }
+
+    @Test
+    void registrarReservaVuelo_PersistenceException_Rollback() {
+        // Preparar mocks
+        Vuelo vuelo = mock(Vuelo.class);
+        when(mvMock.getVuelo("vX2")).thenReturn(vuelo);
+        DataTypes.DtCliente dtc = mock(DataTypes.DtCliente.class);
+        when(mcMock.obtenerCliente("nickR2")).thenReturn(dtc);
+
+        Reserva reserva = new Reserva(100.0, TipoAsiento.TURISTA, 1, 0, List.of(new Pasajero("a","b")), vuelo);
+
+        // Simular que persist lanza PersistenceException
+        doThrow(new jakarta.persistence.PersistenceException("boom")).when(em).persist(any(Reserva.class));
+
+        Sistema s = new Sistema();
+
+        // Debe transformarse en IllegalStateException y hacer rollback
+        assertThrows(IllegalStateException.class, () -> s.registrarReservaVuelo("nickR2", "vX2", reserva));
+
+        // Verificar transacción: begin y rollback
+        verify(em.getTransaction()).begin();
+        verify(em.getTransaction()).rollback();
+    }
+
+    @Test
+    void registrarReservaVuelo_ManejadorVueloTieneReserva_ShouldThrow() {
+        Vuelo vuelo = mock(Vuelo.class);
+        when(mvMock.getVuelo("vHas")).thenReturn(vuelo);
+        DataTypes.DtCliente dtc = mock(DataTypes.DtCliente.class);
+        when(mcMock.obtenerCliente("nickHas")).thenReturn(dtc);
+
+        // Simular que el manejador de vuelos indica que ya existe reserva
+        when(mvMock.tieneReservaDeCliente(eq("nickHas"), eq(vuelo))).thenReturn(true);
+
+        Reserva reserva = new Reserva(100.0, TipoAsiento.TURISTA, 1, 0, List.of(new Pasajero("a","b")), vuelo);
+
+        Sistema s = new Sistema();
+        assertThrows(IllegalArgumentException.class, () -> s.registrarReservaVuelo("nickHas", "vHas", reserva));
+    }
+
+    @Test
+    void listarRutasConfirmadas_ReturnsConfirmedUpToLimitAndSkipsOthers() {
+        // Preparar aerolineas
+        DataTypes.DtAerolinea a1 = mock(DataTypes.DtAerolinea.class);
+        DataTypes.DtAerolinea a2 = mock(DataTypes.DtAerolinea.class);
+        when(a1.getNickname()).thenReturn("A1");
+        when(a2.getNickname()).thenReturn("A2");
+        when(maMock.getDtAerolineas()).thenReturn(List.of(a1, a2));
+
+        // Preparar rutas: dos confirmadas distintas y otra en estado distinto
+        DataTypes.DtRutaVuelo rConfirmada1 = mock(DataTypes.DtRutaVuelo.class);
+        DataTypes.DtRutaVuelo rConfirmada2 = mock(DataTypes.DtRutaVuelo.class);
+        DataTypes.DtRutaVuelo rOtra = mock(DataTypes.DtRutaVuelo.class);
+        when(rConfirmada1.getEstado()).thenReturn("CONFIRMADA");
+        when(rConfirmada2.getEstado()).thenReturn("CONFIRMADA");
+        when(rOtra.getEstado()).thenReturn("INGRESADA");
+
+        // Aerolinea A1 tiene dos rutas (una confirmada, una no), A2 tiene una confirmada distinta
+        when(maMock.obtenerRutaVueloDeAerolinea("A1")).thenReturn(List.of(rConfirmada1, rOtra));
+        when(maMock.obtenerRutaVueloDeAerolinea("A2")).thenReturn(List.of(rConfirmada2));
+
+        Sistema s = new Sistema();
+
+        // Límite 1 -> debe devolver solo 1 ruta confirmada
+        List<DataTypes.DtRutaVuelo> resLimit1 = s.listarRutasConfirmadas(1);
+        assertEquals(1, resLimit1.size());
+        assertEquals("CONFIRMADA", resLimit1.get(0).getEstado());
+
+        // Límite 3 -> debe devolver exactamente las 2 rutas confirmadas disponibles
+        List<DataTypes.DtRutaVuelo> resLimit3 = s.listarRutasConfirmadas(3);
+        assertEquals(2, resLimit3.size());
+        // Verificar que todas las rutas devueltas están en estado CONFIRMADA
+        for (DataTypes.DtRutaVuelo dr : resLimit3) {
+            assertEquals("CONFIRMADA", dr.getEstado());
+        }
     }
 
 }

@@ -45,6 +45,7 @@ public class Vuelo {
     private int asientosEjecutivo;
     /** Fecha de alta del vuelo en el sistema. */
     private LocalDate fechaAlta;
+    private String imagenUrl;
 
     /** Ruta a la que pertenece este vuelo. */
     @ManyToOne
@@ -64,7 +65,7 @@ public class Vuelo {
     /**
      * Crea un vuelo con sus parámetros principales.
      */
-    public Vuelo(String nombre, String nombreAereolinea, RutaVuelo rutaVuelo, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta) {
+    public Vuelo(String nombre, String nombreAereolinea, RutaVuelo rutaVuelo, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta, String imagenUrl) {
         this.nombre = nombre;
         this.nombreAereolinea = nombreAereolinea;
         this.rutaVuelo = rutaVuelo;
@@ -73,6 +74,7 @@ public class Vuelo {
         this.asientosTurista = asientosTurista;
         this.asientosEjecutivo = asientosEjecutivo;
         this.fechaAlta = fechaAlta;
+        this.imagenUrl = imagenUrl;
     }
 
     // ===== Getters y Setters =====
@@ -184,7 +186,8 @@ public class Vuelo {
                 this.asientosEjecutivo,
                 this.fechaAlta,
                 dtRutaSimplificada, // Usar la versión simplificada
-                this.getDtReservas()
+                this.getDtReservas(),
+                this.imagenUrl
         );
     }
 
@@ -199,7 +202,8 @@ public class Vuelo {
                 this.asientosEjecutivo,
                 this.fechaAlta,
                 null, // Sin información de ruta
-                this.getDtReservas()
+                this.getDtReservas(),
+                this.imagenUrl
         );
     }
 }

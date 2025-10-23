@@ -50,7 +50,8 @@ class VueloTest {
                 120, // duración en minutos
                 150, // asientos turista
                 30,  // asientos ejecutivo
-                fechaAlta
+                fechaAlta,
+                null
         );
     }
 

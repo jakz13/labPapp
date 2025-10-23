@@ -18,15 +18,15 @@ public class AltaVuelo {
     private JTextField campoRuta;
     private JButton crearButton;
     private JButton cancelarButton;
-    private JList ListaAereolineas;
-    private JList ListaRutasDeVuelo;
-    private JTextField NOmVuelo;
-    private JComboBox Dia;
-    private JComboBox Ano;
-    private JComboBox Mes;
-    private JTextField Duracion;
-    private JTextField CantTuristas;
-    private JTextField CantEjecutivo;
+    private JList listaAereolineas;
+    private JList listaRutasDeVuelo;
+    private JTextField nomVuelo;
+    private JComboBox dia;
+    private JComboBox ano;
+    private JComboBox mes;
+    private JTextField duracion;
+    private JTextField cantTuristas;
+    private JTextField cantEjecutivo;
 
     public AltaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
@@ -35,11 +35,11 @@ public class AltaVuelo {
             String item = a.getNickname() + " (" + a.getNombre() + ")";
             modeloAerolineas.addElement(item);
         }
-        ListaAereolineas.setModel(modeloAerolineas);
+        listaAereolineas.setModel(modeloAerolineas);
 
-        ListaAereolineas.addListSelectionListener(e -> {
+        listaAereolineas.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                String item = (String) ListaAereolineas.getSelectedValue();
+                String item = (String) listaAereolineas.getSelectedValue();
                 if (item != null) {
                     String nickname = item.split(" ")[0];
                     String nombre = item.substring(item.indexOf("(") + 1, item.indexOf(")"));
@@ -51,13 +51,13 @@ public class AltaVuelo {
                     for (DtRutaVuelo r : rutas) {
                         modeloRutas.addElement(r.getNombre());
                     }
-                    ListaRutasDeVuelo.setModel(modeloRutas);
+                    listaRutasDeVuelo.setModel(modeloRutas);
                 }
             }
         });
-        ListaRutasDeVuelo.addListSelectionListener(e -> {
+        listaRutasDeVuelo.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                String rutaSeleccionada = (String) ListaRutasDeVuelo.getSelectedValue();
+                String rutaSeleccionada = (String) listaRutasDeVuelo.getSelectedValue();
                 if (rutaSeleccionada != null) {
                     campoRuta.setText(rutaSeleccionada);
                 }
@@ -67,19 +67,19 @@ public class AltaVuelo {
         crearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String aereolinea = (String) ListaAereolineas.getSelectedValue();
-                int duracion = Integer.parseInt(Duracion.getText());
-                String Vuelo = NOmVuelo.getText();
-                int turista = Integer.parseInt(CantTuristas.getText());
-                int ejecutivo = Integer.parseInt(CantEjecutivo.getText());
-                String Ruta = (String) ListaRutasDeVuelo.getSelectedValue();
-                String diaStr = (String) Dia.getSelectedItem();
-                String mesStr = (String) Mes.getSelectedItem();
-                String anioStr = (String) Ano.getSelectedItem();
+                String aereolinea = (String) listaAereolineas.getSelectedValue();
+                int dur = Integer.parseInt(duracion.getText());
+                String Vuelo = nomVuelo.getText();
+                int turista = Integer.parseInt(cantTuristas.getText());
+                int ejecutivo = Integer.parseInt(cantEjecutivo.getText());
+                String Ruta = (String) listaRutasDeVuelo.getSelectedValue();
+                String diaStr = (String) dia.getSelectedItem();
+                String mesStr = (String) mes.getSelectedItem();
+                String anioStr = (String) ano.getSelectedItem();
 
                 LocalDate fechaAlta = LocalDate.now();
 
-                if (Vuelo.isEmpty() || turista <= 0 || duracion <= 0 || ejecutivo <= 0) {
+                if (Vuelo.isEmpty() || turista <= 0 || dur <= 0 || ejecutivo <= 0) {
                     JOptionPane.showMessageDialog(null,
                             "Debe completar todos los campos.",
                             "Error de salame", JOptionPane.ERROR_MESSAGE);
@@ -100,7 +100,7 @@ public class AltaVuelo {
                 LocalDate fecha = LocalDate.of(anio, mes, dia);
 
                 try {
-                    sistema.altaVuelo(Vuelo, aereolinea, Ruta,fecha,  duracion, turista, ejecutivo, fechaAlta);
+                    sistema.altaVuelo(Vuelo, aereolinea, Ruta, fecha, dur, turista, ejecutivo, fechaAlta, null);
                     JOptionPane.showMessageDialog(null,
                             "Vuelo creado correctamente.",
                             "Éxito",
@@ -125,4 +125,3 @@ public class AltaVuelo {
         return panelDeVuelo;
     }
 }
-

@@ -70,7 +70,7 @@ public interface ISistema {
     // =================== Vuelos ===================
     void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta,
                    LocalDate fecha, int duracion, int asientosTurista,
-                   int asientosEjecutivo, LocalDate fechaAlta);
+                   int asientosEjecutivo, LocalDate fechaAlta, String imagenUrl);
 
     Vuelo obtenerVuelo(String nombreVuelo);
     List<DtVuelo> listarVuelosPorRuta(String nombreRuta);
@@ -124,5 +124,7 @@ public interface ISistema {
     String obtenerImagenCliente(String nickname);
     String obtenerImagenAerolinea(String nickname);
     String obtenerImagenRuta(String nombreRuta);
+    List<DtRutaVuelo> listarRutasConfirmadas(int limite);
+    DtVuelo verInfoVueloDt(String nombreVuelo);
 
 }

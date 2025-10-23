@@ -30,6 +30,10 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReserva; //Long para auto-incremento
 
+    @ManyToOne
+    @JoinColumn(name = "cliente_nickname", referencedColumnName = "nickname")
+    private Cliente cliente;
+
     /** Fecha en que se realizó la reserva. */
     private LocalDate fecha;
     /** Costo total de la reserva. */
@@ -95,6 +99,10 @@ public class Reserva {
     public Vuelo getVuelo() { return vuelo; }
     /** Establece el vuelo asociado a la reserva. */
     public void setVuelo(Vuelo vuelo) { this.vuelo = vuelo; }
+
+    public Cliente getCliente() { return cliente; }
+
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
 
     @Override
     public String toString() {

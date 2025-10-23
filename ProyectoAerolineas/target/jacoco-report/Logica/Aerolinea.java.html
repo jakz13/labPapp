@@ -84,11 +84,11 @@ public class Aerolinea extends Usuario {
 <span class="pc bpc" id="L84" title="1 of 2 branches missed.">                    String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : &quot;&quot;;</span>
 <span class="pc bpc" id="L85" title="1 of 2 branches missed.">                    String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : &quot;INGRESADA&quot;;</span>
 <span class="pc bpc" id="L86" title="1 of 2 branches missed.">                    String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;</span>
-
-<span class="fc" id="L88">                    return new DtRutaVuelo(</span>
-<span class="fc" id="L89">                            ruta.getNombre(),</span>
-<span class="fc" id="L90">                            ruta.getDescripcion(),</span>
+<span class="fc" id="L87">                    return new DtRutaVuelo(</span>
+<span class="fc" id="L88">                            ruta.getNombre(),</span>
+<span class="fc" id="L89">                            ruta.getDescripcion(),</span>
                             descripcionCorta,
+<span class="fc" id="L91">                            ruta.getImagenUrl(),</span>
                             nombreAerolinea,
 <span class="fc" id="L93">                            ruta.getCiudadOrigen(),</span>
 <span class="fc" id="L94">                            ruta.getCiudadDestino(),</span>
@@ -98,66 +98,67 @@ public class Aerolinea extends Usuario {
 <span class="fc" id="L98">                            ruta.getCostoEjecutivo(),</span>
 <span class="fc" id="L99">                            ruta.getCostoEquipajeExtra(),</span>
                             estado,
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                            ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList&lt;&gt;(),</span>
-<span class="pc bpc" id="L102" title="1 of 2 branches missed.">                            ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList&lt;&gt;()</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">                            (List) (ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList()),</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">                            (List) (ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList())</span>
                     );
+
                 })
-<span class="fc" id="L105">                .toList();</span>
+<span class="fc" id="L106">                .toList();</span>
     }
 
     /**
      * Devuelve una copia de los datos de las rutas (versión alternativa).
      */
     public List&lt;DtRutaVuelo&gt; getDtRutasVuelo() {
-<span class="fc" id="L112">        return new ArrayList&lt;&gt;(</span>
-<span class="fc" id="L113">                rutasVuelo.values().stream()</span>
-<span class="fc" id="L114">                        .map(ruta -&gt; {</span>
-<span class="pc bpc" id="L115" title="1 of 2 branches missed.">                            String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : &quot;&quot;;</span>
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">                            String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : &quot;INGRESADA&quot;;</span>
-<span class="pc bpc" id="L117" title="1 of 2 branches missed.">                            String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;</span>
+<span class="fc" id="L113">        return new ArrayList&lt;&gt;(</span>
+<span class="fc" id="L114">                rutasVuelo.values().stream()</span>
+<span class="fc" id="L115">                        .map(ruta -&gt; {</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">                            String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : &quot;&quot;;</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">                            String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : &quot;INGRESADA&quot;;</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">                            String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;</span>
 
-<span class="fc" id="L119">                            return new DtRutaVuelo(</span>
-<span class="fc" id="L120">                                    ruta.getNombre(),</span>
-<span class="fc" id="L121">                                    ruta.getDescripcion(),</span>
+<span class="fc" id="L120">                            return new DtRutaVuelo(</span>
+<span class="fc" id="L121">                                    ruta.getNombre(),</span>
+<span class="fc" id="L122">                                    ruta.getDescripcion(),</span>
                                     descripcionCorta,
                                     nombreAerolinea,
-<span class="fc" id="L124">                                    ruta.getCiudadOrigen(),</span>
-<span class="fc" id="L125">                                    ruta.getCiudadDestino(),</span>
-<span class="fc" id="L126">                                    ruta.getHora(),</span>
-<span class="fc" id="L127">                                    ruta.getFechaAlta(),</span>
-<span class="fc" id="L128">                                    ruta.getCostoTurista(),</span>
-<span class="fc" id="L129">                                    ruta.getCostoEjecutivo(),</span>
-<span class="fc" id="L130">                                    ruta.getCostoEquipajeExtra(),</span>
+<span class="fc" id="L125">                                    ruta.getCiudadOrigen(),</span>
+<span class="fc" id="L126">                                    ruta.getCiudadDestino(),</span>
+<span class="fc" id="L127">                                    ruta.getHora(),</span>
+<span class="fc" id="L128">                                    ruta.getFechaAlta(),</span>
+<span class="fc" id="L129">                                    ruta.getCostoTurista(),</span>
+<span class="fc" id="L130">                                    ruta.getCostoEjecutivo(),</span>
+<span class="fc" id="L131">                                    ruta.getCostoEquipajeExtra(),</span>
                                     estado,
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">                                    ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList&lt;&gt;(),</span>
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">                                    ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList&lt;&gt;()</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">                                    ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList&lt;&gt;(),</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">                                    ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList&lt;&gt;()</span>
                             );
                         })
-<span class="fc" id="L136">                        .toList()</span>
+<span class="fc" id="L137">                        .toList()</span>
         );
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L142">        return this.getNombre();</span>
+<span class="nc" id="L143">        return this.getNombre();</span>
     }
 
     /** Devuelve el mapa interno de rutas. */
     public Map&lt;String, RutaVuelo&gt; getRutasVueloMap() {
-<span class="fc" id="L147">        return rutasVuelo;</span>
+<span class="fc" id="L148">        return rutasVuelo;</span>
     }
 
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if (this == obj) return true;</span>
-<span class="pc bpc" id="L153" title="2 of 4 branches missed.">        if (obj == null || getClass() != obj.getClass()) return false;</span>
-<span class="fc" id="L154">        Aerolinea that = (Aerolinea) obj;</span>
-<span class="pc bpc" id="L155" title="2 of 4 branches missed.">        return this.getNickname() != null &amp;&amp; this.getNickname().equals(that.getNickname());</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        if (this == obj) return true;</span>
+<span class="pc bpc" id="L154" title="2 of 4 branches missed.">        if (obj == null || getClass() != obj.getClass()) return false;</span>
+<span class="fc" id="L155">        Aerolinea that = (Aerolinea) obj;</span>
+<span class="pc bpc" id="L156" title="2 of 4 branches missed.">        return this.getNickname() != null &amp;&amp; this.getNickname().equals(that.getNickname());</span>
     }
 
     @Override
     public int hashCode() {
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        return this.getNickname() != null ? this.getNickname().hashCode() : 0;</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">        return this.getNickname() != null ? this.getNickname().hashCode() : 0;</span>
     }
 
 }

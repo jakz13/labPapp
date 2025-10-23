@@ -91,7 +91,7 @@ class ManejadorRutaVueloTest {
         RutaVuelo ruta = new RutaVuelo("RR","d","dc",aero,"O","D","08:00", LocalDate.now(),70,120,8,List.of(), null);
         mr.agregarRutaVuelo(ruta, em);
 
-        Vuelo vuelo = new Vuelo("V1", aero.getNombre(), ruta, LocalDate.now(), 120, 100, 20, LocalDate.now());
+        Vuelo vuelo = new Vuelo("V1", aero.getNombre(), ruta, LocalDate.now(), 120, 100, 20, LocalDate.now(), null);
         mr.agregarVueloARuta("RR", vuelo, em);
         // merge called and vuelo agregado a la ruta
         verify(em, atLeastOnce()).merge(ruta);
@@ -141,7 +141,7 @@ class ManejadorRutaVueloTest {
         assertThrows(IllegalArgumentException.class, () -> mr.actualizarImagenRuta("NOPE", "x", em));
 
         // agregar un vuelo y obtener dt vuelos
-        Vuelo v = new Vuelo("V2", aero.getNombre(), ruta, LocalDate.now(), 60, 50, 10, LocalDate.now());
+        Vuelo v = new Vuelo("V2", aero.getNombre(), ruta, LocalDate.now(), 60, 50, 10, LocalDate.now(), null);
         ruta.agregarVuelo(v);
         List<DtVuelo> dtV = mr.obtenerVuelosPorRuta("RI");
         assertEquals(1, dtV.size());

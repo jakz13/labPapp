@@ -4,98 +4,98 @@ import logica.Fabrica;
 import logica.ISistema;
 import logica.TipoAsiento;
 import logica.TipoDoc;
+import Presentacion.gui.IntentoDiseño;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-<span class="nc" id="L11">public class Main {</span>
+<span class="nc" id="L12">public class Main {</span>
     public static void main(String[] args) {
-<span class="nc" id="L13">        Fabrica fabrica = Fabrica.getInstance();</span>
-<span class="nc" id="L14">        ISistema sistema = fabrica.getISistema();</span>
+<span class="nc" id="L14">        Fabrica fabrica = Fabrica.getInstance();</span>
+<span class="nc" id="L15">        ISistema sistema = fabrica.getISistema();</span>
 
-<span class="nc" id="L16">        System.out.println(&quot;🚀 Iniciando aplicación...&quot;);</span>
+<span class="nc" id="L17">        System.out.println(&quot;🚀 Iniciando aplicación...&quot;);</span>
 
         try {
             // Primero cargar desde BD si existe
-<span class="nc" id="L20">            sistema.cargarDesdeBd();</span>
+<span class="nc" id="L21">            sistema.cargarDesdeBd();</span>
 
             // Si no hay datos, hacer precarga completa
-<span class="nc bnc" id="L23" title="All 2 branches missed.">            if (sistema.listarClientes().isEmpty()) {</span>
-<span class="nc" id="L24">                System.out.println(&quot;📦 Base de datos vacía - ejecutando precarga...&quot;);</span>
-<span class="nc" id="L25">                precargarDatosCompletos(sistema);</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">            if (sistema.listarClientes().isEmpty()) {</span>
+<span class="nc" id="L25">                System.out.println(&quot;📦 Base de datos vacía - ejecutando precarga...&quot;);</span>
+<span class="nc" id="L26">                precargarDatosCompletos(sistema);</span>
             } else {
-<span class="nc" id="L27">                System.out.println(&quot;✅ Datos existentes cargados desde BD&quot;);</span>
+<span class="nc" id="L28">                System.out.println(&quot;✅ Datos existentes cargados desde BD&quot;);</span>
             }
 
-<span class="nc" id="L30">            System.out.println(&quot;🎉 Aplicación iniciada correctamente!&quot;);</span>
+<span class="nc" id="L31">            System.out.println(&quot;🎉 Aplicación iniciada correctamente!&quot;);</span>
 
-<span class="nc" id="L32">        } catch (Exception e) {</span>
-<span class="nc" id="L33">            System.err.println(&quot;❌ Error al iniciar la aplicación: &quot; + e.getMessage());</span>
-<span class="nc" id="L34">            e.printStackTrace();</span>
-<span class="nc" id="L35">        }</span>
+<span class="nc" id="L33">        } catch (Exception e) {</span>
+<span class="nc" id="L34">            System.err.println(&quot;❌ Error al iniciar la aplicación: &quot; + e.getMessage());</span>
+<span class="nc" id="L35">            e.printStackTrace();</span>
+<span class="nc" id="L36">        }</span>
 
-<span class="nc" id="L37">        javax.swing.SwingUtilities.invokeLater(() -&gt; {</span>
-<span class="nc" id="L38">            JFrame frame = new JFrame(&quot;Ventana Principal&quot;);</span>
-<span class="nc" id="L39">            IntentoDiseño ventanaPrincipal = new IntentoDiseño(frame);</span>
-<span class="nc" id="L40">            frame.setContentPane(ventanaPrincipal.Ventana);</span>
-<span class="nc" id="L41">            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
-<span class="nc" id="L42">            frame.pack();</span>
-<span class="nc" id="L43">            frame.setLocationRelativeTo(null);</span>
-<span class="nc" id="L44">            frame.setVisible(true);</span>
-<span class="nc" id="L45">        });</span>
-<span class="nc" id="L46">    }</span>
+<span class="nc" id="L38">        javax.swing.SwingUtilities.invokeLater(() -&gt; {</span>
+<span class="nc" id="L39">            JFrame frame = new JFrame(&quot;Ventana Principal&quot;);</span>
+<span class="nc" id="L40">            IntentoDiseño ventanaPrincipal = new IntentoDiseño(frame);</span>
+<span class="nc" id="L41">            frame.setContentPane(ventanaPrincipal.Ventana);</span>
+<span class="nc" id="L42">            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L43">            frame.pack();</span>
+<span class="nc" id="L44">            frame.setLocationRelativeTo(null);</span>
+<span class="nc" id="L45">            frame.setVisible(true);</span>
+<span class="nc" id="L46">        });</span>
+<span class="nc" id="L47">    }</span>
 
     public static void precargarDatosCompletos(ISistema sistema) {
         try {
-<span class="nc" id="L50">            System.out.println(&quot;🚀 Iniciando precarga de datos...&quot;);</span>
+<span class="nc" id="L51">            System.out.println(&quot;🚀 Iniciando precarga de datos...&quot;);</span>
 
             // ===== 1. PRECARGAR CATEGORÍAS =====
-<span class="nc" id="L53">            sistema.altaCategoria(&quot;Turista&quot;);</span>
-<span class="nc" id="L54">            sistema.altaCategoria(&quot;Ejecutivo&quot;);</span>
-<span class="nc" id="L55">            System.out.println(&quot;✅ Categorías creadas&quot;);</span>
+<span class="nc" id="L54">            sistema.altaCategoria(&quot;Turista&quot;);</span>
+<span class="nc" id="L55">            sistema.altaCategoria(&quot;Ejecutivo&quot;);</span>
+<span class="nc" id="L56">            System.out.println(&quot;✅ Categorías creadas&quot;);</span>
 
             // ===== 2. PRECARGAR CIUDADES =====
-<span class="nc" id="L58">            sistema.altaCiudad(&quot;Santiago&quot;, &quot;Chile&quot;);</span>
-<span class="nc" id="L59">            sistema.altaCiudad(&quot;Miami&quot;, &quot;Estados Unidos&quot;);</span>
-<span class="nc" id="L60">            sistema.altaCiudad(&quot;Buenos Aires&quot;, &quot;Argentina&quot;);</span>
-<span class="nc" id="L61">            sistema.altaCiudad(&quot;Madrid&quot;, &quot;España&quot;);</span>
-<span class="nc" id="L62">            sistema.altaCiudad(&quot;Londres&quot;, &quot;Reino Unido&quot;);</span>
-<span class="nc" id="L63">            sistema.altaCiudad(&quot;Nueva York&quot;, &quot;Estados Unidos&quot;);</span>
-<span class="nc" id="L64">            sistema.altaCiudad(&quot;Los Ángeles&quot;, &quot;Estados Unidos&quot;);</span>
-<span class="nc" id="L65">            System.out.println(&quot;✅ Ciudades creadas&quot;);</span>
+<span class="nc" id="L59">            sistema.altaCiudad(&quot;Santiago&quot;, &quot;Chile&quot;);</span>
+<span class="nc" id="L60">            sistema.altaCiudad(&quot;Miami&quot;, &quot;Estados Unidos&quot;);</span>
+<span class="nc" id="L61">            sistema.altaCiudad(&quot;Buenos Aires&quot;, &quot;Argentina&quot;);</span>
+<span class="nc" id="L62">            sistema.altaCiudad(&quot;Madrid&quot;, &quot;España&quot;);</span>
+<span class="nc" id="L63">            sistema.altaCiudad(&quot;Londres&quot;, &quot;Reino Unido&quot;);</span>
+<span class="nc" id="L64">            sistema.altaCiudad(&quot;Nueva York&quot;, &quot;Estados Unidos&quot;);</span>
+<span class="nc" id="L65">            sistema.altaCiudad(&quot;Los Ángeles&quot;, &quot;Estados Unidos&quot;);</span>
+<span class="nc" id="L66">            System.out.println(&quot;✅ Ciudades creadas&quot;);</span>
 
             // ===== 3. PRECARGAR CLIENTES =====
-<span class="nc" id="L68">            sistema.altaCliente(&quot;juan123&quot;, &quot;Juan&quot;, &quot;Callero&quot;, &quot;juan@mail.com&quot;,</span>
-<span class="nc" id="L69">                    LocalDate.of(1990, 5, 10), &quot;Uruguayo&quot;, TipoDoc.CEDULAIDENTIDAD,</span>
+<span class="nc" id="L69">            sistema.altaCliente(&quot;juan123&quot;, &quot;Juan&quot;, &quot;Callero&quot;, &quot;juan@mail.com&quot;,</span>
+<span class="nc" id="L70">                    LocalDate.of(1990, 5, 10), &quot;Uruguayo&quot;, TipoDoc.CEDULAIDENTIDAD,</span>
                     &quot;12345678&quot;, &quot;pwdJuan&quot;, null);
 
-<span class="nc" id="L72">            sistema.altaCliente(&quot;ana456&quot;, &quot;Aglae&quot;, &quot;Locher&quot;, &quot;aglae@mail.com&quot;,</span>
-<span class="nc" id="L73">                    LocalDate.of(1985, 8, 22), &quot;Argentina&quot;, TipoDoc.PASAPORTE,</span>
+<span class="nc" id="L73">            sistema.altaCliente(&quot;ana456&quot;, &quot;Aglae&quot;, &quot;Locher&quot;, &quot;aglae@mail.com&quot;,</span>
+<span class="nc" id="L74">                    LocalDate.of(1985, 8, 22), &quot;Argentina&quot;, TipoDoc.PASAPORTE,</span>
                     &quot;A9876543&quot;, &quot;pwdAna&quot;, null);
 
-<span class="nc" id="L76">            sistema.altaCliente(&quot;luis789&quot;, &quot;Luis&quot;, &quot;Martínez&quot;, &quot;luis@mail.com&quot;,</span>
-<span class="nc" id="L77">                    LocalDate.of(1992, 12, 3), &quot;Chileno&quot;, TipoDoc.CEDULAIDENTIDAD,</span>
+<span class="nc" id="L77">            sistema.altaCliente(&quot;luis789&quot;, &quot;Luis&quot;, &quot;Martínez&quot;, &quot;luis@mail.com&quot;,</span>
+<span class="nc" id="L78">                    LocalDate.of(1992, 12, 3), &quot;Chileno&quot;, TipoDoc.CEDULAIDENTIDAD,</span>
                     &quot;87654321&quot;, &quot;pwdLuis&quot;, null);
-<span class="nc" id="L79">            System.out.println(&quot;✅ Clientes creados&quot;);</span>
+<span class="nc" id="L80">            System.out.println(&quot;✅ Clientes creados&quot;);</span>
 
             // ===== 4. PRECARGAR AEROLÍNEAS =====
-<span class="nc" id="L82">            sistema.altaAerolinea(&quot;latam001&quot;, &quot;LATAM Airlines&quot;, &quot;Principal aerolínea de Latinoamérica&quot;,</span>
+<span class="nc" id="L83">            sistema.altaAerolinea(&quot;latam001&quot;, &quot;LATAM Airlines&quot;, &quot;Principal aerolínea de Latinoamérica&quot;,</span>
                     &quot;contacto@latam.com&quot;, &quot;https://www.latam.com&quot;, &quot;pwdLatam&quot;, null);
 
-<span class="nc" id="L85">            sistema.altaAerolinea(&quot;iberia002&quot;, &quot;Iberia&quot;, &quot;Aerolínea española con vuelos internacionales&quot;,</span>
+<span class="nc" id="L86">            sistema.altaAerolinea(&quot;iberia002&quot;, &quot;Iberia&quot;, &quot;Aerolínea española con vuelos internacionales&quot;,</span>
                     &quot;info@iberia.com&quot;, &quot;https://www.iberia.com&quot;, &quot;pwdIberia&quot;, null);
 
-<span class="nc" id="L88">            sistema.altaAerolinea(&quot;aa003&quot;, &quot;American Airlines&quot;, &quot;Aerolínea estadounidense con gran cobertura global&quot;,</span>
+<span class="nc" id="L89">            sistema.altaAerolinea(&quot;aa003&quot;, &quot;American Airlines&quot;, &quot;Aerolínea estadounidense con gran cobertura global&quot;,</span>
                     &quot;support@aa.com&quot;, &quot;https://www.aa.com&quot;, &quot;pwdAA&quot;, null);
 
-<span class="nc" id="L91">            sistema.altaAerolinea(&quot;aeromex004&quot;, &quot;AeroMéxico&quot;, &quot;Aerolínea mexicana líder en vuelos internacionales&quot;,</span>
+<span class="nc" id="L92">            sistema.altaAerolinea(&quot;aeromex004&quot;, &quot;AeroMéxico&quot;, &quot;Aerolínea mexicana líder en vuelos internacionales&quot;,</span>
                     &quot;clientes@aeromexico.com&quot;, &quot;https://www.aeromexico.com&quot;, &quot;pwdAeroMex&quot;, null);
 
-<span class="nc" id="L94">            sistema.altaAerolinea(&quot;flybondi005&quot;, &quot;FlyBondi&quot;, &quot;Low cost argentina con vuelos regionales&quot;,</span>
+<span class="nc" id="L95">            sistema.altaAerolinea(&quot;flybondi005&quot;, &quot;FlyBondi&quot;, &quot;Low cost argentina con vuelos regionales&quot;,</span>
                     &quot;contacto@flybondi.com&quot;, &quot;https://www.flybondi.com&quot;, &quot;pwdFlybondi&quot;, null);
-<span class="nc" id="L96">            System.out.println(&quot;✅ Aerolíneas creadas&quot;);</span>
+<span class="nc" id="L97">            System.out.println(&quot;✅ Aerolíneas creadas&quot;);</span>
 
-            // ===== 5. PRECARGAR RUTAS DE VUELO =====
 <span class="nc" id="L99">            sistema.altaRutaVuelo(&quot;SCL-MIA&quot;, &quot;Santiago a Miami&quot;, &quot;Directo&quot;,</span>
 <span class="nc" id="L100">                    sistema.obtenerAerolinea(&quot;latam001&quot;),</span>
 <span class="nc" id="L101">                    &quot;Santiago&quot;, &quot;Miami&quot;, &quot;08:00&quot;, LocalDate.now(),</span>
@@ -132,19 +132,19 @@ import java.util.Arrays;
 
             // ===== 7. PRECARGAR VUELOS =====
 <span class="nc" id="L134">            sistema.altaVuelo(&quot;LATAM001-SCLMIA&quot;, &quot;LATAM Airlines&quot;, &quot;SCL-MIA&quot;,</span>
-<span class="nc" id="L135">                    LocalDate.now().plusDays(7), 8, 150, 20, LocalDate.now());</span>
+<span class="nc" id="L135">                    LocalDate.now().plusDays(7), 8, 150, 20, LocalDate.now(), null);</span>
 
 <span class="nc" id="L137">            sistema.altaVuelo(&quot;LATAM002-SCLEZE&quot;, &quot;LATAM Airlines&quot;, &quot;SCL-EZE&quot;,</span>
-<span class="nc" id="L138">                    LocalDate.now().plusDays(5), 2, 100, 15, LocalDate.now());</span>
+<span class="nc" id="L138">                    LocalDate.now().plusDays(5), 2, 100, 15, LocalDate.now(), null);</span>
 
 <span class="nc" id="L140">            sistema.altaVuelo(&quot;IBERIA001-MADLHR&quot;, &quot;Iberia&quot;, &quot;MAD-LHR&quot;,</span>
-<span class="nc" id="L141">                    LocalDate.now().plusDays(10), 3, 120, 10, LocalDate.now());</span>
+<span class="nc" id="L141">                    LocalDate.now().plusDays(10), 3, 120, 10, LocalDate.now(), null);</span>
 
 <span class="nc" id="L143">            sistema.altaVuelo(&quot;AA001-JFKLAX&quot;, &quot;American Airlines&quot;, &quot;JFK-LAX&quot;,</span>
-<span class="nc" id="L144">                    LocalDate.now().plusDays(14), 6, 180, 25, LocalDate.now());</span>
+<span class="nc" id="L144">                    LocalDate.now().plusDays(14), 6, 180, 25, LocalDate.now(), null);</span>
 
 <span class="nc" id="L146">            sistema.altaVuelo(&quot;AA002-JFKMIA&quot;, &quot;American Airlines&quot;, &quot;JFK-MIA&quot;,</span>
-<span class="nc" id="L147">                    LocalDate.now().plusDays(3), 3, 160, 20, LocalDate.now());</span>
+<span class="nc" id="L147">                    LocalDate.now().plusDays(3), 3, 160, 20, LocalDate.now(), null);</span>
 <span class="nc" id="L148">            System.out.println(&quot;✅ Vuelos creados&quot;);</span>
 
             // ===== 8. PRECARGAR PAQUETES =====

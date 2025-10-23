@@ -374,7 +374,7 @@ public class Sistema implements ISistema {
     @Override
     public void altaVuelo(String nombreVuelo, String nombreAereolinea, String nombreRuta,
                           LocalDate fecha, int duracion, int asientosTurista,
-                          int asientosEjecutivo, LocalDate fechaAlta) {
+                          int asientosEjecutivo, LocalDate fechaAlta, String imagenUrl) {
 
         RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
         if (ruta == null) {
@@ -386,11 +386,12 @@ public class Sistema implements ISistema {
         }
 
         Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, ruta, fecha, duracion,
-                asientosTurista, asientosEjecutivo, fechaAlta);
+                asientosTurista, asientosEjecutivo, fechaAlta, imagenUrl);
 
         manejadorVuelo.agregarVuelo(vuelo, entManager);
         manejadorRutaVuelo.agregarVueloARuta(nombreRuta, vuelo, entManager);
     }
+
 
     public Vuelo obtenerVuelo(String nombreVuelo) {
         return manejadorVuelo.getVuelo(nombreVuelo);
@@ -399,6 +400,15 @@ public class Sistema implements ISistema {
     @Override
     public List<DtVuelo> listarVuelosPorRuta(String nombreRuta) {
         return manejadorRutaVuelo.obtenerVuelosPorRuta(nombreRuta);
+    }
+
+    @Override
+    public DtVuelo verInfoVueloDt(String nombreVuelo) {
+        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+        if (vuelo == null) {
+            throw new IllegalArgumentException("Vuelo no encontrado");
+        }
+        return vuelo.getDtVuelo();
     }
 
     @Override
@@ -758,6 +768,27 @@ public class Sistema implements ISistema {
         }
     }
 
+    public List<DtRutaVuelo> listarRutasConfirmadas(int limite) {
+        List<DtRutaVuelo> rutasConfirmadas = new ArrayList<>();
+        List<DtAerolinea> aerolineas = listarAerolineas();
+
+        for (DtAerolinea aerolinea : aerolineas) {
+            try {
+                List<DtRutaVuelo> rutasAerolinea = listarRutasPorAerolinea(aerolinea.getNickname());
+                for (DtRutaVuelo ruta : rutasAerolinea) {
+                    if ("CONFIRMADA".equals(ruta.getEstado())) {
+                        rutasConfirmadas.add(ruta);
+                        if (rutasConfirmadas.size() >= limite) {
+                            return rutasConfirmadas;
+                        }
+                    }
+                }
+            } catch (PersistenceException  e) {
+                continue;
+            }
+        }
+        return rutasConfirmadas;
+    }
 
 }
 

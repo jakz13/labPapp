@@ -4,6 +4,7 @@ import logica.Fabrica;
 import logica.ISistema;
 import logica.TipoAsiento;
 import logica.TipoDoc;
+import Presentacion.gui.IntentoDiseño;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -95,7 +96,6 @@ public class Main {
                     "contacto@flybondi.com", "https://www.flybondi.com", "pwdFlybondi", null);
             System.out.println("✅ Aerolíneas creadas");
 
-            // ===== 5. PRECARGAR RUTAS DE VUELO =====
             sistema.altaRutaVuelo("SCL-MIA", "Santiago a Miami", "Directo",
                     sistema.obtenerAerolinea("latam001"),
                     "Santiago", "Miami", "08:00", LocalDate.now(),
@@ -132,19 +132,19 @@ public class Main {
 
             // ===== 7. PRECARGAR VUELOS =====
             sistema.altaVuelo("LATAM001-SCLMIA", "LATAM Airlines", "SCL-MIA",
-                    LocalDate.now().plusDays(7), 8, 150, 20, LocalDate.now());
+                    LocalDate.now().plusDays(7), 8, 150, 20, LocalDate.now(), null);
 
             sistema.altaVuelo("LATAM002-SCLEZE", "LATAM Airlines", "SCL-EZE",
-                    LocalDate.now().plusDays(5), 2, 100, 15, LocalDate.now());
+                    LocalDate.now().plusDays(5), 2, 100, 15, LocalDate.now(), null);
 
             sistema.altaVuelo("IBERIA001-MADLHR", "Iberia", "MAD-LHR",
-                    LocalDate.now().plusDays(10), 3, 120, 10, LocalDate.now());
+                    LocalDate.now().plusDays(10), 3, 120, 10, LocalDate.now(), null);
 
             sistema.altaVuelo("AA001-JFKLAX", "American Airlines", "JFK-LAX",
-                    LocalDate.now().plusDays(14), 6, 180, 25, LocalDate.now());
+                    LocalDate.now().plusDays(14), 6, 180, 25, LocalDate.now(), null);
 
             sistema.altaVuelo("AA002-JFKMIA", "American Airlines", "JFK-MIA",
-                    LocalDate.now().plusDays(3), 3, 160, 20, LocalDate.now());
+                    LocalDate.now().plusDays(3), 3, 160, 20, LocalDate.now(), null);
             System.out.println("✅ Vuelos creados");
 
             // ===== 8. PRECARGAR PAQUETES =====

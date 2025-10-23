@@ -84,11 +84,11 @@ public class Aerolinea extends Usuario {
                     String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
                     String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
                     String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
-
                     return new DtRutaVuelo(
                             ruta.getNombre(),
                             ruta.getDescripcion(),
                             descripcionCorta,
+                            ruta.getImagenUrl(),
                             nombreAerolinea,
                             ruta.getCiudadOrigen(),
                             ruta.getCiudadDestino(),
@@ -98,9 +98,10 @@ public class Aerolinea extends Usuario {
                             ruta.getCostoEjecutivo(),
                             ruta.getCostoEquipajeExtra(),
                             estado,
-                            ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList<>(),
-                            ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList<>()
+                            (List) (ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList()),
+                            (List) (ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList())
                     );
+
                 })
                 .toList();
     }
