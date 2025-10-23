@@ -494,7 +494,7 @@ public class Sistema implements ISistema {
         }
 
         // Comprobar si el cliente ya tiene una reserva en ese vuelo (buscar por nickname en las reservas del vuelo)
-<span class="nc bnc" id="L497" title="All 2 branches missed.">        if (ManejadorVuelo.getInstance().tieneReservaDeCliente(nicknameCliente, vuelo)) {</span>
+<span class="nc bnc" id="L497" title="All 2 branches missed.">        if (manejadorVuelo.tieneReservaDeCliente(nicknameCliente, vuelo)) {</span>
 <span class="nc" id="L498">            throw new IllegalArgumentException(</span>
                     &quot;El cliente &quot; + nicknameCliente + &quot; ya tiene una reserva para el vuelo &quot; + nombreVuelo +
                             &quot;. Debe elegir otro vuelo o ruta.&quot;
