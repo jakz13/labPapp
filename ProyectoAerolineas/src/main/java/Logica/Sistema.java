@@ -363,6 +363,15 @@ public class Sistema implements ISistema {
         return manejadorRutaVuelo.obtenerVuelosPorRuta(nombreRuta);
     }
 
+
+    @Override
+    public DtVuelo verInfoVueloDt(String nombreVuelo) {
+        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+        if (vuelo == null) {
+            throw new IllegalArgumentException("Vuelo no encontrado");
+        }
+        return vuelo.getDtVuelo();
+    }
     @Override
     public Vuelo verInfoVuelo(String nombreVuelo) {
         Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
@@ -719,6 +728,26 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("Paquete no encontrado o sin rutas asociadas");
         }
     }
+    public List<DtRutaVuelo> listarRutasConfirmadas(int limite) {
+        List<DtRutaVuelo> rutasConfirmadas = new ArrayList<>();
+        List<DtAerolinea> aerolineas = listarAerolineas();
 
+        for (DtAerolinea aerolinea : aerolineas) {
+            try {
+                List<DtRutaVuelo> rutasAerolinea = listarRutasPorAerolinea(aerolinea.getNickname());
+                for (DtRutaVuelo ruta : rutasAerolinea) {
+                    if ("CONFIRMADA".equals(ruta.getEstado())) {
+                        rutasConfirmadas.add(ruta);
+                        if (rutasConfirmadas.size() >= limite) {
+                            return rutasConfirmadas;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                continue;
+            }
+        }
+        return rutasConfirmadas;
+    }
 
 }

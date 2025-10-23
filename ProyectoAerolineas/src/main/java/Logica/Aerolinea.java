@@ -81,6 +81,7 @@ public class Aerolinea extends Usuario {
                                     ruta.getNombre(),
                                     ruta.getDescripcion(),
                                     descripcionCorta,
+                                    ruta.getImagenUrl(),
                                     nombreAerolinea,
                                     ruta.getCiudadOrigen(),
                                     ruta.getCiudadDestino(),

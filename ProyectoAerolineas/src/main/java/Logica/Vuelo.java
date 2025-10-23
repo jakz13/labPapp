@@ -112,23 +112,11 @@ public class Vuelo {
     }
 
     public DtVuelo getDtVuelo() {
-        // Crear un DtRutaVuelo simplificado sin vuelos para evitar recursión
-        DataTypes.DtRutaVuelo dtRutaSimplificada = new DataTypes.DtRutaVuelo(
-                rutaVuelo.getNombre(),
-                rutaVuelo.getDescripcion(),
-                rutaVuelo.getDescripcionCorta(),
-                rutaVuelo.getAerolinea() != null ? rutaVuelo.getAerolinea().getNombre() : null,
-                rutaVuelo.getCiudadOrigen(),
-                rutaVuelo.getCiudadDestino(),
-                rutaVuelo.getHora(),
-                rutaVuelo.getFechaAlta(),
-                rutaVuelo.getCostoTurista(),
-                rutaVuelo.getCostoEjecutivo(),
-                rutaVuelo.getCostoEquipajeExtra(),
-                rutaVuelo.getEstado() != null ? rutaVuelo.getEstado().toString() : "INGRESADA",
-                rutaVuelo.getCategorias() != null ? rutaVuelo.getCategorias() : new ArrayList<>(),
-                new ArrayList<>() // Lista vacía de vuelos para evitar recursión
-        );
+        // Obtener DtRutaVuelo desde la entidad RutaVuelo (ya maneja listas de vuelos de forma segura)
+        DataTypes.DtRutaVuelo dtRutaSimplificada = null;
+        if (rutaVuelo != null) {
+            dtRutaSimplificada = rutaVuelo.getDtRutaVuelo();
+        }
 
         return new DtVuelo(
                 this.nombre,
@@ -138,8 +126,10 @@ public class Vuelo {
                 this.asientosTurista,
                 this.asientosEjecutivo,
                 this.fechaAlta,
-                dtRutaSimplificada, // Usar la versión simplificada
-                this.getDtReservas()
+                dtRutaSimplificada, // Usar la versión simplificada o null
+                this.getDtReservas(),
+                this.imagenUrl
+
         );
     }
 
@@ -154,7 +144,8 @@ public class Vuelo {
                 this.asientosEjecutivo,
                 this.fechaAlta,
                 null, // Sin información de ruta
-                this.getDtReservas()
+                this.getDtReservas(),
+                this.imagenUrl
         );
     }
 }

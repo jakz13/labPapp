@@ -13,10 +13,11 @@ public class DtVuelo {
     private LocalDate fechaAlta;
     private DtRutaVuelo rutaVuelo;
     private List<DtReserva> reservas;
+    private String imagenUrl;
 
     public DtVuelo(String nombre, String nombreAerolinea, LocalDate fecha, int duracion,
                    int asientosTurista, int asientosEjecutivo, LocalDate fechaAlta,
-                   DtRutaVuelo rutaVuelo, List<DtReserva> reservas) {
+                   DtRutaVuelo rutaVuelo, List<DtReserva> reservas, String imagenUrl) {
         this.nombre = nombre;
         this.nombreAerolinea = nombreAerolinea;
         this.fecha = fecha;
@@ -26,6 +27,7 @@ public class DtVuelo {
         this.fechaAlta = fechaAlta;
         this.rutaVuelo = rutaVuelo;
         this.reservas = reservas;
+        this.imagenUrl = imagenUrl;
     }
 
     // Getters
@@ -38,6 +40,7 @@ public class DtVuelo {
     public LocalDate getFechaAlta() { return fechaAlta; }
     public DtRutaVuelo getRutaVuelo() { return rutaVuelo; }
     public List<DtReserva> getReservas() { return reservas; }
+    public String getImagenUrl() { return imagenUrl; }
 
     @Override
     public String toString() {

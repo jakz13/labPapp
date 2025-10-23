@@ -112,6 +112,9 @@ public interface ISistema {
     String obtenerImagenCliente(String nickname);
     String obtenerImagenAerolinea(String nickname);
     String obtenerImagenRuta(String nombreRuta);
+    List<DtRutaVuelo> listarRutasConfirmadas(int limite);
+    DtVuelo verInfoVueloDt(String nombreVuelo);
+
 
 }
 
