@@ -430,7 +430,7 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("El vuelo no existe: " + nombreVuelo);
         }
 
-        if (vuelo.getReservas().containsKey(nicknameCliente)) {
+        if (ManejadorVuelo.getInstance().tieneReservaDeCliente(nicknameCliente, vuelo)) {
             throw new IllegalArgumentException(
                     "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
                             ". Debe elegir otro vuelo o ruta."
