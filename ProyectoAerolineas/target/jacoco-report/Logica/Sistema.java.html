@@ -430,15 +430,15 @@ public class Sistema implements ISistema {
 <span class="fc" id="L430">            throw new IllegalArgumentException(&quot;El vuelo no existe: &quot; + nombreVuelo);</span>
         }
 
-<span class="pc bpc" id="L433" title="1 of 2 branches missed.">        if (vuelo.getReservas().containsKey(nicknameCliente)) {</span>
-<span class="fc" id="L434">            throw new IllegalArgumentException(</span>
+<span class="pc bpc" id="L433" title="1 of 2 branches missed.">        if (ManejadorVuelo.getInstance().tieneReservaDeCliente(nicknameCliente, vuelo)) {</span>
+<span class="nc" id="L434">            throw new IllegalArgumentException(</span>
                     &quot;El cliente &quot; + nicknameCliente + &quot; ya tiene una reserva para el vuelo &quot; + nombreVuelo +
                             &quot;. Debe elegir otro vuelo o ruta.&quot;
             );
         }
 
-<span class="nc" id="L440">        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
-<span class="nc bnc" id="L441" title="All 2 branches missed.">        if (cliente != null) {</span>
+<span class="fc" id="L440">        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);</span>
+<span class="pc bpc" id="L441" title="1 of 2 branches missed.">        if (cliente != null) {</span>
 <span class="nc bnc" id="L442" title="All 2 branches missed.">            for (DtReserva r : cliente.getReservas()) {</span>
 <span class="nc bnc" id="L443" title="All 2 branches missed.">                if (r.getVuelo().equals(nombreVuelo)) {</span>
 <span class="nc" id="L444">                    throw new IllegalArgumentException(</span>
@@ -449,7 +449,7 @@ public class Sistema implements ISistema {
         }
 
         // CREAR RESERVA SIN ID - se generará automáticamente
-<span class="nc" id="L452">        Reserva reserva = new Reserva(</span>
+<span class="fc" id="L452">        Reserva reserva = new Reserva(</span>
                 costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
         );
 
