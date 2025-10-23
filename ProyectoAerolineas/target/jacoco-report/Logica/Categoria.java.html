@@ -26,28 +26,29 @@ public class Categoria {
 
     /** Crea una categoría con el nombre indicado. */
 <span class="fc" id="L28">    public Categoria(String nombre) {</span>
-<span class="fc" id="L29">        setNombre(nombre);</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (nombre == null) {</span>
+<span class="fc" id="L30">            throw new IllegalArgumentException(&quot;El nombre no puede ser nulo&quot;);</span>
+        }
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (nombre.isEmpty()) {</span>
+<span class="fc" id="L33">            throw new IllegalArgumentException(&quot;El nombre no puede estar vacío&quot;);</span>
+        }
+<span class="fc" id="L35">        this.nombre = nombre;</span>
+<span class="fc" id="L36">    }</span>
 
     /** Devuelve el nombre de la categoría. */
     public String getNombre() {
-<span class="fc" id="L34">        return nombre;</span>
+<span class="fc" id="L40">        return nombre;</span>
     }
 
     /** Actualiza el nombre de la categoría validando su contenido. */
     public void setNombre(String nombre) {
-<span class="fc" id="L39">        setNombreInternal(nombre);</span>
-<span class="fc" id="L40">    }</span>
-
-    // Validación interna del nombre
-    private void setNombreInternal(String nombre) {
-<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (nombre == null) {</span>
-<span class="fc" id="L45">            throw new IllegalArgumentException(&quot;El nombre no puede ser nulo&quot;);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (nombre == null) {</span>
+<span class="fc" id="L46">            throw new IllegalArgumentException(&quot;El nombre no puede ser nulo&quot;);</span>
         }
-<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (nombre.isEmpty()) {</span>
-<span class="fc" id="L48">            throw new IllegalArgumentException(&quot;El nombre no puede estar vacío&quot;);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (nombre.isEmpty()) {</span>
+<span class="fc" id="L49">            throw new IllegalArgumentException(&quot;El nombre no puede estar vacío&quot;);</span>
         }
-<span class="fc" id="L50">        this.nombre = nombre;</span>
-<span class="fc" id="L51">    }</span>
+<span class="fc" id="L51">        this.nombre = nombre;</span>
+<span class="fc" id="L52">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

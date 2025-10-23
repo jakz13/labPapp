@@ -5,7 +5,7 @@
  * Se usa para obtener acceso centralizado al servicio de lógica.
  */
 public final class Fabrica {
-<span class="nc" id="L8">    private static volatile Fabrica instancia = null;</span>
+<span class="nc" id="L8">    private static Fabrica instancia = null;</span>
     private final ISistema sistema;
 
 <span class="nc" id="L11">    private Fabrica() {</span>
@@ -13,20 +13,30 @@ public final class Fabrica {
 <span class="nc" id="L13">    }</span>
 
     /** Devuelve la instancia singleton de la fábrica. */
+    /*USA VOLATILE PARA DOBLE CHEQUEO
+
     public static Fabrica getInstance() {
-<span class="nc bnc" id="L17" title="All 2 branches missed.">        if (instancia == null) {</span>
-<span class="nc" id="L18">            synchronized (Fabrica.class) {</span>
-<span class="nc bnc" id="L19" title="All 2 branches missed.">                if (instancia == null) {</span>
-<span class="nc" id="L20">                    instancia = new Fabrica();</span>
+        if (instancia == null) {
+            synchronized (Fabrica.class) {
+                if (instancia == null) {
+                    instancia = new Fabrica();
                 }
-<span class="nc" id="L22">            }</span>
+            }
         }
-<span class="nc" id="L24">        return instancia;</span>
+        return instancia;
+    }*/
+
+    /** Devuelve la instancia singleton del manejador. */
+    public static Fabrica getInstance() {
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (instancia == null) {</span>
+<span class="nc" id="L32">            instancia = new Fabrica();</span>
+        }
+<span class="nc" id="L34">        return instancia;</span>
     }
 
     /** Devuelve la interfaz del sistema (ISistema). */
     public ISistema getISistema() {
-<span class="nc" id="L29">        return sistema;</span>
+<span class="nc" id="L39">        return sistema;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

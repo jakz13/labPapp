@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="logica.SistemaTest" time="0.666" tests="48" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="logica.SistemaTest" time="0.615" tests="48" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="UY"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\agust\AppData\Local\Temp\surefire17596199539009746659\surefirebooter-20251022213035505_3.jar C:\Users\agust\AppData\Local\Temp\surefire17596199539009746659 2025-10-22T21-30-35_392-jvmRun1 surefire-20251022213035505_1tmp surefire_0-20251022213035505_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\agust\AppData\Local\Temp\surefire11191619608655055161\surefirebooter-20251022220532169_3.jar C:\Users\agust\AppData\Local\Temp\surefire11191619608655055161 2025-10-22T22-05-32_061-jvmRun1 surefire-20251022220532169_1tmp surefire_0-20251022220532169_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\target\test-classes;C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\target\classes;C:\Users\agust\.m2\repository\org\hibernate\orm\hibernate-core\6.4.4.Final\hibernate-core-6.4.4.Final.jar;C:\Users\agust\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\agust\.m2\repository\org\jboss\logging\jboss-logging\3.5.0.Final\jboss-logging-3.5.0.Final.jar;C:\Users\agust\.m2\repository\org\hibernate\common\hibernate-commons-annotations\6.0.6.Final\hibernate-commons-annotations-6.0.6.Final.jar;C:\Users\agust\.m2\repository\io\smallrye\jandex\3.1.2\jandex-3.1.2.jar;C:\Users\agust\.m2\repository\com\fasterxml\classmate\1.5.1\classmate-1.5.1.jar;C:\Users\agust\.m2\repository\net\bytebuddy\byte-buddy\1.14.11\byte-buddy-1.14.11.jar;C:\Users\agust\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.0\jakarta.xml.bind-api-4.0.0.jar;C:\Users\agust\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.0\jakarta.activation-api-2.1.0.jar;C:\Users\agust\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.2\jaxb-runtime-4.0.2.jar;C:\Users\agust\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.2\jaxb-core-4.0.2.jar;C:\Users\agust\.m2\repository\org\eclipse\angus\angus-activation\2.0.0\angus-activation-2.0.0.jar;C:\Users\agust\.m2\repository\org\glassfish\jaxb\txw2\4.0.2\txw2-4.0.2.jar;C:\Users\agust\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.1\istack-commons-runtime-4.1.1.jar;C:\Users\agust\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\agust\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\agust\.m2\repository\org\postgresql\postgresql\42.7.3\postgresql-42.7.3.jar;C:\Users\agust\.m2\repository\org\checkerframework\checker-qual\3.42.0\checker-qual-3.42.0.jar;C:\Users\agust\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\agust\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\agust\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\agust\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\agust\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\agust\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\agust\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\agust\.m2\repository\org\mockito\mockito-core\5.4.0\mockito-core-5.4.0.jar;C:\Users\agust\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.5\byte-buddy-agent-1.14.5.jar;C:\Users\agust\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\agust\.m2\repository\org\mockito\mockito-junit-jupiter\5.4.0\mockito-junit-jupiter-5.4.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\agust\AppData\Local\Temp\surefire17596199539009746659\surefirebooter-20251022213035505_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\agust\AppData\Local\Temp\surefire11191619608655055161\surefirebooter-20251022220532169_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.8+12-LTS-250"/>
@@ -63,70 +63,70 @@
     <property name="maven.repo.local" value="C:\Users\agust\.m2\repository"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="altaRutaPaquete_Success_And_PaqueteYaComprado" classname="logica.SistemaTest" time="0.372">
-    <system-err><![CDATA[oct. 22, 2025 9:30:39 P. M. logica.Sistema altaRutaPaquete
+  <testcase name="altaRutaPaquete_Success_And_PaqueteYaComprado" classname="logica.SistemaTest" time="0.321">
+    <system-err><![CDATA[oct. 22, 2025 10:05:36 P. M. logica.Sistema altaRutaPaquete
 INFO: Ruta agregada al paquete correctamente: pOk, ruta: rOk
 ]]></system-err>
   </testcase>
-  <testcase name="obtenerAerolinea_ReturnsDtAerolinea_And_NotFound" classname="logica.SistemaTest" time="0.007"/>
+  <testcase name="obtenerAerolinea_ReturnsDtAerolinea_And_NotFound" classname="logica.SistemaTest" time="0.005"/>
   <testcase name="listarCiudades_ReturnsDtList" classname="logica.SistemaTest" time="0.005"/>
-  <testcase name="obtenerCliente_ReturnsDtClienteOrNull" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="modificarDatosClienteCompleto_SuccessAndNotFound" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="altaAerolinea_SuccessAndDuplicate" classname="logica.SistemaTest" time="0.005"/>
+  <testcase name="obtenerCliente_ReturnsDtClienteOrNull" classname="logica.SistemaTest" time="0.002"/>
+  <testcase name="modificarDatosClienteCompleto_SuccessAndNotFound" classname="logica.SistemaTest" time="0.002"/>
+  <testcase name="altaAerolinea_SuccessAndDuplicate" classname="logica.SistemaTest" time="0.004"/>
   <testcase name="crearYRegistrarReserva_VueloNullAndDuplicateReservation" classname="logica.SistemaTest" time="0.004"/>
   <testcase name="verificarLogin_ShouldCheckClientThenAerolinea" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="aceptarYRechazarRuta_VerifyCalls" classname="logica.SistemaTest" time="0.002"/>
+  <testcase name="aceptarYRechazarRuta_VerifyCalls" classname="logica.SistemaTest" time="0.001"/>
   <testcase name="deprecatedAltaMethods_ShouldThrowUnsupported" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="modificarDatosAerolinea_SuccessAndNotFound" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="obtenerImagenClienteAndAerolinea_ReturnsCorrectUrls" classname="logica.SistemaTest" time="0.026"/>
-  <testcase name="getReservasCliente_SuccessAndNotFound" classname="logica.SistemaTest" time="0.027"/>
-  <testcase name="obtenerImagenRuta_ListarYObtenerRutasPendientes" classname="logica.SistemaTest" time="0.004"/>
-  <testcase name="altaRutaVuelo_Validations" classname="logica.SistemaTest" time="0.006"/>
+  <testcase name="modificarDatosAerolinea_SuccessAndNotFound" classname="logica.SistemaTest" time="0.001"/>
+  <testcase name="obtenerImagenClienteAndAerolinea_ReturnsCorrectUrls" classname="logica.SistemaTest" time="0.028"/>
+  <testcase name="getReservasCliente_SuccessAndNotFound" classname="logica.SistemaTest" time="0.03"/>
+  <testcase name="obtenerImagenRuta_ListarYObtenerRutasPendientes" classname="logica.SistemaTest" time="0.003"/>
+  <testcase name="altaRutaVuelo_Validations" classname="logica.SistemaTest" time="0.005"/>
   <testcase name="listarYObtenerClientes_And_modificarDatosCliente" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="obtenerRutaAndListarRutasPorAerolinea" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="altaRutaPaquete_PaqueteMissingShouldThrow" classname="logica.SistemaTest" time="0.001"/>
-  <testcase name="calcularCostoReserva_TuristaAndEjecutivo_ShouldReturnCorrectCost" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="altaCiudad_WhenNotExists_ShouldAddCity" classname="logica.SistemaTest" time="0.001"/>
+  <testcase name="obtenerRutaAndListarRutasPorAerolinea" classname="logica.SistemaTest" time="0.003"/>
+  <testcase name="altaRutaPaquete_PaqueteMissingShouldThrow" classname="logica.SistemaTest" time="0.003"/>
+  <testcase name="calcularCostoReserva_TuristaAndEjecutivo_ShouldReturnCorrectCost" classname="logica.SistemaTest" time="0.001"/>
+  <testcase name="altaCiudad_WhenNotExists_ShouldAddCity" classname="logica.SistemaTest" time="0.002"/>
   <testcase name="actualizarImagenRuta_SuccessAndNotFound" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="actualizarPassword_ClientThenAerolineaFallback" classname="logica.SistemaTest" time="0.005">
-    <system-err><![CDATA[oct. 22, 2025 9:30:39 P. M. logica.Sistema actualizarPassword
+  <testcase name="actualizarPassword_ClientThenAerolineaFallback" classname="logica.SistemaTest" time="0.006">
+    <system-err><![CDATA[oct. 22, 2025 10:05:36 P. M. logica.Sistema actualizarPassword
 INFO: Contraseña actualizada para cliente: c@mail
-oct. 22, 2025 9:30:39 P. M. logica.Sistema actualizarPassword
+oct. 22, 2025 10:05:36 P. M. logica.Sistema actualizarPassword
 INFO: Contraseña actualizada para aerolínea: x@mail
 ]]></system-err>
   </testcase>
-  <testcase name="getDtItemRutasPaquete_Success" classname="logica.SistemaTest" time="0.026"/>
+  <testcase name="getDtItemRutasPaquete_Success" classname="logica.SistemaTest" time="0.032"/>
   <testcase name="actualizarImagenAerolinea_SuccessAndNotFound" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="altaCategoria_DuplicateAndSuccess" classname="logica.SistemaTest" time="0.002">
-    <system-err><![CDATA[oct. 22, 2025 9:30:39 P. M. logica.Sistema altaCategoria
+  <testcase name="altaCategoria_DuplicateAndSuccess" classname="logica.SistemaTest" time="0.003">
+    <system-err><![CDATA[oct. 22, 2025 10:05:36 P. M. logica.Sistema altaCategoria
 INFO: Categoría creada correctamente: cat2
 ]]></system-err>
   </testcase>
-  <testcase name="listarCategorias_ReturnsDtList" classname="logica.SistemaTest" time="0.006"/>
-  <testcase name="listarAerolineas_ReturnsDtList" classname="logica.SistemaTest" time="0.008"/>
-  <testcase name="altaPaquete_ValidationAndSuccess" classname="logica.SistemaTest" time="0.006"/>
-  <testcase name="obtenerDatosAdicionalesUsuario_ClientAndAerolineaPaths" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="altaVuelo_MissingRouteThrowsAndSuccess" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="crearPasajero_InvalidName_ShouldThrow" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="listarVuelosPorRuta_ReturnsDtVueloList" classname="logica.SistemaTest" time="0.036"/>
-  <testcase name="listarPaquetesAndDisponibles" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="crearPasajero_ValidNames_ShouldReturnTrimmedPasajero" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="calcularCostoReserva_WhenVueloNotFound_ShouldThrow" classname="logica.SistemaTest" time="0.002"/>
+  <testcase name="listarCategorias_ReturnsDtList" classname="logica.SistemaTest" time="0.004"/>
+  <testcase name="listarAerolineas_ReturnsDtList" classname="logica.SistemaTest" time="0.001"/>
+  <testcase name="altaPaquete_ValidationAndSuccess" classname="logica.SistemaTest" time="0.003"/>
+  <testcase name="obtenerDatosAdicionalesUsuario_ClientAndAerolineaPaths" classname="logica.SistemaTest" time="0.002"/>
+  <testcase name="altaVuelo_MissingRouteThrowsAndSuccess" classname="logica.SistemaTest" time="0.002"/>
+  <testcase name="crearPasajero_InvalidName_ShouldThrow" classname="logica.SistemaTest" time="0.001"/>
+  <testcase name="listarVuelosPorRuta_ReturnsDtVueloList" classname="logica.SistemaTest" time="0.035"/>
+  <testcase name="listarPaquetesAndDisponibles" classname="logica.SistemaTest" time="0.005"/>
+  <testcase name="crearPasajero_ValidNames_ShouldReturnTrimmedPasajero" classname="logica.SistemaTest" time="0.001"/>
+  <testcase name="calcularCostoReserva_WhenVueloNotFound_ShouldThrow" classname="logica.SistemaTest" time="0.003"/>
   <testcase name="cargarDesdeBd_ShouldCallAllLoaders" classname="logica.SistemaTest" time="0.005"/>
-  <testcase name="actualizarImagenCliente_SuccessAndNotFound" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="altaCiudad_WhenExists_ShouldThrow" classname="logica.SistemaTest" time="0.004"/>
+  <testcase name="actualizarImagenCliente_SuccessAndNotFound" classname="logica.SistemaTest" time="0.002"/>
+  <testcase name="altaCiudad_WhenExists_ShouldThrow" classname="logica.SistemaTest" time="0.002"/>
   <testcase name="obtenerPaquete_and_DtPaquete_SuccessAndNotFound" classname="logica.SistemaTest" time="0.003"/>
-  <testcase name="obtenerVuelo_SuccessAndNotFound" classname="logica.SistemaTest" time="0.003"/>
+  <testcase name="obtenerVuelo_SuccessAndNotFound" classname="logica.SistemaTest" time="0.002"/>
   <testcase name="registrarReservaVuelo_SuccessAndErrors" classname="logica.SistemaTest" time="0.004"/>
   <testcase name="verInfoVuelo_VerInfoCliente_VerInfoAerolinea_SuccessAndNotFound" classname="logica.SistemaTest" time="0.004"/>
   <testcase name="compraPaquete_MissingPackageOrClientOrAlreadyBought_AndSuccess" classname="logica.SistemaTest" time="0.009">
-    <system-err><![CDATA[oct. 22, 2025 9:30:39 P. M. logica.Sistema compraPaquete
+    <system-err><![CDATA[oct. 22, 2025 10:05:36 P. M. logica.Sistema compraPaquete
 INFO: Paquete comprado correctamente para cliente: null, paquete: null
 ]]></system-err>
   </testcase>
-  <testcase name="modificarDatosAerolineaCompleto_SuccessAndHandlerThrows" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="obtenerReserva_FoundAndNotFound" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="obtenerTipoUsuario_ShouldReturnCorrectTypeOrNull" classname="logica.SistemaTest" time="0.002"/>
-  <testcase name="altaCliente_SuccessAndDuplicate" classname="logica.SistemaTest" time="0.004"/>
+  <testcase name="modificarDatosAerolineaCompleto_SuccessAndHandlerThrows" classname="logica.SistemaTest" time="0.005"/>
+  <testcase name="obtenerReserva_FoundAndNotFound" classname="logica.SistemaTest" time="0.004"/>
+  <testcase name="obtenerTipoUsuario_ShouldReturnCorrectTypeOrNull" classname="logica.SistemaTest" time="0.003"/>
+  <testcase name="altaCliente_SuccessAndDuplicate" classname="logica.SistemaTest" time="0.005"/>
   <testcase name="getDtItemRutasPaquete_WhenEmptyShouldThrow" classname="logica.SistemaTest" time="0.002"/>
 </testsuite>
