@@ -26,7 +26,13 @@ public class Categoria {
 
     /** Crea una categoría con el nombre indicado. */
     public Categoria(String nombre) {
-        setNombre(nombre);
+        if (nombre == null) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo");
+        }
+        if (nombre.isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío");
+        }
+        this.nombre = nombre;
     }
 
     /** Devuelve el nombre de la categoría. */
@@ -36,11 +42,6 @@ public class Categoria {
 
     /** Actualiza el nombre de la categoría validando su contenido. */
     public void setNombre(String nombre) {
-        setNombreInternal(nombre);
-    }
-
-    // Validación interna del nombre
-    private void setNombreInternal(String nombre) {
         if (nombre == null) {
             throw new IllegalArgumentException("El nombre no puede ser nulo");
         }

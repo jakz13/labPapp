@@ -112,9 +112,6 @@ public abstract class Usuario {
 <span class="nc" id="L112">        return PasswordManager.verificarPassword(password, this.passwordSalt, this.passwordHash);</span>
     }
 
-    @Override
-    public String toString() {
-<span class="nc" id="L117">        return nickname;</span>
-    }
+    public abstract String toString();
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

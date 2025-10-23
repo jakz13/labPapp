@@ -5,7 +5,7 @@ package logica;
  * Se usa para obtener acceso centralizado al servicio de lógica.
  */
 public final class Fabrica {
-    private static volatile Fabrica instancia = null;
+    private static Fabrica instancia = null;
     private final ISistema sistema;
 
     private Fabrica() {
@@ -13,6 +13,8 @@ public final class Fabrica {
     }
 
     /** Devuelve la instancia singleton de la fábrica. */
+    /*USA VOLATILE PARA DOBLE CHEQUEO
+
     public static Fabrica getInstance() {
         if (instancia == null) {
             synchronized (Fabrica.class) {
@@ -20,6 +22,14 @@ public final class Fabrica {
                     instancia = new Fabrica();
                 }
             }
+        }
+        return instancia;
+    }*/
+
+    /** Devuelve la instancia singleton del manejador. */
+    public static Fabrica getInstance() {
+        if (instancia == null) {
+            instancia = new Fabrica();
         }
         return instancia;
     }

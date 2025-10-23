@@ -1,10 +1,5 @@
 package logica;
 
-//import DataTypes.DtRutaVuelo;
-//import jakarta.persistence.*;
-//import java.time.LocalDate;
-//import java.util.*;
-
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -140,6 +135,11 @@ public class Aerolinea extends Usuario {
                         })
                         .toList()
         );
+    }
+
+    @Override
+    public String toString() {
+        return this.getNombre();
     }
 
     /** Devuelve el mapa interno de rutas. */

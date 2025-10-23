@@ -1,14 +1,14 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 MiProyectoSwing,logica,PasswordManager,18,31,0,0,5,8,2,2,2,2
 MiProyectoSwing,logica,Sistema,165,1326,31,111,35,300,34,106,7,62
-MiProyectoSwing,logica,Aerolinea,32,238,16,22,2,60,17,16,1,13
+MiProyectoSwing,logica,Aerolinea,35,238,16,22,3,60,18,16,2,13
 MiProyectoSwing,logica,Paquete,23,168,2,14,4,43,3,22,2,15
 MiProyectoSwing,logica,RutaVuelo,106,258,20,12,13,64,17,34,2,33
 MiProyectoSwing,logica,RutaVuelo.EstadoRuta,0,21,0,0,0,4,0,1,0,1
 MiProyectoSwing,logica,Vuelo,21,260,3,9,2,65,5,22,2,19
 MiProyectoSwing,logica,Cliente,38,237,2,24,7,67,7,27,5,16
 MiProyectoSwing,logica,CompraPaqLogica,3,77,0,4,1,23,1,14,1,12
-MiProyectoSwing,logica,Usuario,64,53,5,3,18,16,12,7,9,6
+MiProyectoSwing,logica,Usuario,61,53,5,3,17,16,11,7,8,6
 MiProyectoSwing,logica,ManejadorPaquete,63,366,13,25,16,96,10,21,1,11
 MiProyectoSwing,logica,ManejadorCliente,186,335,37,39,35,97,32,24,2,16
 MiProyectoSwing,logica,ManejadorAerolinea,70,325,17,29,18,98,11,29,0,17

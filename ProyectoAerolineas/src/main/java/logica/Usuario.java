@@ -112,8 +112,5 @@ public abstract class Usuario {
         return PasswordManager.verificarPassword(password, this.passwordSalt, this.passwordHash);
     }
 
-    @Override
-    public String toString() {
-        return nickname;
-    }
+    public abstract String toString();
 }
