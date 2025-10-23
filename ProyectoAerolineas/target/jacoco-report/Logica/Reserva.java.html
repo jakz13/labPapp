@@ -49,7 +49,7 @@ public class Reserva {
     private int unidadesEquipajeExtra;
 
     /** Lista de pasajeros vinculados a la reserva. */
-<span class="fc" id="L52">    @ManyToMany(cascade = CascadeType.ALL)</span>
+<span class="fc" id="L52">    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})</span>
     @JoinTable(
             name = &quot;reserva_pasajeros&quot;,
             joinColumns = @JoinColumn(name = &quot;reserva_id&quot;),

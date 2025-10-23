@@ -158,7 +158,7 @@ public class Vuelo {
      * Genera y devuelve un DTO del vuelo incluyendo datos simplificados de la ruta.
      * @return DtVuelo con información principal del vuelo
      */
-    public DtVuelo getDtVuelo() {
+    /*public DtVuelo getDtVuelo() {
         // Crear un DtRutaVuelo simplificado sin vuelos para evitar recursión
         DataTypes.DtRutaVuelo dtRutaSimplificada = new DataTypes.DtRutaVuelo(
                 rutaVuelo.getNombre(),
@@ -188,6 +188,28 @@ public class Vuelo {
                 dtRutaSimplificada, // Usar la versión simplificada
                 this.getDtReservas(),
                 this.imagenUrl
+        );
+    }*/
+
+    public DtVuelo getDtVuelo() {
+        // Obtener DtRutaVuelo desde la entidad RutaVuelo (ya maneja listas de vuelos de forma segura)
+        DataTypes.DtRutaVuelo dtRutaSimplificada = null;
+        if (rutaVuelo != null) {
+            dtRutaSimplificada = rutaVuelo.getDtRutaVuelo();
+        }
+
+        return new DtVuelo(
+                this.nombre,
+                this.nombreAereolinea,
+                this.fecha,
+                this.duracion,
+                this.asientosTurista,
+                this.asientosEjecutivo,
+                this.fechaAlta,
+                dtRutaSimplificada, // Usar la versión simplificada o null
+                this.getDtReservas(),
+                this.imagenUrl
+
         );
     }
 

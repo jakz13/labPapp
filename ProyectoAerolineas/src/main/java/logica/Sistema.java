@@ -421,7 +421,7 @@ public class Sistema implements ISistema {
     }
 
     // --- RESERVA ---
-    @Override
+    /*@Override
     public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva, double costo,
                                        TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra,
                                        List<Pasajero> pasajeros) {
@@ -454,7 +454,72 @@ public class Sistema implements ISistema {
         );
 
         registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
+    }*/
+
+    @Override
+    public void crearYRegistrarReserva(String nicknameCliente, String nombreVuelo, LocalDate fechaReserva, double costo,
+                                       TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra,
+                                       List<Pasajero> pasajeros) {
+        Vuelo vuelo = manejadorVuelo.getVuelo(nombreVuelo);
+        if (vuelo == null) {
+            throw new IllegalArgumentException("El vuelo no existe: " + nombreVuelo);
+        }
+        List<DtReserva> reservas= vuelo.getDtReservas();
+        int asientosOcupadosTurista = 0;
+        int asientosOcupadosEjecutivo = 0;
+        // Comprobar disponibilidad de asientos
+        for (DtReserva reserva : reservas) {
+            if (reserva.getTipoAsiento() == tipoAsiento) {
+                if (tipoAsiento == TipoAsiento.TURISTA) {
+                    asientosOcupadosTurista +=reserva.getCantidadPasajes();
+
+                } else if (tipoAsiento == TipoAsiento.EJECUTIVO) {
+                    asientosOcupadosEjecutivo += reserva.getCantidadPasajes();
+
+                }
+            }
+        }
+        if (tipoAsiento == TipoAsiento.TURISTA) {
+            if (asientosOcupadosTurista + cantidadPasajes > vuelo.getAsientosTurista()) {
+                throw new IllegalArgumentException(
+                        "No hay suficientes asientos disponibles en clase TURISTA para el vuelo " + nombreVuelo
+                );
+            }
+        }else {
+            if (asientosOcupadosEjecutivo + cantidadPasajes > vuelo.getAsientosEjecutivo()) {
+                throw new IllegalArgumentException(
+                        "No hay suficientes asientos disponibles en clase EJECUTIVO para el vuelo " + nombreVuelo
+                );
+            }
+        }
+
+        // Comprobar si el cliente ya tiene una reserva en ese vuelo (buscar por nickname en las reservas del vuelo)
+        if (ManejadorVuelo.getInstance().tieneReservaDeCliente(nicknameCliente, vuelo)) {
+            throw new IllegalArgumentException(
+                    "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo +
+                            ". Debe elegir otro vuelo o ruta."
+            );
+        }
+
+        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
+        if (cliente != null) {
+            for (DtReserva r : cliente.getReservas()) {
+                if (r.getVuelo().equals(nombreVuelo)) {
+                    throw new IllegalArgumentException(
+                            "El cliente " + nicknameCliente + " ya tiene una reserva para el vuelo " + nombreVuelo + "."
+                    );
+                }
+            }
+        }
+
+        // CREAR RESERVA SIN ID - se generará automáticamente
+        Reserva reserva = new Reserva(
+                costo, tipoAsiento, cantidadPasajes, unidadesEquipajeExtra, pasajeros, vuelo
+        );
+
+        registrarReservaVuelo(nicknameCliente, nombreVuelo, reserva);
     }
+
 
     @Override
     public void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva) {

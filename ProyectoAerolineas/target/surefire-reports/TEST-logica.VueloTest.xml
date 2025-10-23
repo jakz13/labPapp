@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="logica.VueloTest" time="0.037" tests="13" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="logica.VueloTest" time="0.04" tests="13" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="UY"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\agust\AppData\Local\Temp\surefire11850941279116877688\surefirebooter-20251023003433911_3.jar C:\Users\agust\AppData\Local\Temp\surefire11850941279116877688 2025-10-23T00-34-33_800-jvmRun1 surefire-20251023003433911_1tmp surefire_0-20251023003433911_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\agust\AppData\Local\Temp\surefire11952463325463448501\surefirebooter-20251023020010157_3.jar C:\Users\agust\AppData\Local\Temp\surefire11952463325463448501 2025-10-23T02-00-10_040-jvmRun1 surefire-20251023020010157_1tmp surefire_0-20251023020010157_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\target\test-classes;C:\Users\agust\Desktop\ProyectoSwing\labPapp\ProyectoAerolineas\target\classes;C:\Users\agust\.m2\repository\org\hibernate\orm\hibernate-core\6.4.4.Final\hibernate-core-6.4.4.Final.jar;C:\Users\agust\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\agust\.m2\repository\org\jboss\logging\jboss-logging\3.5.0.Final\jboss-logging-3.5.0.Final.jar;C:\Users\agust\.m2\repository\org\hibernate\common\hibernate-commons-annotations\6.0.6.Final\hibernate-commons-annotations-6.0.6.Final.jar;C:\Users\agust\.m2\repository\io\smallrye\jandex\3.1.2\jandex-3.1.2.jar;C:\Users\agust\.m2\repository\com\fasterxml\classmate\1.5.1\classmate-1.5.1.jar;C:\Users\agust\.m2\repository\net\bytebuddy\byte-buddy\1.14.11\byte-buddy-1.14.11.jar;C:\Users\agust\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.0\jakarta.xml.bind-api-4.0.0.jar;C:\Users\agust\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.0\jakarta.activation-api-2.1.0.jar;C:\Users\agust\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.2\jaxb-runtime-4.0.2.jar;C:\Users\agust\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.2\jaxb-core-4.0.2.jar;C:\Users\agust\.m2\repository\org\eclipse\angus\angus-activation\2.0.0\angus-activation-2.0.0.jar;C:\Users\agust\.m2\repository\org\glassfish\jaxb\txw2\4.0.2\txw2-4.0.2.jar;C:\Users\agust\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.1\istack-commons-runtime-4.1.1.jar;C:\Users\agust\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\agust\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\agust\.m2\repository\org\postgresql\postgresql\42.7.3\postgresql-42.7.3.jar;C:\Users\agust\.m2\repository\org\checkerframework\checker-qual\3.42.0\checker-qual-3.42.0.jar;C:\Users\agust\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\agust\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\agust\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\agust\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\agust\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\agust\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\agust\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\agust\.m2\repository\org\mockito\mockito-core\5.4.0\mockito-core-5.4.0.jar;C:\Users\agust\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.5\byte-buddy-agent-1.14.5.jar;C:\Users\agust\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\agust\.m2\repository\org\mockito\mockito-junit-jupiter\5.4.0\mockito-junit-jupiter-5.4.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\agust\AppData\Local\Temp\surefire11850941279116877688\surefirebooter-20251023003433911_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\agust\AppData\Local\Temp\surefire11952463325463448501\surefirebooter-20251023020010157_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.8+12-LTS-250"/>
@@ -66,14 +66,14 @@
   <testcase name="agregarReserva_WithReservaObject_ShouldAddToBothLists" classname="logica.VueloTest" time="0.003"/>
   <testcase name="getReservas_ShouldReturnMapWithIds" classname="logica.VueloTest" time="0.002"/>
   <testcase name="getDtVueloSinRuta_ShouldReturnDtVueloWithoutRoute" classname="logica.VueloTest" time="0.003"/>
-  <testcase name="getRutaVueloNombre_ShouldReturnRutaName" classname="logica.VueloTest" time="0.004"/>
+  <testcase name="getRutaVueloNombre_ShouldReturnRutaName" classname="logica.VueloTest" time="0.002"/>
   <testcase name="agregarReserva_ReservaWithoutId_ShouldNotAddToMap" classname="logica.VueloTest" time="0.003"/>
-  <testcase name="toString_ShouldReturnNombre" classname="logica.VueloTest" time="0.001"/>
-  <testcase name="getDtVuelo_WithReservas_ShouldIncludeAllReservas" classname="logica.VueloTest" time="0.003"/>
-  <testcase name="getReservasList_ShouldReturnEmptyListInitially" classname="logica.VueloTest" time="0.001"/>
-  <testcase name="multipleReservas_ShouldMaintainConsistency" classname="logica.VueloTest" time="0.002"/>
-  <testcase name="constructor_ShouldInitializeCorrectly" classname="logica.VueloTest" time="0.001"/>
-  <testcase name="agregarReserva_WithIdAndReserva_ShouldAddToBothLists" classname="logica.VueloTest" time="0.001"/>
-  <testcase name="getDtReservas_ShouldReturnListOfDtReservas" classname="logica.VueloTest" time="0.003"/>
+  <testcase name="toString_ShouldReturnNombre" classname="logica.VueloTest" time="0.002"/>
+  <testcase name="getDtVuelo_WithReservas_ShouldIncludeAllReservas" classname="logica.VueloTest" time="0.005"/>
+  <testcase name="getReservasList_ShouldReturnEmptyListInitially" classname="logica.VueloTest" time="0.002"/>
+  <testcase name="multipleReservas_ShouldMaintainConsistency" classname="logica.VueloTest" time="0.003"/>
+  <testcase name="constructor_ShouldInitializeCorrectly" classname="logica.VueloTest" time="0.003"/>
+  <testcase name="agregarReserva_WithIdAndReserva_ShouldAddToBothLists" classname="logica.VueloTest" time="0.002"/>
+  <testcase name="getDtReservas_ShouldReturnListOfDtReservas" classname="logica.VueloTest" time="0.002"/>
   <testcase name="getDtVuelo_ShouldReturnCompleteDtVuelo" classname="logica.VueloTest" time="0.002"/>
 </testsuite>

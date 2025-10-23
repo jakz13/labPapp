@@ -158,26 +158,26 @@ public class Vuelo {
      * Genera y devuelve un DTO del vuelo incluyendo datos simplificados de la ruta.
      * @return DtVuelo con información principal del vuelo
      */
-    public DtVuelo getDtVuelo() {
+    /*public DtVuelo getDtVuelo() {
         // Crear un DtRutaVuelo simplificado sin vuelos para evitar recursión
-<span class="fc" id="L163">        DataTypes.DtRutaVuelo dtRutaSimplificada = new DataTypes.DtRutaVuelo(</span>
-<span class="fc" id="L164">                rutaVuelo.getNombre(),</span>
-<span class="fc" id="L165">                rutaVuelo.getDescripcion(),</span>
-<span class="fc" id="L166">                rutaVuelo.getDescripcionCorta(),</span>
-<span class="pc bpc" id="L167" title="1 of 2 branches missed.">                rutaVuelo.getAerolinea() != null ? rutaVuelo.getAerolinea().getNombre() : null,</span>
-<span class="fc" id="L168">                rutaVuelo.getCiudadOrigen(),</span>
-<span class="fc" id="L169">                rutaVuelo.getCiudadDestino(),</span>
-<span class="fc" id="L170">                rutaVuelo.getHora(),</span>
-<span class="fc" id="L171">                rutaVuelo.getFechaAlta(),</span>
-<span class="fc" id="L172">                rutaVuelo.getCostoTurista(),</span>
-<span class="fc" id="L173">                rutaVuelo.getCostoEjecutivo(),</span>
-<span class="fc" id="L174">                rutaVuelo.getCostoEquipajeExtra(),</span>
-<span class="pc bpc" id="L175" title="1 of 2 branches missed.">                rutaVuelo.getEstado() != null ? rutaVuelo.getEstado().toString() : &quot;INGRESADA&quot;,</span>
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">                rutaVuelo.getCategorias() != null ? rutaVuelo.getCategorias() : new ArrayList&lt;&gt;(),</span>
+        DataTypes.DtRutaVuelo dtRutaSimplificada = new DataTypes.DtRutaVuelo(
+                rutaVuelo.getNombre(),
+                rutaVuelo.getDescripcion(),
+                rutaVuelo.getDescripcionCorta(),
+                rutaVuelo.getAerolinea() != null ? rutaVuelo.getAerolinea().getNombre() : null,
+                rutaVuelo.getCiudadOrigen(),
+                rutaVuelo.getCiudadDestino(),
+                rutaVuelo.getHora(),
+                rutaVuelo.getFechaAlta(),
+                rutaVuelo.getCostoTurista(),
+                rutaVuelo.getCostoEjecutivo(),
+                rutaVuelo.getCostoEquipajeExtra(),
+                rutaVuelo.getEstado() != null ? rutaVuelo.getEstado().toString() : &quot;INGRESADA&quot;,
+                rutaVuelo.getCategorias() != null ? rutaVuelo.getCategorias() : new ArrayList&lt;&gt;(),
                 new ArrayList&lt;&gt;() // Lista vacía de vuelos para evitar recursión
         );
 
-<span class="fc" id="L180">        return new DtVuelo(</span>
+        return new DtVuelo(
                 this.nombre,
                 this.nombreAereolinea,
                 this.fecha,
@@ -186,14 +186,36 @@ public class Vuelo {
                 this.asientosEjecutivo,
                 this.fechaAlta,
                 dtRutaSimplificada, // Usar la versión simplificada
-<span class="fc" id="L189">                this.getDtReservas(),</span>
+                this.getDtReservas(),
                 this.imagenUrl
+        );
+    }*/
+
+    public DtVuelo getDtVuelo() {
+        // Obtener DtRutaVuelo desde la entidad RutaVuelo (ya maneja listas de vuelos de forma segura)
+<span class="fc" id="L196">        DataTypes.DtRutaVuelo dtRutaSimplificada = null;</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        if (rutaVuelo != null) {</span>
+<span class="fc" id="L198">            dtRutaSimplificada = rutaVuelo.getDtRutaVuelo();</span>
+        }
+
+<span class="fc" id="L201">        return new DtVuelo(</span>
+                this.nombre,
+                this.nombreAereolinea,
+                this.fecha,
+                this.duracion,
+                this.asientosTurista,
+                this.asientosEjecutivo,
+                this.fechaAlta,
+                dtRutaSimplificada, // Usar la versión simplificada o null
+<span class="fc" id="L210">                this.getDtReservas(),</span>
+                this.imagenUrl
+
         );
     }
 
     /** Devuelve un DTO del vuelo sin información de la ruta (para evitar detalles). */
     public DtVuelo getDtVueloSinRuta() {
-<span class="fc" id="L196">        return new DtVuelo(</span>
+<span class="fc" id="L218">        return new DtVuelo(</span>
                 this.nombre,
                 this.nombreAereolinea,
                 this.fecha,
@@ -202,7 +224,7 @@ public class Vuelo {
                 this.asientosEjecutivo,
                 this.fechaAlta,
                 null, // Sin información de ruta
-<span class="fc" id="L205">                this.getDtReservas(),</span>
+<span class="fc" id="L227">                this.getDtReservas(),</span>
                 this.imagenUrl
         );
     }

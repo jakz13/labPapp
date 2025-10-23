@@ -181,22 +181,22 @@ public class RutaVuelo {
     public List&lt;DtVuelo&gt; getDtVuelos() {
 <span class="fc" id="L182">        List&lt;DtVuelo&gt; dtVuelos = new ArrayList&lt;&gt;();</span>
 <span class="pc bpc" id="L183" title="1 of 2 branches missed.">        if (vuelos != null) {</span>
-<span class="pc bpc" id="L184" title="1 of 2 branches missed.">            for (Vuelo v : vuelos) {</span>
-<span class="nc" id="L185">                dtVuelos.add(v.getDtVueloSinRuta());</span>
-<span class="nc" id="L186">            }</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            for (Vuelo v : vuelos) {</span>
+<span class="fc" id="L185">                dtVuelos.add(v.getDtVueloSinRuta());</span>
+<span class="fc" id="L186">            }</span>
         }
 <span class="fc" id="L188">        return dtVuelos;</span>
     }
 
     /** Devuelve un DTO completo de esta ruta (incluye datos resumidos de vuelos). */
     public DataTypes.DtRutaVuelo getDtRutaVuelo() {
-<span class="nc bnc" id="L193" title="All 2 branches missed.">        String nombreAerolinea = (aerolinea != null) ? aerolinea.getNombre() : null;</span>
-<span class="nc" id="L194">        List&lt;DtVuelo&gt; dtVuelos = getDtVuelos();</span>
-<span class="nc bnc" id="L195" title="All 2 branches missed.">        String estadoStr = (estado != null) ? estado.toString() : &quot;INGRESADA&quot;;</span>
-<span class="nc bnc" id="L196" title="All 2 branches missed.">        String descCorta = (descripcionCorta != null) ? descripcionCorta : &quot;&quot;;</span>
-<span class="nc bnc" id="L197" title="All 2 branches missed.">        String imgUrl = (imagenUrl != null) ? imagenUrl : null;</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">        String nombreAerolinea = (aerolinea != null) ? aerolinea.getNombre() : null;</span>
+<span class="fc" id="L194">        List&lt;DtVuelo&gt; dtVuelos = getDtVuelos();</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        String estadoStr = (estado != null) ? estado.toString() : &quot;INGRESADA&quot;;</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">        String descCorta = (descripcionCorta != null) ? descripcionCorta : &quot;&quot;;</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        String imgUrl = (imagenUrl != null) ? imagenUrl : null;</span>
 
-<span class="nc" id="L199">        return new DataTypes.DtRutaVuelo(</span>
+<span class="fc" id="L199">        return new DataTypes.DtRutaVuelo(</span>
                 nombre,
                 descripcion,
                 descCorta,
@@ -210,7 +210,7 @@ public class RutaVuelo {
                 costoEjecutivo,
                 costoEquipajeExtra,
                 estadoStr,
-<span class="nc bnc" id="L213" title="All 2 branches missed.">                categorias != null ? categorias : new ArrayList&lt;&gt;(),</span>
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">                categorias != null ? categorias : new ArrayList&lt;&gt;(),</span>
                 dtVuelos
         );
     }

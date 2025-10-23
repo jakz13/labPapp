@@ -416,11 +416,14 @@ class SistemaTest {
         // When client already has reservation in vuelo
         Vuelo vuelo = mock(Vuelo.class);
         when(mvMock.getVuelo("v1")).thenReturn(vuelo);
-        // preparar un Map mock para controlar containsKey
-        @SuppressWarnings("unchecked")
-        java.util.Map<Long, Reserva> reservasMock = mock(java.util.Map.class);
-        when(reservasMock.containsKey(any())).thenReturn(true);
-        when(vuelo.getReservas()).thenReturn(reservasMock);
+
+        // Asegurar que existe un DtCliente para que el flujo llegue a la comprobación de duplicado
+        DataTypes.DtCliente dtc = mock(DataTypes.DtCliente.class);
+        when(mcMock.obtenerCliente("nick")).thenReturn(dtc);
+
+        // Simular que el manejador de vuelos indica que ya existe reserva para ese cliente y vuelo
+        when(mvMock.tieneReservaDeCliente(eq("nick"), eq(vuelo))).thenReturn(true);
+
         assertThrows(IllegalArgumentException.class, () -> new Sistema().crearYRegistrarReserva("nick","v1", LocalDate.now(), 100.0, TipoAsiento.TURISTA,1,0, List.of(new Pasajero("a","b"))));
     }
 
