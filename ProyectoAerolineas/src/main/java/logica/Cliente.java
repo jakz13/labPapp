@@ -43,7 +43,7 @@ public class Cliente extends Usuario {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JoinColumn(name = "cliente_nickname")
+    //@JoinColumn(name = "cliente_nickname")
     private List<Reserva> reservas = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
