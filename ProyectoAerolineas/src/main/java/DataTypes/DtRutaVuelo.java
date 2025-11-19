@@ -65,6 +65,8 @@ public class DtRutaVuelo {
         this.vuelos = vuelos;
     }
 
+    public DtRutaVuelo(){}
+
     // === Getters ===
     public String getNombre() { return nombre; }
     public String getDescripcion() { return descripcion; }

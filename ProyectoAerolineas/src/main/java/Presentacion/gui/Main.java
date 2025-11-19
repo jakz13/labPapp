@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 public class Main {
+    @SuppressWarnings("checkstyle:IllegalCatch")
     public static void main(String[] args) {
         Fabrica fabrica = Fabrica.getInstance();
         ISistema sistema = fabrica.getISistema();

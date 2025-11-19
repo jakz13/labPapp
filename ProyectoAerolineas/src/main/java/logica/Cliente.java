@@ -11,7 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
+//import jakarta.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;

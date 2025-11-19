@@ -33,6 +33,8 @@ public class DtAerolinea {
         this.rutas = rutas;
     }
 
+    public DtAerolinea(){}
+
     // --- Getters ---
     public String getNickname() { return nickname; }
     public String getNombre() { return nombre; }

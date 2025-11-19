@@ -150,8 +150,7 @@ public class VerUsuarios {
 
     private String obtenerDetalle(Object obj) {
         StringBuilder detalle = new StringBuilder();
-
-        if (obj instanceof DtRutaVuelo r) {
+        if (obj instanceof DtRutaVuelo r){
 
             detalle.append("Ruta: ").append(r.getNombre()).append("\n")
                     .append("Origen: ").append(r.getCiudadOrigen()).append("\n")
@@ -171,6 +170,7 @@ public class VerUsuarios {
             }
         }
         if (obj instanceof DtReserva r) {
+
             // ACA
             detalle.append("Reserva ID: ").append(r.getId()).append("\n")
                     .append("Costo: $").append(r.getCosto()).append("\n")
@@ -179,6 +179,7 @@ public class VerUsuarios {
                     .append("Cantidad Equipaje extra: ").append(r.getUnidadesEquipajeExtra()).append("\n");
         }
         if (obj instanceof DtPaquete p) {
+
             detalle.append("Paquete: ").append(p.getNombre()).append("\n")
                     .append("Descripción: ").append(p.getDescripcion()).append("\n")
                     .append("Costo: $").append(String.format("%.2f", p.getCosto())).append("\n")

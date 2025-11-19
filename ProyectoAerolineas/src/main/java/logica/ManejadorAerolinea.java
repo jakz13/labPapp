@@ -120,6 +120,22 @@ public final class ManejadorAerolinea {
         return dtAerolineas;
     }
 
+    /** Devuelve una sola aerolínea en forma de DTO. */
+    public DtAerolinea getDtAerolinea(String nickname) {
+        Aerolinea a = obtenerAerolinea(nickname);
+        if (a == null)
+            return null;
+
+        return new DtAerolinea(
+                a.getNickname(),
+                a.getNombre(),
+                a.getEmail(),
+                a.getDescripcion(),
+                a.getSitioWeb(),
+                a.getDtRutasVuelo()
+        );
+    }
+
     /** Actualiza la contraseña de una aerolínea y persiste el cambio. */
     public void actualizarPassword(String email, String nuevaPassword, EntityManager entManager) {
         Aerolinea aerolinea = obtenerAerolineaPorEmail(email);
