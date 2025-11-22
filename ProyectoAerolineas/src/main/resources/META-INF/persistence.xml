@@ -1,5 +1,5 @@
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             version="2.2">
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             version="3.0">
     <persistence-unit name="LAB_PA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
@@ -9,13 +9,7 @@
         <class>logica.Cliente</class>
         <class>logica.CompraPaqLogica</class>
         <class>logica.ItemPaquete</class>
-        <class>logica.ManejadorAerolinea</class>
-        <class>logica.ManejadorCategoria</class>
-        <class>logica.ManejadorCiudad</class>
-        <class>logica.ManejadorCliente</class>
-        <class>logica.ManejadorPaquete</class>
-        <class>logica.ManejadorVuelo</class>
-        <class>logica.ManejadorRutaVuelo</class>
+        <!-- REMOVER las clases Manejador* - NO son entidades -->
         <class>logica.Paquete</class>
         <class>logica.Pasajero</class>
         <class>logica.Reserva</class>
@@ -23,16 +17,14 @@
         <class>logica.Usuario</class>
         <class>logica.Vuelo</class>
 
-
         <properties>
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/LAB_PA"/>
-            <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="agus"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/LAB_PA"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="1"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
+
         </properties>
     </persistence-unit>
 </persistence>
-

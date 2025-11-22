@@ -68,7 +68,7 @@ class ManejadorPaqueteTest {
         ManejadorPaquete mp = ManejadorPaquete.getInstance();
 
         Aerolinea aero = new Aerolinea("a1", "Aero", "a@mail", "pwd", "desc", "web", null);
-        RutaVuelo ruta = new RutaVuelo("R1", "descR", "dc", aero, "ORIG", "DEST", "10:00", LocalDate.now(), 100.0, 200.0, 30.0, List.of(), null);
+        RutaVuelo ruta = new RutaVuelo("R1", "descR", "dc", aero, "ORIG", "DEST", "10:00", LocalDate.now(), 100.0, 200.0, 30.0, List.of(), null, null);
 
         Paquete paquete = new Paquete("PackR", "Desc", 20, 10);
         // caso éxito: paquete sin items
@@ -137,7 +137,7 @@ class ManejadorPaqueteTest {
 
         // agregar item a p1
         Aerolinea aero = new Aerolinea("a2", "Aero2", "a2@mail", "pwd", "desc", "web", null);
-        RutaVuelo ruta = new RutaVuelo("R2", "descR2", "dc2", aero, "OR", "DE", "09:00", LocalDate.now(), 50.0, 80.0, 10.0, List.of(), null);
+        RutaVuelo ruta = new RutaVuelo("R2", "descR2", "dc2", aero, "OR", "DE", "09:00", LocalDate.now(), 50.0, 80.0, 10.0, List.of(), null, null);
         ItemPaquete ip = new ItemPaquete(ruta, 3, TipoAsiento.EJECUTIVO);
         p1.getItemPaquetes().add(ip);
 

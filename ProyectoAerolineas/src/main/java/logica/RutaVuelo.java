@@ -48,7 +48,9 @@ public class RutaVuelo {
     /** URL opcional de la imagen representativa de la ruta. */
     @Column(name = "imagen_url")
     private String imagenUrl;
-
+    /** URL opcional de un video representativo de la ruta. */
+    @Column(name = "video_url")
+    private String videoUrl;
     /** Aerolínea propietaria de la ruta. */
     @ManyToOne
     @JoinColumn(name = "aerolinea_id")
@@ -98,7 +100,7 @@ public class RutaVuelo {
     public RutaVuelo(String nombre, String descripcion, String descripcionCorta, Aerolinea aerolinea,
                      String ciudadOrigen, String ciudadDestino, String hora, LocalDate fechaAlta,
                      double costoTurista, double costoEjecutivo, double costoEquipajeExtra,
-                     List<String> categorias, String imagenUrl) {
+                     List<String> categorias, String imagenUrl, String videoUrl) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.descripcionCorta = descripcionCorta;
@@ -114,6 +116,7 @@ public class RutaVuelo {
         this.estado = EstadoRuta.INGRESADA;
         this.vuelos = new ArrayList<>();
         this.imagenUrl = imagenUrl;
+        this.videoUrl = videoUrl;
     }
 
     // ===== Getters y Setters =====
@@ -123,6 +126,7 @@ public class RutaVuelo {
         return (descripcionCorta != null) ? descripcionCorta : "";
     }
     public String getImagenUrl() { return imagenUrl; }
+    public String getVideoUrl() { return videoUrl; }
     public Aerolinea getAerolinea() { return aerolinea; }
     public String getCiudadOrigen() { return ciudadOrigen; }
     public String getCiudadDestino() { return ciudadDestino; }
@@ -145,6 +149,7 @@ public class RutaVuelo {
     public void setEstado(EstadoRuta estado) { this.estado = estado; }
     public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+    public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public void setAerolinea(Aerolinea aerolinea) { this.aerolinea = aerolinea; }
@@ -195,12 +200,14 @@ public class RutaVuelo {
         String estadoStr = (estado != null) ? estado.toString() : "INGRESADA";
         String descCorta = (descripcionCorta != null) ? descripcionCorta : "";
         String imgUrl = (imagenUrl != null) ? imagenUrl : null;
+        String vidUrl = (videoUrl != null) ? videoUrl : null;
 
         return new DataTypes.DtRutaVuelo(
                 nombre,
                 descripcion,
                 descCorta,
                 imgUrl,
+                vidUrl,
                 nombreAerolinea,
                 ciudadOrigen,
                 ciudadDestino,

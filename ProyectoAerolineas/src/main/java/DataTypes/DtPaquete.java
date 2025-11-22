@@ -55,7 +55,7 @@ public class DtPaquete {
                         ruta.getCiudadOrigen(),
                         ruta.getCiudadDestino(),
                         ruta.getHora(),
-                        ruta.getFechaAlta(),
+                        nombreAerolinea, ruta.getCiudadOrigen(), ruta.getCiudadDestino(), ruta.getHora(), ruta.getFechaAlta(),
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),

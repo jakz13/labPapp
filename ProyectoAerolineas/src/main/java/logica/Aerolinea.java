@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -31,6 +33,12 @@ public class Aerolinea extends Usuario {
     @MapKey(name = "nombre")
     @JoinColumn(name = "aerolinea_id")
     private Map<String, RutaVuelo> rutasVuelo = new HashMap<>();
+
+    // Colecciones en memoria con referencias a objetos (no persistidas)
+    @jakarta.persistence.Transient
+    private Set<Usuario> siguiendo = new HashSet<>();
+    @jakarta.persistence.Transient
+    private Set<Usuario> seguidores = new HashSet<>();
 
     public Aerolinea() {
         super();
@@ -84,11 +92,15 @@ public class Aerolinea extends Usuario {
                     String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
                     String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
                     String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
+
                     return new DtRutaVuelo(
                             ruta.getNombre(),
                             ruta.getDescripcion(),
                             descripcionCorta,
                             ruta.getImagenUrl(),
+                            ruta.getVideoUrl(),
+                            ruta.getImagenUrl(),
+                            ruta.getVideoUrl(),
                             nombreAerolinea,
                             ruta.getCiudadOrigen(),
                             ruta.getCiudadDestino(),
@@ -121,6 +133,8 @@ public class Aerolinea extends Usuario {
                                     ruta.getNombre(),
                                     ruta.getDescripcion(),
                                     descripcionCorta,
+                                    ruta.getImagenUrl(),
+                                    ruta.getVideoUrl(),
                                     nombreAerolinea,
                                     ruta.getCiudadOrigen(),
                                     ruta.getCiudadDestino(),
@@ -160,5 +174,44 @@ public class Aerolinea extends Usuario {
     public int hashCode() {
         return this.getNickname() != null ? this.getNickname().hashCode() : 0;
     }
+
+    // Seguimiento implementations
+    @Override
+    public Set<Usuario> getSeguidores() { return seguidores; }
+
+    @Override
+    public Set<Usuario> getSiguiendo() { return siguiendo; }
+
+    @Override
+    public boolean estaSiguiendoA(Usuario otro) {
+        if (otro == null) return false;
+        return this.siguiendo.contains(otro);
+    }
+
+    @Override
+    public void seguirA(Usuario otro) {
+        if (otro == null) throw new IllegalArgumentException("Usuario objetivo null");
+        if (this.getNickname() == null || this.getNickname().equals(otro.getNickname()))
+            throw new IllegalArgumentException("No puede seguirse a si mismo");
+        if (this.estaSiguiendoA(otro)) throw new IllegalArgumentException("Ya sigue a ese usuario");
+        this.siguiendo.add(otro);
+        if (otro instanceof Cliente) ((Cliente) otro).addSeguidor(this);
+        if (otro instanceof Aerolinea) ((Aerolinea) otro).addSeguidor(this);
+    }
+
+    @Override
+    public void dejarDeSeguirA(Usuario otro) {
+        if (otro == null) throw new IllegalArgumentException("Usuario objetivo null");
+        if (!this.estaSiguiendoA(otro)) throw new IllegalArgumentException("No sigue a ese usuario");
+        this.siguiendo.remove(otro);
+        if (otro instanceof Cliente) ((Cliente) otro).removeSeguidor(this);
+        if (otro instanceof Aerolinea) ((Aerolinea) otro).removeSeguidor(this);
+    }
+
+    // Métodos para que otras instancias añadan/quiten seguidores
+    public void addSeguidor(Usuario u) { if (u != null) seguidores.add(u); }
+    public void removeSeguidor(Usuario u) { if (u != null) seguidores.remove(u); }
+    public void setSiguiendo(Set<Usuario> s) { this.siguiendo = s; }
+    public void setSeguidores(Set<Usuario> s) { this.seguidores = s; }
 
 }

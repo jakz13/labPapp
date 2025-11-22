@@ -11,10 +11,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
-//import jakarta.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -48,6 +49,13 @@ public class Cliente extends Usuario {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompraPaqLogica> comprasPaquetes = new ArrayList<>();
+
+    // Colecciones en memoria con referencias a objetos (no persistidas)
+    @jakarta.persistence.Transient
+    private Set<Usuario> siguiendo = new HashSet<>();
+    @jakarta.persistence.Transient
+    private Set<Usuario> seguidores = new HashSet<>();
+
 
     public Cliente() {
         super();
@@ -192,5 +200,48 @@ public class Cliente extends Usuario {
             dtPaquetes.add(new DtPaquete(compra.getPaquete()));
         }
         return dtPaquetes;
+    }
+
+    // Seguimiento implementations
+    @Override
+    public Set<Usuario> getSeguidores() { return seguidores; }
+
+    @Override
+    public Set<Usuario> getSiguiendo() { return siguiendo; }
+
+    @Override
+    public boolean estaSiguiendoA(Usuario otro) {
+        if (otro == null) return false;
+        return this.siguiendo.contains(otro);
+    }
+
+    @Override
+    public void seguirA(Usuario otro) {
+        if (otro == null) throw new IllegalArgumentException("Usuario objetivo null");
+        if (this.getNickname() == null || this.getNickname().equals(otro.getNickname()))
+            throw new IllegalArgumentException("No puede seguirse a si mismo");
+        if (this.estaSiguiendoA(otro)) throw new IllegalArgumentException("Ya sigue a ese usuario");
+        this.siguiendo.add(otro);
+        if (otro instanceof Cliente) ((Cliente) otro).addSeguidor(this);
+        if (otro instanceof Aerolinea) ((Aerolinea) otro).addSeguidor(this);
+    }
+
+    @Override
+    public void dejarDeSeguirA(Usuario otro) {
+        if (otro == null) throw new IllegalArgumentException("Usuario objetivo null");
+        if (!this.estaSiguiendoA(otro)) throw new IllegalArgumentException("No sigue a ese usuario");
+        this.siguiendo.remove(otro);
+        if (otro instanceof Cliente) ((Cliente) otro).removeSeguidor(this);
+        if (otro instanceof Aerolinea) ((Aerolinea) otro).removeSeguidor(this);
+    }
+
+    // Métodos para que otras instancias añadan/quiten seguidores
+    public void addSeguidor(Usuario u) { if (u != null) seguidores.add(u); }
+    public void removeSeguidor(Usuario u) { if (u != null) seguidores.remove(u); }
+    public void setSiguiendo(Set<Usuario> s) { this.siguiendo = s; }
+    public void setSeguidores(Set<Usuario> s) { this.seguidores = s; }
+    public void rebuildSeguimientoFromNicknames(java.util.Map<String, Usuario> usuariosMap) {
+        this.siguiendo.clear();
+        this.seguidores.clear();
     }
 }

@@ -40,6 +40,7 @@ public final class ManejadorRutaVuelo {
     public void cargarRutasDesdeBD(EntityManager entManager) {
         TypedQuery<RutaVuelo> query = entManager.createQuery("SELECT r FROM RutaVuelo r", RutaVuelo.class);
         List<RutaVuelo> rutasPersistidas = query.getResultList();
+
         for (RutaVuelo r : rutasPersistidas) {
             // Inicializar estado si es nulo
             if (r.getEstado() == null) {
@@ -61,6 +62,7 @@ public final class ManejadorRutaVuelo {
             entTransaction.begin();
             entManager.persist(ruta);
             entTransaction.commit();
+
         } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
             e.printStackTrace();
@@ -87,7 +89,7 @@ public final class ManejadorRutaVuelo {
                 e.printStackTrace();
             }
         } else {
-            //System.out.println("Ruta de vuelo no encontrada.");
+            System.out.println("Ruta de vuelo no encontrada.");
         }
     }
 

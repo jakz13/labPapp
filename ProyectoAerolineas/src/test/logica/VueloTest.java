@@ -47,6 +47,8 @@ class VueloTest {
                 "Ruta Test",
                 "Descripción de ruta",
                 "Ruta Corta",
+                null,
+                null,
                 "Aerolinea Test",
                 "Montevideo",
                 "Buenos Aires",

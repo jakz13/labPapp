@@ -210,7 +210,7 @@ public final class ManejadorPaquete {
                         ruta.getCiudadOrigen(),
                         ruta.getCiudadDestino(),
                         ruta.getHora(),
-                        ruta.getFechaAlta(),
+                        ruta.getAerolinea().getNombre(), ruta.getCiudadOrigen(), ruta.getCiudadDestino(), ruta.getHora(), ruta.getFechaAlta(),
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),

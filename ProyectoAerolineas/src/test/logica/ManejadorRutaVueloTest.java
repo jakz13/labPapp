@@ -50,7 +50,7 @@ class ManejadorRutaVueloTest {
     void cargarRutasDesdeBD_ShouldLoadAndInitEstado() {
         ManejadorRutaVuelo mr = ManejadorRutaVuelo.getInstance();
         Aerolinea aero = new Aerolinea("a1","Aero","a@mail","pwd","d","w",null);
-        RutaVuelo ruta = new RutaVuelo("RBD","d","dc",aero,"O","D","10:00", LocalDate.now(),100,200,10,List.of(), null);
+        RutaVuelo ruta = new RutaVuelo("RBD","d","dc",aero,"O","D","10:00", LocalDate.now(),100,200,10,List.of(), null, null);
         // forzar estado null para probar inicialización
         ruta.setEstado(null);
 
@@ -70,14 +70,14 @@ class ManejadorRutaVueloTest {
     void agregarRutaVuelo_PersistAndRollbackOnException() {
         ManejadorRutaVuelo mr = ManejadorRutaVuelo.getInstance();
         Aerolinea aero = new Aerolinea("a2","Aero2","a2@mail","pwd","d","w",null);
-        RutaVuelo ruta = new RutaVuelo("R1","d","dc",aero,"O","D","09:00", LocalDate.now(),50,80,5,List.of(), null);
+        RutaVuelo ruta = new RutaVuelo("R1","d","dc",aero,"O","D","09:00", LocalDate.now(),50,80,5,List.of(), null, null);
 
         mr.agregarRutaVuelo(ruta, em);
         verify(em).persist(ruta);
         assertEquals(ruta, mr.getRuta("R1"));
 
         // simular excepción en persist para ruta2
-        RutaVuelo ruta2 = new RutaVuelo("R2","d2","dc2",aero,"O2","D2","11:00", LocalDate.now(),60,90,5,List.of(), null);
+        RutaVuelo ruta2 = new RutaVuelo("R2","d2","dc2",aero,"O2","D2","11:00", LocalDate.now(),60,90,5,List.of(), null, null);
         doThrow(new PersistenceException()).when(em).persist(any(RutaVuelo.class));
         mr.agregarRutaVuelo(ruta2, em);
         // se intentó rollback
@@ -88,7 +88,7 @@ class ManejadorRutaVueloTest {
     void agregarVueloARuta_SuccessAndRouteNotFound() {
         ManejadorRutaVuelo mr = ManejadorRutaVuelo.getInstance();
         Aerolinea aero = new Aerolinea("a3","Aero3","a3@mail","pwd","d","w",null);
-        RutaVuelo ruta = new RutaVuelo("RR","d","dc",aero,"O","D","08:00", LocalDate.now(),70,120,8,List.of(), null);
+        RutaVuelo ruta = new RutaVuelo("RR","d","dc",aero,"O","D","08:00", LocalDate.now(),70,120,8,List.of(), null, null);
         mr.agregarRutaVuelo(ruta, em);
 
         Vuelo vuelo = new Vuelo("V1", aero.getNombre(), ruta, LocalDate.now(), 120, 100, 20, LocalDate.now(), null);
@@ -105,8 +105,8 @@ class ManejadorRutaVueloTest {
     void getRutasPorAerolineaAndEstadoAndChangeState() {
         ManejadorRutaVuelo mr = ManejadorRutaVuelo.getInstance();
         Aerolinea aeroA = new Aerolinea("a4","Aero4","a4@mail","pwd","d","w",null);
-        RutaVuelo r1 = new RutaVuelo("RA","d","dc",aeroA,"O","D","07:00", LocalDate.now(),10,20,1,List.of(), null);
-        RutaVuelo r2 = new RutaVuelo("RB","d","dc",aeroA,"O","D","07:00", LocalDate.now(),10,20,1,List.of(), null);
+        RutaVuelo r1 = new RutaVuelo("RA","d","dc",aeroA,"O","D","07:00", LocalDate.now(),10,20,1,List.of(), null, null);
+        RutaVuelo r2 = new RutaVuelo("RB","d","dc",aeroA,"O","D","07:00", LocalDate.now(),10,20,1,List.of(), null, null);
         r2.setEstado(RutaVuelo.EstadoRuta.CONFIRMADA);
         mr.agregarRutaVuelo(r1, em);
         mr.agregarRutaVuelo(r2, em);
@@ -129,7 +129,7 @@ class ManejadorRutaVueloTest {
     void actualizarImagenRutaAndObtenerVuelosPorRuta() {
         ManejadorRutaVuelo mr = ManejadorRutaVuelo.getInstance();
         Aerolinea aero = new Aerolinea("a5","Aero5","a5@mail","pwd","d","w",null);
-        RutaVuelo ruta = new RutaVuelo("RI","d","dc",aero,"O","D","06:00", LocalDate.now(),30,60,5,List.of(), null);
+        RutaVuelo ruta = new RutaVuelo("RI","d","dc",aero,"O","D","06:00", LocalDate.now(),30,60,5,List.of(), null, null);
         mr.agregarRutaVuelo(ruta, em);
 
         // actualizar imagen

@@ -5,6 +5,7 @@ Presentacion\gui\guiSesion\AltaVuelo$2.class
 logica\ItemPaquete.class
 Presentacion\gui\IntentoDiseño$8.class
 Presentacion\gui\IntentoDiseño$3$1.class
+ServiciosWeb\Publicador.class
 logica\RutaVuelo.class
 Presentacion\gui\IntentoDiseño$11$1.class
 Presentacion\gui\guiSesion\AltaCiudad$2.class
@@ -18,6 +19,7 @@ DataTypes\DtItemPaquete.class
 Presentacion\gui\guiSesion\ModificarDatosAereolinea.class
 Presentacion\gui\guiSesion\ConsultaVuelo.class
 Presentacion\gui\IntentoDiseño$2.class
+logica\Follow.class
 Presentacion\gui\guiSesion\AceptarRuta$4.class
 Presentacion\gui\IntentoDiseño$16.class
 logica\Cliente.class
@@ -83,6 +85,7 @@ DataTypes\DtReserva.class
 DataTypes\DtCategoria.class
 Presentacion\gui\IntentoDiseño$12$1.class
 logica\ManejadorCliente.class
+ServiciosWeb\WebServices.class
 DataTypes\DtPaquete.class
 logica\Pasajero.class
 Presentacion\gui\guiSesion\ConsultaPaquete.class

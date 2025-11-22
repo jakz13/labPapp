@@ -198,7 +198,7 @@ class SistemaTest {
         when(maMock.obtenerAerolinea(anyString())).thenReturn(null);
         Sistema s = new Sistema();
         DtAerolinea dtA = new DtAerolinea("n","Nombre","e@mail","desc","web",List.of());
-        assertThrows(IllegalArgumentException.class, () -> s.altaRutaVuelo("r1","d","dc",dtA,"A","B","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img"));
+        assertThrows(IllegalArgumentException.class, () -> s.altaRutaVuelo("r1","d","dc",dtA,"A","B","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img", "video"));
 
         // same origin and dest
         Aerolinea aeroMock = mock(Aerolinea.class);
@@ -206,14 +206,14 @@ class SistemaTest {
         when(maMock.obtenerAerolinea(anyString())).thenReturn(aeroMock);
         when(mrMock.getRuta(anyString())).thenReturn(null);
         when(mcatMock.buscarCategorias("C")).thenReturn(null);
-        assertThrows(IllegalArgumentException.class, () -> s.altaRutaVuelo("r1","d","dc",dtA,"X","X","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img"));
+        assertThrows(IllegalArgumentException.class, () -> s.altaRutaVuelo("r1","d","dc",dtA,"X","X","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img", "video"));
 
         // no valid categories
-        assertThrows(IllegalArgumentException.class, () -> s.altaRutaVuelo("r2","d","dc",dtA,"A","B","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img"));
+        assertThrows(IllegalArgumentException.class, () -> s.altaRutaVuelo("r2","d","dc",dtA,"A","B","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img", "video"));
 
         // success with category
         when(mcatMock.buscarCategorias("C")).thenReturn(new Categoria("C"));
-        s.altaRutaVuelo("r3","d","dc",dtA,"A","B","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img");
+        s.altaRutaVuelo("r3","d","dc",dtA,"A","B","10:00", LocalDate.now(),100,200,10,new String[]{"C"},"img", "video");
         verify(mrMock).agregarRutaVuelo(any(), eq(em));
         verify(maMock).agregarRutaVueloAAerolinea(any(), any(), eq(em));
     }
