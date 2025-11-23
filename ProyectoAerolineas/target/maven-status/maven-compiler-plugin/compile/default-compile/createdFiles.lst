@@ -1,8 +1,7 @@
 DataTypes\DtAerolinea.class
 logica\Usuario.class
-logica\RutaVuelo.class
+logica\EstadoRuta.class
 DataTypes\DtVuelo.class
-logica\RutaVuelo$EstadoRuta.class
 logica\TipoAsiento.class
 DataTypes\DtRutaVuelo.class
 DataTypes\DtReserva.class

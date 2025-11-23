@@ -216,7 +216,7 @@ public final class ManejadorPaquete {
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),
-                        ruta.getEstado().toString(),
+                        ruta.getEstado(),
                         ruta.getCategorias(),
                         ruta.getDtVuelos()
                 );
