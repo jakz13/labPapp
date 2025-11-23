@@ -5,6 +5,7 @@ package logica;
 public enum EstadoRuta {
         INGRESADA,
         CONFIRMADA,
-        RECHAZADA
+        RECHAZADA,
+        FINALIZADA
     }
 

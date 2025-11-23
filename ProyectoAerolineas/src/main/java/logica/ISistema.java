@@ -131,6 +131,17 @@ public interface ISistema {
     String obtenerImagenRuta(String nombreRuta);
     List<DtRutaVuelo> listarRutasConfirmadas(int limite);
     DtVuelo verInfoVueloDt(String nombreVuelo);
+    List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
+
+    /* Lista las rutas que pueden ser finalizadas por una aerolínea.
+    Una ruta puede ser finalizada si: Está en estado CONFIRMADA, no tiene vuelos pendientes (fecha futura), no está incluida en ningún paquete activo */
+    List<DtRutaVuelo> listarRutasFinalizables(String nombreAerolinea);
+
+    //Finaliza una ruta de vuelo, cambiando su estado a FINALIZADA.
+    void finalizarRutaVuelo(String nombreRuta);
+
+//Verifica si una ruta puede ser finalizada.
+int puedeFinalizarRuta(String nombreRuta);
 
 
     // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================

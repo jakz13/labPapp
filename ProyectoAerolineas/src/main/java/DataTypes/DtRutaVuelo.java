@@ -1,9 +1,7 @@
 package DataTypes;
 
 import logica.EstadoRuta;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DtRutaVuelo {
