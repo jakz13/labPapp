@@ -205,7 +205,7 @@ public class RutaVuelo {
     public DataTypes.DtRutaVuelo getDtRutaVuelo() {
         String nombreAerolinea = (aerolinea != null) ? aerolinea.getNombre() : null;
         List<DtVuelo> dtVuelos = getDtVuelos();
-        String estadoStr = (estado != null) ? estado.toString() : "INGRESADA";
+        EstadoRuta estado = (this.estado != null) ? this.estado : INGRESADA;
         String descCorta = (descripcionCorta != null) ? descripcionCorta : "";
         String imgUrl = (imagenUrl != null) ? imagenUrl : null;
         String vidUrl = (videoUrl != null) ? videoUrl : null;
@@ -225,7 +225,7 @@ public class RutaVuelo {
                 costoTurista,              // double costoTurista
                 costoEjecutivo,            // double costoEjecutivo
                 costoEquipajeExtra,        // double costoEquipajeExtra
-                estadoStr,                 // String estado
+                estado,                 // String estado
                 categorias != null ? categorias : new ArrayList<>(), // List<String> categorias
                 dtVuelos,                  // List<DtVuelo> vuelos
                 contadorVisitas            // int contadorVisitas
