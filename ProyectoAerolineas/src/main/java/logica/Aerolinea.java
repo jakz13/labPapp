@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import static logica.EstadoRuta.*;
 
 
 /**
@@ -90,7 +91,6 @@ public class Aerolinea extends Usuario {
         return rutasVuelo.values().stream()
                 .map(ruta -> {
                     String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
-                    String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
                     String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
 
                     return new DtRutaVuelo(
@@ -107,7 +107,7 @@ public class Aerolinea extends Usuario {
                             ruta.getCostoTurista(),
                             ruta.getCostoEjecutivo(),
                             ruta.getCostoEquipajeExtra(),
-                            estado,
+                            ruta.getEstado(),
                             (List) (ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList()),
                             (List) (ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList())
                     );
@@ -124,7 +124,6 @@ public class Aerolinea extends Usuario {
                 rutasVuelo.values().stream()
                         .map(ruta -> {
                             String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
-                            String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
                             String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
 
                             return new DtRutaVuelo(
@@ -141,7 +140,7 @@ public class Aerolinea extends Usuario {
                                     ruta.getCostoTurista(),
                                     ruta.getCostoEjecutivo(),
                                     ruta.getCostoEquipajeExtra(),
-                                    estado,
+                                    ruta.getEstado(),
                                     ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList<>(),
                                     ruta.getDtVuelos() != null ? ruta.getDtVuelos() : new ArrayList<>()
                             );
