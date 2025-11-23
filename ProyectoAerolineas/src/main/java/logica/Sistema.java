@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static logica.EstadoRuta.*;
+
 /**
  * Implementación de la interfaz ISistema que actúa como fachada para la
  * lógica de negocio. Maneja inicialización, operaciones CRUD y coordinación
@@ -358,7 +360,7 @@ public class Sistema implements ISistema {
 
     @Override
     public void rechazarRutaVuelo(String nombreRuta) {
-        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.RECHAZADA, entManager);
+        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RECHAZADA, entManager);
     }
 
     @Override
@@ -853,6 +855,25 @@ public class Sistema implements ISistema {
             }
         }
         return rutasConfirmadas;
+    }
+
+    @Override
+    public List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite) {
+        try {
+            List<RutaVuelo> rutasMasVisitadas = manejadorRutaVuelo.getTopRutasConfirmadasMasVisitadas(limite);
+            List<DtRutaVuelo> dtRutas = new ArrayList<>();
+
+            for (RutaVuelo ruta : rutasMasVisitadas) {
+                dtRutas.add(ruta.getDtRutaVuelo());
+            }
+
+            System.out.println("[SISTEMA] ✅ Top " + dtRutas.size() + " rutas más visitadas obtenidas");
+            return dtRutas;
+
+        } catch (Exception e) {
+            System.err.println("[SISTEMA] ❌ Error obteniendo DTOs de rutas visitadas: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 /*
     // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================

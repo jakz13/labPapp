@@ -1,10 +1,14 @@
 package DataTypes;
 
+import logica.Categoria;
+import logica.EstadoRuta;
 import logica.Paquete;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static logica.EstadoRuta.INGRESADA;
 
 public class DtPaquete {
     private String nombre;
@@ -43,25 +47,27 @@ public class DtPaquete {
 
                 // Manejar valores nulos
                 String descripcionCorta = (ruta.getDescripcionCorta() != null) ? ruta.getDescripcionCorta() : "";
-                String estado = (ruta.getEstado() != null) ? ruta.getEstado().toString() : "INGRESADA";
+                EstadoRuta estado = INGRESADA;
                 String nombreAerolinea = (ruta.getAerolinea() != null) ? ruta.getAerolinea().getNombre() : null;
                 List<DtVuelo> dtVuelos = (ruta.getDtVuelos() != null) ? ruta.getDtVuelos() : new ArrayList<>();
 
                 DtRutaVuelo dtRuta = new DtRutaVuelo(
                         ruta.getNombre(),
                         ruta.getDescripcion(),
-                        descripcionCorta, // Campo manejado contra nulos
-                        nombreAerolinea,  // Campo manejado contra nulos
+                        descripcionCorta,
+                        null, // ✅ imagenUrl (faltaba)
+                        null, // ✅ videoUrl (faltaba)
+                        nombreAerolinea,
                         ruta.getCiudadOrigen(),
                         ruta.getCiudadDestino(),
                         ruta.getHora(),
-                        nombreAerolinea, ruta.getCiudadOrigen(), ruta.getCiudadDestino(), ruta.getHora(), ruta.getFechaAlta(),
+                        ruta.getFechaAlta(),
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),
-                        estado, // Campo manejado contra nulos
+                        ruta.getEstado(),
                         ruta.getCategorias() != null ? ruta.getCategorias() : new ArrayList<>(),
-                        dtVuelos // Campo manejado contra nulos
+                        dtVuelos
                 );
 
                 DtItemPaquete dtItem = new DtItemPaquete(

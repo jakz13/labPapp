@@ -5,6 +5,7 @@ import DataTypes.DtVuelo;
 import DataTypes.DtRutaVuelo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import java.time.LocalDate;
@@ -57,7 +58,7 @@ class VueloTest {
                 200.0,
                 400.0,
                 50.0,
-                "INGRESADA",
+                INGRESADA,
                 Arrays.asList("Turismo", "Negocios"),
                 new ArrayList<>()
         ));

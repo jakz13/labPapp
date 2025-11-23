@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static logica.EstadoRuta.INGRESADA;
+
 /**
  * Representa una ruta de vuelo entre dos ciudades, con su información, costos,
  * estado y la lista de vuelos programados para esa ruta.
@@ -26,12 +28,6 @@ import java.util.List;
 @Entity
 @Table(name = "rutas_vuelo")
 public class RutaVuelo {
-
-    public enum EstadoRuta {
-        INGRESADA,
-        CONFIRMADA,
-        RECHAZADA
-    }
 
     /** Identificador interno de la ruta. */
     @Id
@@ -51,6 +47,11 @@ public class RutaVuelo {
     /** URL opcional de un video representativo de la ruta. */
     @Column(name = "video_url")
     private String videoUrl;
+
+    /** Contador de vistas de la ruta. */
+    @Column(name = "contador_visitas", nullable = false)
+    private int contadorVisitas = 0;
+
     /** Aerolínea propietaria de la ruta. */
     @ManyToOne
     @JoinColumn(name = "aerolinea_id")
@@ -74,7 +75,7 @@ public class RutaVuelo {
 
     /** Estado actual de la ruta (INGRESADA/CONFIRMADA/RECHAZADA). */
     @Enumerated(EnumType.STRING)
-    private EstadoRuta estado = EstadoRuta.INGRESADA;
+    private EstadoRuta estado = INGRESADA;
 
     /** Categorías asociadas a la ruta. */
     @ElementCollection
@@ -88,7 +89,7 @@ public class RutaVuelo {
     private List<Vuelo> vuelos = new ArrayList<>();
 
     public RutaVuelo() {
-        this.estado = EstadoRuta.INGRESADA;
+        this.estado = INGRESADA;
         this.categorias = new ArrayList<>();
         this.vuelos = new ArrayList<>();
         this.imagenUrl = null;
@@ -113,10 +114,11 @@ public class RutaVuelo {
         this.costoEjecutivo = costoEjecutivo;
         this.costoEquipajeExtra = costoEquipajeExtra;
         this.categorias = (categorias != null) ? categorias : new ArrayList<>();
-        this.estado = EstadoRuta.INGRESADA;
+        this.estado = INGRESADA;
         this.vuelos = new ArrayList<>();
         this.imagenUrl = imagenUrl;
         this.videoUrl = videoUrl;
+        this.contadorVisitas = 0; // Inicializar contador
     }
 
     // ===== Getters y Setters =====
@@ -136,7 +138,7 @@ public class RutaVuelo {
     public double getCostoEjecutivo() { return costoEjecutivo; }
     public double getCostoEquipajeExtra() { return costoEquipajeExtra; }
     public EstadoRuta getEstado() {
-        return (estado != null) ? estado : EstadoRuta.INGRESADA;
+        return (estado != null) ? estado : INGRESADA;
     }
     public List<String> getCategorias() {
         return (categorias != null) ? categorias : new ArrayList<>();
@@ -144,8 +146,9 @@ public class RutaVuelo {
     public List<Vuelo> getVuelos() {
         return (vuelos != null) ? vuelos : new ArrayList<>();
     }
+    public int getContadorVisitas() { return contadorVisitas; }
 
-
+    public void setContadorVisitas(int contadorVisitas) { this.contadorVisitas = contadorVisitas; }
     public void setEstado(EstadoRuta estado) { this.estado = estado; }
     public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
@@ -167,6 +170,11 @@ public class RutaVuelo {
             vuelos = new ArrayList<>();
         }
         vuelos.add(vuelo);
+    }
+
+    /** Agrega una vista. */
+    public void incrementarVisitas() {
+        this.contadorVisitas++;
     }
 
     /** Obtiene un vuelo de la ruta por su nombre, o null si no existe. */
@@ -202,23 +210,25 @@ public class RutaVuelo {
         String imgUrl = (imagenUrl != null) ? imagenUrl : null;
         String vidUrl = (videoUrl != null) ? videoUrl : null;
 
+        // LLAMADA CORRECTA al constructor
         return new DataTypes.DtRutaVuelo(
-                nombre,
-                descripcion,
-                descCorta,
-                imgUrl,
-                vidUrl,
-                nombreAerolinea,
-                ciudadOrigen,
-                ciudadDestino,
-                hora,
-                fechaAlta,
-                costoTurista,
-                costoEjecutivo,
-                costoEquipajeExtra,
-                estadoStr,
-                categorias != null ? categorias : new ArrayList<>(),
-                dtVuelos
+                nombre,                    // String nombre
+                descripcion,               // String descripcion
+                descCorta,                 // String descripcionCorta
+                imgUrl,                    // String imagenUrl
+                vidUrl,                    // String videoUrl
+                nombreAerolinea,           // String aerolinea
+                ciudadOrigen,              // String ciudadOrigen
+                ciudadDestino,             // String ciudadDestino
+                hora,                      // String hora
+                fechaAlta,                 // LocalDate fechaAlta
+                costoTurista,              // double costoTurista
+                costoEjecutivo,            // double costoEjecutivo
+                costoEquipajeExtra,        // double costoEquipajeExtra
+                estadoStr,                 // String estado
+                categorias != null ? categorias : new ArrayList<>(), // List<String> categorias
+                dtVuelos,                  // List<DtVuelo> vuelos
+                contadorVisitas            // int contadorVisitas
         );
     }
 }

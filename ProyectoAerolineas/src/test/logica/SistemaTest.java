@@ -15,6 +15,8 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
 
+import static logica.EstadoRuta.CONFIRMADA;
+import static logica.EstadoRuta.RECHAZADA;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -545,8 +547,8 @@ class SistemaTest {
         Sistema s = new Sistema();
         s.aceptarRutaVuelo("r1");
         s.rechazarRutaVuelo("r2");
-        verify(mrMock).cambiarEstadoRuta("r1", RutaVuelo.EstadoRuta.CONFIRMADA, em);
-        verify(mrMock).cambiarEstadoRuta("r2", RutaVuelo.EstadoRuta.RECHAZADA, em);
+        verify(mrMock).cambiarEstadoRuta("r1", CONFIRMADA, em);
+        verify(mrMock).cambiarEstadoRuta("r2", RECHAZADA, em);
     }
 
     @Test
@@ -655,7 +657,7 @@ class SistemaTest {
         when(pOk.estaComprado()).thenReturn(false);
         RutaVuelo rOk = mock(RutaVuelo.class);
         when(mrMock.getRuta("rOk")).thenReturn(rOk);
-        when(rOk.getEstado()).thenReturn(RutaVuelo.EstadoRuta.CONFIRMADA);
+        when(rOk.getEstado()).thenReturn(CONFIRMADA);
         // dtPaquete con lista real para verificar adición
         DataTypes.DtPaquete dtp = mock(DataTypes.DtPaquete.class);
         java.util.List<DataTypes.DtItemPaquete> items = new java.util.ArrayList<>();
@@ -838,9 +840,9 @@ class SistemaTest {
         DataTypes.DtRutaVuelo rConfirmada1 = mock(DataTypes.DtRutaVuelo.class);
         DataTypes.DtRutaVuelo rConfirmada2 = mock(DataTypes.DtRutaVuelo.class);
         DataTypes.DtRutaVuelo rOtra = mock(DataTypes.DtRutaVuelo.class);
-        when(rConfirmada1.getEstado()).thenReturn("CONFIRMADA");
-        when(rConfirmada2.getEstado()).thenReturn("CONFIRMADA");
-        when(rOtra.getEstado()).thenReturn("INGRESADA");
+        when(rConfirmada1.getEstado()).thenReturn(CONFIRMADA);
+        when(rConfirmada2.getEstado()).thenReturn(CONFIRMADA);
+        when(rOtra.getEstado()).thenReturn(INGRESADA);
 
         // Aerolinea A1 tiene dos rutas (una confirmada, una no), A2 tiene una confirmada distinta
         when(maMock.obtenerRutaVueloDeAerolinea("A1")).thenReturn(List.of(rConfirmada1, rOtra));

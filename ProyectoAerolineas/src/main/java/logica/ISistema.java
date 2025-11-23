@@ -126,5 +126,5 @@ public interface ISistema {
     String obtenerImagenRuta(String nombreRuta);
     List<DtRutaVuelo> listarRutasConfirmadas(int limite);
     DtVuelo verInfoVueloDt(String nombreVuelo);
-
+    List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
 }

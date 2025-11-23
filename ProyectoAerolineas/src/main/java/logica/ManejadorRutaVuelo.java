@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import static logica.EstadoRuta.*;
+
 /**
  * Administra las rutas de vuelo en memoria y su persistencia.
  * Permite cargar, agregar y actualizar rutas y vuelos asociados.
@@ -32,6 +35,83 @@ public final class ManejadorRutaVuelo {
         return instancia;
     }
 
+
+    /**
+     * Incrementa el contador de visitas de una ruta y actualiza la persistencia.
+     * @param nombreRuta nombre de la ruta a incrementar
+     * @param entManager EntityManager para la operación
+     */
+    public void incrementarVisitasRuta(String nombreRuta, EntityManager entManager) {
+        RutaVuelo ruta = rutasVuelo.get(nombreRuta);
+        if (ruta != null) {
+            ruta.incrementarVisitas();
+            EntityTransaction entTransaction = entManager.getTransaction();
+            try {
+                entTransaction.begin();
+                entManager.merge(ruta);
+                entTransaction.commit();
+                System.out.println("[MANEJADOR] ✅ Visitas incrementadas para ruta: " + nombreRuta + " - Total: " + ruta.getContadorVisitas());
+            } catch (PersistenceException e) {
+                if (entTransaction.isActive()) entTransaction.rollback();
+                throw new IllegalStateException("Error incrementando visitas de la ruta: " + e.getMessage(), e);
+            }
+        } else {
+            throw new IllegalArgumentException("Ruta no encontrada: " + nombreRuta);
+        }
+    }
+
+    /**
+     * Obtiene las rutas más visitadas ordenadas por contador de visitas.
+     * @param limite número máximo de rutas a retornar
+     * @return lista de rutas ordenadas por visitas (descendente)
+     */
+    public List<RutaVuelo> getTopRutasMasVisitadas(int limite) {
+        List<RutaVuelo> todasRutas = new ArrayList<>(rutasVuelo.values());
+
+        // Ordenar por contador de visitas descendente
+        todasRutas.sort((r1, r2) -> Integer.compare(r2.getContadorVisitas(), r1.getContadorVisitas()));
+
+        // Limitar resultados
+        return todasRutas.subList(0, Math.min(limite, todasRutas.size()));
+    }
+
+    /**
+     * Obtiene las rutas más visitadas que estén en estado CONFIRMADA.
+     * @param limite número máximo de rutas a retornar
+     * @return lista de rutas confirmadas ordenadas por visitas
+     */
+    public List<RutaVuelo> getTopRutasConfirmadasMasVisitadas(int limite) {
+        List<RutaVuelo> rutasConfirmadas = new ArrayList<>();
+
+        // Filtrar solo rutas confirmadas
+        for (RutaVuelo ruta : rutasVuelo.values()) {
+            if (ruta.getEstado() == CONFIRMADA) {
+                rutasConfirmadas.add(ruta);
+            }
+        }
+
+        // Ordenar por contador de visitas descendente (manualmente)
+        for (int i = 0; i < rutasConfirmadas.size() - 1; i++) {
+            for (int j = i + 1; j < rutasConfirmadas.size(); j++) {
+                RutaVuelo rutaI = rutasConfirmadas.get(i);
+                RutaVuelo rutaJ = rutasConfirmadas.get(j);
+
+                if (rutaI.getContadorVisitas() < rutaJ.getContadorVisitas()) {
+                    // Intercambiar posiciones
+                    rutasConfirmadas.set(i, rutaJ);
+                    rutasConfirmadas.set(j, rutaI);
+                }
+            }
+        }
+
+        // Limitar resultados
+        if (rutasConfirmadas.size() > limite) {
+            return new ArrayList<>(rutasConfirmadas.subList(0, limite));
+        }
+
+        return rutasConfirmadas;
+    }
+
     // =================== CRUD BD ===================
     /**
      * Carga las rutas persistidas desde la base de datos al mapa en memoria.
@@ -44,7 +124,7 @@ public final class ManejadorRutaVuelo {
         for (RutaVuelo r : rutasPersistidas) {
             // Inicializar estado si es nulo
             if (r.getEstado() == null) {
-                r.setEstado(RutaVuelo.EstadoRuta.INGRESADA);
+                r.setEstado(INGRESADA);
             }
             rutasVuelo.put(r.getNombre(), r);
         }
@@ -149,7 +229,7 @@ public final class ManejadorRutaVuelo {
     /**
      * Cambia el estado de una ruta y actualiza la persistencia.
      */
-    public void cambiarEstadoRuta(String nombreRuta, RutaVuelo.EstadoRuta nuevoEstado, EntityManager entManager) {
+    public void cambiarEstadoRuta(String nombreRuta, EstadoRuta nuevoEstado, EntityManager entManager) {
         RutaVuelo ruta = rutasVuelo.get(nombreRuta);
         if (ruta != null) {
             ruta.setEstado(nuevoEstado);

@@ -21,16 +21,20 @@ public class DtRutaVuelo {
     private String estado;
     private List<String> categorias;
     private List<DtVuelo> vuelos;
+    private int contadorVisitas;
 
-    public DtRutaVuelo(String nombre, String descripcion, String descripcionCorta, String aerolinea,
+
+    public DtRutaVuelo(String nombre, String descripcion, String descripcionCorta,
+                       String imagenUrl, String videoUrl, String aerolinea,
                        String ciudadOrigen, String ciudadDestino, String hora,
-                       String nombreAerolinea, String origen, String destino, String rutaHora, LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
-                       double costoEquipajeExtra, String estado, List<String> categorias,
-                       List<DtVuelo> vuelos) {
-
+                       LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
+                       double costoEquipajeExtra, EstadoRuta estado, List<String> categorias,
+                       List<DtVuelo> vuelos, int contadorVisitas) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.descripcionCorta = descripcionCorta;
+        this.imagenUrl = imagenUrl;
+        this.videoUrl = videoUrl;
         this.aerolinea = aerolinea;
         this.ciudadOrigen = ciudadOrigen;
         this.ciudadDestino = ciudadDestino;
@@ -42,36 +46,22 @@ public class DtRutaVuelo {
         this.estado = estado;
         this.categorias = categorias;
         this.vuelos = vuelos;
-        this.imagenUrl = imagenUrl;
-        this.videoUrl = videoUrl;
+        this.contadorVisitas = contadorVisitas;
     }
 
     public DtRutaVuelo(String nombre, String descripcion, String descripcionCorta,
                        String imagenUrl, String videoUrl, String aerolinea,
                        String ciudadOrigen, String ciudadDestino, String hora,
                        LocalDate fechaAlta, double costoTurista, double costoEjecutivo,
-                       double costoEquipajeExtra, String estado, List<String> categorias,
+                       double costoEquipajeExtra, EstadoRuta estado, List<String> categorias,
                        List<DtVuelo> vuelos) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.descripcionCorta = descripcionCorta;
-        this.imagenUrl = imagenUrl;
-        this.videoUrl = videoUrl;
-        this.aerolinea = aerolinea;
-        this.ciudadOrigen = ciudadOrigen;
-        this.ciudadDestino = ciudadDestino;
-        this.hora = hora;
-        this.fechaAlta = fechaAlta;
-        this.costoTurista = costoTurista;
-        this.costoEjecutivo = costoEjecutivo;
-        this.costoEquipajeExtra = costoEquipajeExtra;
-        this.estado = estado;
-        this.categorias = categorias;
-        this.vuelos = vuelos;
+        this(nombre, descripcion, descripcionCorta, imagenUrl, videoUrl, aerolinea,
+                ciudadOrigen, ciudadDestino, hora, fechaAlta, costoTurista, costoEjecutivo,
+                costoEquipajeExtra, estado, categorias, vuelos, 0); // contadorVisitas = 0 por defecto
     }
 
+        // Constructor vacío
     public DtRutaVuelo(){}
-
 
     // === Getters ===
     public String getNombre() { return nombre; }
@@ -90,6 +80,7 @@ public class DtRutaVuelo {
     public String getEstado() { return estado; }
     public List<String> getCategorias() { return categorias; }
     public List<DtVuelo> getVuelos() { return vuelos; }
+    public int getContadorVisitas() { return contadorVisitas; }
 
     @Override
     public String toString() {

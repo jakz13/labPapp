@@ -205,12 +205,14 @@ public final class ManejadorPaquete {
                 DtRutaVuelo dtRuta = new DtRutaVuelo(
                         ruta.getNombre(),
                         ruta.getDescripcion(),
-                        ruta.getDescripcionCorta(), // Nuevo campo: descripción corta
-                        ruta.getAerolinea().getNombre(),
-                        ruta.getCiudadOrigen(),
-                        ruta.getCiudadDestino(),
-                        ruta.getHora(),
-                        ruta.getAerolinea().getNombre(), ruta.getCiudadOrigen(), ruta.getCiudadDestino(), ruta.getHora(), ruta.getFechaAlta(),
+                        ruta.getDescripcionCorta(),
+                        ruta.getImagenUrl(),                    // ✅ imagenUrl
+                        ruta.getVideoUrl(),                     // ✅ videoUrl
+                        ruta.getAerolinea().getNombre(),        // ✅ aerolinea (solo una vez)
+                        ruta.getCiudadOrigen(),                 // ✅ ciudadOrigen (solo una vez)
+                        ruta.getCiudadDestino(),                // ✅ ciudadDestino (solo una vez)
+                        ruta.getHora(),                         // ✅ hora (solo una vez)
+                        ruta.getFechaAlta(),
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),
                         ruta.getCostoEquipajeExtra(),

@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
 
+import static logica.EstadoRuta.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -63,7 +64,7 @@ class ManejadorRutaVueloTest {
 
         RutaVuelo loaded = mr.getRuta("RBD");
         assertNotNull(loaded);
-        assertEquals(RutaVuelo.EstadoRuta.INGRESADA, loaded.getEstado());
+        assertEquals(INGRESADA, loaded.getEstado());
     }
 
     @Test
@@ -107,7 +108,7 @@ class ManejadorRutaVueloTest {
         Aerolinea aeroA = new Aerolinea("a4","Aero4","a4@mail","pwd","d","w",null);
         RutaVuelo r1 = new RutaVuelo("RA","d","dc",aeroA,"O","D","07:00", LocalDate.now(),10,20,1,List.of(), null, null);
         RutaVuelo r2 = new RutaVuelo("RB","d","dc",aeroA,"O","D","07:00", LocalDate.now(),10,20,1,List.of(), null, null);
-        r2.setEstado(RutaVuelo.EstadoRuta.CONFIRMADA);
+        r2.setEstado(CONFIRMADA);
         mr.agregarRutaVuelo(r1, em);
         mr.agregarRutaVuelo(r2, em);
 
@@ -118,11 +119,11 @@ class ManejadorRutaVueloTest {
         assertEquals(1, filtradas.size());
 
         // cambiar estado success
-        mr.cambiarEstadoRuta("RA", RutaVuelo.EstadoRuta.RECHAZADA, em);
-        assertEquals(RutaVuelo.EstadoRuta.RECHAZADA, mr.getRuta("RA").getEstado());
+        mr.cambiarEstadoRuta("RA", RECHAZADA, em);
+        assertEquals(RECHAZADA, mr.getRuta("RA").getEstado());
 
         // cambiar estado ruta inexistente -> lanza IllegalArgumentException
-        assertThrows(IllegalArgumentException.class, () -> mr.cambiarEstadoRuta("NO_R", RutaVuelo.EstadoRuta.CONFIRMADA, em));
+        assertThrows(IllegalArgumentException.class, () -> mr.cambiarEstadoRuta("NO_R", CONFIRMADA, em));
     }
 
     @Test
