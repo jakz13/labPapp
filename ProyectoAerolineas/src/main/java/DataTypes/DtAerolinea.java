@@ -44,6 +44,14 @@ public class DtAerolinea {
     public String getImagenUrl() { return imagenUrl; }
     public List<DtRutaVuelo> getRutas() { return rutas; }
 
+    public void setNickname(String nickname) { this.nickname = nickname; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setEmail(String email) { this.email = email; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public void setSitioWeb(String sitioWeb) { this.sitioWeb = sitioWeb; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+    public void setRutas(List<DtRutaVuelo> rutas) { this.rutas = rutas; }
+
     @Override
     public String toString() {
         return nombre + " (" + nickname + ")";

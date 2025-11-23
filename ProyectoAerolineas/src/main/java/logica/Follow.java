@@ -2,7 +2,6 @@ package logica;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
@@ -25,17 +24,17 @@ public class Follow {
 
     // Usuario que sigue
     @ManyToOne
-    @JoinColumn(name = "seguidor_id", nullable = false)
+    @JoinColumn(name = "seguidor_id", referencedColumnName = "nickname", nullable = false)
     private Usuario seguidor;
 
     // Usuario que es seguido
     @ManyToOne
-    @JoinColumn(name = "seguido_id", nullable = false)
+    @JoinColumn(name = "seguido_id", referencedColumnName = "nickname", nullable = false)
     private Usuario seguido;
 
-    private LocalDateTime fecha = LocalDateTime.now();
+    private LocalDateTime fecha;
 
-    // Constructor vacío
+    // Constructor vacío (obligatorio)
     public Follow() {}
 
     // Constructor útil
@@ -45,7 +44,41 @@ public class Follow {
         this.fecha = LocalDateTime.now();
     }
 
-    // getters y setters
+    // Getters correctos
+    public Long getId() {
+        return id;
+    }
+
+    public Usuario getSeguidor() {
+        return seguidor;
+    }
+
+    public Usuario getSeguido() {
+        return seguido;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    // Setters (Hibernate los usa)
+    public void setSeguidor(Usuario seguidor) {
+        this.seguidor = seguidor;
+    }
+
+    public void setSeguido(Usuario seguido) {
+        this.seguido = seguido;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+    public String obtenerNicknameSeguido() {
+        return seguido.getNickname();
+    }
+
+    public String obtenerNicknameSeguidor() {
+        return seguidor.getNickname();
+    }
 }
-
-

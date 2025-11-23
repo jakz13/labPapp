@@ -5,8 +5,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Inheritance;
+import jakarta.persistence.Transient;
 import jakarta.persistence.InheritanceType;
 import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 import java.time.LocalDate;
 
 /**
@@ -45,6 +48,12 @@ public abstract class Usuario {
     /** URL opcional de la imagen o avatar del usuario. */
     @Column(name = "imagen_url")
     private String imagenUrl;
+
+    // Seguidores y seguidos locales en memoria (no persistidos)
+    @Transient
+    private Set<Usuario> seguidoresLocales = new HashSet<>();
+    @Transient
+    private Set<Usuario> seguidosLocales = new HashSet<>();
 
     public Usuario() {
         this.nickname = "";
@@ -90,6 +99,8 @@ public abstract class Usuario {
     public String getPasswordHash() { return passwordHash; }
     /** Devuelve el salt de la contraseña. */
     public String getPasswordSalt() { return passwordSalt; }
+    public Set<Usuario> getSeguidoresLocales() {return seguidoresLocales;}
+    public Set<Usuario> getSeguidosLocales() {return seguidosLocales;}
     /** Actualiza el email del usuario. */
     public void setEmail(String email) { this.email = email; }
     /** Actualiza el nombre del usuario. */
@@ -124,27 +135,29 @@ public abstract class Usuario {
         return PasswordManager.verificarPassword(password, this.passwordSalt, this.passwordHash);
     }
 
-
-    // ===== Seguimiento (follow) helpers =====
-    // Las implementaciones concretas están en Cliente y Aerolinea.
-    public abstract java.util.Set<Usuario> getSeguidores();
-    public abstract java.util.Set<Usuario> getSiguiendo();
-    public abstract boolean estaSiguiendoA(Usuario otro);
-    public abstract void seguirA(Usuario otro);
-    public abstract void dejarDeSeguirA(Usuario otro);
-
-    public void agregarSeguidor(Usuario seguidor) {
-        this.getSeguidores().add(seguidor);
+    // Métodos de utilidad para agregar/quitar
+    public void agregarSeguido(Usuario u) {
+        seguidosLocales.add(u);
     }
 
-    public void removeSeguidor(Usuario seguidor) {
-        if (seguidor == null) return;
+    public void quitarSeguido(Usuario u) {
+        seguidosLocales.remove(u);
+    }
 
-        // sacar de la lista de seguidores del target
-        getSeguidores().remove(seguidor);
+    public void agregarSeguidor(Usuario u) {
+        seguidoresLocales.add(u);
+    }
 
-        // sacar al target de la lista de “siguiendo” del follower
-        seguidor.getSiguiendo().remove(this);
+    public void quitarSeguidor(Usuario u) {
+        seguidoresLocales.remove(u);
+    }
+
+    public int cantidadSeguidores() {
+        return seguidoresLocales.size();
+    }
+
+    public int cantidadSeguidos() {
+        return seguidosLocales.size();
     }
 
 

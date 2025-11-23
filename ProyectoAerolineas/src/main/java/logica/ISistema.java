@@ -133,4 +133,10 @@ public interface ISistema {
     DtVuelo verInfoVueloDt(String nombreVuelo);
 
 
+    // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================
+    // Permite que un usuario (followerNickname) siga a otro usuario (targetNickname)
+    void followUsuario(String followerNickname, String targetNickname);
+    void unfollowUsuario(String followerNickname, String targetNickname);
+    int obtenerCantidadSeguidos(String nickname);
+    int obtenerCantidadSeguidores(String nickname);
 }

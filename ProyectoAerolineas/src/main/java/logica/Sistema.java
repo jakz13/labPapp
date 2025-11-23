@@ -46,6 +46,7 @@ public class Sistema implements ISistema {
     private ManejadorVuelo manejadorVuelo;
     private ManejadorPaquete manejadorPaquete;
     private ManejadorCategoria manejadorCategoria;
+    private ManejadorFollow manejadorFollow;
 
     public Sistema() {
         this.emf = Persistence.createEntityManagerFactory("LAB_PA");
@@ -976,177 +977,78 @@ public class Sistema implements ISistema {
     private Reserva obtenerReservaCompleta(Long idReserva) {
         return entManager.find(Reserva.class, idReserva);
     }
-/*
-    // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================
     @Override
     public void followUsuario(String followerNickname, String targetNickname) {
-        if (followerNickname == null || targetNickname == null) throw new IllegalArgumentException("Nick null");
-        if (followerNickname.equals(targetNickname)) throw new IllegalArgumentException("No puede seguirse a si mismo");
+        if (followerNickname == null || targetNickname == null)
+            throw new IllegalArgumentException("Nick null");
 
-        // buscar en manejadores
-        Cliente c = manejadorCliente.obtenerClienteReal(followerNickname);
-        Aerolinea a = manejadorAerolinea.obtenerAerolinea(followerNickname);
-        Usuario follower = (c != null) ? c : a;
+        if (followerNickname.equals(targetNickname))
+            throw new IllegalArgumentException("No puede seguirse a sí mismo");
 
-        Cliente c2 = manejadorCliente.obtenerClienteReal(targetNickname);
-        Aerolinea a2 = manejadorAerolinea.obtenerAerolinea(targetNickname);
-        Usuario target = (c2 != null) ? c2 : a2;
+        // Buscar en manejadores en memoria primero (compatibilidad con tu esquema)
+        Usuario follower = manejadorCliente.obtenerClienteReal(followerNickname);
+        if (follower == null) follower = manejadorAerolinea.obtenerAerolinea(followerNickname);
 
-        if (follower == null) throw new IllegalArgumentException("Seguidor no encontrado: " + followerNickname);
-        if (target == null) throw new IllegalArgumentException("Usuario a seguir no encontrado: " + targetNickname);
+        Usuario target = manejadorCliente.obtenerClienteReal(targetNickname);
+        if (target == null) target = manejadorAerolinea.obtenerAerolinea(targetNickname);
 
-        if (follower.estaSiguiendoA(target)) throw new IllegalArgumentException("Ya sigue a ese usuario");
+        if (follower == null || target == null)
+            throw new IllegalArgumentException("Usuario no encontrado");
 
-        EntityTransaction tx = entManager.getTransaction();
-        try {
-            tx.begin();
-            // persistir follow en tabla follows
-            Follow follow = new Follow(followerNickname, targetNickname);
-            entManager.persist(follow);
+        // Delegar la persistencia al manejador, pasándole el EntityManager del Sistema
+        manejadorFollow.followUsuario(followerNickname, targetNickname, entManager);
 
-            // actualizar colecciones en memoria
-            follower.seguirA(target);
-            if (target instanceof Cliente) ((Cliente) target).addSeguidor(follower);
-            else if (target instanceof Aerolinea) ((Aerolinea) target).addSeguidor(follower);
-
-            // merge de las entidades que son persistentes (Cliente/Aerolinea)
-            if (follower instanceof Cliente) entManager.merge((Cliente) follower);
-            else if (follower instanceof Aerolinea) entManager.merge((Aerolinea) follower);
-            if (target instanceof Cliente) entManager.merge((Cliente) target);
-            else if (target instanceof Aerolinea) entManager.merge((Aerolinea) target);
-
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx.isActive()) tx.rollback();
-            throw new IllegalStateException("Error al persistir follow: " + e.getMessage(), e);
-        }
+        // Actualizar sets locales
+        follower.agregarSeguido(target);
+        target.agregarSeguidor(follower);
     }
 
     @Override
     public void unfollowUsuario(String followerNickname, String targetNickname) {
-        if (followerNickname == null || targetNickname == null) throw new IllegalArgumentException("Nick null");
-        if (followerNickname.equals(targetNickname)) throw new IllegalArgumentException("No puede dejar de seguirse a si mismo");
+        if (followerNickname == null || targetNickname == null)
+            throw new IllegalArgumentException("Nick null");
 
-        Cliente c = manejadorCliente.obtenerClienteReal(followerNickname);
-        Aerolinea a = manejadorAerolinea.obtenerAerolinea(followerNickname);
-        Usuario follower = (c != null) ? c : a;
+        if (followerNickname.equals(targetNickname))
+            throw new IllegalArgumentException("No puede dejar de seguirse a sí mismo");
 
-        Cliente c2 = manejadorCliente.obtenerClienteReal(targetNickname);
-        Aerolinea a2 = manejadorAerolinea.obtenerAerolinea(targetNickname);
-        Usuario target = (c2 != null) ? c2 : a2;
+        // Buscar en manejadores en memoria primero
+        Usuario follower = manejadorCliente.obtenerClienteReal(followerNickname);
+        if (follower == null) follower = manejadorAerolinea.obtenerAerolinea(followerNickname);
 
-        if (follower == null) throw new IllegalArgumentException("Seguidor no encontrado: " + followerNickname);
-        if (target == null) throw new IllegalArgumentException("Usuario a dejar de seguir no encontrado: " + targetNickname);
+        Usuario target = manejadorCliente.obtenerClienteReal(targetNickname);
+        if (target == null) target = manejadorAerolinea.obtenerAerolinea(targetNickname);
 
-        if (!follower.estaSiguiendoA(target)) throw new IllegalArgumentException("El usuario no seguía a ese usuario");
+        if (follower == null || target == null)
+            throw new IllegalArgumentException("Usuario no encontrado");
 
-        EntityTransaction tx = entManager.getTransaction();
-        try {
-            tx.begin();
-            // borrar el Follow
-            jakarta.persistence.Query q = entManager.createQuery("DELETE FROM Follow f WHERE f.id.follower = :f AND f.id.followed = :t");
-            q.setParameter("f", followerNickname);
-            q.setParameter("t", targetNickname);
-            q.executeUpdate();
+        // Delegar la eliminación al manejador, pasando el EntityManager
+        manejadorFollow.unfollowUsuario(followerNickname, targetNickname, entManager);
 
-            // actualizar colecciones en memoria
-            follower.dejarDeSeguirA(target);
-            if (target instanceof Cliente) ((Cliente) target).removeSeguidor(follower);
-            else if (target instanceof Aerolinea) ((Aerolinea) target).removeSeguidor(follower);
-
-            if (follower instanceof Cliente) entManager.merge((Cliente) follower);
-            else if (follower instanceof Aerolinea) entManager.merge((Aerolinea) follower);
-            if (target instanceof Cliente) entManager.merge((Cliente) target);
-            else if (target instanceof Aerolinea) entManager.merge((Aerolinea) target);
-
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx.isActive()) tx.rollback();
-            throw new IllegalStateException("Error al borrar follow: " + e.getMessage(), e);
-        }
+        follower.quitarSeguido(target);
+        target.quitarSeguidor(follower);
     }
 
+    // Devuelve la cantidad de seguidores de un usuario
     @Override
-    public boolean isFollowing(String followerNickname, String targetNickname) {
-        Cliente c = manejadorCliente.obtenerClienteReal(followerNickname);
-        Aerolinea a = manejadorAerolinea.obtenerAerolinea(followerNickname);
-        Usuario follower = (c != null) ? c : a;
+    public int obtenerCantidadSeguidores(String nickname) {
+        Usuario u = manejadorCliente.obtenerClienteReal(nickname);
+        if (u == null) u = manejadorAerolinea.obtenerAerolinea(nickname);
 
-        Cliente c2 = manejadorCliente.obtenerClienteReal(targetNickname);
-        Aerolinea a2 = manejadorAerolinea.obtenerAerolinea(targetNickname);
-        Usuario target = (c2 != null) ? c2 : a2;
+        if (u == null) throw new IllegalArgumentException("Usuario no encontrado");
 
-        if (follower == null || target == null) return false;
-        return follower.estaSiguiendoA(target);
+        return u.cantidadSeguidores();
     }
 
+    // Devuelve la cantidad de seguidos de un usuario
     @Override
-    public int countFollowers(String nickname) {
-        Cliente c = manejadorCliente.obtenerClienteReal(nickname);
-        Aerolinea a = manejadorAerolinea.obtenerAerolinea(nickname);
-        Usuario u = (c != null) ? c : a;
-        return u != null ? u.getSeguidores().size() : 0;
+    public int obtenerCantidadSeguidos(String nickname) {
+        Usuario u = manejadorCliente.obtenerClienteReal(nickname);
+        if (u == null) u = manejadorAerolinea.obtenerAerolinea(nickname);
+
+        if (u == null) throw new IllegalArgumentException("Usuario no encontrado");
+
+        return u.cantidadSeguidos();
     }
-
-    @Override
-    public int countFollowing(String nickname) {
-        Cliente c = manejadorCliente.obtenerClienteReal(nickname);
-        Aerolinea a = manejadorAerolinea.obtenerAerolinea(nickname);
-        Usuario u = (c != null) ? c : a;
-        return u != null ? u.getSiguiendo().size() : 0;
-    }
-
-    @Override
-    public java.util.List<String> getFollowers(String nickname) {
-        java.util.List<String> res = new java.util.ArrayList<>();
-        Cliente c = manejadorCliente.obtenerClienteReal(nickname);
-        Aerolinea a = manejadorAerolinea.obtenerAerolinea(nickname);
-        Usuario u = (c != null) ? c : a;
-        if (u != null) for (Usuario s : u.getSeguidores()) res.add(s.getNickname());
-        return res;
-    }
-
-    @Override
-    public java.util.List<String> getFollowing(String nickname) {
-        java.util.List<String> res = new java.util.ArrayList<>();
-        Cliente c = manejadorCliente.obtenerClienteReal(nickname);
-        Aerolinea a = manejadorAerolinea.obtenerAerolinea(nickname);
-        Usuario u = (c != null) ? c : a;
-        if (u != null) for (Usuario s : u.getSiguiendo()) res.add(s.getNickname());
-        return res;
-    }
-
-    /*Carga la tabla Follow y reconstruye relaciones en memoria entre clientes y aerolineas.
-    private void cargarFollowsDesdeBD() {
-        try {
-            TypedQuery<Follow> q = entManager.createQuery("SELECT f FROM Follow f", Follow.class);
-            List<Follow> follows = q.getResultList();
-            // limpiar relaciones existentes
-            for (Cliente cl : manejadorCliente.getClientesReales()) cl.rebuildSeguimientoFromNicknames(new java.util.HashMap<String, Usuario>());
-            for (Aerolinea ar : manejadorAerolinea.getAerolineas()) ar.rebuildSeguimientoFromNicknames(new java.util.HashMap<String, Usuario>());
-
-            // poblar relaciones
-            for (Follow f : follows) {
-                String follower = f.getFollower();
-                String followed = f.getFollowed();
-                Cliente cF = manejadorCliente.obtenerClienteReal(follower);
-                Aerolinea aF = manejadorAerolinea.obtenerAerolinea(follower);
-                Usuario uf = (cF != null) ? cF : aF;
-
-                Cliente cT = manejadorCliente.obtenerClienteReal(followed);
-                Aerolinea aT = manejadorAerolinea.obtenerAerolinea(followed);
-                Usuario ut = (cT != null) ? cT : aT;
-
-                if (uf != null && ut != null) {
-                    uf.seguirA(ut);
-                    if (ut instanceof Cliente) ((Cliente) ut).addSeguidor(uf);
-                    else if (ut instanceof Aerolinea) ((Aerolinea) ut).addSeguidor(uf);
-                }
-            }
-        } catch (RuntimeException e) {
-            // si falla la carga no detener la inicialización
-        }
-    }*/
 
 }
 

@@ -97,6 +97,27 @@ public class Main {
                     "contacto@flybondi.com", "https://www.flybondi.com", "pwdFlybondi", null);
             System.out.println("✅ Aerolíneas creadas");
 
+            // Probar FOLLOW
+            sistema.followUsuario("ana456", "juan123");
+            System.out.println("Follow persistido correctamente!");
+
+            sistema.followUsuario("ana456", "flybondi005");
+            System.out.println("Follow persistido correctamente!");
+
+            sistema.followUsuario("juan123", "ana456");
+            System.out.println("Follow persistido correctamente!");
+
+            System.out.println("ana456" + " tiene " + sistema.obtenerCantidadSeguidores("ana456") + " seguidores.");
+            System.out.println("ana456" + " sigue a " + sistema.obtenerCantidadSeguidos("ana456") + " usuarios.");
+
+
+            sistema.unfollowUsuario("ana456", "juan123");
+            System.out.println("UnFollow persistido correctamente!");
+
+            System.out.println("ana456" + " tiene " + sistema.obtenerCantidadSeguidores("ana456") + " seguidores.");
+            System.out.println("ana456" + " sigue a " + sistema.obtenerCantidadSeguidos("ana456") + " usuarios.");
+
+
             sistema.altaRutaVuelo("SCL-MIA", "Santiago a Miami", "Directo",
                     sistema.obtenerAerolinea("latam001"),
                     "Santiago", "Miami", "08:00", LocalDate.now(),

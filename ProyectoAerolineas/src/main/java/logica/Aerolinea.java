@@ -172,43 +172,4 @@ public class Aerolinea extends Usuario {
         return this.getNickname() != null ? this.getNickname().hashCode() : 0;
     }
 
-    // Seguimiento implementations
-    @Override
-    public Set<Usuario> getSeguidores() { return seguidores; }
-
-    @Override
-    public Set<Usuario> getSiguiendo() { return siguiendo; }
-
-    @Override
-    public boolean estaSiguiendoA(Usuario otro) {
-        if (otro == null) return false;
-        return this.siguiendo.contains(otro);
-    }
-
-    @Override
-    public void seguirA(Usuario otro) {
-        if (otro == null) throw new IllegalArgumentException("Usuario objetivo null");
-        if (this.getNickname() == null || this.getNickname().equals(otro.getNickname()))
-            throw new IllegalArgumentException("No puede seguirse a si mismo");
-        if (this.estaSiguiendoA(otro)) throw new IllegalArgumentException("Ya sigue a ese usuario");
-        this.siguiendo.add(otro);
-        if (otro instanceof Cliente) ((Cliente) otro).addSeguidor(this);
-        if (otro instanceof Aerolinea) ((Aerolinea) otro).addSeguidor(this);
-    }
-
-    @Override
-    public void dejarDeSeguirA(Usuario otro) {
-        if (otro == null) throw new IllegalArgumentException("Usuario objetivo null");
-        if (!this.estaSiguiendoA(otro)) throw new IllegalArgumentException("No sigue a ese usuario");
-        this.siguiendo.remove(otro);
-        if (otro instanceof Cliente) ((Cliente) otro).removeSeguidor(this);
-        if (otro instanceof Aerolinea) ((Aerolinea) otro).removeSeguidor(this);
-    }
-
-    // Métodos para que otras instancias añadan/quiten seguidores
-    public void addSeguidor(Usuario u) { if (u != null) seguidores.add(u); }
-    public void removeSeguidor(Usuario u) { if (u != null) seguidores.remove(u); }
-    public void setSiguiendo(Set<Usuario> s) { this.siguiendo = s; }
-    public void setSeguidores(Set<Usuario> s) { this.seguidores = s; }
-
 }
