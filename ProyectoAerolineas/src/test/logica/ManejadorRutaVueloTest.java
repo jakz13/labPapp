@@ -115,7 +115,7 @@ class ManejadorRutaVueloTest {
         List<RutaVuelo> todas = mr.getRutasPorAerolinea(aeroA.getNombre());
         assertTrue(todas.size() >= 2);
 
-        List<RutaVuelo> filtradas = mr.getRutasPorEstadoYAerolinea(aeroA.getNombre(), RutaVuelo.EstadoRuta.CONFIRMADA);
+        List<RutaVuelo> filtradas = mr.getRutasPorEstadoYAerolinea(aeroA.getNombre(),CONFIRMADA);
         assertEquals(1, filtradas.size());
 
         // cambiar estado success

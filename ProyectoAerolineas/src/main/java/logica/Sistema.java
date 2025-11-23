@@ -332,7 +332,7 @@ public class Sistema implements ISistema {
         List<DtAerolinea> aerolineasConPendientes = new ArrayList<>();
         for (DtAerolinea aero : manejadorAerolinea.getDtAerolineas()) {
             List<RutaVuelo> rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(
-                    aero.getNombre(), RutaVuelo.EstadoRuta.INGRESADA);
+                    aero.getNombre(), INGRESADA);
             if (!rutasPendientes.isEmpty()) {
                 aerolineasConPendientes.add(aero);
             }
@@ -344,7 +344,7 @@ public class Sistema implements ISistema {
     @Override
     public List<DtRutaVuelo> obtenerRutasPendientesPorAerolinea(String nombreAerolinea) {
         List<RutaVuelo> rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(
-                nombreAerolinea, RutaVuelo.EstadoRuta.INGRESADA);
+                nombreAerolinea, INGRESADA);
 
         List<DtRutaVuelo> dtRutasPendientes = new ArrayList<>();
         for (RutaVuelo ruta : rutasPendientes) {
@@ -355,7 +355,7 @@ public class Sistema implements ISistema {
 
     @Override
     public void aceptarRutaVuelo(String nombreRuta) {
-        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RutaVuelo.EstadoRuta.CONFIRMADA, entManager);
+        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta,CONFIRMADA, entManager);
     }
 
     @Override
@@ -767,7 +767,7 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("No se encontró la ruta con ese nombre.");
         }
 
-        if (ruta.getEstado() != RutaVuelo.EstadoRuta.CONFIRMADA) {
+        if (ruta.getEstado() != CONFIRMADA) {
             throw new IllegalArgumentException("No se puede agregar una ruta que no esté CONFIRMADA al paquete. Ruta actual: " + ruta.getEstado());
         }
 

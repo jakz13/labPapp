@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mockStatic;
+import static logica.EstadoRuta.*;
 
 class SistemaTest {
 
@@ -631,12 +632,12 @@ class SistemaTest {
         DataTypes.DtAerolinea dta = mock(DataTypes.DtAerolinea.class);
         when(dta.getNombre()).thenReturn("AerolineaX");
         when(maMock.getDtAerolineas()).thenReturn(List.of(dta));
-        when(mrMock.getRutasPorEstadoYAerolinea(eq("AerolineaX"), eq(RutaVuelo.EstadoRuta.INGRESADA))).thenReturn(List.of(ruta));
+        when(mrMock.getRutasPorEstadoYAerolinea(eq("AerolineaX"), eq(INGRESADA))).thenReturn(List.of(ruta));
         List<DataTypes.DtAerolinea> aeroPend = new Sistema().obtenerAerolineasConRutasPendientes();
         assertEquals(1, aeroPend.size());
 
         // obtenerRutasPendientesPorAerolinea
-        when(mrMock.getRutasPorEstadoYAerolinea(eq("AerolineaX"), eq(RutaVuelo.EstadoRuta.INGRESADA))).thenReturn(List.of(ruta));
+        when(mrMock.getRutasPorEstadoYAerolinea(eq("AerolineaX"), eq(INGRESADA))).thenReturn(List.of(ruta));
         List<DataTypes.DtRutaVuelo> dtR = new Sistema().obtenerRutasPendientesPorAerolinea("AerolineaX");
         // como ruta.getDtRutaVuelo() no está stubbeado, puede devolver null; nos aseguramos que lista tenga el mismo tamaño
         assertEquals(1, dtR.size());

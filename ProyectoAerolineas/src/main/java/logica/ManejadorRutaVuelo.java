@@ -214,7 +214,7 @@ public final class ManejadorRutaVuelo {
     /**
      * Filtra rutas por estado y aerolínea.
      */
-    public List<RutaVuelo> getRutasPorEstadoYAerolinea(String nombreAerolinea, RutaVuelo.EstadoRuta estado) {
+    public List<RutaVuelo> getRutasPorEstadoYAerolinea(String nombreAerolinea, EstadoRuta estado) {
         List<RutaVuelo> rutasFiltradas = new ArrayList<>();
         for (RutaVuelo ruta : rutasVuelo.values()) {
             if (ruta.getAerolinea() != null &&

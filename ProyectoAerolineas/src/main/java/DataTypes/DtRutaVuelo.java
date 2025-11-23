@@ -1,5 +1,7 @@
 package DataTypes;
 
+import logica.EstadoRuta;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class DtRutaVuelo {
     private double costoTurista;
     private double costoEjecutivo;
     private double costoEquipajeExtra;
-    private String estado;
+    private EstadoRuta estado;
     private List<String> categorias;
     private List<DtVuelo> vuelos;
     private int contadorVisitas;
@@ -77,7 +79,7 @@ public class DtRutaVuelo {
     public double getCostoTurista() { return costoTurista; }
     public double getCostoEjecutivo() { return costoEjecutivo; }
     public double getCostoEquipajeExtra() { return costoEquipajeExtra; }
-    public String getEstado() { return estado; }
+    public EstadoRuta getEstado() { return estado; }
     public List<String> getCategorias() { return categorias; }
     public List<DtVuelo> getVuelos() { return vuelos; }
     public int getContadorVisitas() { return contadorVisitas; }

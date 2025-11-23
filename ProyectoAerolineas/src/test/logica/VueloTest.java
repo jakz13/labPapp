@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.util.*;
-import logica.RutaVuelo.EstadoRuta;
+import static logica.EstadoRuta.*;
 
 class VueloTest {
 
@@ -40,7 +40,7 @@ class VueloTest {
         when(rutaVueloMock.getCostoTurista()).thenReturn(200.0);
         when(rutaVueloMock.getCostoEjecutivo()).thenReturn(400.0);
         when(rutaVueloMock.getCostoEquipajeExtra()).thenReturn(50.0);
-        when(rutaVueloMock.getEstado()).thenReturn(EstadoRuta.INGRESADA);
+        when(rutaVueloMock.getEstado()).thenReturn(INGRESADA);
         when(rutaVueloMock.getCategorias()).thenReturn(Arrays.asList("Turismo", "Negocios"));
 
         // Asegurar que getDtRutaVuelo esté disponible en el mock para que getDtVuelo incluya la ruta
