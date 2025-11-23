@@ -867,11 +867,11 @@ public class Sistema implements ISistema {
                 dtRutas.add(ruta.getDtRutaVuelo());
             }
 
-            System.out.println("[SISTEMA] ✅ Top " + dtRutas.size() + " rutas más visitadas obtenidas");
+            System.out.println("[SISTEMA] Top " + dtRutas.size() + " rutas más visitadas obtenidas");
             return dtRutas;
 
         } catch (Exception e) {
-            System.err.println("[SISTEMA] ❌ Error obteniendo DTOs de rutas visitadas: " + e.getMessage());
+            System.err.println("[SISTEMA] Error obteniendo DTOs de rutas visitadas: " + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -881,7 +881,7 @@ public class Sistema implements ISistema {
         try {
             manejadorRutaVuelo.incrementarVisitasRuta(nombreRuta, entManager);
         } catch (Exception e) {
-            System.err.println("[SISTEMA] ❌ Error incrementando visitas: " + e.getMessage());
+            System.err.println("[SISTEMA] Error incrementando visitas: " + e.getMessage());
             throw new RuntimeException("Error al incrementar visitas para ruta: " + nombreRuta, e);
         }
     }
@@ -892,7 +892,7 @@ public class Sistema implements ISistema {
             RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
             return ruta != null ? ruta.getContadorVisitas() : 0;
         } catch (Exception e) {
-            System.err.println("[SISTEMA] ❌ Error obteniendo total de visitas: " + e.getMessage());
+            System.err.println("[SISTEMA] Error obteniendo total de visitas: " + e.getMessage());
             return 0;
         }
     }
