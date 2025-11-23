@@ -97,12 +97,12 @@ public class Aerolinea extends Usuario {
                             ruta.getNombre(),
                             ruta.getDescripcion(),
                             descripcionCorta,
-                            ruta.getImagenUrl(),    // ✅ imagenUrl (solo una vez)
-                            ruta.getVideoUrl(),     // ✅ videoUrl (solo una vez)
-                            nombreAerolinea,        // ✅ aerolinea
-                            ruta.getCiudadOrigen(), // ✅ ciudadOrigen (solo una vez)
-                            ruta.getCiudadDestino(), // ✅ ciudadDestino (solo una vez)
-                            ruta.getHora(),         // ✅ hora (solo una vez)
+                            ruta.getImagenUrl(),
+                            ruta.getVideoUrl(),
+                            nombreAerolinea,
+                            ruta.getCiudadOrigen(),
+                            ruta.getCiudadDestino(),
+                            ruta.getHora(),
                             ruta.getFechaAlta(),
                             ruta.getCostoTurista(),
                             ruta.getCostoEjecutivo(),

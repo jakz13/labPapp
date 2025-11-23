@@ -206,12 +206,12 @@ public final class ManejadorPaquete {
                         ruta.getNombre(),
                         ruta.getDescripcion(),
                         ruta.getDescripcionCorta(),
-                        ruta.getImagenUrl(),                    // ✅ imagenUrl
-                        ruta.getVideoUrl(),                     // ✅ videoUrl
-                        ruta.getAerolinea().getNombre(),        // ✅ aerolinea (solo una vez)
-                        ruta.getCiudadOrigen(),                 // ✅ ciudadOrigen (solo una vez)
-                        ruta.getCiudadDestino(),                // ✅ ciudadDestino (solo una vez)
-                        ruta.getHora(),                         // ✅ hora (solo una vez)
+                        ruta.getImagenUrl(),
+                        ruta.getVideoUrl(),
+                        ruta.getAerolinea().getNombre(),
+                        ruta.getCiudadOrigen(),
+                        ruta.getCiudadDestino(),
+                        ruta.getHora(),
                         ruta.getFechaAlta(),
                         ruta.getCostoTurista(),
                         ruta.getCostoEjecutivo(),

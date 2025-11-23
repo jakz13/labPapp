@@ -355,12 +355,12 @@ public class Sistema implements ISistema {
 
     @Override
     public void aceptarRutaVuelo(String nombreRuta) {
-        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta,CONFIRMADA, entManager);
+        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.CONFIRMADA, entManager);
     }
 
     @Override
     public void rechazarRutaVuelo(String nombreRuta) {
-        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, RECHAZADA, entManager);
+        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.RECHAZADA, entManager);
     }
 
     @Override
@@ -381,6 +381,27 @@ public class Sistema implements ISistema {
         RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
         if (ruta == null) {
             throw new IllegalArgumentException("La ruta " + nombreRuta + " no existe.");
+        }
+
+        // **Validar estado de la ruta**
+        EstadoRuta estado = ruta.getEstado();
+        if (estado != EstadoRuta.CONFIRMADA) {
+            if (estado == EstadoRuta.INGRESADA) {
+                throw new IllegalArgumentException(
+                        "No se puede dar de alta un vuelo para la ruta " + nombreRuta +
+                                " porque su estado es INGRESADA. Primero debe ser confirmada."
+                );
+            } else if (estado == EstadoRuta.FINALIZADA) {
+                throw new IllegalArgumentException(
+                        "No se puede dar de alta un vuelo para la ruta " + nombreRuta +
+                                " porque está FINALIZADA."
+                );
+            } else {
+                throw new IllegalArgumentException(
+                        "No se puede dar de alta un vuelo para la ruta " + nombreRuta +
+                                " porque no está CONFIRMADA. Estado actual: " + estado
+                );
+            }
         }
 
         if (manejadorRutaVuelo.getVueloDeRuta(nombreRuta, nombreVuelo) != null) {
@@ -835,6 +856,7 @@ public class Sistema implements ISistema {
         }
     }
 
+    @Override
     public List<DtRutaVuelo> listarRutasConfirmadas(int limite) {
         List<DtRutaVuelo> rutasConfirmadas = new ArrayList<>();
         List<DtAerolinea> aerolineas = listarAerolineas();
@@ -867,13 +889,99 @@ public class Sistema implements ISistema {
                 dtRutas.add(ruta.getDtRutaVuelo());
             }
 
-            System.out.println("[SISTEMA] ✅ Top " + dtRutas.size() + " rutas más visitadas obtenidas");
+            System.out.println("[SISTEMA] Top " + dtRutas.size() + " rutas más visitadas obtenidas");
             return dtRutas;
 
         } catch (Exception e) {
-            System.err.println("[SISTEMA] ❌ Error obteniendo DTOs de rutas visitadas: " + e.getMessage());
+            System.err.println("[SISTEMA] Error obteniendo DTOs de rutas visitadas: " + e.getMessage());
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public List<DtRutaVuelo> listarRutasFinalizables(String nombreAerolinea) {
+        List<DtRutaVuelo> rutasFinalizables = new ArrayList<>();
+        List<DtRutaVuelo> rutasAerolinea = listarRutasPorAerolinea(nombreAerolinea);
+
+        for (DtRutaVuelo ruta : rutasAerolinea) {
+            if (puedeFinalizarRuta(ruta.getNombre()) == 4) {
+                rutasFinalizables.add(ruta);
+            }
+        }
+        return rutasFinalizables;
+    }
+
+    @Override
+    public void finalizarRutaVuelo(String nombreRuta) {
+        if (puedeFinalizarRuta(nombreRuta) != 4) {
+            throw new IllegalArgumentException("La ruta no puede ser finalizada: " + nombreRuta);
+        }
+
+        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.FINALIZADA, entManager);
+        LOGGER.info("Ruta finalizada: " + nombreRuta);
+    }
+
+    @Override
+    public int puedeFinalizarRuta(String nombreRuta) {
+        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
+        if (ruta == null) {
+            return 0;
+        }
+
+        // 1. Verificar que esté en estado CONFIRMADA
+        if (ruta.getEstado() != EstadoRuta.CONFIRMADA) {
+            return 1;
+        }
+
+        // 2. Verificar que no tenga vuelos pendientes (fecha futura)
+        if (tieneVuelosPendientes(ruta)) {
+            return 2;
+        }
+
+        // 3. Verificar que no esté en ningún paquete activo
+        if (estaEnPaqueteActivo(ruta)) {
+            return 3;
+        }
+
+        return 4;
+    }
+
+    // Método auxiliar para verificar vuelos pendientes
+    private boolean tieneVuelosPendientes(RutaVuelo ruta) {
+        LocalDate hoy = LocalDate.now();
+        for (Vuelo vuelo : ruta.getVuelos()) {
+            if (vuelo.getFecha().isAfter(hoy)) {
+                return true; // Tiene vuelos con fecha futura
+            }
+        }
+        return false;
+    }
+
+    // Método auxiliar para verificar si está en paquete activo
+    private boolean estaEnPaqueteActivo(RutaVuelo ruta) {
+        List<DtPaquete> paquetes = listarPaquetes();
+        for (DtPaquete paquete : paquetes) {
+            if (paqueteContieneRuta(paquete.getNombre(), ruta.getNombre())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Método auxiliar - implementado usando ManejadorPaquete
+    private boolean paqueteContieneRuta(String nombrePaquete, String nombreRuta) {
+        Paquete paquete = manejadorPaquete.obtenerPaquete(nombrePaquete);
+        if (paquete == null) {
+            return false;
+        }
+
+        // Verificar si el paquete contiene la ruta en sus items
+        for (ItemPaquete item : paquete.getItemPaquetes()) {
+            if (item.getRutaVuelo().getNombre().equals(nombreRuta)) {
+                return true;
+            }
+        }
+        return false;
     }
 /*
     // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================

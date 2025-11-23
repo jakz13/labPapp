@@ -75,7 +75,7 @@ public class RutaVuelo {
 
     /** Estado actual de la ruta (INGRESADA/CONFIRMADA/RECHAZADA). */
     @Enumerated(EnumType.STRING)
-    private EstadoRuta estado = INGRESADA;
+    private EstadoRuta estado;
 
     /** Categorías asociadas a la ruta. */
     @ElementCollection
