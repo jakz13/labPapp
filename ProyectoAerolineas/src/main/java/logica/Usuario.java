@@ -69,7 +69,8 @@ public abstract class Usuario {
         this.nickname = nickname;
         this.nombre = nombre;
         this.email = email;
-        this.imagenUrl = imagenUrl; // Por defecto sin imagen
+        // Normalizar la imagen al crear el usuario (trim y empty -> null)
+        this.setImagenUrl(imagenUrl);
         this.passwordSalt = PasswordManager.generarSalt();
         this.passwordHash = PasswordManager.hashPassword(password, this.passwordSalt);
         this.fechaAlta = LocalDate.now();
@@ -94,8 +95,15 @@ public abstract class Usuario {
     public void setEmail(String email) { this.email = email; }
     /** Actualiza el nombre del usuario. */
     public void setNombre(String nombre) { this.nombre = nombre; }
-    /** Actualiza la URL de la imagen del usuario. */
-    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+    /** Actualiza la URL de la imagen del usuario (normaliza: trim y empty->null). */
+    public void setImagenUrl(String imagenUrl) {
+        if (imagenUrl == null) {
+            this.imagenUrl = null;
+        } else {
+            String v = imagenUrl.trim();
+            this.imagenUrl = v.isEmpty() ? null : v;
+        }
+    }
 
     /**
      * Actualiza la contraseña del usuario generando un nuevo salt y hash.
