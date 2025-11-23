@@ -14,6 +14,7 @@ Presentacion\gui\guiSesion\AltaAereolinea$2.class
 Presentacion\gui\guiSesion\AceptarRuta$1.class
 Presentacion\gui\IntentoDiseño$13.class
 logica\Categoria.class
+logica\EstadoReserva.class
 logica\ManejadorCategoria.class
 DataTypes\DtItemPaquete.class
 Presentacion\gui\guiSesion\ModificarDatosAereolinea.class

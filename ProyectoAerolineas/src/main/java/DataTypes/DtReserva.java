@@ -1,21 +1,28 @@
 package DataTypes;
 
 import logica.TipoAsiento;
-
+import logica.EstadoReserva;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DtReserva {
-    private Long id;  // Cambiado de String a Long
+    private Long id;
     private LocalDate fecha;
     private double costo;
     private TipoAsiento tipoAsiento;
     private int cantidadPasajes;
     private int unidadesEquipajeExtra;
     private List<DtPasajero> pasajeros;
-    private String vuelo; // nombre del vuelo, para no exponer la entidad completa
+    private String vuelo;
 
-    // Constructor con Long id
+    private EstadoReserva estado = EstadoReserva.PENDIENTE;
+    private LocalDate fechaCheckin;
+    private LocalTime horaInicioEmbarque;
+    private List<String> asientosAsignados = new ArrayList<>();
+
+    // Constructor completo
     public DtReserva(Long id, LocalDate fecha, double costo, TipoAsiento tipoAsiento,
                      int cantidadPasajes, int unidadesEquipajeExtra,
                      List<DtPasajero> pasajeros, String vuelo) {
@@ -29,7 +36,7 @@ public class DtReserva {
         this.vuelo = vuelo;
     }
 
-    // Constructor alternativo que acepta la entidad Reserva
+    // Constructor desde entidad Reserva
     public DtReserva(logica.Reserva reserva) {
         this.id = reserva.getId();
         this.fecha = reserva.getFecha();
@@ -39,10 +46,14 @@ public class DtReserva {
         this.unidadesEquipajeExtra = reserva.getUnidadesEquipajeExtra();
         this.pasajeros = reserva.getDtPasajeros();
         this.vuelo = reserva.getVuelo() != null ? reserva.getVuelo().getNombre() : "N/A";
+        this.estado = reserva.getEstado();
+        this.fechaCheckin = reserva.getFechaCheckin();
+        this.horaInicioEmbarque = reserva.getHoraInicioEmbarque();
+        this.asientosAsignados = reserva.getAsientosAsignados();
     }
 
     // ===== Getters =====
-    public Long getId() { return id; }  // Cambiado a Long
+    public Long getId() { return id; }
     public LocalDate getFecha() { return fecha; }
     public double getCosto() { return costo; }
     public TipoAsiento getTipoAsiento() { return tipoAsiento; }
@@ -50,10 +61,15 @@ public class DtReserva {
     public int getUnidadesEquipajeExtra() { return unidadesEquipajeExtra; }
     public List<DtPasajero> getPasajeros() { return pasajeros; }
     public String getVuelo() { return vuelo; }
+    public EstadoReserva getEstado() { return estado; }
+    public LocalDate getFechaCheckin() { return fechaCheckin; }
+    public LocalTime getHoraInicioEmbarque() { return horaInicioEmbarque; }
+    public List<String> getAsientosAsignados() { return asientosAsignados; }
 
     @Override
     public String toString() {
-        return "Reserva #" + id +  // Ahora muestra el ID numérico
-                " | Vuelo: " + vuelo;
+        return "Reserva #" + id +
+                " | Vuelo: " + vuelo +
+                " | Estado: " + estado;
     }
 }

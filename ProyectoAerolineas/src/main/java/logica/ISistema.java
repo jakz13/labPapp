@@ -10,6 +10,7 @@ import DataTypes.DtCategoria;
 import DataTypes.DtItemPaquete;
 import DataTypes.DtReserva;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -60,7 +61,9 @@ public interface ISistema {
 
     RutaVuelo obtenerRuta(String nombreRuta);
     List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
-
+    List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
+    void incrementarVisitasRuta(String nombreRuta);
+    int obtenerTotalVisitasRuta(String nombreRuta);
     // Métodos para aceptar/rechazar rutas
     List<DtAerolinea> obtenerAerolineasConRutasPendientes();
     List<DtRutaVuelo> obtenerRutasPendientesPorAerolinea(String nombreAerolinea);
@@ -84,7 +87,9 @@ public interface ISistema {
     void registrarReservaVuelo(String nicknameCliente, String nombreVuelo, Reserva reserva);
     DtReserva obtenerReserva(Long idReserva, String nicknameCliente);
     double calcularCostoReserva(String nombreVuelo, TipoAsiento tipoAsiento, int cantidadPasajes, int unidadesEquipajeExtra);
-
+    List<DtReserva> obtenerReservasConCheckin(String nicknameCliente);
+    DtReserva consultarCheckinReserva(Long idReserva, String nicknameCliente);
+    void realizarCheckinReserva(Long idReserva, List<String> asientosAsignados, LocalTime horaEmbarque);
     // =================== Paquetes ===================
     void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias);
     List<DtPaquete> listarPaquetes();
@@ -126,7 +131,6 @@ public interface ISistema {
     String obtenerImagenRuta(String nombreRuta);
     List<DtRutaVuelo> listarRutasConfirmadas(int limite);
     DtVuelo verInfoVueloDt(String nombreVuelo);
-    List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
-    void incrementarVisitasRuta(String nombreRuta);
-    int obtenerTotalVisitasRuta(String nombreRuta);
+
+
 }

@@ -18,6 +18,7 @@ import DataTypes.DtItemPaquete;
 
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -895,6 +896,85 @@ public class Sistema implements ISistema {
             System.err.println("[SISTEMA] Error obteniendo total de visitas: " + e.getMessage());
             return 0;
         }
+    }
+
+    @Override
+    public List<DtReserva> obtenerReservasConCheckin(String nicknameCliente) {
+        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+
+        List<DtReserva> reservasConCheckin = new ArrayList<>();
+        for (DtReserva reserva : cliente.getReservas()) {
+            // Aquí necesitarías verificar el estado de la reserva
+            // Esto requiere cargar la reserva completa desde la base de datos
+            Reserva reservaCompleta = obtenerReservaCompleta(reserva.getId());
+            if (reservaCompleta != null && reservaCompleta.getEstado() == EstadoReserva.CHECKIN_REALIZADO) {
+                reservasConCheckin.add(new DtReserva(reservaCompleta));
+            }
+        }
+        return reservasConCheckin;
+    }
+
+    @Override
+    public DtReserva consultarCheckinReserva(Long idReserva, String nicknameCliente) {
+        DtCliente cliente = manejadorCliente.obtenerCliente(nicknameCliente);
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente no encontrado");
+        }
+
+        // Verificar que la reserva pertenece al cliente
+        boolean reservaPertenece = false;
+        for (DtReserva r : cliente.getReservas()) {
+            if (r.getId().equals(idReserva)) {
+                reservaPertenece = true;
+                break;
+            }
+        }
+
+        if (!reservaPertenece) {
+            throw new IllegalArgumentException("La reserva no pertenece al cliente");
+        }
+
+        Reserva reservaCompleta = obtenerReservaCompleta(idReserva);
+        if (reservaCompleta == null) {
+            throw new IllegalArgumentException("Reserva no encontrada");
+        }
+
+        if (reservaCompleta.getEstado() != EstadoReserva.CHECKIN_REALIZADO) {
+            throw new IllegalStateException("Check-in no realizado para esta reserva");
+        }
+
+        return new DtReserva(reservaCompleta);
+    }
+
+    @Override
+    public void realizarCheckinReserva(Long idReserva, List<String> asientosAsignados, LocalTime horaEmbarque) {
+        EntityTransaction tx = entManager.getTransaction();
+        try {
+            tx.begin();
+
+            Reserva reserva = entManager.find(Reserva.class, idReserva);
+            if (reserva == null) {
+                throw new IllegalArgumentException("Reserva no encontrada");
+            }
+
+            reserva.realizarCheckin(asientosAsignados, horaEmbarque);
+            entManager.merge(reserva);
+
+            tx.commit();
+            LOGGER.info("Check-in realizado para reserva: " + idReserva);
+
+        } catch (Exception e) {
+            if (tx.isActive()) tx.rollback();
+            throw new IllegalStateException("Error al realizar check-in: " + e.getMessage(), e);
+        }
+    }
+
+    // Método auxiliar para obtener reserva completa
+    private Reserva obtenerReservaCompleta(Long idReserva) {
+        return entManager.find(Reserva.class, idReserva);
     }
 /*
     // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================
