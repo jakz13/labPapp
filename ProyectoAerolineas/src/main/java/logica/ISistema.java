@@ -127,4 +127,6 @@ public interface ISistema {
     List<DtRutaVuelo> listarRutasConfirmadas(int limite);
     DtVuelo verInfoVueloDt(String nombreVuelo);
     List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
+    void incrementarVisitasRuta(String nombreRuta);
+    int obtenerTotalVisitasRuta(String nombreRuta);
 }

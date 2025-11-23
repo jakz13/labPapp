@@ -875,6 +875,27 @@ public class Sistema implements ISistema {
             return new ArrayList<>();
         }
     }
+
+    @Override
+    public void incrementarVisitasRuta(String nombreRuta) {
+        try {
+            manejadorRutaVuelo.incrementarVisitasRuta(nombreRuta, entManager);
+        } catch (Exception e) {
+            System.err.println("[SISTEMA] ❌ Error incrementando visitas: " + e.getMessage());
+            throw new RuntimeException("Error al incrementar visitas para ruta: " + nombreRuta, e);
+        }
+    }
+
+    @Override
+    public int obtenerTotalVisitasRuta(String nombreRuta) {
+        try {
+            RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
+            return ruta != null ? ruta.getContadorVisitas() : 0;
+        } catch (Exception e) {
+            System.err.println("[SISTEMA] ❌ Error obteniendo total de visitas: " + e.getMessage());
+            return 0;
+        }
+    }
 /*
     // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================
     @Override
