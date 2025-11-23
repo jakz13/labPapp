@@ -985,7 +985,7 @@ public class Sistema implements ISistema {
         }
         return false;
     }
-/*
+
     // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================
 
     @Override
