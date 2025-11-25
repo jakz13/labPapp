@@ -9,8 +9,7 @@ public class DtUsuario {
     private String imagenUrl;
     private LocalDate fechaAlta;
 
-    public DtUsuario() {
-    }
+    public DtUsuario() {}
 
     public DtUsuario(String nickname, String nombre, String email, LocalDate fechaAlta) {
         this.nickname = nickname;

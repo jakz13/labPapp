@@ -5,8 +5,7 @@ public class DtItemPaquete {
     private int cantAsientos;
     private String tipoAsiento; // en texto para facilitar transporte
 
-    public DtItemPaquete() {
-    }
+    public DtItemPaquete() {}
 
     public DtItemPaquete(DtRutaVuelo rutaVuelo, int cantAsientos, String tipoAsiento) {
         this.rutaVuelo = rutaVuelo;
@@ -16,7 +15,6 @@ public class DtItemPaquete {
 
     // --- Getters y Setters ---
 
-
     public DtRutaVuelo getRutaVuelo() {
         return rutaVuelo;
     }
@@ -24,7 +22,6 @@ public class DtItemPaquete {
     public void setRutaVuelo(DtRutaVuelo rutaVuelo) {
         this.rutaVuelo = rutaVuelo;
     }
-
 
     public int getCantAsientos() {
         return cantAsientos;

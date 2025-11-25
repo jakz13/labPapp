@@ -4,8 +4,7 @@ public class DtPasajero {
     private String nombre;
     private String apellido;
 
-    public DtPasajero() {
-    }
+    public DtPasajero() {}
 
     public DtPasajero(String nombre, String apellido) {
         this.nombre = nombre;
@@ -13,7 +12,6 @@ public class DtPasajero {
     }
 
     // --- Getters y Setters ---
-
 
     public String getNombre() {
         return nombre;

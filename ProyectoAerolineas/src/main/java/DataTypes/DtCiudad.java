@@ -10,8 +10,7 @@ public class DtCiudad {
     private String sitioWeb;
     private LocalDate fechaAlta;
 
-    public DtCiudad() {
-    }
+    public DtCiudad() {}
 
     public DtCiudad(Long id, String nombre, String pais, String aeropuerto, String descripcion, String sitioWeb, LocalDate fechaAlta) {
         this.nombre = nombre;
@@ -28,9 +27,6 @@ public class DtCiudad {
     }
 
     // --- Getters y Setters ---
-
-
-
 
     public String getNombre() {
         return nombre;

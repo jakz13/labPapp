@@ -22,6 +22,9 @@ public class DtReserva {
     private LocalTime horaInicioEmbarque;
     private List<String> asientosAsignados = new ArrayList<>();
 
+
+    public  DtReserva() {}
+
     // Constructor completo
     public DtReserva(Long id, LocalDate fecha, double costo, TipoAsiento tipoAsiento,
                      int cantidadPasajes, int unidadesEquipajeExtra,

@@ -15,6 +15,8 @@ public class DtVuelo {
     private List<DtReserva> reservas;
     private String imagenUrl;
 
+    public DtVuelo() {}
+
     public DtVuelo(String nombre, String nombreAerolinea, LocalDate fecha, int duracion, int asientosTurista, int asientosEjecutivo,
                    LocalDate fechaAlta, DtRutaVuelo rutaVuelo, List<DtReserva> reservas, String imagenUrl) {
         this.nombre = nombre;
@@ -40,6 +42,18 @@ public class DtVuelo {
     public DtRutaVuelo getRutaVuelo() { return rutaVuelo; }
     public List<DtReserva> getReservas() { return reservas; }
     public String getImagenUrl() {return this.imagenUrl; }
+
+    //SETTERS
+    public void setNombre(String nombre) { this.nombre = nombre;}
+    public void setNombreAerolinea(String nombreAerolinea) { this.nombreAerolinea = nombreAerolinea;}
+    public void setFecha(LocalDate fecha) { this.fecha = fecha;}
+    public void setDuracion(int duracion) { this.duracion = duracion;}
+    public void setAsientosTurista(int asientosTurista) { this.asientosTurista = asientosTurista;}
+    public void setAsientosEjecutivo(int asientosEjecutivo) { this.asientosEjecutivo = asientosEjecutivo;}
+    public void setFechaAlta(LocalDate fechaAlta) { this.fechaAlta = fechaAlta;}
+    public void setRutaVuelo(DtRutaVuelo rutaVuelo) { this.rutaVuelo = rutaVuelo;}
+    public void setReservas(List<DtReserva> reservas) { this.reservas = reservas;}
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl;}
 
     @Override
     public String toString() {
