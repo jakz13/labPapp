@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 import static logica.EstadoRuta.*;
@@ -19,6 +21,8 @@ import static logica.EstadoRuta.*;
  * Permite cargar, agregar y actualizar rutas y vuelos asociados.
  */
 public final class ManejadorRutaVuelo {
+
+    private static final Logger LOGGER = Logger.getLogger(ManejadorRutaVuelo.class.getName());
 
     private Map<String, RutaVuelo> rutasVuelo;
     private static ManejadorRutaVuelo instancia = null;
@@ -232,15 +236,64 @@ public final class ManejadorRutaVuelo {
     public void cambiarEstadoRuta(String nombreRuta, EstadoRuta nuevoEstado, EntityManager entManager) {
         RutaVuelo ruta = rutasVuelo.get(nombreRuta);
         if (ruta != null) {
-            ruta.setEstado(nuevoEstado);
             EntityTransaction entTransaction = entManager.getTransaction();
             try {
                 entTransaction.begin();
-                entManager.merge(ruta);
+
+                // Intentar obtener la entidad gestionada desde el EntityManager
+                RutaVuelo managed = null;
+                Long id = ruta.getIdRutaVuelo();
+                if (id != null) {
+                    managed = entManager.find(RutaVuelo.class, id);
+                }
+
+                // Si no se encontró por id, buscar por nombre en la BD
+                try {
+                    TypedQuery<RutaVuelo> q = entManager.createQuery("SELECT r FROM RutaVuelo r WHERE r.nombre = :n", RutaVuelo.class);
+                    q.setParameter("n", nombreRuta);
+                    List<RutaVuelo> res = q.getResultList();
+                    if (res.isEmpty()) {
+                        throw new IllegalArgumentException("Ruta no encontrada en la base de datos: " + nombreRuta);
+                    }
+                    managed = res.get(0);
+
+                    // Asegurar que la Aerolinea asociada esté gestionada por este EntityManager
+                    if (managed.getAerolinea() != null) {
+                        try {
+                            String aeroNick = managed.getAerolinea().getNickname();
+                            if (aeroNick != null) {
+                                Aerolinea managedAero = entManager.find(Aerolinea.class, aeroNick);
+                                if (managedAero != null) {
+                                    managed.setAerolinea(managedAero);
+                                }
+                            }
+                        } catch (Exception e) {
+                            // no crítico, seguimos adelante
+                            LOGGER.log(Level.FINE, "No se pudo asegurar Aerolinea gestionada: " + e.getMessage());
+                        }
+                    }
+
+                    // Actualizar el estado en la entidad gestionada y hacer flush
+                    managed.setEstado(nuevoEstado);
+                    entManager.merge(managed);
+                } catch (IllegalArgumentException iae) {
+                    // No existe en BD -> propagar para que la capa superior lo maneje
+                    throw iae;
+                }
+
                 entTransaction.commit();
+                // Asegurar que el mapa en memoria referencia la instancia gestionada
+                rutasVuelo.put(nombreRuta, managed);
+                System.out.println("[MANEJADOR] ✅ Estado cambiado para ruta '" + nombreRuta + "' a: " + nuevoEstado);
             } catch (PersistenceException e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
-                e.printStackTrace();
+                // Log completo con causa raíz para diagnosticar el fallo al commitear
+                LOGGER.log(Level.SEVERE, "Error cambiando estado de la ruta '" + nombreRuta + "' a '" + nuevoEstado + "'", e);
+                Throwable cause = e.getCause();
+                if (cause != null) {
+                    LOGGER.log(Level.SEVERE, "Causa raíz:", cause);
+                }
+                throw new IllegalStateException("Error cambiando estado de la ruta: " + e.getMessage(), e);
             }
         } else {
             throw new IllegalArgumentException("Ruta de vuelo no encontrada: " + nombreRuta);

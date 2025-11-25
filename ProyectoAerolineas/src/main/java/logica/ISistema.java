@@ -61,7 +61,6 @@ public interface ISistema {
 
     RutaVuelo obtenerRuta(String nombreRuta);
     List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
-    List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
     void incrementarVisitasRuta(String nombreRuta);
     int obtenerTotalVisitasRuta(String nombreRuta);
     // Métodos para aceptar/rechazar rutas

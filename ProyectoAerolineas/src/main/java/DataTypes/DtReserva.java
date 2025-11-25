@@ -66,6 +66,55 @@ public class DtReserva {
     public LocalTime getHoraInicioEmbarque() { return horaInicioEmbarque; }
     public List<String> getAsientosAsignados() { return asientosAsignados; }
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
+
+    public void setTipoAsiento(TipoAsiento tipoAsiento) {
+        this.tipoAsiento = tipoAsiento;
+    }
+
+    public void setCantidadPasajes(int cantidadPasajes) {
+        this.cantidadPasajes = cantidadPasajes;
+    }
+
+    public void setUnidadesEquipajeExtra(int unidadesEquipajeExtra) {
+        this.unidadesEquipajeExtra = unidadesEquipajeExtra;
+    }
+
+    public void setPasajeros(List<DtPasajero> pasajeros) {
+        this.pasajeros = pasajeros;
+    }
+
+    public void setVuelo(String vuelo) {
+        this.vuelo = vuelo;
+    }
+
+    public void setEstado(EstadoReserva estado) {
+        this.estado = estado;
+    }
+
+    public void setFechaCheckin(LocalDate fechaCheckin) {
+        this.fechaCheckin = fechaCheckin;
+    }
+
+    public void setHoraInicioEmbarque(LocalTime horaInicioEmbarque) {
+        this.horaInicioEmbarque = horaInicioEmbarque;
+    }
+
+    public void setAsientosAsignados(List<String> asientosAsignados) {
+        this.asientosAsignados = asientosAsignados;
+    }
+
     @Override
     public String toString() {
         return "Reserva #" + id +

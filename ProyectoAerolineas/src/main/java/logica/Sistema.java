@@ -357,12 +357,24 @@ public class Sistema implements ISistema {
 
     @Override
     public void aceptarRutaVuelo(String nombreRuta) {
-        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.CONFIRMADA, entManager);
+        EntityManager emLocal = null;
+        try {
+            emLocal = emf.createEntityManager();
+            manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.CONFIRMADA, emLocal);
+        } finally {
+            if (emLocal != null && emLocal.isOpen()) emLocal.close();
+        }
     }
 
     @Override
     public void rechazarRutaVuelo(String nombreRuta) {
-        manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.RECHAZADA, entManager);
+        EntityManager emLocal = null;
+        try {
+            emLocal = emf.createEntityManager();
+            manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.RECHAZADA, emLocal);
+        } finally {
+            if (emLocal != null && emLocal.isOpen()) emLocal.close();
+        }
     }
 
     @Override

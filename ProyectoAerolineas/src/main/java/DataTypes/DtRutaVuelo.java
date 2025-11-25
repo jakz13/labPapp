@@ -82,6 +82,74 @@ public class DtRutaVuelo {
     public List<DtVuelo> getVuelos() { return vuelos; }
     public int getContadorVisitas() { return contadorVisitas; }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setDescripcionCorta(String descripcionCorta) {
+        this.descripcionCorta = descripcionCorta;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setAerolinea(String aerolinea) {
+        this.aerolinea = aerolinea;
+    }
+
+    public void setCiudadOrigen(String ciudadOrigen) {
+        this.ciudadOrigen = ciudadOrigen;
+    }
+
+    public void setCiudadDestino(String ciudadDestino) {
+        this.ciudadDestino = ciudadDestino;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public void setCostoTurista(double costoTurista) {
+        this.costoTurista = costoTurista;
+    }
+
+    public void setCostoEjecutivo(double costoEjecutivo) {
+        this.costoEjecutivo = costoEjecutivo;
+    }
+
+    public void setCostoEquipajeExtra(double costoEquipajeExtra) {
+        this.costoEquipajeExtra = costoEquipajeExtra;
+    }
+
+    public void setEstado(EstadoRuta estado) {
+        this.estado = estado;
+    }
+
+    public void setCategorias(List<String> categorias) {
+        this.categorias = categorias;
+    }
+
+    public void setVuelos(List<DtVuelo> vuelos) {
+        this.vuelos = vuelos;
+    }
+
+    public void setContadorVisitas(int contadorVisitas) {
+        this.contadorVisitas = contadorVisitas;
+    }
+
     @Override
     public String toString() {
         return nombre + " - " + ciudadOrigen + " → " + ciudadDestino + " (" + estado + ")";

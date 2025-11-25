@@ -13,6 +13,7 @@ import DataTypes.DtVuelo;
 import DataTypes.DtPaquete;
 import DataTypes.DtReserva;
 import DataTypes.DtItemPaquete;
+import DataTypes.DtCategoria;
 
 @WebService(name = "JuanViajesWS", targetNamespace = "http://ServiciosWeb/")
 public interface IWebServices {
@@ -207,5 +208,9 @@ public interface IWebServices {
                        @WebParam(name = "validezDias") int validezDias,
                        @WebParam(name = "fechaCompra") String fechaCompra, // yyyy-MM-dd
                        @WebParam(name = "costo") double costo);
+
+    @WebMethod
+    @WebResult(name = "categorias")
+    List<DtCategoria> listarCategorias();
 
 }

@@ -149,6 +149,8 @@ public class RutaVuelo {
     public int getContadorVisitas() { return contadorVisitas; }
 
     public void setContadorVisitas(int contadorVisitas) { this.contadorVisitas = contadorVisitas; }
+    // Getter para el id (necesario para operaciones con EntityManager)
+    public Long getIdRutaVuelo() { return idRutaVuelo; }
     public void setEstado(EstadoRuta estado) { this.estado = estado; }
     public void setDescripcionCorta(String descripcionCorta) { this.descripcionCorta = descripcionCorta; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }

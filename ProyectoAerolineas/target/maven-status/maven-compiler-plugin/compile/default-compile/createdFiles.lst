@@ -31,6 +31,7 @@ DataTypes\DtCiudad.class
 logica\Aerolinea.class
 logica\ManejadorCiudad.class
 Presentacion\gui\IntentoDiseño$5.class
+logica\ManejadorFollow.class
 Presentacion\gui\guiSesion\AltaAereolinea$1.class
 Presentacion\gui\guiSesion\InicioSesion$4.class
 Presentacion\gui\guiSesion\ModificarDatosCliente.class
@@ -92,6 +93,7 @@ Presentacion\gui\guiSesion\ConsultaPaquete.class
 Presentacion\gui\guiSesion\AltaVuelo$1.class
 DataTypes\DtPasajero.class
 Presentacion\gui\IntentoDiseño.class
+ServiciosWeb\IWebServices.class
 Presentacion\gui\guiSesion\ReservaVuelo.class
 Presentacion\gui\IntentoDiseño$16$1.class
 Presentacion\gui\guiSesion\VerUsuarios.class
