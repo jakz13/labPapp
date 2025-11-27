@@ -149,4 +149,6 @@ int puedeFinalizarRuta(String nombreRuta);
     void unfollowUsuario(String followerNickname, String targetNickname);
     int obtenerCantidadSeguidos(String nickname);
     int obtenerCantidadSeguidores(String nickname);
+    public String obtenerHoraRutaPorReserva(Long idReserva);
+    List<String> obtenerAsientosDisponiblesVuelo(Long idReserva);
 }

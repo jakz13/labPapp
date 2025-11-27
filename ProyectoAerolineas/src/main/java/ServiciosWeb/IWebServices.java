@@ -213,4 +213,9 @@ public interface IWebServices {
     @WebResult(name = "categorias")
     List<DtCategoria> listarCategorias();
 
+    @WebMethod
+    public String obtenerHoraRutaPorReserva(@WebParam(name = "idReserva") Long idReserva);
+
+    @WebMethod
+    List<String> obtenerAsientosDisponiblesVuelo(@WebParam(name = "reservaId") Long reservaId);
 }
