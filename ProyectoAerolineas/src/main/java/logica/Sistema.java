@@ -1393,5 +1393,18 @@ public class Sistema implements ISistema {
         return asientosOcupados;
     }
 
+    @Override
+    public List<DtRutaVuelo> listarRutasFinalizables(String nombreAerolinea) {
+        List<DtRutaVuelo> rutasFinalizables = new ArrayList<>();
+        List<DtRutaVuelo> rutasAerolinea = listarRutasPorAerolinea(nombreAerolinea);
+
+        for (DtRutaVuelo ruta : rutasAerolinea) {
+            if (puedeFinalizarRuta(ruta.getNombre()) == 4) {
+                rutasFinalizables.add(ruta);
+            }
+        }
+        return rutasFinalizables;
+    }
+
 }
 

@@ -147,4 +147,6 @@ public interface ISistema {
     boolean verificarSeguimiento(String seguidorId, String seguidoId);
     public String obtenerHoraRutaPorReserva(Long idReserva);
     List<String> obtenerAsientosDisponiblesVuelo(Long idReserva);
+    public List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
+    public List<DtRutaVuelo> listarRutasFinalizables(String nombreAerolinea);
 }
