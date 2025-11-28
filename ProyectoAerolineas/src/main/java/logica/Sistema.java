@@ -1216,23 +1216,25 @@ public class Sistema implements ISistema {
     // Devuelve la cantidad de seguidores de un usuario
     @Override
     public int obtenerCantidadSeguidores(String nickname) {
-        Usuario u = manejadorCliente.obtenerClienteReal(nickname);
-        if (u == null) u = manejadorAerolinea.obtenerAerolinea(nickname);
-
-        if (u == null) throw new IllegalArgumentException("Usuario no encontrado");
-
-        return u.cantidadSeguidores();
+        try {
+            // Consultar directamente desde memoria del ManejadorFollow (ya sincronizado con BD)
+            return manejadorFollow.countSeguidores(nickname);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error obteniendo cantidad de seguidores", e);
+            return 0;
+        }
     }
 
     // Devuelve la cantidad de seguidos de un usuario
     @Override
     public int obtenerCantidadSeguidos(String nickname) {
-        Usuario u = manejadorCliente.obtenerClienteReal(nickname);
-        if (u == null) u = manejadorAerolinea.obtenerAerolinea(nickname);
-
-        if (u == null) throw new IllegalArgumentException("Usuario no encontrado");
-
-        return u.cantidadSeguidos();
+        try {
+            // Consultar directamente desde memoria del ManejadorFollow (ya sincronizado con BD)
+            return manejadorFollow.countSeguidos(nickname);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error obteniendo cantidad de seguidos", e);
+            return 0;
+        }
     }
 
     private Usuario obtenerUsuarioPorNickname(String nickname) {
@@ -1253,22 +1255,11 @@ public class Sistema implements ISistema {
                 return false;
             }
 
-            // Obtener ambos usuarios
-            Usuario seguidor = obtenerUsuarioPorNickname(seguidorId);
-            Usuario seguido = obtenerUsuarioPorNickname(seguidoId);
-
-            if (seguidor == null || seguido == null) {
-                return false;
-            }
-
-            // Verificar si el seguido está en la lista de seguidos del seguidor
-            boolean estaSiguiendo = seguidor.getSeguidosLocales().stream()
-                    .anyMatch(usuario -> usuario.getNickname().equals(seguidoId));
-
-            return estaSiguiendo;
+            // Consultar directamente desde memoria del ManejadorFollow (ya sincronizado con BD)
+            return manejadorFollow.estaSiguiendo(seguidorId, seguidoId);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error verificando seguimiento", e);
             return false;
         }
     }

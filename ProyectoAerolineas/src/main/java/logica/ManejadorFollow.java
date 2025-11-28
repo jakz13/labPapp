@@ -123,7 +123,7 @@ public final class ManejadorFollow {
     // ===========================================================
 
     public void followUsuario(String followerNick, String targetNick, EntityManager em) {
-        System.out.println("🔍 [MANEJADOR] Iniciando con EntityManager: " + (em != null ? "OK" : "NULL"));
+        System.out.println("[MANEJADOR] Iniciando con EntityManager: " + (em != null ? "OK" : "NULL"));
 
         try {
             if (followerNick == null || targetNick == null)
@@ -140,7 +140,7 @@ public final class ManejadorFollow {
                 throw new IllegalStateException("EntityManager está cerrado");
             }
 
-            System.out.println("🔍 [MANEJADOR] Buscando usuarios...");
+            System.out.println("[MANEJADOR] Buscando usuarios...");
 
             // Buscar usando el método que ya tienes
             Usuario follower = buscarUsuarioConcreto(followerNick, em);
@@ -151,10 +151,10 @@ public final class ManejadorFollow {
             if (target == null)
                 throw new IllegalArgumentException("Usuario objetivo no encontrado: " + targetNick);
 
-            System.out.println("✅ [MANEJADOR] Usuarios encontrados");
+            System.out.println("[MANEJADOR] Usuarios encontrados");
 
             // Verificar si ya existe la relación
-            System.out.println("🔍 [MANEJADOR] Verificando relación existente...");
+            System.out.println("[MANEJADOR] Verificando relación existente...");
             Long count = null;
             try {
                 count = em.createQuery(
@@ -165,17 +165,17 @@ public final class ManejadorFollow {
                         .setParameter("tar", target)
                         .getSingleResult();
             } catch (Exception e) {
-                System.err.println("💥 [MANEJADOR] Error en consulta COUNT: " + e.getMessage());
+                System.err.println("[MANEJADOR] Error en consulta COUNT: " + e.getMessage());
                 count = 0L; // Asumir que no existe
             }
 
             if (count != null && count > 0) {
-                System.out.println("ℹ️ [MANEJADOR] Ya existe relación");
+                System.out.println("[MANEJADOR] Ya existe relación");
                 return; // No es error, simplemente ya existe
             }
 
             // Crear follow
-            System.out.println("🆕 [MANEJADOR] Creando nueva relación...");
+            System.out.println("[MANEJADOR] Creando nueva relación...");
             Follow follow = new Follow(follower, target);
 
             EntityTransaction tx = em.getTransaction();
@@ -186,45 +186,57 @@ public final class ManejadorFollow {
                 if (!tx.isActive()) {
                     tx.begin();
                     startedTransaction = true;
-                    System.out.println("💾 [MANEJADOR] Transacción iniciada");
+                    System.out.println("[MANEJADOR] Transacción iniciada");
                 }
 
-                System.out.println("💾 [MANEJADOR] Persistiendo Follow...");
+                System.out.println("[MANEJADOR] Persistiendo Follow...");
                 em.persist(follow);
+                em.flush(); // Forzar la escritura a BD para asignar el ID
 
-                if (startedTransaction) {
-                    tx.commit();
-                    System.out.println("✅ [MANEJADOR] Transacción commitada");
+                // Actualizar las estructuras de memoria ANTES del commit
+                Long followId = follow.getId();
+                if (followId != null) {
+                    followsEnMemoria.put(followId, follow);
+                } else {
+                    System.err.println("⚠[MANEJADOR] WARNING: Follow ID es null después del flush");
                 }
 
-                followsEnMemoria.put(follow.getId(), follow);
-                System.out.println("✅ [MANEJADOR] Follow persistido exitosamente");
-
-                // ⚠️ FALTAN ESTAS LÍNEAS CRÍTICAS ⚠️
-                // Actualizar las estructuras de memoria
+                // Actualizar las estructuras de memoria para consultas rápidas
                 seguidoresMap.computeIfAbsent(targetNick, k -> new HashSet<>())
                         .add(followerNick);
                 seguidosMap.computeIfAbsent(followerNick, k -> new HashSet<>())
                         .add(targetNick);
 
-                System.out.println("✅ [MANEJADOR] Follow actualizado en BD y MEMORIA");
-                System.out.println("   - Seguidores de " + targetNick + " ahora: " + seguidoresMap.get(targetNick).size());
+                System.out.println("[MANEJADOR] Estructuras de memoria actualizadas");
+                System.out.println("   - Seguidores de " + targetNick + " ahora: " + countSeguidores(targetNick));
+                System.out.println("   - Seguidos de " + followerNick + " ahora: " + countSeguidos(followerNick));
+
+                // Verificación inmediata ANTES del commit
+                boolean verificacion = estaSiguiendo(followerNick, targetNick);
+                System.out.println("   - Verificación PRE-COMMIT estaSiguiendo(" + followerNick + ", " + targetNick + "): " + verificacion);
+
+                if (startedTransaction) {
+                    tx.commit();
+                    System.out.println("[MANEJADOR] Transacción commitada");
+                }
+
+                System.out.println("[MANEJADOR] Follow persistido exitosamente con ID: " + followId);
 
             } catch (Exception e) {
-                System.err.println("💥 [MANEJADOR] Error en transacción: " + e.getMessage());
+                System.err.println("[MANEJADOR] Error en transacción: " + e.getMessage());
                 if (tx.isActive() && startedTransaction) {
                     try {
                         tx.rollback();
-                        System.out.println("↩️ [MANEJADOR] Rollback realizado");
+                        System.out.println("[MANEJADOR] Rollback realizado");
                     } catch (Exception rollbackEx) {
-                        System.err.println("💥 [MANEJADOR] Error en rollback: " + rollbackEx.getMessage());
+                        System.err.println("[MANEJADOR] Error en rollback: " + rollbackEx.getMessage());
                     }
                 }
                 throw new IllegalStateException("Error al persistir Follow: " + e.getMessage(), e);
             }
 
         } catch (Exception e) {
-            System.err.println("💥 [MANEJADOR] ERROR: " + e.getMessage());
+            System.err.println("[MANEJADOR] ERROR: " + e.getMessage());
             e.printStackTrace();
             throw e;
         }
@@ -245,7 +257,7 @@ public final class ManejadorFollow {
     // ===========================================================
 
     public void unfollowUsuario(String followerNick, String targetNick, EntityManager em) {
-        System.out.println("🔍 [MANEJADOR] Iniciando unfollow: " + followerNick + " → " + targetNick);
+        System.out.println("[MANEJADOR] Iniciando unfollow: " + followerNick + " → " + targetNick);
 
         try {
             if (followerNick == null || targetNick == null)
@@ -269,12 +281,14 @@ public final class ManejadorFollow {
                 tx.begin();
 
                 // Eliminar de la BD
+                Long followId = follow.getId();
                 em.remove(follow);
+                em.flush(); // Asegurar que se elimine de BD inmediatamente
 
                 // Eliminar de memoria
-                followsEnMemoria.remove(follow.getId());
+                followsEnMemoria.remove(followId);
 
-                // ✅ CRÍTICO: Actualizar las estructuras de memoria (FALTABA ESTO)
+                // Actualizar las estructuras de memoria
                 Set<String> seguidores = seguidoresMap.get(targetNick);
                 if (seguidores != null) {
                     seguidores.remove(followerNick);
@@ -289,7 +303,11 @@ public final class ManejadorFollow {
 
                 tx.commit();
 
-                System.out.println("✅ [MANEJADOR] Unfollow completado en BD y MEMORIA");
+                System.out.println("[MANEJADOR] Unfollow completado en BD y MEMORIA");
+
+                // Verificación inmediata
+                boolean verificacion = estaSiguiendo(followerNick, targetNick);
+                System.out.println("   - Verificación inmediata estaSiguiendo(" + followerNick + ", " + targetNick + "): " + verificacion);
 
             } catch (PersistenceException e) {
                 if (tx.isActive()) tx.rollback();
@@ -297,7 +315,7 @@ public final class ManejadorFollow {
             }
 
         } catch (Exception e) {
-            System.err.println("💥 [MANEJADOR] ERROR en unfollow: " + e.getMessage());
+            System.err.println("[MANEJADOR] ERROR en unfollow: " + e.getMessage());
             e.printStackTrace();
             throw e;
         }
