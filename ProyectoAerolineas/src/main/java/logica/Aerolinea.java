@@ -10,7 +10,7 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,7 +33,7 @@ public class Aerolinea extends Usuario {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @MapKey(name = "nombre")
     @JoinColumn(name = "aerolinea_id")
-    private Map<String, RutaVuelo> rutasVuelo = new HashMap<>();
+    private Map<String, RutaVuelo> rutasVuelo = new ConcurrentHashMap<>();
 
     // Colecciones en memoria con referencias a objetos (no persistidas)
     @jakarta.persistence.Transient

@@ -66,28 +66,23 @@ public class Sistema implements ISistema {
     /** Carga todos los datos desde la base de datos a los manejadores en memoria. */
     @Override
     public void cargarDesdeBd() {
-        // Para evitar usar entidades cacheadas por el EntityManager anterior
-        // cerramos y recreamos el EntityManager, garantizando que las consultas
-        // posteriores lean el estado actual de la base de datos.
+        // Usar un EntityManager local para la recarga, evitando cerrar el EntityManager
+        // compartido del Sistema que puede estar en uso por otras operaciones.
+        EntityManager emLocal = null;
         try {
-            if (entManager != null && entManager.isOpen()) {
-                entManager.clear();
-                entManager.close();
-            }
-        } catch (Exception e) {
-            // ignorar problemas al cerrar; intentaremos recrear de todos modos
+            emLocal = emf.createEntityManager();
+
+            manejadorCliente.cargarClientesDesdeBD(emLocal);
+            manejadorAerolinea.cargarAerolineasDesdeBD(emLocal);
+            manejadorCiudad.cargarCiudadesDesdeBD(emLocal);
+            manejadorRutaVuelo.cargarRutasDesdeBD(emLocal);
+            manejadorVuelo.cargarVuelosDesdeBD(emLocal);
+            manejadorPaquete.cargarPaquetesDesdeBD(emLocal);
+            manejadorCategoria.cargarCategoriasDesdeBD(emLocal);
+            manejadorFollow.cargarFollowsDesdeBD(emLocal);
+        } finally {
+            if (emLocal != null && emLocal.isOpen()) emLocal.close();
         }
-
-        entManager = emf.createEntityManager();
-
-        manejadorCliente.cargarClientesDesdeBD(entManager);
-        manejadorAerolinea.cargarAerolineasDesdeBD(entManager);
-        manejadorCiudad.cargarCiudadesDesdeBD(entManager);
-        manejadorRutaVuelo.cargarRutasDesdeBD(entManager);
-        manejadorVuelo.cargarVuelosDesdeBD(entManager);
-        manejadorPaquete.cargarPaquetesDesdeBD(entManager);
-        manejadorCategoria.cargarCategoriasDesdeBD(entManager);
-        manejadorFollow.cargarFollowsDesdeBD(entManager);
     }
 
     // =================== USUARIOS CON CONTRASEÑA ===================

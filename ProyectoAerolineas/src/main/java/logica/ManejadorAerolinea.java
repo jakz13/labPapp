@@ -7,7 +7,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public final class ManejadorAerolinea {
     private static ManejadorAerolinea instancia = null;
 
     private ManejadorAerolinea() {
-        aerolineas = new HashMap<>();
+        aerolineas = new ConcurrentHashMap<>();
     }
 
     /** Devuelve la instancia singleton del manejador. */
@@ -38,6 +38,21 @@ public final class ManejadorAerolinea {
         TypedQuery<Aerolinea> query = entManager.createQuery("SELECT a FROM Aerolinea a", Aerolinea.class);
         List<Aerolinea> aerolineasPersistidas = query.getResultList();
         for (Aerolinea a : aerolineasPersistidas) {
+            // Forzar inicialización de rutas y sus colecciones mientras el EntityManager está abierto
+            try {
+                if (a.getRutasVueloMap() != null) {
+                    for (RutaVuelo r : a.getRutasVueloMap().values()) {
+                        try {
+                            if (r.getVuelos() != null) r.getVuelos().size();
+                            if (r.getCategorias() != null) r.getCategorias().size();
+                        } catch (Exception ignore) {
+                            // ignore
+                        }
+                    }
+                }
+            } catch (Exception ignore) {
+                // no crítico
+            }
             aerolineas.put(a.getNickname(), a);
         }
     }
@@ -97,44 +112,51 @@ public final class ManejadorAerolinea {
 
     /** Devuelve las rutas (DT) de la aerolínea indicada. */
     public List<DtRutaVuelo> obtenerRutaVueloDeAerolinea(String nicknameAerolinea) {
-        Aerolinea aerolinea = obtenerAerolinea(nicknameAerolinea);
-        if (aerolinea != null) {
-            return aerolinea.getDtRutasVuelo();
+        // Usar el manejador de rutas (cache inicializada) para obtener rutas y generar DTs
+        List<DtRutaVuelo> dtRutas = new ArrayList<>();
+        List<RutaVuelo> rutas = ManejadorRutaVuelo.getInstance().getRutasPorAerolinea(nicknameAerolinea);
+        if (rutas != null) {
+            for (RutaVuelo r : rutas) {
+                dtRutas.add(r.getDtRutaVuelo());
+            }
         }
-        return new ArrayList<>();
+        return dtRutas;
     }
 
     /** Devuelve una lista de aerolíneas en forma de DTO. */
     public List<DtAerolinea> getDtAerolineas() {
         List<DtAerolinea> dtAerolineas = new ArrayList<>();
         for (Aerolinea a : aerolineas.values()) {
+            // Pasar el nickname (clave) para obtener rutas (ManejadorRutaVuelo compara por nickname)
+            List<DtRutaVuelo> dtRutas = obtenerRutaVueloDeAerolinea(a.getNickname());
             dtAerolineas.add(new DtAerolinea(
                     a.getNickname(),
                     a.getNombre(),
                     a.getEmail(),
                     a.getDescripcion(),
                     a.getSitioWeb(),
-                    a.getDtRutasVuelo()
+                    dtRutas
             ));
         }
         return dtAerolineas;
-    }
+     }
 
-    /** Devuelve una sola aerolínea en forma de DTO. */
-    public DtAerolinea getDtAerolinea(String nickname) {
-        Aerolinea a = obtenerAerolinea(nickname);
-        if (a == null)
-            return null;
+     /** Devuelve una sola aerolínea en forma de DTO. */
+     public DtAerolinea getDtAerolinea(String nickname) {
+         Aerolinea a = obtenerAerolinea(nickname);
+         if (a == null)
+             return null;
 
-        return new DtAerolinea(
-                a.getNickname(),
-                a.getNombre(),
-                a.getEmail(),
-                a.getDescripcion(),
-                a.getSitioWeb(),
-                a.getDtRutasVuelo()
-        );
-    }
+        List<DtRutaVuelo> dtRutas = obtenerRutaVueloDeAerolinea(a.getNickname());
+         return new DtAerolinea(
+                 a.getNickname(),
+                 a.getNombre(),
+                 a.getEmail(),
+                 a.getDescripcion(),
+                 a.getSitioWeb(),
+                 dtRutas
+         );
+     }
 
     /** Actualiza la contraseña de una aerolínea y persiste el cambio. */
     public void actualizarPassword(String email, String nuevaPassword, EntityManager entManager) {

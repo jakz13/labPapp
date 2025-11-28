@@ -7,7 +7,7 @@ import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -28,7 +28,7 @@ public final class ManejadorRutaVuelo {
     private static ManejadorRutaVuelo instancia = null;
 
     private ManejadorRutaVuelo() {
-        rutasVuelo = new HashMap<>();
+        rutasVuelo = new ConcurrentHashMap<>();
     }
 
     /** Devuelve la instancia singleton del manejador de rutas. */
@@ -49,8 +49,18 @@ public final class ManejadorRutaVuelo {
         if (ruta == null) return;
         Aerolinea aero = null;
         try {
-            if (ruta.getAerolinea() != null && ruta.getAerolinea().getNickname() != null) {
-                aero = ManejadorAerolinea.getInstance().obtenerAerolinea(ruta.getAerolinea().getNickname());
+            if (ruta.getAerolinea() != null) {
+                String nick = ruta.getAerolinea().getNickname();
+                if (nick != null) {
+                    aero = ManejadorAerolinea.getInstance().obtenerAerolinea(nick);
+                }
+                // Si no encontramos por nickname, intentar por nombre (compatibilidad)
+                if (aero == null) {
+                    String nombre = ruta.getAerolinea().getNombre();
+                    if (nombre != null) aero = ManejadorAerolinea.getInstance().getAerolineas().stream()
+                            .filter(a -> nombre.equals(a.getNombre()) || nombre.equals(a.getNickname()))
+                            .findFirst().orElse(null);
+                }
             }
         } catch (Throwable t) {
             // No crítico: si falla buscar la aerolínea en memoria, seguimos
@@ -158,6 +168,17 @@ public final class ManejadorRutaVuelo {
              if (r.getEstado() == null) {
                  r.setEstado(INGRESADA);
              }
+            // Forzar inicialización de colecciones lazy mientras el EntityManager está abierto
+            try {
+                if (r.getVuelos() != null) r.getVuelos().size();
+                if (r.getCategorias() != null) r.getCategorias().size();
+                if (r.getAerolinea() != null) {
+                    // acceder al nickname para inicializar la relación ManyToOne
+                    r.getAerolinea().getNickname();
+                }
+            } catch (Exception ignore) {
+                // No crítico: si no se puede inicializar alguna colección, seguimos
+            }
             rutasVuelo.put(r.getNombre(), r);
             // Cuando cargamos desde BD, asegurarnos que la Aerolinea en memoria (si existe)
             // use la misma instancia de RutaVuelo para evitar inconsistencias.
@@ -280,29 +301,37 @@ public final class ManejadorRutaVuelo {
      */
     public List<RutaVuelo> getRutasPorAerolinea(String nombreAerolinea) {
         List<RutaVuelo> rutas = new ArrayList<>();
+        System.out.println("[DEBUG] getRutasPorAerolinea: buscando rutas para aerolinea='" + nombreAerolinea + "'");
         for (RutaVuelo ruta : rutasVuelo.values()) {
-            if (ruta.getAerolinea() != null &&
-                    ruta.getAerolinea().getNombre().equals(nombreAerolinea)) {
-                rutas.add(ruta);
+            if (ruta.getAerolinea() != null) {
+                String nick = ruta.getAerolinea().getNickname();
+                String nombre = ruta.getAerolinea().getNombre();
+                if ((nick != null && nick.equals(nombreAerolinea)) || (nombre != null && nombre.equals(nombreAerolinea))) {
+                 rutas.add(ruta);
+                }
             }
-        }
-        return rutas;
-    }
+         }
++        System.out.println("[DEBUG] getRutasPorAerolinea: encontradas=" + rutas.size() + " rutas para '" + nombreAerolinea + "'");
+         return rutas;
+     }
 
-    /**
-     * Filtra rutas por estado y aerolínea.
-     */
+    /** Filtra rutas por estado y aerolínea. */
     public List<RutaVuelo> getRutasPorEstadoYAerolinea(String nombreAerolinea, EstadoRuta estado) {
         List<RutaVuelo> rutasFiltradas = new ArrayList<>();
++        System.out.println("[DEBUG] getRutasPorEstadoYAerolinea: buscando estado='" + estado + "' para aerolinea='" + nombreAerolinea + "'");
         for (RutaVuelo ruta : rutasVuelo.values()) {
-            if (ruta.getAerolinea() != null &&
-                    ruta.getAerolinea().getNombre().equals(nombreAerolinea) &&
-                    ruta.getEstado() == estado) {
-                rutasFiltradas.add(ruta);
+            if (ruta.getAerolinea() != null) {
+                String nick = ruta.getAerolinea().getNickname();
+                String nombre = ruta.getAerolinea().getNombre();
+                if (((nick != null && nick.equals(nombreAerolinea)) || (nombre != null && nombre.equals(nombreAerolinea)))
+                        && ruta.getEstado() == estado) {
+                 rutasFiltradas.add(ruta);
+                }
             }
-        }
-        return rutasFiltradas;
-    }
+         }
++        System.out.println("[DEBUG] getRutasPorEstadoYAerolinea: encontradas=" + rutasFiltradas.size() + " rutas para aerolinea='" + nombreAerolinea + "' y estado='" + estado + "'");
+         return rutasFiltradas;
+     }
 
     /**
      * Cambia el estado de una ruta y actualiza la persistencia.

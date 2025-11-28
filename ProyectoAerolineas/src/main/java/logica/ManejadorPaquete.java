@@ -48,6 +48,13 @@ public final class ManejadorPaquete {
         TypedQuery<Paquete> query = entManager.createQuery("SELECT p FROM Paquete p", Paquete.class);
         List<Paquete> paquetesPersistidos = query.getResultList();
         for (Paquete p : paquetesPersistidos) {
+            // Inicializar colecciones lazy mientras el EntityManager está abierto
+            try {
+                if (p.getItemPaquetes() != null) p.getItemPaquetes().size();
+                if (p.getCompras() != null) p.getCompras().size();
+            } catch (Exception ignore) {
+                // ignore
+            }
             paquetes.put(p.getNombre(), p);
         }
     }
