@@ -45,6 +45,32 @@ public final class ManejadorAerolinea {
                         try {
                             if (r.getVuelos() != null) r.getVuelos().size();
                             if (r.getCategorias() != null) r.getCategorias().size();
+
+                            // FORZAR INICIALIZACIÓN ADICIONAL: recorrer vuelos -> reservas -> pasajeros
+                            // Esto asegura que las colecciones lazy estén inicializadas mientras el EntityManager está abierto
+                            try {
+                                if (r.getVuelos() != null) {
+                                    for (Vuelo v : r.getVuelos()) {
+                                        try {
+                                            if (v.getReservasList() != null) {
+                                                v.getReservasList().size();
+                                                for (Reserva res : v.getReservasList()) {
+                                                    try {
+                                                        if (res.getPasajeros() != null) res.getPasajeros().size();
+                                                    } catch (Exception ignoreInner) {
+                                                        // ignore individual reserva issues
+                                                    }
+                                                }
+                                            }
+                                        } catch (Exception ignoreV) {
+                                            // ignore individual vuelo issues
+                                        }
+                                    }
+                                }
+                            } catch (Exception ignoreDeep) {
+                                // ignore deep initialization issues
+                            }
+
                         } catch (Exception ignore) {
                             // ignore
                         }
