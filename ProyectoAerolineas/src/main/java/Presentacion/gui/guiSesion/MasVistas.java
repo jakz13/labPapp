@@ -26,6 +26,9 @@ public class MasVistas {
         inicializarComponentes();
         configurarEventos();
         cargarDatos();
+
+        // Forzar una recarga inicial desde BD
+        sistema.cargarDesdeBd();
     }
 
     private void inicializarComponentes() {
@@ -49,7 +52,13 @@ public class MasVistas {
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Hacer la tabla no editable
+                return false;
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 0 || columnIndex == 5) return Integer.class;
+                return String.class;
             }
         };
 
@@ -59,12 +68,12 @@ public class MasVistas {
         tablaRanking.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
 
         // Personalizar la tabla
-        tablaRanking.getColumnModel().getColumn(0).setPreferredWidth(40);  // #
-        tablaRanking.getColumnModel().getColumn(1).setPreferredWidth(120); // Ruta
-        tablaRanking.getColumnModel().getColumn(2).setPreferredWidth(120); // Aerolínea
-        tablaRanking.getColumnModel().getColumn(3).setPreferredWidth(120); // Origen
-        tablaRanking.getColumnModel().getColumn(4).setPreferredWidth(120); // Destino
-        tablaRanking.getColumnModel().getColumn(5).setPreferredWidth(100); // Visitas
+        tablaRanking.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tablaRanking.getColumnModel().getColumn(1).setPreferredWidth(120);
+        tablaRanking.getColumnModel().getColumn(2).setPreferredWidth(120);
+        tablaRanking.getColumnModel().getColumn(3).setPreferredWidth(120);
+        tablaRanking.getColumnModel().getColumn(4).setPreferredWidth(120);
+        tablaRanking.getColumnModel().getColumn(5).setPreferredWidth(100);
 
         scrollPane = new JScrollPane(tablaRanking);
         scrollPane.setPreferredSize(new Dimension(700, 300));
@@ -80,11 +89,17 @@ public class MasVistas {
     }
 
     private void configurarEventos() {
-        btnActualizar.addActionListener(e -> cargarDatos());
+        btnActualizar.addActionListener(e -> {
+            // Forzar recarga desde BD antes de actualizar
+            sistema.cargarDesdeBd();
+            cargarDatos();
+        });
     }
 
     private void cargarDatos() {
         try {
+            System.out.println("[DEBUG MasVistas] Cargando datos de rutas más visitadas...");
+
             // Obtener las 5 rutas más visitadas del sistema
             List<DtRutaVuelo> rutasMasVisitadas = sistema.obtenerTopRutasMasVisitadas(5);
 
@@ -92,21 +107,26 @@ public class MasVistas {
             DefaultTableModel model = (DefaultTableModel) tablaRanking.getModel();
             model.setRowCount(0);
 
-            if (rutasMasVisitadas.isEmpty()) {
-                // Mostrar mensaje si no hay datos
-                model.addRow(new Object[]{"", "No hay datos disponibles", "", "", "", ""});
+            if (rutasMasVisitadas == null || rutasMasVisitadas.isEmpty()) {
+                model.addRow(new Object[]{1, "No hay datos disponibles", "", "", "", 0});
+                System.out.println("[DEBUG MasVistas] No se encontraron rutas visitadas");
             } else {
-                // Llenar la tabla con los datos
+                System.out.println("[DEBUG MasVistas] Encontradas " + rutasMasVisitadas.size() + " rutas");
+
                 int posicion = 1;
                 for (DtRutaVuelo ruta : rutasMasVisitadas) {
-                    // Obtener información de la aerolínea
+                    System.out.println("[DEBUG MasVistas] Procesando ruta: " + ruta.getNombre() +
+                            " - Visitas: " + ruta.getContadorVisitas());
+
                     String nombreAerolinea = "No disponible";
                     try {
+                        // Obtener información completa de la aerolínea
                         DtAerolinea aerolinea = sistema.obtenerAerolinea(ruta.getAerolinea());
                         if (aerolinea != null) {
                             nombreAerolinea = aerolinea.getNombre();
                         }
                     } catch (Exception ex) {
+                        System.err.println("[DEBUG MasVistas] Error obteniendo aerolínea: " + ex.getMessage());
                         nombreAerolinea = ruta.getAerolinea();
                     }
 
@@ -121,15 +141,16 @@ public class MasVistas {
                 }
             }
 
-            // Actualizar la interfaz
             tablaRanking.repaint();
+            System.out.println("[DEBUG MasVistas] Tabla actualizada correctamente");
 
         } catch (Exception ex) {
+            System.err.println("[ERROR MasVistas] Error al cargar datos: " + ex.getMessage());
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(panelPrincipal,
                     "Error al cargar los datos: " + ex.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
         }
     }
 
