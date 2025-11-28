@@ -971,19 +971,6 @@ public class Sistema implements ISistema {
     }
 
     @Override
-    public List<DtRutaVuelo> listarRutasFinalizables(String nombreAerolinea) {
-        List<DtRutaVuelo> rutasFinalizables = new ArrayList<>();
-        List<DtRutaVuelo> rutasAerolinea = listarRutasPorAerolinea(nombreAerolinea);
-
-        for (DtRutaVuelo ruta : rutasAerolinea) {
-            if (puedeFinalizarRuta(ruta.getNombre()) == 4) {
-                rutasFinalizables.add(ruta);
-            }
-        }
-        return rutasFinalizables;
-    }
-
-    @Override
     public void finalizarRutaVuelo(String nombreRuta) {
         if (puedeFinalizarRuta(nombreRuta) != 4) {
             throw new IllegalArgumentException("La ruta no puede ser finalizada: " + nombreRuta);
@@ -1399,6 +1386,19 @@ public class Sistema implements ISistema {
         }
 
         return asientosOcupados;
+    }
+
+    @Override
+    public List<DtRutaVuelo> listarRutasFinalizables(String nombreAerolinea) {
+        List<DtRutaVuelo> rutasFinalizables = new ArrayList<>();
+        List<DtRutaVuelo> rutasAerolinea = listarRutasPorAerolinea(nombreAerolinea);
+
+        for (DtRutaVuelo ruta : rutasAerolinea) {
+            if (puedeFinalizarRuta(ruta.getNombre()) == 4) {
+                rutasFinalizables.add(ruta);
+            }
+        }
+        return rutasFinalizables;
     }
 
 }

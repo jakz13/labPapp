@@ -188,10 +188,13 @@ public final class ManejadorRutaVuelo {
             entTransaction.begin();
             entManager.persist(ruta);
             entTransaction.commit();
+            System.out.println("✅ Ruta '" + ruta.getNombre() + "' agregada y persistida");
 
         } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
-            e.printStackTrace();
+            // Remover de memoria si falla la persistencia
+            rutasVuelo.remove(ruta.getNombre());
+            throw new IllegalStateException("Error persistiendo ruta: " + e.getMessage(), e);
         }
     }
 
