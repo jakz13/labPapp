@@ -1,17 +1,13 @@
 package logica;
 
 import DataTypes.DtVuelo;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.PersistenceException;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 import static logica.EstadoRuta.*;
 
 /**
@@ -34,7 +30,6 @@ public final class ManejadorRutaVuelo {
         }
         return instancia;
     }
-
 
     /**
      * Incrementa el contador de visitas de una ruta y actualiza la persistencia.
@@ -128,6 +123,8 @@ public final class ManejadorRutaVuelo {
             }
             rutasVuelo.put(r.getNombre(), r);
         }
+
+        System.out.println("" + rutasPersistidas.size() + " rutas cargadas en memoria desde BD");
     }
 
     /**
@@ -142,10 +139,13 @@ public final class ManejadorRutaVuelo {
             entTransaction.begin();
             entManager.persist(ruta);
             entTransaction.commit();
+            System.out.println("✅ Ruta '" + ruta.getNombre() + "' agregada y persistida");
 
         } catch (PersistenceException e) {
             if (entTransaction.isActive()) entTransaction.rollback();
-            e.printStackTrace();
+            // Remover de memoria si falla la persistencia
+            rutasVuelo.remove(ruta.getNombre());
+            throw new IllegalStateException("Error persistiendo ruta: " + e.getMessage(), e);
         }
     }
 
@@ -164,12 +164,13 @@ public final class ManejadorRutaVuelo {
                 entTransaction.begin();
                 entManager.merge(ruta);
                 entTransaction.commit();
+                System.out.println("✅ Vuelo agregado a ruta: " + nombreRuta);
             } catch (PersistenceException e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
-                e.printStackTrace();
+                throw new IllegalStateException("Error agregando vuelo a ruta: " + e.getMessage(), e);
             }
         } else {
-            System.out.println("Ruta de vuelo no encontrada.");
+            throw new IllegalArgumentException("Ruta de vuelo no encontrada: " + nombreRuta);
         }
     }
 
@@ -230,20 +231,49 @@ public final class ManejadorRutaVuelo {
      * Cambia el estado de una ruta y actualiza la persistencia.
      */
     public void cambiarEstadoRuta(String nombreRuta, EstadoRuta nuevoEstado, EntityManager entManager) {
-        RutaVuelo ruta = rutasVuelo.get(nombreRuta);
-        if (ruta != null) {
-            ruta.setEstado(nuevoEstado);
-            EntityTransaction entTransaction = entManager.getTransaction();
-            try {
-                entTransaction.begin();
+        EntityTransaction entTransaction = null;
+        try {
+            entTransaction = entManager.getTransaction();
+            entTransaction.begin();
+
+            // BUSCAR DIRECTAMENTE EN BD, no en memoria
+            TypedQuery<RutaVuelo> query = entManager.createQuery(
+                    "SELECT r FROM RutaVuelo r WHERE r.nombre = :nombre", RutaVuelo.class);
+            query.setParameter("nombre", nombreRuta);
+
+            RutaVuelo ruta = query.getSingleResult();
+
+            if (ruta != null) {
+                EstadoRuta estadoAnterior = ruta.getEstado();
+                ruta.setEstado(nuevoEstado);
+
+                // MERGE de la entidad gestionada por JPA
                 entManager.merge(ruta);
                 entTransaction.commit();
-            } catch (PersistenceException e) {
-                if (entTransaction.isActive()) entTransaction.rollback();
-                e.printStackTrace();
+
+                // ACTUALIZAR también la memoria
+                rutasVuelo.put(nombreRuta, ruta);
+
+                System.out.println("Estado de ruta '" + nombreRuta + "' cambiado de " +
+                        estadoAnterior + " a: " + nuevoEstado + " - PERSISTIDO EN BD");
+            } else {
+                if (entTransaction != null && entTransaction.isActive()) {
+                    entTransaction.rollback();
+                }
+                throw new IllegalArgumentException("Ruta no encontrada en BD: " + nombreRuta);
             }
-        } else {
-            throw new IllegalArgumentException("Ruta de vuelo no encontrada: " + nombreRuta);
+
+        } catch (NoResultException e) {
+            if (entTransaction != null && entTransaction.isActive()) {
+                entTransaction.rollback();
+            }
+            throw new IllegalArgumentException("Ruta no encontrada en BD: " + nombreRuta);
+        } catch (Exception e) {
+            if (entTransaction != null && entTransaction.isActive()) {
+                entTransaction.rollback();
+            }
+            System.err.println("Error cambiando estado de ruta '" + nombreRuta + "': " + e.getMessage());
+            throw new IllegalStateException("Error cambiando estado de ruta: " + e.getMessage(), e);
         }
     }
 
@@ -266,7 +296,7 @@ public final class ManejadorRutaVuelo {
                 entTransaction.begin();
                 entManager.merge(ruta);
                 entTransaction.commit();
-                //System.out.println("Imagen actualizada para ruta: " + nombreRuta);
+                System.out.println("✅ Imagen actualizada para ruta: " + nombreRuta);
             } catch (PersistenceException e) {
                 if (entTransaction.isActive()) entTransaction.rollback();
                 throw new IllegalStateException("Error actualizando imagen de la ruta: " + e.getMessage(), e);

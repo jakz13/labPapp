@@ -58,7 +58,7 @@ public class Sistema implements ISistema {
         this.manejadorVuelo = ManejadorVuelo.getInstance();
         this.manejadorCiudad = ManejadorCiudad.getInstance();
         this.manejadorCategoria = ManejadorCategoria.getInstance();
-
+        this.manejadorFollow = ManejadorFollow.getInstance();
         // Precargar datos si la base está vacía
 
     }
@@ -898,19 +898,6 @@ public class Sistema implements ISistema {
             System.err.println("[SISTEMA] Error obteniendo DTOs de rutas visitadas: " + e.getMessage());
             return new ArrayList<>();
         }
-    }
-
-    @Override
-    public List<DtRutaVuelo> listarRutasFinalizables(String nombreAerolinea) {
-        List<DtRutaVuelo> rutasFinalizables = new ArrayList<>();
-        List<DtRutaVuelo> rutasAerolinea = listarRutasPorAerolinea(nombreAerolinea);
-
-        for (DtRutaVuelo ruta : rutasAerolinea) {
-            if (puedeFinalizarRuta(ruta.getNombre()) == 4) {
-                rutasFinalizables.add(ruta);
-            }
-        }
-        return rutasFinalizables;
     }
 
     @Override
