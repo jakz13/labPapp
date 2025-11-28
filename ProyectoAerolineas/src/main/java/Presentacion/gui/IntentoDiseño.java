@@ -32,6 +32,7 @@ public class IntentoDiseño {
     private JButton CREARCATEGORIA;
     private JButton CONSULTARPAQUETE;
     private JButton AceptarRuta;
+    private JButton TopRutas;
 
     public IntentoDiseño(JFrame framePrincipal) {
         AltaClienteButton.addActionListener(new ActionListener() {
@@ -387,6 +388,28 @@ public class IntentoDiseño {
                 AceptarRuta AR = new AceptarRuta();
                 JFrame frameSesion = new JFrame("Consulta paquete");
                 frameSesion.setContentPane(AR.getPanel());
+                frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameSesion.setBounds(framePrincipal.getBounds());
+
+                frameSesion.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        framePrincipal.setVisible(true);
+                    }
+                });
+
+                frameSesion.setVisible(true);
+            }
+        });
+        TopRutas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                framePrincipal.setVisible(false);
+
+                MasVistas MV = new MasVistas();
+                JFrame frameSesion = new JFrame("Consulta paquete");
+                frameSesion.setContentPane(MV.getPanelPrincipal());
                 frameSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameSesion.setBounds(framePrincipal.getBounds());
 
