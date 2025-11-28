@@ -96,7 +96,7 @@ public class Main {
             sistema.altaAerolinea("flybondi005", "FlyBondi", "Low cost argentina con vuelos regionales",
                     "contacto@flybondi.com", "https://www.flybondi.com", "pwdFlybondi", null);
             System.out.println("✅ Aerolíneas creadas");
-
+/*
             // Probar FOLLOW
             sistema.followUsuario("ana456", "juan123");
             System.out.println("Follow persistido correctamente!");
@@ -117,7 +117,7 @@ public class Main {
             System.out.println("ana456" + " tiene " + sistema.obtenerCantidadSeguidores("ana456") + " seguidores.");
             System.out.println("ana456" + " sigue a " + sistema.obtenerCantidadSeguidos("ana456") + " usuarios.");
 
-
+*/
             sistema.altaRutaVuelo("SCL-MIA", "Santiago a Miami", "Directo",
                     sistema.obtenerAerolinea("latam001"),
                     "Santiago", "Miami", "08:00", LocalDate.now(),
@@ -178,7 +178,7 @@ public class Main {
                     "Incluye excursiones de trekking y escalada en la cordillera de los Andes.",
                     15, 45);
             System.out.println("✅ Paquetes creados");
-
+            Thread.sleep(3000);
             // ===== 9. AGREGAR RUTAS A PAQUETES =====
             sistema.altaRutaPaquete("Verano Caribeño", "SCL-MIA", 2, TipoAsiento.TURISTA);
             sistema.altaRutaPaquete("Aventura Andina", "SCL-EZE", 1, TipoAsiento.EJECUTIVO);
@@ -186,7 +186,7 @@ public class Main {
 
             // ===== 10. CREAR RESERVAS DE PRUEBA =====
             System.out.println("📝 Creando reservas de prueba...");
-
+            Thread.sleep(3000);
             // Reserva para Ana en el vuelo LATAM001-SCLMIA
             sistema.crearYRegistrarReserva(
                     "ana456",

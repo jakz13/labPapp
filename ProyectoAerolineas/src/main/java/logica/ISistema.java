@@ -139,14 +139,14 @@ public interface ISistema {
     //Finaliza una ruta de vuelo, cambiando su estado a FINALIZADA.
     void finalizarRutaVuelo(String nombreRuta);
 
-//Verifica si una ruta puede ser finalizada.
-int puedeFinalizarRuta(String nombreRuta);
+    //Verifica si una ruta puede ser finalizada.
+    int puedeFinalizarRuta(String nombreRuta);
 
 
     // =================== MÉTODOS DE SEGUIMIENTO (FOLLOW) ===================
-    // Permite que un usuario (followerNickname) siga a otro usuario (targetNickname)
     void followUsuario(String followerNickname, String targetNickname);
     void unfollowUsuario(String followerNickname, String targetNickname);
     int obtenerCantidadSeguidos(String nickname);
     int obtenerCantidadSeguidores(String nickname);
+    boolean verificarSeguimiento(String seguidorId, String seguidoId);
 }

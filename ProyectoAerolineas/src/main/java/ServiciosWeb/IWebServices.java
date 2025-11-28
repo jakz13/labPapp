@@ -213,4 +213,40 @@ public interface IWebServices {
     @WebResult(name = "categorias")
     List<DtCategoria> listarCategorias();
 
+    @WebMethod
+    @WebResult(name = "codigo")
+    int puedeFinalizarRuta(@WebParam(name = "nombreRuta") String nombreRuta);
+
+    @WebMethod
+    void finalizarRutaVuelo(@WebParam(name = "nombreRuta") String nombreRuta);
+
+    @WebMethod
+    @WebResult(name = "rutasFinalizables")
+    List<DtRutaVuelo> listarRutasFinalizables(@WebParam(name = "nombreAerolinea") String nombreAerolinea);
+
+// =================== MÉTODOS DE SEGUIMIENTO ===================
+
+    @WebMethod
+    public void followUsuario(
+            @WebParam(name = "followerNickname") String followerNickname,
+            @WebParam(name = "targetNickname") String targetNickname);
+
+    @WebMethod
+    public void unfollowUsuario(
+            @WebParam(name = "followerNickname") String followerNickname,
+            @WebParam(name = "targetNickname") String targetNickname);
+
+    @WebMethod
+    @WebResult(name = "cantidadSeguidores")
+    public int obtenerCantidadSeguidores(@WebParam(name = "nickname") String nickname);
+
+    @WebMethod
+    @WebResult(name = "cantidadSeguidos")
+    public int obtenerCantidadSeguidos(@WebParam(name = "nickname") String nickname);
+
+    @WebMethod
+    @WebResult(name = "siguiendo")
+    public boolean verificarSeguimiento(
+            @WebParam(name = "seguidorId") String seguidorId,
+            @WebParam(name = "seguidoId") String seguidoId);
 }

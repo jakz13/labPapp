@@ -572,11 +572,123 @@ public class WebServices implements IWebServices {
     public List<DtCategoria> listarCategorias() {
         try {
             ISistema sis = Fabrica.getInstance().getISistema();
-            sis.cargarDesdeBd();
+            try {
+                sis.cargarDesdeBd();
+            } catch (Exception dbEx) {
+                // No propagamos el fallo de la carga desde BD: devolvemos la lista en memoria
+                System.err.println("Advertencia: falla al cargar desde BD en listarCategorias: " + dbEx.getMessage());
+                // continuar y tratar de devolver lo que haya en memoria (podría ser vacío)
+            }
             return sis.listarCategorias();
         } catch (Exception e) {
             throw new RuntimeException("Error listando categorias: " + e.getMessage(), e);
         }
     }
 
+    @WebMethod
+    @WebResult(name = "codigo")
+    public int puedeFinalizarRuta(@WebParam(name = "nombreRuta") String nombreRuta) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            return sis.puedeFinalizarRuta(nombreRuta);
+        } catch (Exception e) {
+            System.err.println("Error en puedeFinalizarRuta para ruta " + nombreRuta + ": " + e.getMessage());
+            e.printStackTrace();
+            return -1; // Código de error
+        }
+    }
+    // Agrega este método en WebServices.java, junto con los otros métodos
+
+    @WebMethod
+    public void finalizarRutaVuelo(@WebParam(name = "nombreRuta") String nombreRuta) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            sis.finalizarRutaVuelo(nombreRuta);
+        } catch (Exception e) {
+            System.err.println("Error finalizando ruta " + nombreRuta + ": " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Error finalizando ruta: " + e.getMessage(), e);
+        }
+    }
+    @WebMethod
+    @WebResult(name = "rutasFinalizables")
+    public List<DtRutaVuelo> listarRutasFinalizables(@WebParam(name = "nombreAerolinea") String nombreAerolinea) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            return sis.listarRutasFinalizables(nombreAerolinea);
+        } catch (Exception e) {
+            System.err.println("Error listando rutas finalizables para aerolínea " + nombreAerolinea + ": " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Error listando rutas finalizables: " + e.getMessage(), e);
+        }
+    }
+
+    // =================== MÉTODOS DE SEGUIMIENTO ===================
+
+    @WebMethod
+    public void followUsuario(
+            @WebParam(name = "followerNickname") String followerNickname,
+            @WebParam(name = "targetNickname") String targetNickname) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            sis.followUsuario(followerNickname, targetNickname);
+        } catch (Exception e) {
+            throw new RuntimeException("Error siguiendo usuario: " + e.getMessage(), e);
+        }
+    }
+
+    @WebMethod
+    public void unfollowUsuario(
+            @WebParam(name = "followerNickname") String followerNickname,
+            @WebParam(name = "targetNickname") String targetNickname) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            sis.unfollowUsuario(followerNickname, targetNickname);
+        } catch (Exception e) {
+            throw new RuntimeException("Error dejando de seguir usuario: " + e.getMessage(), e);
+        }
+    }
+
+    @WebMethod
+    @WebResult(name = "cantidadSeguidores")
+    public int obtenerCantidadSeguidores(@WebParam(name = "nickname") String nickname) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            return sis.obtenerCantidadSeguidores(nickname);
+        } catch (Exception e) {
+            throw new RuntimeException("Error obteniendo cantidad de seguidores: " + e.getMessage(), e);
+        }
+    }
+
+    @WebMethod
+    @WebResult(name = "cantidadSeguidos")
+    public int obtenerCantidadSeguidos(@WebParam(name = "nickname") String nickname) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            return sis.obtenerCantidadSeguidos(nickname);
+        } catch (Exception e) {
+            throw new RuntimeException("Error obteniendo cantidad de seguidos: " + e.getMessage(), e);
+        }
+    }
+
+    @WebMethod
+    @WebResult(name = "siguiendo")
+    public boolean verificarSeguimiento(
+            @WebParam(name = "seguidorId") String seguidorId,
+            @WebParam(name = "seguidoId") String seguidoId) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            return sis.verificarSeguimiento(seguidorId, seguidoId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error verificando seguimiento: " + e.getMessage(), e);
+        }
+    }
 }

@@ -57,18 +57,31 @@ public final class ManejadorPaquete {
      * @param paquete objeto Paquete a agregar
      * @param entManager EntityManager de persistencia
      */
+
     public void agregarPaquete(Paquete paquete, EntityManager entManager) {
         if (!paquetes.containsKey(paquete.getNombre())) {
-            paquetes.put(paquete.getNombre(), paquete);
-            EntityTransaction entTransaction = entManager.getTransaction();
+            EntityTransaction entTransaction = null;
             try {
+                entTransaction = entManager.getTransaction();
                 entTransaction.begin();
+
                 entManager.persist(paquete);
                 entTransaction.commit();
-            } catch (PersistenceException e) {
-                if (entTransaction.isActive()) entTransaction.rollback();
+
+                // SOLO después del commit exitoso, agregar al mapa en memoria
+                paquetes.put(paquete.getNombre(), paquete);
+
+                System.out.println("✅ Paquete '" + paquete.getNombre() + "' persistido correctamente");
+
+            } catch (Exception e) {
+                if (entTransaction != null && entTransaction.isActive()) {
+                    entTransaction.rollback();
+                }
+                System.err.println("❌ Error persistiendo paquete '" + paquete.getNombre() + "': " + e.getMessage());
                 e.printStackTrace();
+                throw new IllegalArgumentException("Error al guardar el paquete: " + e.getMessage());
             }
+            // NO cerrar el EntityManager aquí
         } else {
             throw new IllegalArgumentException("El paquete con el nombre " + paquete.getNombre() + " ya existe.");
         }
