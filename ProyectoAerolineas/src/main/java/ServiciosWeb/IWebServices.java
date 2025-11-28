@@ -254,4 +254,7 @@ public interface IWebServices {
 
     @WebMethod
     List<String> obtenerAsientosDisponiblesVuelo(@WebParam(name = "reservaId") Long reservaId);
+
+    @WebMethod
+    boolean tieneCheckinRealizado(@WebParam(name = "reservaId") Long reservaId);
 }

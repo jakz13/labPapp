@@ -1401,5 +1401,32 @@ public class Sistema implements ISistema {
         return rutasFinalizables;
     }
 
+    @Override
+    public boolean tieneCheckinRealizado(Long reservaId) {
+        try {
+            Reserva reserva = obtenerReservaCompleta(reservaId);
+            if (reserva != null) {
+                // Verificar por el flag explícito de check-in (boolean primitivo)
+                if (reserva.getCheckinRealizado()) {
+                    return true;
+                }
+
+                // Verificar por fecha de check-in
+                if (reserva.getFechaCheckin() != null) {
+                    return true;
+                }
+
+                // Verificar si el estado cambió de PENDIENTE
+                if (reserva.getEstado() != null &&
+                        !"PENDIENTE".equalsIgnoreCase(reserva.getEstado().toString())) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            System.err.println("Error en tieneCheckinRealizado: " + e.getMessage());
+            return false;
+        }
+    }
 }
 

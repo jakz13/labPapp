@@ -138,4 +138,8 @@ public class Reserva {
         }
         return dtPasajeros;
     }
+
+    public boolean getCheckinRealizado() {
+        return this.estado == EstadoReserva.CHECKIN_REALIZADO;
+    }
 }

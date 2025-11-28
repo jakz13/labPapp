@@ -89,6 +89,7 @@ public interface ISistema {
     List<DtReserva> obtenerReservasConCheckin(String nicknameCliente);
     DtReserva consultarCheckinReserva(Long idReserva, String nicknameCliente);
     void realizarCheckinReserva(Long idReserva, List<String> asientosAsignados, LocalTime horaEmbarque);
+    boolean tieneCheckinRealizado(Long reservaId);
     // =================== Paquetes ===================
     void altaPaquete(String nombre, String descripcion, int descuentoPorc, int periodoValidezDias);
     List<DtPaquete> listarPaquetes();

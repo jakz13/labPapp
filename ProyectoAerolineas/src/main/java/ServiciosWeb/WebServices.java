@@ -720,4 +720,16 @@ public class WebServices implements IWebServices {
         }
     }
 
+    @WebMethod
+    @WebResult(name = "tieneCheckin")
+    public boolean tieneCheckinRealizado(@WebParam(name = "reservaId") Long reservaId) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            return sis.tieneCheckinRealizado(reservaId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error verificando check-in: " + e.getMessage(), e);
+        }
+    }
+
 }
