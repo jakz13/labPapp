@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static logica.EstadoRuta.INGRESADA;
+import static logica.EstadoRuta.*;
 
 /**
  * Representa una ruta de vuelo entre dos ciudades, con su información, costos,

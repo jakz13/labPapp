@@ -21,6 +21,7 @@ public class ConsultaRutaVuelo {
 
     public ConsultaRutaVuelo() {
         ISistema sistema = Fabrica.getInstance().getISistema();
+        sistema.cargarDesdeBd();
 
         DefaultComboBoxModel<DtAerolinea> modeloAerolinea = new DefaultComboBoxModel<>();
         for (DtAerolinea a : sistema.listarAerolineas()) {

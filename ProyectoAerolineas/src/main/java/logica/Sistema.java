@@ -66,6 +66,20 @@ public class Sistema implements ISistema {
     /** Carga todos los datos desde la base de datos a los manejadores en memoria. */
     @Override
     public void cargarDesdeBd() {
+        // Para evitar usar entidades cacheadas por el EntityManager anterior
+        // cerramos y recreamos el EntityManager, garantizando que las consultas
+        // posteriores lean el estado actual de la base de datos.
+        try {
+            if (entManager != null && entManager.isOpen()) {
+                entManager.clear();
+                entManager.close();
+            }
+        } catch (Exception e) {
+            // ignorar problemas al cerrar; intentaremos recrear de todos modos
+        }
+
+        entManager = emf.createEntityManager();
+
         manejadorCliente.cargarClientesDesdeBD(entManager);
         manejadorAerolinea.cargarAerolineasDesdeBD(entManager);
         manejadorCiudad.cargarCiudadesDesdeBD(entManager);
@@ -73,6 +87,7 @@ public class Sistema implements ISistema {
         manejadorVuelo.cargarVuelosDesdeBD(entManager);
         manejadorPaquete.cargarPaquetesDesdeBD(entManager);
         manejadorCategoria.cargarCategoriasDesdeBD(entManager);
+        manejadorFollow.cargarFollowsDesdeBD(entManager);
     }
 
     // =================== USUARIOS CON CONTRASEÑA ===================
@@ -345,6 +360,8 @@ public class Sistema implements ISistema {
 
     @Override
     public List<DtRutaVuelo> obtenerRutasPendientesPorAerolinea(String nombreAerolinea) {
+
+        cargarDesdeBd();
         List<RutaVuelo> rutasPendientes = manejadorRutaVuelo.getRutasPorEstadoYAerolinea(
                 nombreAerolinea, INGRESADA);
 
@@ -361,6 +378,7 @@ public class Sistema implements ISistema {
         try {
             emLocal = emf.createEntityManager();
             manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.CONFIRMADA, emLocal);
+            cargarDesdeBd();
         } finally {
             if (emLocal != null && emLocal.isOpen()) emLocal.close();
         }
@@ -372,6 +390,8 @@ public class Sistema implements ISistema {
         try {
             emLocal = emf.createEntityManager();
             manejadorRutaVuelo.cambiarEstadoRuta(nombreRuta, EstadoRuta.RECHAZADA, emLocal);
+            // Recargar datos en memoria para reflejar cambios en la UI
+            cargarDesdeBd();
         } finally {
             if (emLocal != null && emLocal.isOpen()) emLocal.close();
         }
@@ -384,6 +404,7 @@ public class Sistema implements ISistema {
 
     @Override
     public List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea) {
+        cargarDesdeBd();
         return manejadorAerolinea.obtenerRutaVueloDeAerolinea(nombreAerolinea);
     }
 
@@ -418,8 +439,9 @@ public class Sistema implements ISistema {
             }
         }
 
-        if (manejadorRutaVuelo.getVueloDeRuta(nombreRuta, nombreVuelo) != null) {
-            throw new IllegalArgumentException("Ya existe un vuelo con el nombre " + nombreVuelo + " en la ruta " + nombreRuta);
+        // Evitar acceder a colecciones lazy de RutaVuelo (puede causar LazyInitializationException)
+        if (manejadorVuelo.existeVuelo(nombreVuelo)) {
+            throw new IllegalArgumentException("Ya existe un vuelo con el nombre " + nombreVuelo + " en el sistema");
         }
 
         Vuelo vuelo = new Vuelo(nombreVuelo, nombreAereolinea, ruta, fecha, duracion,
@@ -797,20 +819,61 @@ public class Sistema implements ISistema {
             throw new IllegalArgumentException("No se pueden agregar rutas a un paquete que ya ha sido comprado.");
         }
 
-        RutaVuelo ruta = manejadorRutaVuelo.getRuta(nomRuta);
-        if (ruta == null) {
-            throw new IllegalArgumentException("No se encontró la ruta con ese nombre.");
+        // En lugar de usar la instancia en memoria, leer directamente desde la BD
+        RutaVuelo rutaGestionada = null;
+        final int MAX_INTENTOS = 20;
+        final long RETRY_DELAY_MS = 100;
+        int intento = 0;
+        while (intento < MAX_INTENTOS) {
+            EntityManager emLocal = null;
+            try {
+                emLocal = emf.createEntityManager();
+                jakarta.persistence.TypedQuery<RutaVuelo> q = emLocal.createQuery("SELECT r FROM RutaVuelo r WHERE r.nombre = :n", RutaVuelo.class);
+                q.setParameter("n", nomRuta);
+                java.util.List<RutaVuelo> res = q.getResultList();
+                if (!res.isEmpty()) {
+                    rutaGestionada = res.get(0);
+                    // Forzar inicialización de la colección de vuelos mientras el EntityManager está abierto
+                    try {
+                        if (rutaGestionada.getVuelos() != null) {
+                            rutaGestionada.getVuelos().size();
+                        }
+                    } catch (Exception ignore) {
+                        // ignorar problemas de inicialización y reintentar en el loop
+                    }
+                    if (rutaGestionada.getEstado() == CONFIRMADA) {
+                        break; // confirmada en BD, ya podemos continuar
+                    }
+                }
+            } catch (Exception e) {
+                // ignoro y reintento
+            } finally {
+                if (emLocal != null && emLocal.isOpen()) emLocal.close();
+            }
+
+            intento++;
+            try {
+                Thread.sleep(RETRY_DELAY_MS);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
 
-        if (ruta.getEstado() != CONFIRMADA) {
-            throw new IllegalArgumentException("No se puede agregar una ruta que no esté CONFIRMADA al paquete. Ruta actual: " + ruta.getEstado());
+        if (rutaGestionada == null) {
+            throw new IllegalArgumentException("No se encontró la ruta con ese nombre en la BD: " + nomRuta);
         }
 
-        manejadorPaquete.agregarRutaAPaquete(paquete, ruta, cantidadAsientos, tipoAsiento, entManager);
+        if (rutaGestionada.getEstado() != CONFIRMADA) {
+            throw new IllegalArgumentException("No se puede agregar una ruta que no esté CONFIRMADA al paquete. Ruta actual: " + rutaGestionada.getEstado());
+        }
+
+        // Pasar la instancia gestionada (detached) al manejador del paquete; el manejador reatachará/mergeará
+        manejadorPaquete.agregarRutaAPaquete(paquete, rutaGestionada, cantidadAsientos, tipoAsiento, entManager);
 
         DtPaquete dtPaquete = obtenerDtPaquete(nombrePaquete);
         if (dtPaquete != null) {
-            DtRutaVuelo dtRuta = ruta.getDtRutaVuelo();
+            DtRutaVuelo dtRuta = rutaGestionada.getDtRutaVuelo();
             DtItemPaquete dtItem = new DtItemPaquete(dtRuta, cantidadAsientos, tipoAsiento.toString());
             dtPaquete.getItems().add(dtItem);
         }
@@ -924,49 +987,66 @@ public class Sistema implements ISistema {
 
     @Override
     public int puedeFinalizarRuta(String nombreRuta) {
+        System.out.println("[DEBUG] Verificando si puede finalizar ruta: " + nombreRuta);
+
         RutaVuelo ruta = manejadorRutaVuelo.getRuta(nombreRuta);
         if (ruta == null) {
+            System.out.println("[DEBUG] Ruta no encontrada: " + nombreRuta);
             return 0;
         }
 
+        System.out.println("[DEBUG] Estado de la ruta: " + ruta.getEstado());
+
         // 1. Verificar que esté en estado CONFIRMADA
         if (ruta.getEstado() != EstadoRuta.CONFIRMADA) {
+            System.out.println("[DEBUG] No puede finalizar - Estado incorrecto: " + ruta.getEstado());
             return 1;
         }
 
         // 2. Verificar que no tenga vuelos pendientes (fecha futura)
         if (tieneVuelosPendientes(ruta)) {
+            System.out.println("[DEBUG] No puede finalizar - Tiene vuelos pendientes");
             return 2;
         }
 
         // 3. Verificar que no esté en ningún paquete activo
         if (estaEnPaqueteActivo(ruta)) {
+            System.out.println("[DEBUG] No puede finalizar - Está en paquete activo");
             return 3;
         }
 
+        System.out.println("[DEBUG] Ruta puede finalizar - código 4");
         return 4;
     }
 
-    // Método auxiliar para verificar vuelos pendientes
     private boolean tieneVuelosPendientes(RutaVuelo ruta) {
-        LocalDate hoy = LocalDate.now();
-        for (Vuelo vuelo : ruta.getVuelos()) {
-            if (vuelo.getFecha().isAfter(hoy)) {
-                return true; // Tiene vuelos con fecha futura
+        try {
+            LocalDate hoy = LocalDate.now();
+            for (Vuelo vuelo : ruta.getVuelos()) {
+                if (vuelo.getFecha().isAfter(hoy)) {
+                    return true;
+                }
             }
+            return false;
+        } catch (Exception e) {
+            System.err.println("Error en tieneVuelosPendientes: " + e.getMessage());
+            return true; // Por seguridad, asumir que tiene vuelos pendientes si hay error
         }
-        return false;
     }
 
-    // Método auxiliar para verificar si está en paquete activo
     private boolean estaEnPaqueteActivo(RutaVuelo ruta) {
-        List<DtPaquete> paquetes = listarPaquetes();
-        for (DtPaquete paquete : paquetes) {
-            if (paqueteContieneRuta(paquete.getNombre(), ruta.getNombre())) {
-                return true;
+        try {
+            List<DtPaquete> paquetes = listarPaquetes();
+            for (DtPaquete paquete : paquetes) {
+                if (paqueteContieneRuta(paquete.getNombre(), ruta.getNombre())) {
+                    return true;
+                }
             }
+            return false;
+        } catch (Exception e) {
+            System.err.println("Error en estaEnPaqueteActivo: " + e.getMessage());
+            return true; // Por seguridad, asumir que está en paquete activo si hay error
         }
-        return false;
     }
 
     // Método auxiliar - implementado usando ManejadorPaquete
@@ -1086,6 +1166,7 @@ public class Sistema implements ISistema {
     private Reserva obtenerReservaCompleta(Long idReserva) {
         return entManager.find(Reserva.class, idReserva);
     }
+
     @Override
     public void followUsuario(String followerNickname, String targetNickname) {
         if (followerNickname == null || targetNickname == null)
@@ -1157,6 +1238,44 @@ public class Sistema implements ISistema {
         if (u == null) throw new IllegalArgumentException("Usuario no encontrado");
 
         return u.cantidadSeguidos();
+    }
+
+    private Usuario obtenerUsuarioPorNickname(String nickname) {
+        // Primero buscar como cliente
+        Usuario usuario = manejadorCliente.obtenerClienteReal(nickname);
+        if (usuario == null) {
+            // Si no es cliente, buscar como aerolínea
+            usuario = manejadorAerolinea.obtenerAerolinea(nickname);
+        }
+        return usuario;
+    }
+
+    @Override
+    public boolean verificarSeguimiento(String seguidorId, String seguidoId) {
+        try {
+            // Verificar que no sean el mismo usuario
+            if (seguidorId.equals(seguidoId)) {
+                return false;
+            }
+
+            // Obtener ambos usuarios
+            Usuario seguidor = obtenerUsuarioPorNickname(seguidorId);
+            Usuario seguido = obtenerUsuarioPorNickname(seguidoId);
+
+            if (seguidor == null || seguido == null) {
+                return false;
+            }
+
+            // Verificar si el seguido está en la lista de seguidos del seguidor
+            boolean estaSiguiendo = seguidor.getSeguidosLocales().stream()
+                    .anyMatch(usuario -> usuario.getNickname().equals(seguidoId));
+
+            return estaSiguiendo;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**

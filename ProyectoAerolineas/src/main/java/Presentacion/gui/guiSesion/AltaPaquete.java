@@ -23,6 +23,7 @@ public class AltaPaquete {
 
     public AltaPaquete() {
         ISistema sistema = Fabrica.getInstance().getISistema();
+        sistema.cargarDesdeBd();
         crearButton.addActionListener(e -> {
             String nombre = campoNombre.getText().trim();
             String descripcion = campoDescripcion.getText().trim();
@@ -79,6 +80,7 @@ public class AltaPaquete {
 
             try {
                 sistema.altaPaquete(nombre, descripcion, descuento, validez);
+                sistema.cargarDesdeBd();
                 JOptionPane.showMessageDialog(null,
                         "Paquete creado correctamente.",
                         "Éxito",

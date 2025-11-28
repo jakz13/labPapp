@@ -9,6 +9,7 @@ C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\DataTypes\D
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\DataTypes\DtRutaVuelo.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\DataTypes\DtUsuario.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\DataTypes\DtVuelo.java
+C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\herramientas\FinalizarRutaRunner.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\logica\Aerolinea.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\logica\Categoria.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\logica\Ciudad.java
@@ -38,8 +39,6 @@ C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\logica\Tipo
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\logica\TipoDoc.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\logica\Usuario.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\logica\Vuelo.java
-C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\Presentacion\ApiCategoriasServlet.java
-C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\Presentacion\ApiCiudadesServlet.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\AceptarRuta.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\AgregarRutaVuelo.java
 C:\Users\Curbe\IdeaProjects\labPapp\ProyectoAerolineas\src\main\java\Presentacion\gui\guiSesion\AltaAereolinea.java

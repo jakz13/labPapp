@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Test set: logica.ManejadorRutaVueloTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.038 s <<< FAILURE! -- in logica.ManejadorRutaVueloTest
+logica.ManejadorRutaVueloTest.getRutasPorAerolineaAndEstadoAndChangeState -- Time elapsed: 0.010 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.TypedQuery.setParameter(String, Object)" because "q" is null
+	at logica.ManejadorRutaVuelo.cambiarEstadoRuta(ManejadorRutaVuelo.java:294)
+	at logica.ManejadorRutaVueloTest.getRutasPorAerolineaAndEstadoAndChangeState(ManejadorRutaVueloTest.java:122)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+logica.ManejadorRutaVueloTest.agregarVueloARuta_SuccessAndRouteNotFound -- Time elapsed: 0.004 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "jakarta.persistence.TypedQuery.setParameter(String, Object)" because "q" is null
+	at logica.ManejadorRutaVuelo.agregarVueloARuta(ManejadorRutaVuelo.java:178)
+	at logica.ManejadorRutaVueloTest.agregarVueloARuta_SuccessAndRouteNotFound(ManejadorRutaVueloTest.java:96)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

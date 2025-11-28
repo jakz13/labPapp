@@ -22,7 +22,7 @@ public class AceptarRuta {
 
     public AceptarRuta() {
         this.sistema = Fabrica.getInstance().getISistema();
-
+        sistema.cargarDesdeBd();
         // Cargar aerolíneas con rutas pendientes
         cargarAerolineasConRutasPendientes();
 
@@ -117,8 +117,11 @@ public class AceptarRuta {
             if (confirmacion == JOptionPane.YES_OPTION) {
                 try {
                     sistema.aceptarRutaVuelo(rutaSeleccionada.getNombre());
+                    // Forzar recarga completa de datos y actualizar UI
+                    sistema.cargarDesdeBd();
+                    cargarAerolineasConRutasPendientes();
+                    cargarRutasPendientes();
                     JOptionPane.showMessageDialog(panel1, "Ruta aceptada correctamente");
-                    cargarRutasPendientes(); // Recargar la lista
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(panel1, "Error al aceptar la ruta: " + ex.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -140,8 +143,11 @@ public class AceptarRuta {
             if (confirmacion == JOptionPane.YES_OPTION) {
                 try {
                     sistema.rechazarRutaVuelo(rutaSeleccionada.getNombre());
+                    // Forzar recarga completa de datos y actualizar UI
+                    sistema.cargarDesdeBd();
+                    cargarAerolineasConRutasPendientes();
+                    cargarRutasPendientes();
                     JOptionPane.showMessageDialog(panel1, "Ruta rechazada correctamente");
-                    cargarRutasPendientes(); // Recargar la lista
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(panel1, "Error al rechazar la ruta: " + ex.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
