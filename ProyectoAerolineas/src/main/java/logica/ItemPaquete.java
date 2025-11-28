@@ -1,5 +1,6 @@
 package logica;
 
+import DataTypes.DtItemPaquete;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -88,5 +89,9 @@ public class ItemPaquete {
         }
 
         return costoBase * cantAsientos;
+    }
+
+    public DtItemPaquete getDtItemPaquete() {
+        return new DtItemPaquete(rutaVuelo.getDtRutaVuelo(), cantAsientos, tipoAsiento.toString());
     }
 }

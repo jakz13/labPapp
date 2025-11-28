@@ -1,5 +1,6 @@
 package logica;
 
+import DataTypes.DtAerolinea;
 import DataTypes.DtRutaVuelo;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -172,4 +173,15 @@ public class Aerolinea extends Usuario {
         return this.getNickname() != null ? this.getNickname().hashCode() : 0;
     }
 
+    public DtAerolinea getDtAerolinea() {
+        return new DtAerolinea(
+                this.getNickname(),
+                this.getNombre(),
+                this.getEmail(),
+                this.getImagenUrl(),
+                this.descripcion,
+                this.sitioWeb,
+                this.getDtRutasVuelo()
+        );
+    }
 }

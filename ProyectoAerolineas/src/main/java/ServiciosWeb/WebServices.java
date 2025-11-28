@@ -214,7 +214,7 @@ public class WebServices implements IWebServices {
     public DtCliente obtenerCliente(@WebParam(name = "nickname") String nickname) {
         try {
             ISistema sis = Fabrica.getInstance().getISistema();
-            sis.cargarDesdeBd();
+            // NO llamar a cargarDesdeBd() aquí porque ya se hace en el Sistema
             return sis.obtenerCliente(nickname);
         } catch (Exception e) {
             throw new RuntimeException("Error obteniendo cliente: " + e.getMessage(), e);

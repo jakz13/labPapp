@@ -1,5 +1,6 @@
 package logica;
 
+import DataTypes.DtPaquete;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -114,5 +115,21 @@ public class Paquete {
 
     public void setItemPaquetes(List<ItemPaquete> itemPaquetes) {
         this.itemPaquetes = (itemPaquetes != null) ? itemPaquetes : new ArrayList<>();
+    }
+
+    public DtPaquete getDtPaquete() {
+        List<DataTypes.DtItemPaquete> dtItems = new ArrayList<>();
+        for (ItemPaquete item : this.getItemPaquetes()) {
+            dtItems.add(item.getDtItemPaquete());
+        }
+        return new DtPaquete(
+                this.getNombre(),
+                this.getDescripcion(),
+                this.getCosto(),
+                this.getFechaAlta(),
+                this.getDescuentoPorc(),
+                this.getPeriodoValidezDias(),
+                dtItems
+        );
     }
 }

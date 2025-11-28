@@ -1,10 +1,6 @@
 package logica;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceException;
+import jakarta.persistence.*;
 
 import DataTypes.DtCliente;
 import DataTypes.DtAerolinea;
@@ -24,6 +20,7 @@ import java.util.ArrayList;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static logica.EstadoRuta.*;
 
@@ -233,10 +230,55 @@ public class Sistema implements ISistema {
 
     // ======================================
 
-
     @Override
     public List<DtCliente> listarClientes() {
-        return manejadorCliente.getClientes();
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            // PRIMERO: Cargar solo los clientes básicos
+            String jpqlClientes = "SELECT c FROM Cliente c";
+            List<Cliente> clientes = em.createQuery(jpqlClientes, Cliente.class)
+                    .getResultList();
+
+            // SEGUNDO: Para cada cliente, cargar las relaciones por separado
+            for (Cliente cliente : clientes) {
+                // Cargar reservas con pasajeros
+                String jpqlReservas = "SELECT DISTINCT r FROM Reserva r " +
+                        "LEFT JOIN FETCH r.pasajeros " +
+                        "WHERE r.cliente = :cliente";
+
+                List<Reserva> reservas = em.createQuery(jpqlReservas, Reserva.class)
+                        .setParameter("cliente", cliente)
+                        .getResultList();
+
+                cliente.setReservas(reservas);
+
+                // Cargar comprasPaquetes con paquetes
+                String jpqlCompras = "SELECT DISTINCT cp FROM CompraPaqLogica cp " +
+                        "LEFT JOIN FETCH cp.paquete " +
+                        "WHERE cp.cliente = :cliente";
+
+                List<CompraPaqLogica> compras = em.createQuery(jpqlCompras, CompraPaqLogica.class)
+                        .setParameter("cliente", cliente)
+                        .getResultList();
+
+                cliente.setComprasPaquetes(compras);
+            }
+
+            // Ahora todas las relaciones están cargadas y podemos convertir a DTO
+            return clientes.stream()
+                    .map(Cliente::getDtCliente)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error listando clientes", e);
+            throw new RuntimeException("Error listando clientes: " + e.getMessage(), e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 
     @Override
@@ -252,8 +294,53 @@ public class Sistema implements ISistema {
 
     @Override
     public DtCliente obtenerCliente(String nickname) {
-        DtCliente cliente = manejadorCliente.obtenerCliente(nickname);
-        return cliente;
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            // 1. PRIMERO: Cargar solo el cliente básico
+            String jpqlCliente = "SELECT c FROM Cliente c WHERE c.nickname = :nickname";
+            Cliente cliente = em.createQuery(jpqlCliente, Cliente.class)
+                    .setParameter("nickname", nickname)
+                    .getSingleResult();
+
+            // 2. SEGUNDO: Cargar reservas con pasajeros por separado
+            String jpqlReservas = "SELECT DISTINCT r FROM Reserva r " +
+                    "LEFT JOIN FETCH r.pasajeros " +
+                    "LEFT JOIN FETCH r.vuelo v " +
+                    "LEFT JOIN FETCH v.rutaVuelo " +
+                    "WHERE r.cliente = :cliente";
+
+            List<Reserva> reservas = em.createQuery(jpqlReservas, Reserva.class)
+                    .setParameter("cliente", cliente)
+                    .getResultList();
+
+            cliente.setReservas(reservas);
+
+            // 3. TERCERO: Cargar comprasPaquetes con paquetes por separado
+            String jpqlCompras = "SELECT DISTINCT cp FROM CompraPaqLogica cp " +
+                    "LEFT JOIN FETCH cp.paquete " +
+                    "WHERE cp.cliente = :cliente";
+
+            List<CompraPaqLogica> compras = em.createQuery(jpqlCompras, CompraPaqLogica.class)
+                    .setParameter("cliente", cliente)
+                    .getResultList();
+
+            cliente.setComprasPaquetes(compras);
+
+            // Ahora todas las relaciones están cargadas y podemos convertir a DTO
+            return cliente.getDtCliente();
+
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error obteniendo cliente: " + nickname, e);
+            throw new RuntimeException("Error obteniendo cliente: " + e.getMessage(), e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 
     @Override
@@ -285,7 +372,68 @@ public class Sistema implements ISistema {
 
     @Override
     public List<DtAerolinea> listarAerolineas() {
-        return manejadorAerolinea.getDtAerolineas();
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            // 1. Cargar todas las aerolíneas
+            List<Aerolinea> aerolineas = em.createQuery("SELECT a FROM Aerolinea a", Aerolinea.class)
+                    .getResultList();
+
+            if (aerolineas.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            // 2. Cargar TODAS las rutas con vuelos y reservas en consultas separadas
+            String jpqlRutas = "SELECT DISTINCT rv FROM RutaVuelo rv " +
+                    "LEFT JOIN FETCH rv.vuelos v " +
+                    "WHERE rv.aerolinea IN :aerolineas";
+
+            List<RutaVuelo> todasRutas = em.createQuery(jpqlRutas, RutaVuelo.class)
+                    .setParameter("aerolineas", aerolineas)
+                    .getResultList();
+
+            // 3. Cargar TODAS las reservas con pasajeros
+            if (!todasRutas.isEmpty()) {
+                // Obtener todos los vuelos de todas las rutas
+                List<Vuelo> todosVuelos = todasRutas.stream()
+                        .flatMap(ruta -> ruta.getVuelos().stream())
+                        .collect(Collectors.toList());
+
+                if (!todosVuelos.isEmpty()) {
+                    String jpqlReservas = "SELECT DISTINCT r FROM Reserva r " +
+                            "LEFT JOIN FETCH r.pasajeros " +
+                            "WHERE r.vuelo IN :vuelos";
+
+                    List<Reserva> todasReservas = em.createQuery(jpqlReservas, Reserva.class)
+                            .setParameter("vuelos", todosVuelos)
+                            .getResultList();
+
+                    // Las reservas ya están cargadas con pasajeros, Hibernate las asocia automáticamente
+                }
+            }
+
+            // 4. Cargar categorías de las rutas
+            String jpqlCategorias = "SELECT DISTINCT rv FROM RutaVuelo rv " +
+                    "LEFT JOIN FETCH rv.categorias " +
+                    "WHERE rv IN :rutas";
+
+            em.createQuery(jpqlCategorias, RutaVuelo.class)
+                    .setParameter("rutas", todasRutas)
+                    .getResultList(); // Esto carga las categorías en las rutas existentes
+
+            return aerolineas.stream()
+                    .map(Aerolinea::getDtAerolinea)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error listando aerolineas", e);
+            throw new RuntimeException("Error listando aerolineas: " + e.getMessage(), e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 
     // --- CIUDADES ---
@@ -453,7 +601,46 @@ public class Sistema implements ISistema {
 
     @Override
     public List<DtVuelo> listarVuelosPorRuta(String nombreRuta) {
-        return manejadorRutaVuelo.obtenerVuelosPorRuta(nombreRuta);
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            // 1. Cargar la ruta con vuelos
+            String jpqlRuta = "SELECT DISTINCT rv FROM RutaVuelo rv " +
+                    "LEFT JOIN FETCH rv.vuelos v " +
+                    "WHERE rv.nombre = :nombreRuta";
+
+            RutaVuelo ruta = em.createQuery(jpqlRuta, RutaVuelo.class)
+                    .setParameter("nombreRuta", nombreRuta)
+                    .getSingleResult();
+
+            // 2. Cargar reservas con pasajeros para todos los vuelos
+            List<Vuelo> vuelos = ruta.getVuelos();
+            if (!vuelos.isEmpty()) {
+                String jpqlReservas = "SELECT DISTINCT r FROM Reserva r " +
+                        "LEFT JOIN FETCH r.pasajeros " +
+                        "WHERE r.vuelo IN :vuelos";
+
+                em.createQuery(jpqlReservas, Reserva.class)
+                        .setParameter("vuelos", vuelos)
+                        .getResultList(); // Esto carga las reservas en los vuelos existentes
+            }
+
+            // 3. Convertir a DTOs
+            return vuelos.stream()
+                    .map(Vuelo::getDtVuelo)
+                    .collect(Collectors.toList());
+
+        } catch (NoResultException e) {
+            return new ArrayList<>();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error listando vuelos por ruta: " + nombreRuta, e);
+            throw new RuntimeException("Error listando vuelos por ruta: " + e.getMessage(), e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 
     @Override
@@ -655,7 +842,53 @@ public class Sistema implements ISistema {
 
     @Override
     public List<DtPaquete> listarPaquetes() {
-        return manejadorPaquete.getPaquetes();
+        EntityManager em = null;
+        try {
+            em = emf.createEntityManager();
+
+            // Consulta simplificada - solo carga lo necesario para paquetes
+            String jpql = "SELECT DISTINCT p FROM Paquete p " +
+                    "LEFT JOIN FETCH p.itemPaquetes ip " +
+                    "LEFT JOIN FETCH ip.rutaVuelo rv " +
+                    "LEFT JOIN FETCH rv.aerolinea " +
+                    "WHERE p IS NOT NULL";
+
+            List<Paquete> paquetes = em.createQuery(jpql, Paquete.class)
+                    .getResultList();
+
+            // Si necesitas los vuelos, carga solo información básica
+            if (!paquetes.isEmpty()) {
+                // Obtener todas las rutas de todos los paquetes
+                List<RutaVuelo> todasRutas = paquetes.stream()
+                        .flatMap(p -> p.getItemPaquetes().stream())
+                        .map(ItemPaquete::getRutaVuelo)
+                        .distinct()
+                        .collect(Collectors.toList());
+
+                if (!todasRutas.isEmpty()) {
+                    // Cargar solo vuelos básicos (sin reservas)
+                    String jpqlVuelos = "SELECT DISTINCT v FROM Vuelo v " +
+                            "LEFT JOIN FETCH v.rutaVuelo " + // Solo si necesitas
+                            "WHERE v.rutaVuelo IN :rutas";
+
+                    em.createQuery(jpqlVuelos, Vuelo.class)
+                            .setParameter("rutas", todasRutas)
+                            .getResultList();
+                }
+            }
+
+            return paquetes.stream()
+                    .map(Paquete::getDtPaquete)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error listando paquetes", e);
+            throw new RuntimeException("Error listando paquetes: " + e.getMessage(), e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
     }
 
     @Override
