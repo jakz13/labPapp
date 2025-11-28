@@ -13,6 +13,7 @@ import DataTypes.DtVuelo;
 import DataTypes.DtPaquete;
 import DataTypes.DtReserva;
 import DataTypes.DtItemPaquete;
+import DataTypes.DtCategoria;
 
 @WebService(name = "JuanViajesWS", targetNamespace = "http://ServiciosWeb/")
 public interface IWebServices {
@@ -208,4 +209,13 @@ public interface IWebServices {
                        @WebParam(name = "fechaCompra") String fechaCompra, // yyyy-MM-dd
                        @WebParam(name = "costo") double costo);
 
+    @WebMethod
+    @WebResult(name = "categorias")
+    List<DtCategoria> listarCategorias();
+
+    @WebMethod
+    public String obtenerHoraRutaPorReserva(@WebParam(name = "idReserva") Long idReserva);
+
+    @WebMethod
+    List<String> obtenerAsientosDisponiblesVuelo(@WebParam(name = "reservaId") Long reservaId);
 }

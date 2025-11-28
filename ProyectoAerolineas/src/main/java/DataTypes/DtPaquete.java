@@ -19,6 +19,8 @@ public class DtPaquete {
     private int periodoValidezDias;
     private List<DtItemPaquete> items = new ArrayList<>();
 
+    public DtPaquete() {}
+
     public DtPaquete(String nombre, String descripcion, double costo,
                      LocalDate fechaAlta, int descuentoPorc,
                      int periodoValidezDias, List<DtItemPaquete> items) {

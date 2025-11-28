@@ -61,7 +61,6 @@ public interface ISistema {
 
     RutaVuelo obtenerRuta(String nombreRuta);
     List<DtRutaVuelo> listarRutasPorAerolinea(String nombreAerolinea);
-    List<DtRutaVuelo> obtenerTopRutasMasVisitadas(int limite);
     void incrementarVisitasRuta(String nombreRuta);
     int obtenerTotalVisitasRuta(String nombreRuta);
     // Métodos para aceptar/rechazar rutas
@@ -146,4 +145,6 @@ int puedeFinalizarRuta(String nombreRuta);
     void unfollowUsuario(String followerNickname, String targetNickname);
     int obtenerCantidadSeguidos(String nickname);
     int obtenerCantidadSeguidores(String nickname);
+    public String obtenerHoraRutaPorReserva(Long idReserva);
+    List<String> obtenerAsientosDisponiblesVuelo(Long idReserva);
 }

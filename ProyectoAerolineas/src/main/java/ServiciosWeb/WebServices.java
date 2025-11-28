@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.logging.Level;
+
 import DataTypes.DtAerolinea;
 import DataTypes.DtRutaVuelo;
 import DataTypes.DtCiudad;
@@ -576,6 +578,33 @@ public class WebServices implements IWebServices {
             return sis.listarCategorias();
         } catch (Exception e) {
             throw new RuntimeException("Error listando categorias: " + e.getMessage(), e);
+        }
+    }
+
+    @WebMethod
+    public String obtenerHoraRutaPorReserva(Long idReserva) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            String reserva = sis.obtenerHoraRutaPorReserva(idReserva);
+
+            // Navegar a través de las relaciones: Reserva -> Vuelo -> RutaVuelo -> Hora
+            return reserva;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error obteniendo hora de la ruta para reserva: " + idReserva, e);
+        }
+    }
+
+    @WebMethod
+    @WebResult(name = "asientosDisponibles")
+    public List<String> obtenerAsientosDisponiblesVuelo(@WebParam(name = "reservaId") Long reservaId) {
+        try {
+            ISistema sis = Fabrica.getInstance().getISistema();
+            sis.cargarDesdeBd();
+            return sis.obtenerAsientosDisponiblesVuelo(reservaId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error obteniendo asientos disponibles para reserva: " + reservaId, e);
         }
     }
 
