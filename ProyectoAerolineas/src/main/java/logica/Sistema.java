@@ -1291,5 +1291,120 @@ public class Sistema implements ISistema {
         }
     }
 
+    /**
+     * Obtiene la hora de la ruta a la que pertenece una reserva específica
+     * @param idReserva ID de la reserva
+     * @return Hora de la ruta en formato String, o null si no se encuentra
+     */
+    @Override
+    public String obtenerHoraRutaPorReserva(Long idReserva) {
+        try {
+            // Buscar la reserva por ID
+            Reserva reserva = entManager.find(Reserva.class, idReserva);
+            if (reserva == null) {
+                throw new IllegalArgumentException("Reserva no encontrada con ID: " + idReserva);
+            }
+
+            // Navegar a través de las relaciones: Reserva -> Vuelo -> RutaVuelo -> Hora
+            return reserva.getVuelo().getRutaVuelo().getHora();
+
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error obteniendo hora de la ruta para reserva: " + idReserva, e);
+            throw new IllegalArgumentException("Error al obtener la hora de la ruta: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Obtiene los asientos disponibles (no ocupados) en el vuelo de una reserva específica
+     * @param idReserva ID de la reserva
+     * @return Lista de strings con los IDs de los asientos disponibles en el vuelo
+     */
+    @Override
+    public List<String> obtenerAsientosDisponiblesVuelo(Long idReserva) {
+        EntityTransaction tx = null;
+        try {
+            tx = entManager.getTransaction();
+            tx.begin();
+
+            // Buscar la reserva por ID
+            Reserva reserva = entManager.find(Reserva.class, idReserva);
+            if (reserva == null) {
+                throw new IllegalArgumentException("Reserva no encontrada con ID: " + idReserva);
+            }
+
+            // Obtener el vuelo de la reserva
+            Vuelo vuelo = reserva.getVuelo();
+            if (vuelo == null) {
+                throw new IllegalArgumentException("No se encontró el vuelo asociado a la reserva");
+            }
+
+            // Obtener todos los asientos del vuelo
+            List<String> todosLosAsientos = generarAsientosDisponibles(vuelo);
+
+            // Obtener asientos ya ocupados en el vuelo
+            List<String> asientosOcupados = obtenerAsientosOcupadosVuelo(vuelo);
+
+            // Filtrar asientos disponibles (todos - ocupados)
+            List<String> asientosDisponibles = new ArrayList<>(todosLosAsientos);
+            asientosDisponibles.removeAll(asientosOcupados);
+
+            tx.commit();
+            return asientosDisponibles;
+
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            LOGGER.log(Level.SEVERE, "Error obteniendo asientos disponibles para reserva: " + idReserva, e);
+            throw new IllegalStateException("Error al obtener asientos disponibles: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Genera la lista de todos los asientos posibles del vuelo
+     */
+    private List<String> generarAsientosDisponibles(Vuelo vuelo) {
+        List<String> asientos = new ArrayList<>();
+
+        // Generar asientos turista (ejemplo: A1, A2, ..., B1, B2, ...)
+        int filasTurista = vuelo.getAsientosTurista() / 6; // Asumiendo 6 asientos por fila
+        for (int fila = 1; fila <= filasTurista; fila++) {
+            for (char columna = 'A'; columna <= 'F'; columna++) {
+                asientos.add(columna + String.valueOf(fila));
+            }
+        }
+
+        // Generar asientos ejecutivos (ejemplo: J1, J2, ..., K1, K2, ...)
+        int filasEjecutivo = vuelo.getAsientosEjecutivo() / 4; // Asumiendo 4 asientos por fila en ejecutivo
+        for (int fila = 1; fila <= filasEjecutivo; fila++) {
+            for (char columna = 'J'; columna <= 'M'; columna++) {
+                asientos.add(columna + String.valueOf(fila));
+            }
+        }
+
+        return asientos;
+    }
+
+    /**
+     * Obtiene todos los asientos ya ocupados en el vuelo
+     */
+    private List<String> obtenerAsientosOcupadosVuelo(Vuelo vuelo) {
+        List<String> asientosOcupados = new ArrayList<>();
+
+        // Recorrer todas las reservas del vuelo que tengan check-in
+        for (DtReserva dtReserva : vuelo.getDtReservas()) {
+            // Obtener la reserva completa
+            Reserva reservaCompleta = entManager.find(Reserva.class, dtReserva.getId());
+            if (reservaCompleta != null && reservaCompleta.getEstado() == EstadoReserva.CHECKIN_REALIZADO) {
+                List<String> asientosReserva = reservaCompleta.getAsientosAsignados();
+                if (asientosReserva != null) {
+                    asientosOcupados.addAll(asientosReserva);
+                }
+            }
+        }
+
+        return asientosOcupados;
+    }
+
 }
 

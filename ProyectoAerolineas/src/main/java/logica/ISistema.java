@@ -149,4 +149,6 @@ public interface ISistema {
     int obtenerCantidadSeguidos(String nickname);
     int obtenerCantidadSeguidores(String nickname);
     boolean verificarSeguimiento(String seguidorId, String seguidoId);
+    public String obtenerHoraRutaPorReserva(Long idReserva);
+    List<String> obtenerAsientosDisponiblesVuelo(Long idReserva);
 }

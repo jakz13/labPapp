@@ -249,4 +249,9 @@ public interface IWebServices {
     public boolean verificarSeguimiento(
             @WebParam(name = "seguidorId") String seguidorId,
             @WebParam(name = "seguidoId") String seguidoId);
+    @WebMethod
+    public String obtenerHoraRutaPorReserva(@WebParam(name = "idReserva") Long idReserva);
+
+    @WebMethod
+    List<String> obtenerAsientosDisponiblesVuelo(@WebParam(name = "reservaId") Long reservaId);
 }
